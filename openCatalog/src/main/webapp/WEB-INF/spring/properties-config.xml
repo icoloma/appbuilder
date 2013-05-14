@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	
+
+	<context:property-placeholder properties-ref="configProps"/>
+	
+	<beans profile="dev">
+		<util:properties id="configProps" location="classpath:config-dev.properties" />
+	</beans>
+	
+	<beans profile="prod">
+	    <!--  "config.properties" must defined in production and must point to the appropiate file -->
+		<util:properties id="configProps" location="classpath:config-prod.properties}" />
+	</beans>
+	
+</beans>

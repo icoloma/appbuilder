@@ -1,0 +1,65 @@
+
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+ 
+
+sourceCompatibility = 1.5
+version = '1.0-SNAPSHOT'
+group="travel.spain"
+
+
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Open Catalog', 'Implementation-Version': version
+    }
+}
+
+
+repositories {
+    mavenCentral()
+    mavenRepo name: 'spring-milestone', url: 'http://repo.springsource.org/libs-milestone'
+    
+}
+
+
+
+
+dependencies {
+	providedCompile 'javax.servlet:servlet-api:2.5',
+					'javax.servlet.jsp:jsp-api:2.1'
+	
+    compile 'commons-collections:commons-collections:3.2',
+     		'org.mongodb:mongo-java-driver:2.11.1',
+     		'org.springframework:spring-context:3.2.2.RELEASE',
+     		'org.springframework:spring-webmvc:3.2.2.RELEASE',
+     		'org.springframework.data:spring-data-mongodb:1.2.1.RELEASE',
+     		"org.springframework.data:spring-data-rest-webmvc:1.1.0.M1",
+     		'org.slf4j:slf4j-log4j12:1.7.5',
+     		'log4j:log4j:1.2.14',
+			'javax.servlet:jstl:1.2',
+			'javax.validation:validation-api:1.0.0.GA',
+			'org.hibernate:hibernate-validator:4.1.0.Final',
+			'com.google.guava:guava:12.0'
+			
+	
+     		
+    testCompile 'junit:junit:4.7',
+    			'org.springframework:spring-test:3.2.2.RELEASE'
+
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
