@@ -23,8 +23,9 @@
 	</beans:bean>
 
 	<context:component-scan base-package="travel.spain.opencatalog.controller" />
-
-    <beans:bean class="org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration" />
 	
+	<view-controller path="/api" view-name="api"/>
+
+	<default-servlet-handler />	
 	
 </beans:beans>

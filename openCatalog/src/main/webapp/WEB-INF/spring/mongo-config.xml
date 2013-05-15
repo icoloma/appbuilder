@@ -8,21 +8,20 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- connection pool -->
+	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
+		<mongo:options auto-connect-retry="true"/>
+	</mongo:mongo>
 
-<!-- 
-	<mongo:db-factory host="${mongo.host}" port="${mongo.port}" dbname="${mongo.dbname}" />
- -->
-
-	<mongo:repositories base-package="travel.spain.opencatalog.repository" />
-
-	<!-- more configuration avaliable with <mongo:options/> -->
-	<mongo:mongo host="${mongo.host}" port="${mongo.port}" />
-	
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongo" />
 		<constructor-arg name="databaseName" value="${mongo.dbname}" />
+		<!-- 
+			 <property name="writeConcern" value="JOURNAL_SAFE"></property>
+		 -->
 	</bean>
+	
+	<mongo:repositories base-package="travel.spain.opencatalog.repository" />
 	
 	<bean id="localValidatorFactoryBean" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 	<bean class="org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener">
