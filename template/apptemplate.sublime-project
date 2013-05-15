@@ -1,0 +1,39 @@
+{
+  "build_systems": [
+    {
+      "name": "LESS",
+      "cmd": ["node", "node_modules/.bin/grunt", "less:dev"],
+      "selector": "source.css",
+      "working_dir": "${project_path}"
+    },
+    {
+      "name": "jshint",
+      "cmd": ["node_modules/.bin/jshint", "$file"],
+      "selector": "source.js",
+      "working_dir": "${project_path}"
+    }
+  ],
+  "folders":
+  [
+    {
+      "path": ".",
+      "file_exclude_patterns": ["*.sublime-workspace"],
+      "folder_exclude_patterns": [
+        "node_modules",
+        "js",
+        "less"
+      ]
+    },
+    {
+      "path": "js"
+    },
+    {
+      "path": "less"
+    }
+  ],
+  "settings":
+  {
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true
+  }
+}
