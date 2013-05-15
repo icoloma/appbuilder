@@ -1,3 +1,4 @@
+// version 0.6.1
 Lawnchair.adapter('webkit-sqlite', (function () {
     // private methods 
     var fail = function (e, i) { console.log('error in sqlite adaptor!', e, i) }

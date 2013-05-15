@@ -3,6 +3,7 @@
  * --- 
  * clientside json store 
  *
+ * version 0.6.1
  */
 var Lawnchair = function (options, callback) {
     // ensure Lawnchair was called as a constructor
