@@ -1,10 +1,14 @@
-package travel.spain.opencatalog.domain;
+package info.spain.opencatalog.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -28,6 +32,18 @@ public class Poi implements Serializable {
 
 	@NotNull
 	private GeoLocation loc; 	// Geospatial location
+	
+	@DBRef
+	private List<Poi> related = new ArrayList<Poi>();
+
+	public List<Poi> getRelated() {
+		return related;
+	}
+
+	public Poi setRelated(List<Poi> related) {
+		this.related = related;
+		return this;
+	}
 
 	public String getId() {
 		return id;

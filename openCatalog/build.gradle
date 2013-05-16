@@ -8,7 +8,7 @@ apply plugin: 'eclipse'
 
 sourceCompatibility = 1.5
 version = '1.0-SNAPSHOT'
-group="travel.spain"
+group="info.spain"
 
 
 
@@ -43,7 +43,9 @@ dependencies {
 			'javax.servlet:jstl:1.2',
 			'javax.validation:validation-api:1.0.0.GA',
 			'org.hibernate:hibernate-validator:4.1.0.Final',
-			'com.google.guava:guava:12.0'
+//			'com.google.guava:guava:12.0',
+			'org.thymeleaf:thymeleaf:2.0.16',
+			'org.thymeleaf:thymeleaf-spring3:2.0.16'
 			
 	
      		

@@ -1,4 +1,4 @@
-package travel.spain.opencatalog.config;
+package info.spain.opencatalog.config;
 
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 

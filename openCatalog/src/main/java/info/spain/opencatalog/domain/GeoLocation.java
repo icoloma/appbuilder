@@ -1,4 +1,4 @@
-package travel.spain.opencatalog.domain;
+package info.spain.opencatalog.domain;
 
 import java.io.Serializable;
 

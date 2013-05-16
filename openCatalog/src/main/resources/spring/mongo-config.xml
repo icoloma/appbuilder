@@ -21,7 +21,7 @@
 		 -->
 	</bean>
 	
-	<mongo:repositories base-package="travel.spain.opencatalog.repository" />
+	<mongo:repositories base-package="info.spain.opencatalog.repository" />
 	
 	<bean id="localValidatorFactoryBean" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 	<bean class="org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener">

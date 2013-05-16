@@ -1,8 +1,15 @@
-package travel.spain.opencatalog.repository;
+package info.spain.opencatalog.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import info.spain.opencatalog.domain.GeoLocation;
+import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.repository.PoiRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
@@ -14,11 +21,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import travel.spain.opencatalog.domain.GeoLocation;
-import travel.spain.opencatalog.domain.Poi;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration("classpath:/spring/root-context.xml")
 @ActiveProfiles("dev")
 public class PoiRepositoryTest {
 
@@ -74,6 +79,36 @@ public class PoiRepositoryTest {
 		mongoTemplate.remove(result);
 		result = mongoTemplate.findById(id, Poi.class);
 		assertNull(result);
+	}
+	
+	/**
+	 * Test DBRef
+	 */
+	@Test
+	public void testDBRef(){
+		
+		List<Poi> related = new ArrayList<Poi>();
+		
+		
+	
+		for (int i=0; i<5; i++){
+			Poi child = new Poi()
+			.setName("child-" + i)
+			.setLoc(new GeoLocation().setLat(28.2716).setLng(-16.6424));
+			related.add(poiRepository.save(child));
+		}
+
+		Poi parent = new Poi()
+			.setName("Parent")
+			.setLoc(new GeoLocation().setLat(28.2716).setLng(-16.6424))
+			.setRelated(related);
+		
+		Poi result = poiRepository.save(parent);
+		
+		String id = result.getId();
+		assertNotNull(id);
+	
+		
 	}
 
 }

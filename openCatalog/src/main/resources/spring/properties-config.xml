@@ -15,8 +15,7 @@
 	</beans>
 	
 	<beans profile="prod">
-	    <!--  "config.properties" must defined in production and must point to the appropiate file -->
-		<util:properties id="configProps" location="classpath:config-prod.properties}" />
+	   	<util:properties id="configProps" location="classpath:config-prod.properties}" />
 	</beans>
 	
 </beans>

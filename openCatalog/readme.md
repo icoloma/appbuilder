@@ -9,6 +9,11 @@ Configurar el servidor para arrancar con el perfil adecuado (dev,prod)
 -Dspring.profiles.active=dev
 
 
-# Utilidades #
-Para realizar pruebas manuales del API se puede usar Rest-Shell: [https://github.com/SpringSource/rest-shell](https://github.com/SpringSource/rest-shell) 
+# Rest-Shell
+Para realizar pruebas manuales del API
 
+		git clone git://github.com/SpringSource/rest-shell.git
+		cd rest-shell
+		./gradlew installApp
+		cd build/install/rest-shell-1.2.0.RELEASE
+		bin/rest-shell
