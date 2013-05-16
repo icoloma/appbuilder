@@ -1,5 +1,3 @@
 *.sublime-workspace
 node_modules
-
-#AppTemplate
 style.css
