@@ -1,11 +1,11 @@
 define(
-  ['entity/model'],
+  ['poi/model'],
   function(Model) {
     return B.View.extend({
       el: function() {
         return '<tr data-id="' + this.model.get('id') + '"></tr>';
       },
-      
+
       tmpl: _.template(
         '<td>{{name}}</td>' +
         '<td><img src="{{thumb}}"></td>' +

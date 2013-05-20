@@ -1,4 +1,4 @@
-define( ['entity/trview'],
+define( ['poi/trview'],
   function(TrView) {
     return B.View.extend({
       tagName: 'table',
@@ -6,7 +6,7 @@ define( ['entity/trview'],
       events: {
         'tap tr': function(e) {
           var id = $(e.target).closest('tr[data-id]').data('id');
-          window.location.hash = '#entities/' + id;
+          window.location.hash = '#pois/' + id;
         }
       },
 
@@ -19,7 +19,7 @@ define( ['entity/trview'],
             }).render().$el
           );
         });
-        this.$el.append($tbody);
+        this.$el.html($tbody);
         return this;
       }
     });
