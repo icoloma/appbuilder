@@ -22,7 +22,8 @@
         "node_modules",
         "js",
         "less",
-        "test"
+        "test",
+        "build"
       ]
     },
     {

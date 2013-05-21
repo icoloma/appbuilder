@@ -1,9 +1,9 @@
 module.exports = function(grunt) {
 
+grunt.loadNpmTasks('grunt-contrib-copy');
 grunt.loadNpmTasks('grunt-contrib-less');
 grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-requirejs');
-
 
 grunt.initConfig({
   less: {
@@ -15,27 +15,40 @@ grunt.initConfig({
     // Compilar y minificar LESS
     build: {
       src: 'less/style.less',
-      dest: 'less/style.css',
+      dest: 'build/css/style.css',
       yuicompress: true
     }
   },
   jshint: {
+    options: {
+      laxcomma: true
+    },
     // JSHint a todo el código salvo las librerias
-    dev: ['**/*.js', '!js/lib/*.js'],
-    build: ['**/*.js', '!js/lib/*.js']
+    dev: ['js/**/*.js', '!js/lib/*.js'],
+    build: ['js/**/*.js', '!js/lib/*.js']
   },
-  // Para el futuro
-  // requirejs: {
-  //   build: {
-  //     options: {
-  //       baseUrl: './js',
-  //       name: 'main',
-  //       include: 'lib/almond',
-  //       out: 'js/built.js',
-  //       optimize: 'none',
-  //     }
-  //   } 
-  // }
+  requirejs: {
+    build: {
+      options: {
+        baseUrl: './js',
+        name: 'main',
+        include:
+          [
+            'lib/almond', 'lib/globals'
+          ],
+        out: 'build/js/main.js',
+      }
+    },
+  },
+  copy: {
+    build: {
+      src: 'index-prod.html',
+      dest: 'build/index.html'
+    }
+  }
 });
+
+grunt.registerTask('build',
+  ['less:build', 'jshint:build', 'requirejs:build', 'copy:build']);
 
 }
