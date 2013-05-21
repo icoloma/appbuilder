@@ -2,7 +2,7 @@ package info.spain.opencatalog.domain;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 /**
  * Geospatial coordinates
@@ -11,34 +11,35 @@ import javax.validation.constraints.NotNull;
  */
 public class GeoLocation implements Serializable{
 	
-	private static final long serialVersionUID = -4501256496479941090L;
-
-	@NotNull
-	private Double lng;
+	private static final long serialVersionUID = 435272423089458051L;
+	private static final int LNG = 0; // index in array
+	private static final int LAT = 1; // index in array 
 	
-	@NotNull
-	private Double lat;
+	private static final double[] DEFAULT_COORDS = {-3.703794, 40.416957}; // Madrid, Puerta del Sol
+	
+	@GeoSpatialIndexed
+	private double[] loc = DEFAULT_COORDS;
 	
 	public Double getLng() {
-		return lng;
+		return loc[LNG];
 	}
 
 	public GeoLocation setLng(Double lng) {
-		this.lng = lng;
+		loc[LNG]= lng;
 		return this;
 	}
 
 	public Double getLat() {
-		return lat;
+		return loc[LAT];
 	}
 
 	public GeoLocation setLat(Double lat) {
-		this.lat = lat;
+		loc[LAT]= lat;
 		return this;
 	}
 
 	public String toString(){
-		return "[ lng: " + lng + ", lat: " + lat + "]";
+		return "[ lng: " + getLng() + ", lat: " + getLat()+ "]";
 	}
 
 }

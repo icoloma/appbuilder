@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Points of interest</title>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/main.css"/>
+    
+</head>
+
+<body>
+	  <!--  Nav bar -->
+	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">OpenCatalog</a>
+                </div>
+            </div>
+        </div>
+        
+    <!-- container -->    
+	<div class="container">
+	    
+	    <div id="table">
+	    	<table class="table table-striped table-hover table-bordered">
+			  <thead>
+			    <tr>
+			      <th th:text="#{poi.rows.head.name}">Name</th>
+			      <th th:text="#{poi.rows.head.description}">Description</th>
+			      <th th:text="#{poi.rows.head.coordinates}">Coordinates</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>Pico del Teide</td>
+			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>[28.2716,-16.6424]</td>
+			    </tr>
+			    <tr>
+			      <td>Pico del Teide</td>
+			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>[28.2716,-16.6424]</td>
+			    </tr>
+			    <tr>
+			      <td>Pico del Teide</td>
+			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>[28.2716,-16.6424]</td>
+			    </tr>
+			  </tbody>
+			</table>
+	    </div>
+	    
+	    <p><a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a></p>
+	</div>
+        
+   
+   	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	    <script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
+		<script src="../../../../resources/js/main.js"></script>
+	</footer>
+    
+</body>
+</html>

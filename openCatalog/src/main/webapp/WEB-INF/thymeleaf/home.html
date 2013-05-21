@@ -1,57 +1,48 @@
 <!DOCTYPE html>
 <html>
-<head th:substituteby="fragments/headTag :: headTag">
+<head th:substituteby="fragments/template :: headTag">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Home</title>
     <link rel="stylesheet" href="../../resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../resources/css/bootstrap-responsive.min.css"/>
     <link rel="stylesheet" href="../../resources/css/main.css"/>
-    <script src="../../resources/js/vendor/modernizr-2.6.2.js"></script>
-    <script src="../../resources/js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="../../resources/js/vendor/bootstrap.min.js"></script>
-	<script src="../../resources/js/main.js"></script>
+    
 </head>
 
 <body>
-
-	  <div th:substituteby="fragments/navTag :: navTag" class="navbar navbar-inverse navbar-fixed-top">
+	  <!--  Nav bar -->
+	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
                     <a class="brand" href="#">OpenCatalog</a>
-                    <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active"><a href="#">Home</a></li>
+                            <li><a href="admin/index.html">Admin</a></li>
                             <li><a href="#about">About</a></li>
                         </ul>
-                    </div><!--/.nav-collapse -->
                 </div>
             </div>
         </div>
-
-        <div class="container">
-
-            <!-- Main hero unit for a primary marketing message or call to action -->
-            <div class="hero-unit">
-               <h1 th:text="#{home.header}" >OpenCantalog</h1>
-               <p th:utext="#{home.text(${title})}">Acceda al API REST del catálogo</p> 
-               <p><a class="btn btn-primary btn-large" href="#" th:href="@{/api/}" th:text="#{button.start}">Comenzar</a></p>
-            </div>
-
-
-            <hr/>
-
-            <footer>
-                <p>&copy; Company 2012</p>
-            </footer>
-
-        </div> <!-- /container -->
-
-	
+        
+    <!-- container -->    
+	<div class="container">
+	    <div class="hero-unit">
+	       <h1 th:text="#{home.header}" >OpenCantalog</h1>
+	       <p th:utext="#{home.text}">Acceda al API REST del catálogo</p> 
+	       <p><a class="btn btn-primary btn-large" href="#" th:href="@{/api/}" th:text="#{button.start}">Comenzar</a></p>
+	    </div>
+	</div>
+        
+   
+   	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	    <script src="../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../resources/js/vendor/bootstrap.min.js"></script>
+		<script src="../../resources/js/main.js"></script>
+	</footer>
     
 </body>
 </html>

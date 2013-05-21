@@ -3,19 +3,23 @@ package info.spain.opencatalog.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-import info.spain.opencatalog.domain.GeoLocation;
+import static org.junit.Assert.assertTrue;
+import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.Poi;
-import info.spain.opencatalog.repository.PoiRepository;
+import info.spain.opencatalog.domain.PoiFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,33 +37,37 @@ public class PoiRepositoryTest {
 	@Autowired
 	private MongoOperations mongoTemplate;
 
+	@Autowired()
+	@Qualifier("localValidatorFactoryBean")
+	private  Validator validator;
+
 	/**
-	 * Test JSR-303 Validations
+	 * Test POI Validations
 	 */
 	@Test(expected = ConstraintViolationException.class)
-	public void testJSR303Repository() {
-		assertNotNull(poiRepository);
-		Poi poi = new Poi().setDescription("Volcan del Teide");
+	public void testPoiValidation() {
+		Poi poi = PoiFactory.getNewPoi("testJSR303").setName(new I18nText().set("EN", "home")); // no default;
+		
+		// Test validator directly
+		Set<ConstraintViolation<Poi>> constraintViolations = validator.validate(poi);
+		assertTrue(constraintViolations.size() > 0);
+
+		// Test that repository use the validator 
 		poiRepository.save(poi);
 	}
 
 	/**
 	 * Test using Repository
 	 */
-	@Test()
+	@Test
 	public void testRepository() {
-		Poi poi = new Poi()
-			.setName("Teide")
-			.setDescription("Volcan del Teide")
-			.setLoc(new GeoLocation().setLat(28.2716).setLng(-16.6424));
+		Poi poi = PoiFactory.getNewPoi("testRepository");
 		Poi result = poiRepository.save(poi);
 		String id = result.getId();
 		assertNotNull(id);
-		assertEquals(Double.valueOf(28.2716), result.getLoc().getLat());
 		poiRepository.delete(id);
 		result = poiRepository.findOne(id);
 		assertNull(result);
-	
 	}
 
 	/**
@@ -67,10 +75,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testMongoTemplate() {
-		Poi poi = new Poi()
-			.setName("Teide")
-			.setDescription("Volcan del Teide")
-			.setLoc(new GeoLocation().setLat(28.2716).setLng(-16.6424));
+		Poi poi = PoiFactory.getNewPoi("testMongoTemplate");
 		mongoTemplate.save(poi);
 		String id = poi.getId();
 		assertNotNull(id);
@@ -80,35 +85,36 @@ public class PoiRepositoryTest {
 		result = mongoTemplate.findById(id, Poi.class);
 		assertNull(result);
 	}
-	
+
 	/**
 	 * Test DBRef
 	 */
 	@Test
-	public void testDBRef(){
-		
+	public void testDBRef() {
+
+		int NUM_CHILDS = 5;
+
 		List<Poi> related = new ArrayList<Poi>();
-		
-		
-	
-		for (int i=0; i<5; i++){
-			Poi child = new Poi()
-			.setName("child-" + i)
-			.setLoc(new GeoLocation().setLat(28.2716).setLng(-16.6424));
+
+		for (int i = 0; i < NUM_CHILDS; i++) {
+			Poi child = PoiFactory.getNewPoi("child-" + i);
 			related.add(poiRepository.save(child));
 		}
 
-		Poi parent = new Poi()
-			.setName("Parent")
-			.setLoc(new GeoLocation().setLat(28.2716).setLng(-16.6424))
-			.setRelated(related);
-		
+		Poi parent = PoiFactory.getNewPoi("parent").setRelated(related);
 		Poi result = poiRepository.save(parent);
-		
+
 		String id = result.getId();
 		assertNotNull(id);
-	
-		
+		assertEquals(NUM_CHILDS, result.getRelated().size());
+
+		poiRepository.delete(result);
+
+		// no cascade delete
+		for (int i = 0; i < NUM_CHILDS; i++) {
+			poiRepository.delete(related.get(i));
+		}
+
 	}
 
 }

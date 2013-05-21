@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Handles requests for the application home page.
+ * Handles requests for the application admin page.
  */
 @Controller
-public class HomeController {
+public class AdminController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		model.addAttribute("page_title","home.title");
-		return "home";
+		model.addAttribute("page_title","admin.title");
+		return "admin/index";
 	}
 
 }

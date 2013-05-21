@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<!-- 
+  *************
+     headTag 
+  *************
+ -->
+<head th:fragment="headTag">
+    <title th:text="#{${page_title}}">Page title</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="stylesheet" 
+    	  href="../../../resources/css/bootstrap.min.css"
+    	  th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" 
+    	  href="../../../resources/css/bootstrap-responsive.min.css"
+	      th:href=   "@{/resources/css/bootstrap-responsive.min.css}" />
+    <link rel="stylesheet" 
+    	  href="../../../resources/css/main.css"
+    	  th:href=  "@{/resources/css/main.css}" />
+</head>
+
+<body>
+
+<!-- 
+  *************
+    navTag 
+  *************
+ -->	
+<div th:fragment="navTag" class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#" th:href="@{/}" th:text="#{nav.title}">Catálogo</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="#" th:href="@{/}"       th:text="#{nav.home}">Home</a></li>
+                            <li><a href="#" th:href="@{/api/}"   th:text="#{nav.api}">API</a></li>
+                            <li><a href="#" th:href="@{/admin/}" th:text="#{nav.admin}">Admin</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+        
+        
+  <div class="container">
+      <div class="hero-unit">
+         <h1>Template example</h1>
+         <p>This is a template</p>
+      </div>
+  </div> <!-- /container -->
+  
+
+<!-- 
+  *************
+    footerTag 
+  *************
+ -->
+<footer th:fragment="footerTag">
+	<hr/>
+	<p th:text="#{footer.copyright}">&copy; Spain.info</p>
+    <script src="../../../resources/js/vendor/modernizr-2.6.2.js"
+    		th:src=   "@{/resources/js/vendor/modernizr-2.6.2.js}" ></script>
+    		
+    <script src="../../../resources/js/vendor/jquery-1.9.1.min.js"
+            th:src=   "@{/resources/js/vendor/jquery-1.9.1.min.js}"></script>
+    		
+    <script src="../../../resources/js/vendor/bootstrap.min.js"
+    		th:src=   "@{/resources/js/vendor/bootstrap.min.js}"></script>
+    	    
+	<script src="../../../resources/js/main.js"
+			th:src=   "@{/resources/js/main.js}"></script>
+</footer>
+
+</body>
+</html>
+
+
+
+
