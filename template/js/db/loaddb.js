@@ -42,7 +42,7 @@ define(
         }
 
         persistence.flush(callback);
-      }
+      };
     };
 
     return function(locale, callback) {
