@@ -1,7 +1,7 @@
 define(function() {
   return persistence.define('Poi', {
-    name: 'TEXT',
-    description: 'TEXT',
+    name: 'TEXT', //i18n
+    description: 'TEXT', //i18n
     thumb: 'TEXT',
     imgs: 'JSON',
     created: 'DATE',

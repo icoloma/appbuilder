@@ -2,8 +2,7 @@ define(
   ['db/subcategory'],
   function(SubCategory) {
   var Category = persistence.define('Category', {
-    name: 'TEXT',
-    uuid: 'TEXT'
+    name: 'TEXT', //i18n
   });
   Category.hasMany('subcategories', SubCategory, 'category');
   return Category;
