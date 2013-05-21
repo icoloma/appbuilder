@@ -1,5 +1,5 @@
-define( 
-  ['modules/baselistview', 'poi/trview'],
+define(
+  ['modules/baselistview', 'category/trview'],
   function(BaseListView, TrView) {
     return BaseListView.extend({
       initialize: function(options) {
