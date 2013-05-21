@@ -48,7 +48,7 @@ define(
     return function(locale, callback) {
       var req = new XMLHttpRequest();
       req.onload = loadData(locale, callback);
-      req.open('get', window.appConfig.data + '/data.json', true);
+      req.open('get', window.appConfig.data + 'data.json', true);
       req.send();
     };
   }
