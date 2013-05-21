@@ -4,7 +4,7 @@ define(
     return B.View.extend({
       tmpl: _.template(
         '<div>' + 
-          '<img src="{{thumb}}">' + 
+          '<img src="{{appConfig.assets+thumb}}">' + 
           '<p>{{description}}</p>' +
           '<p>Located in {{lat}}, {{lon}}.</p>' +
         '</div>'      
