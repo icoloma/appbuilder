@@ -1,8 +1,8 @@
 define(
   [
-    'db/poi', 'db/category', 'modules/loaddb'
+    'db/entities', 'modules/loaddb'
   ],
-  function(Poi, Category, LoadDb) {
+  function(Db, LoadDb) {
     // TODO: get correct locale
     // navigator.globalization.
     window.appLocale = 'es';
@@ -13,12 +13,17 @@ define(
 
     persistence.schemaSync();
 
-    // Carga inicial de la base de datos
-    var findOne = Category.all().limit(1).list(null, function(results) {
-      if (!results.length) {
-        LoadDb(window.appLocale);
-      }
-    });
+
+    return function(cb) {
+      // Carga inicial de la base de datos
+      var findOne = Db.Category.all().limit(1).list(null, function(results) {
+        if (!results.length) {
+          return LoadDb(window.appLocale, cb);
+        } else {
+          return cb();
+        }
+      });
+    };
 
     // TODO: sería bueno que este módulo no retorne hasta que 
     // la carga de datos haya terminado

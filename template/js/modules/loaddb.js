@@ -36,7 +36,7 @@ define(
           poi = json.pois[i];
           poi.name = poi.name[locale];
           poi.description = poi.description[locale];
-          obj = new Poi(_.omit(poi, 'id', 'subcategory')); //TODO: qué hacer con el id o uuid de poi
+          obj = new Poi(_.omit(poi, 'subcategory')); //TODO: qué hacer con el id o uuid de poi
           obj.subcategory = subcatHash[poi.subcategory];
           persistence.add(obj);
         }

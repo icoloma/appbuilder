@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="less/style.css">
   </head>
   <body>
-    Hello world
+    <div class="workspace"></div>
 
 
     <!-- Scripts -->
@@ -60,8 +60,21 @@
       }
     </script>
     <script src="js/lib/require.js"></script>
+
     <script>
-      require(['main']);
+      require(['modules/globals'], function() {
+        require(['modules/initdb', 'modules/router'],
+          function(InitDb, Router) {
+            InitDb(function() {
+              console.log("Loaded!");
+              var router = new Router({
+                $el: $('.workspace')
+              });
+              B.history.start();
+            });
+          }
+        );
+      });
     </script>
 
   </body>
