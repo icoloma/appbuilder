@@ -50,7 +50,8 @@ dependencies {
 	
      		
     testCompile 'junit:junit:4.7',
-    			'org.springframework:spring-test:3.2.2.RELEASE'
+    			'org.springframework:spring-test:3.2.2.RELEASE',
+    			'com.jayway.jsonpath:json-path:0.8.1'
 
 }
 
