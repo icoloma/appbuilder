@@ -1,5 +1,5 @@
 define(
-  ['db/category', 'db/subcategory', 'db/poi'],
+  ['schemas/category', 'schemas/subcategory', 'schemas/poi'],
   function(Category, SubCategory, Poi) {
     return {
       Category: Category,

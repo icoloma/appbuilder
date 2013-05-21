@@ -1,5 +1,5 @@
 define(
-  ['db/poi'],
+  ['schemas/poi'],
   function(Poi) {
   var SubCategory = persistence.define('SubCategory', {
     name: 'TEXT', //i18n

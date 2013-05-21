@@ -1,5 +1,5 @@
 define(
-  ['db/subcategory'],
+  ['schemas/subcategory'],
   function(SubCategory) {
   var Category = persistence.define('Category', {
     name: 'TEXT', //i18n

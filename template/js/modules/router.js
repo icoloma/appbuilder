@@ -1,7 +1,7 @@
 define(
   [
     'category/homeview', 'category/subcatsview', 'poi/collectionview', 'poi/view',
-    'db/entities'
+    'schemas/schemas'
   ],
   function(HomeView, SubCatsView, PoisView, PoiView, Db) {
     return B.Router.extend({

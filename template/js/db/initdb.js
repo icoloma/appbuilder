@@ -1,6 +1,6 @@
 define(
   [
-    'db/entities', 'modules/loaddb'
+    'schemas/schemas', 'db/loaddb'
   ],
   function(Db, LoadDb) {
     // TODO: get correct locale

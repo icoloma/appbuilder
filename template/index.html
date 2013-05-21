@@ -59,21 +59,18 @@
         }
       }
     </script>
-    <script src="js/lib/require.js"></script>
 
+    <script src="js/lib/require.js"></script>
     <script>
-      require(['modules/globals'], function() {
-        require(['modules/initdb', 'modules/router'],
-          function(InitDb, Router) {
-            InitDb(function() {
-              console.log("Loaded!");
-              var router = new Router({
-                $el: $('.workspace')
-              });
-              B.history.start();
+      require(['lib/globals'], function() {
+        require(['main'], function(App) {
+          App.initDb(function() {
+            var router = new App.router({
+              $el: $('.workspace')
             });
-          }
-        );
+            B.history.start();
+          });
+        });
       });
     </script>
 
