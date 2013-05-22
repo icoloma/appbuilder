@@ -54,6 +54,12 @@ public class I18nText {
 		this.it = it;
 		return this;
 	}
+	@Override
+	public String toString() {
+		return "[es=" + es + ", en=" + en + ", fr=" + fr + ", de="
+				+ de + ", it=" + it + "]";
+	}
+	
 	
 	
 	

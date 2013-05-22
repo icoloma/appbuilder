@@ -23,6 +23,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Poi implements Serializable {
 
 	private static final long serialVersionUID = 5722653798168373056L;
+	
+	
 
 	@Id
 	private String id;
@@ -34,11 +36,14 @@ public class Poi implements Serializable {
 	@ValidI18nText 
 	private I18nText description; 
 	
+	private Address address;
+	
+
 	@NotNull
 	@GeoSpatialIndexed
 	private GeoLocation location; 	// Geospatial location
 	
-	private Address address;
+	private List<Tag.Tags> tags = new ArrayList<Tag.Tags>();
 	
 	@DBRef
 	private List<Poi> related = new ArrayList<Poi>();
@@ -92,6 +97,24 @@ public class Poi implements Serializable {
 		return this;
 	}
 	
+	
+	public List<Tag.Tags> getTags() {
+		return tags;
+	}
+
+	public Poi setTags(List<Tag.Tags> tag) {
+		this.tags = tag;
+		return this;
+	}
+	
+	
+	public Poi addTag(Tag.Tags tag) {
+		this.tags.add(tag);
+		return this;
+	}
+
+	
+
 	@Override
 	public String toString() {
 		return "[id=" + id + 
@@ -99,6 +122,7 @@ public class Poi implements Serializable {
 			   ", description=" + description +
 			   ", address=" + address +
 			   ", location=" + location +
+			   ", tags=" + tags +
 			   "]";
 	}
 

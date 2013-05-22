@@ -1,5 +1,9 @@
 package info.spain.opencatalog.domain;
 
+import info.spain.opencatalog.domain.Tag.Tags;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PoiFactory {
@@ -12,6 +16,7 @@ public class PoiFactory {
 	private static Random random = new Random();
 	
 	public static Poi newPoi(String key){
+		key = key + "-" + random.nextInt();
 		Poi poi = new Poi()
 //		.setName( new I18nText()                            //FIXME: uncomment when fixed #8
 //			.set("ES", "es-"+key+"-name")
@@ -33,8 +38,18 @@ public class PoiFactory {
 			.setAddress( key + "-address")
 			.setCity( key + "-city")
 			.setZipCode(key+"-zipCode"))
-		.setLocation(randomLocation());
+		.setLocation(randomLocation())
+		.setTags(randomTags(random.nextInt(4)));
 		return poi;
+	}
+	
+	private static List<Tag.Tags> randomTags(int numTags){
+		List<Tag.Tags> result = new ArrayList<Tag.Tags>();
+		for(int i=0; i<numTags; i++){
+			Tags tag = Tags.values()[(random.nextInt(Tags.values().length))];
+			result.add(tag);
+		}
+		return result;
 	}
 
 	private static GeoLocation randomLocation(){

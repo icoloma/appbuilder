@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.PoiFactory;
@@ -20,6 +21,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,12 +46,11 @@ public class PoiRepositoryTest {
 	private  Validator validator;
 
 	/**
-	 * Test POI Validations
+	 * Test Validations
 	 */
 	@Test(expected = ConstraintViolationException.class)
 	public void testPoiValidation() {
 		Poi poi = PoiFactory.newPoi("testJSR303").setName(new I18nText().setEn("home")); // no default;
-		// Poi poi = PoiFactory.newPoi("testJSR303").setName(new I18nText().set("EN", "home")); // no default;  FIXME: uncomment when fixed #8
 		
 		// Test validator directly
 		Set<ConstraintViolation<Poi>> constraintViolations = validator.validate(poi);
@@ -58,11 +61,11 @@ public class PoiRepositoryTest {
 	}
 
 	/**
-	 * Test using Repository
+	 * Test create 
 	 */
 	@Test
-	public void testRepository() {
-		Poi poi = PoiFactory.newPoi("testRepository");
+	public void testCreate() {
+		Poi poi = PoiFactory.newPoi("testCreate");
 		Poi result = poiRepository.save(poi);
 		String id = result.getId();
 		assertNotNull(id);
@@ -86,7 +89,47 @@ public class PoiRepositoryTest {
 		result = mongoTemplate.findById(id, Poi.class);
 		assertNull(result);
 	}
+	
+	@Test
+	public void testFindByName(){
+		Poi poi = PoiFactory.newPoi("findByName");
+		mongoTemplate.save(poi);
+		Pageable pageable = new PageRequest(0, 10);
+		Page<Poi> result = poiRepository.findByNameEsLike(poi.getName().getEs(), pageable);
+	
+		assertEquals(result.getContent().get(0).getName().getEs(), poi.getName().getEs());
+		mongoTemplate.remove(poi);
+	}
 
+	@Test
+	public void testGeoLocation(){
+		Poi retiro = PoiFactory.newPoi("Retiro").setLocation(new GeoLocation().setLat(40.4170).setLng(-3.6820));
+		Poi sol = PoiFactory.newPoi("Sol").setLocation(new GeoLocation().setLat(40.416957).setLng(-3.703794));
+		Poi teide = PoiFactory.newPoi("teide").setLocation(new GeoLocation().setLat(28.2735).setLng(-16.6427));
+		
+		GeoLocation alaska = new GeoLocation().setLng(-149.9).setLat(65.9);
+		poiRepository.deleteAll();
+		
+		mongoTemplate.save(retiro);
+		mongoTemplate.save(sol);
+		mongoTemplate.save(teide);
+		
+		List<Poi> result = poiRepository.findWithIn(retiro.getLocation().getLat(), retiro.getLocation().getLng(), 5);
+		assertEquals(2, result.size());
+		
+		result = poiRepository.findWithIn(teide.getLocation().getLat(), teide.getLocation().getLng(), 5);
+		assertEquals(1, result.size());
+
+		result = poiRepository.findWithIn(alaska.getLat(), alaska.getLng(), 5);
+		assertEquals(0, result.size());
+		
+		
+		mongoTemplate.remove(retiro);
+		mongoTemplate.remove(sol);
+		mongoTemplate.remove(teide);
+	}
+	
+	
 	/**
 	 * Test DBRef
 	 */

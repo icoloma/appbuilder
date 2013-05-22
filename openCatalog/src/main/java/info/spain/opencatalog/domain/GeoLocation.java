@@ -18,7 +18,7 @@ public class GeoLocation implements Serializable{
 	private static final double[] DEFAULT_COORDS = {-3.703794, 40.416957}; // Madrid, Puerta del Sol
 	
 	@GeoSpatialIndexed
-	private double[] loc = DEFAULT_COORDS;
+	private double[] loc = {DEFAULT_COORDS[0],DEFAULT_COORDS[1]};
 	
 	public Double getLng() {
 		return loc[LNG];
