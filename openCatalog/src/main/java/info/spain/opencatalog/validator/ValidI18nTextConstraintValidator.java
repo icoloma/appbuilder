@@ -13,7 +13,8 @@ public class ValidI18nTextConstraintValidator implements
 
 	@Override
 	public boolean isValid(I18nText i18nText, ConstraintValidatorContext context) {
-		return i18nText != null && i18nText.get(I18nText.DEFAULT) != null;
+//		return i18nText != null && i18nText.get(I18nText.DEFAULT) != null;   //FIXME: Uncomment when fixed #8
+		return i18nText != null && i18nText.getEs() != null;                 //FIXME: delete when fixed #8  
 	}
 
 }

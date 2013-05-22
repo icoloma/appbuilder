@@ -27,11 +27,11 @@ public class Poi implements Serializable {
 	@Id
 	private String id;
 
-	@ValidI18nText
+	@ValidI18nText   
 	@Indexed
 	private I18nText name;
 
-	@ValidI18nText
+	@ValidI18nText 
 	private I18nText description; 
 	
 	@NotNull
@@ -56,7 +56,7 @@ public class Poi implements Serializable {
 		return id;
 	}
 
-	public GeoLocation getLoc() {
+	public GeoLocation getLocation() {
 		return location;
 	}
 
@@ -64,7 +64,7 @@ public class Poi implements Serializable {
 		return description;
 	}
 
-	public Poi setLoc(GeoLocation loc) {
+	public Poi setLocation(GeoLocation loc) {
 		this.location = loc;
 		return this;
 	}

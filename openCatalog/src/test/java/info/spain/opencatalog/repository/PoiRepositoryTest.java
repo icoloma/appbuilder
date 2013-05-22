@@ -46,7 +46,8 @@ public class PoiRepositoryTest {
 	 */
 	@Test(expected = ConstraintViolationException.class)
 	public void testPoiValidation() {
-		Poi poi = PoiFactory.getNewPoi("testJSR303").setName(new I18nText().set("EN", "home")); // no default;
+		Poi poi = PoiFactory.newPoi("testJSR303").setName(new I18nText().setEn("home")); // no default;
+		// Poi poi = PoiFactory.newPoi("testJSR303").setName(new I18nText().set("EN", "home")); // no default;  FIXME: uncomment when fixed #8
 		
 		// Test validator directly
 		Set<ConstraintViolation<Poi>> constraintViolations = validator.validate(poi);
@@ -61,7 +62,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testRepository() {
-		Poi poi = PoiFactory.getNewPoi("testRepository");
+		Poi poi = PoiFactory.newPoi("testRepository");
 		Poi result = poiRepository.save(poi);
 		String id = result.getId();
 		assertNotNull(id);
@@ -75,7 +76,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testMongoTemplate() {
-		Poi poi = PoiFactory.getNewPoi("testMongoTemplate");
+		Poi poi = PoiFactory.newPoi("testMongoTemplate");
 		mongoTemplate.save(poi);
 		String id = poi.getId();
 		assertNotNull(id);
@@ -97,11 +98,11 @@ public class PoiRepositoryTest {
 		List<Poi> related = new ArrayList<Poi>();
 
 		for (int i = 0; i < NUM_CHILDS; i++) {
-			Poi child = PoiFactory.getNewPoi("child-" + i);
+			Poi child = PoiFactory.newPoi("child-" + i);
 			related.add(poiRepository.save(child));
 		}
 
-		Poi parent = PoiFactory.getNewPoi("parent").setRelated(related);
+		Poi parent = PoiFactory.newPoi("parent").setRelated(related);
 		Poi result = poiRepository.save(parent);
 
 		String id = result.getId();

@@ -40,10 +40,10 @@ public class MongoDbPopulator {
 		
 		List<Poi> related = new ArrayList<Poi>();
 		for (int i = 0; i < NUM_CHILDS; i++) {
-			Poi child = PoiFactory.getNewPoi("child-" + i);
+			Poi child = PoiFactory.newPoi("child-" + i);
 			related.add(poiRepository.save(child));
 		}
-		Poi parent = PoiFactory.getNewPoi("parent").setRelated(related);
+		Poi parent = PoiFactory.newPoi("parent").setRelated(related);
 		poiRepository.save(parent);
 	}
 

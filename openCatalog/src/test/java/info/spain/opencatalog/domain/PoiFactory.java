@@ -11,21 +11,29 @@ public class PoiFactory {
 	
 	private static Random random = new Random();
 	
-	public static Poi getNewPoi(String key){
+	public static Poi newPoi(String key){
 		Poi poi = new Poi()
+//		.setName( new I18nText()                            //FIXME: uncomment when fixed #8
+//			.set("ES", "es-"+key+"-name")
+//			.set("EN", "en-"+key+"-name")
+//			.set("DE", "en-"+key+"-name"))
+//		.setDescription( new I18nText()
+//			.set("ES", "es-"+key+"-description")
+//			.set("EN", "en-"+key+"-description")
+//			.set("DE", "en-"+key+"-description"))
 		.setName( new I18nText()
-			.set("ES", "es-"+key+"-name")
-			.set("EN", "en-"+key+"-name")
-			.set("DE", "en-"+key+"-name"))
+			.setEs("es-"+key+"-name")
+			.setEn("en-"+key+"-name")
+			.setDe("en-"+key+"-name"))
 		.setDescription( new I18nText()
-			.set("ES", "es-"+key+"-description")
-			.set("EN", "en-"+key+"-description")
-			.set("DE", "en-"+key+"-description"))
+			.setEs("es-"+key+"-description")
+			.setEn("en-"+key+"-description")
+			.setDe("en-"+key+"-description"))
 		.setAddress(new Address()
 			.setAddress( key + "-address")
 			.setCity( key + "-city")
 			.setZipCode(key+"-zipCode"))
-		.setLoc(randomLocation());
+		.setLocation(randomLocation());
 		return poi;
 	}
 
@@ -41,4 +49,6 @@ public class PoiFactory {
 		  double shifted = scaled + min;
 		  return shifted; // == (rand.nextDouble() * (max-min)) + min;
 	}
+	
+
 }
