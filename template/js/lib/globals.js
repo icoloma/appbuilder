@@ -1,6 +1,6 @@
 define(
   [ 
-    'lib/jquery', 'lib/jquery-mobile', 'lib/underscore', 'lib/backbone',
+    'lib/jquery', 'lib/underscore', 'lib/backbone', 'modules/touch',
     'lib/persistence', 'lib/persistence.store.sql', 'lib/persistence.store.websql',
   ],
   function() {
