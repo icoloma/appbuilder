@@ -10,7 +10,8 @@
 </head>
 
 <body>
-	  <!--  Nav bar -->
+
+      <!--  Nav bar -->
 	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
             <div class="navbar-inner">
                 <div class="container">
@@ -22,6 +23,7 @@
     <!-- container -->    
 	<div class="container">
 	    
+	    <p><a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a></p>
 	    <div id="table">
 	    	<table class="table table-striped table-hover table-bordered">
 			  <thead>
@@ -32,26 +34,35 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
+			    <tr th:each="poi : ${page.content}">
+			      <td th:text="${poi.name.es}" data:id="${poi.id}">Pico del Teide</td>
+			      <td th:text="${#strings.abbreviate(poi.description.es,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>[<span th:text="${#numbers.formatDecimal(poi.location.lat,3,4,'POINT')}">28.2716</span>,
+			           <span th:text="${#numbers.formatDecimal(poi.location.lng,3,4,'POINT')}">-16.6424</span>
+			          ]
+			      </td>
+			      	
+			    </tr>
+			    <tr th:remove="all">
 			      <td>Pico del Teide</td>
 			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
 			      <td>[28.2716,-16.6424]</td>
 			    </tr>
-			    <tr>
-			      <td>Pico del Teide</td>
-			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
-			      <td>[28.2716,-16.6424]</td>
-			    </tr>
-			    <tr>
+			    <tr th:remove="all">
 			      <td>Pico del Teide</td>
 			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
 			      <td>[28.2716,-16.6424]</td>
 			    </tr>
 			  </tbody>
 			</table>
+			<p th:text="${page}"></p>
+			<ul class="pager">
+			  <li class="previous"><a  href="#" th:href="@{/admin/poi(page.page=${page.number})}"   th:text="#{pager.prev}">Previous</a></li>
+			  <li><a href="#" th:text="${page.number}">0</a></li>
+			  <li class="next" ><a href="#" th:href="@{/admin/poi(page.page=${page.number+2})}" th:text="#{pager.next}">Next</a></li>
+			</ul>
 	    </div>
 	    
-	    <p><a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a></p>
 	</div>
         
    

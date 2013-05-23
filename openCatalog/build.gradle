@@ -45,7 +45,8 @@ dependencies {
 			'org.hibernate:hibernate-validator:4.1.0.Final',
 			'com.google.guava:guava:12.0',
 			'org.thymeleaf:thymeleaf:2.0.16',
-			'org.thymeleaf:thymeleaf-spring3:2.0.16'
+			'org.thymeleaf:thymeleaf-spring3:2.0.16',
+			'com.github.mxab.thymeleaf.extras:thymeleaf-extras-data-attribute:1.1'
 			
 	
      		

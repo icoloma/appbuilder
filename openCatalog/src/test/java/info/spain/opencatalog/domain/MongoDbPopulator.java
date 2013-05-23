@@ -37,7 +37,7 @@ public class MongoDbPopulator {
 
 	public void populate() {
 		PopulateWellKonwnPois();
-		populateRandomPoi(4, 3);
+		populateRandomPoi(20, 3);
 	}
 
 	private void PopulateWellKonwnPois(){
@@ -47,9 +47,6 @@ public class MongoDbPopulator {
 
 	private void populateRandomPoi(int numParents, int maxChilds) {
 		int numChilds = random.nextInt(maxChilds);
-		
-		
-		poiRepository.deleteAll();
 		
 		for (int p=0; p < numParents; p++) {
 			List<Poi> related = new ArrayList<Poi>();
