@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Points of interest</title>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/main.css"/>
+    
+</head>
+
+<body>
+
+      <!--  Nav bar -->
+	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">OpenCatalog</a>
+                </div>
+            </div>
+        </div>
+        
+    <!-- container -->    
+	<div class="container">
+	  Este es el poi <p th:text="${poi.name}">aa</p>    
+	</div>
+        
+   
+   	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	    <script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
+		<script src="../../../../resources/js/main.js"></script>
+	</footer>
+    
+</body>
+</html>
