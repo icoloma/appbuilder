@@ -18,8 +18,7 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	MongoOperations mongoTemplate;
 	
 	@Override
-	@RestResource(path = "within", rel="within")
-	public List<Poi> findWithIn(@Param("lat") double lat, @Param("lng") double lng, @Param("radius") double radius) {
+	public List<Poi> findWithIn(double lat, double lng, double radius) {
 		Circle circle = new Circle(lng, lat, radius);
 		List<Poi> result = mongoTemplate.find(query(where("location").within(circle)), Poi.class);
 		return result;
