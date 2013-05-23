@@ -7,7 +7,4 @@
 
 	<import resource="classpath:/spring/root-context.xml" />
 	<bean class="info.spain.opencatalog.config.DataRestConfig"/>
-	<!-- 
-	<bean class="org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration"/>
-	 -->
 </beans>

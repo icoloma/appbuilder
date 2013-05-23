@@ -33,9 +33,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "ApiRestTest-config.xml"})
+@ContextConfiguration({ "PoiAPITest-config.xml"})
 @ActiveProfiles("dev")
-public class ApiRestTest {
+public class PoiAPITest {
+	
+	public static final String NO_RESULTS = "{\n  \"links\" : [ ],\n  \"content\" : [ ]\n}";
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -57,27 +59,29 @@ public class ApiRestTest {
 	 * @throws Exception
 	 */
 	@Test
-    public void getPoi() throws Exception {
+    public void testDiscoverAndGET() throws Exception {
 		repo.deleteAll();
 		Poi poi= PoiFactory.newPoi("getPoi");
 		Poi saved = repo.save(poi);
 		
 		// test poi
 	    MvcResult result = this.mockMvc.perform(get("/poi/" + saved.getId())
-	      .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-          .andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8"))
-          .andExpect(jsonPath("$.name.es").value(poi.getName().getEs())).andReturn();     //FIXME: delete when fixed #8 
+			.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType("application/json;charset=UTF-8"))
+			.andExpect(jsonPath("$.name.es").value(poi.getName().getEs()))
+			.andReturn();     //FIXME: delete when fixed #8 
 	    
 	    String content = result.getResponse().getContentAsString();
 	    log.debug( "result /poi/" + saved.getId() + ":\n" + content);
 	    
 	    // test discover
 	    result = this.mockMvc.perform(get("/poi/" )
-  	      .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-          .andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8"))
-          .andExpect(jsonPath("$.content[0].name.es").value(poi.getName().getEs())).andReturn(); //FIXME: delete when fixed #8
+			.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType("application/json;charset=UTF-8"))
+			.andExpect(jsonPath("$.content[0].name.es").value(poi.getName().getEs()))
+			.andReturn(); //FIXME: delete when fixed #8
 	    
 	    content = result.getResponse().getContentAsString();
 	    log.debug("result /poi/:\n" + content);
@@ -90,7 +94,7 @@ public class ApiRestTest {
 	 */
 	@Test
 	
-    public void postPoi() throws Exception {
+    public void testPOST() throws Exception {
 		repo.deleteAll();
 		Poi poi = PoiFactory.newPoi("deserializer");
 		String json = new ObjectMapper().writeValueAsString(poi);
@@ -110,7 +114,7 @@ public class ApiRestTest {
 		System.out.println(json);
 		Poi result = new ObjectMapper().readValue(json, Poi.class);
 		System.out.println(result);
-		Assert.assertEquals(poi.getName().getEs(),result.getName().getEs());      //FIXME: delete when fixed #8
+		Assert.assertEquals(poi.getName().getEs(),result.getName().getEs());  
 	}
 	
 	@Test
@@ -118,35 +122,73 @@ public class ApiRestTest {
 		repo.deleteAll();
 		Poi poi = PoiFactory.newPoi("tesFindByName");
 		Poi saved = repo.save(poi);
-		MvcResult result = this.mockMvc.perform(get("/poi/search/name_es").param("name", poi.getName().getEs()))
-			    	.andExpect(status().isOk())
-			    	.andExpect(content().contentType("application/json"))
-			    	.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs())).andReturn();
+		MvcResult result = this.mockMvc.perform(get("/poi/search/byName_es").param("name", poi.getName().getEs()))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType("application/json"))
+			.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
+			.andReturn();
 		String content = result.getResponse().getContentAsString();
-	    log.debug("result /poi/search/name/es:\n" + content);
+	    log.debug("result /poi/search/byName_es:\n" + content);
 	    repo.delete(saved);
-		
 	}
 	
 	@Test
 	public void tesFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.newPoi("teide").setLocation(new GeoLocation().setLat(28.2735).setLng(-16.6427));
+		GeoLocation alaska = PoiFactory.ALASKA.getLocation();
+		Poi poi = PoiFactory.TEIDE;
 		Poi saved = repo.save(poi); 
 		
-		MvcResult result = this.mockMvc.perform(get("/poi/search/within")
-						.param("lat", poi.getLocation().getLat().toString())
-						.param("lng", poi.getLocation().getLng().toString())
-						.param("radius", "5")
-						
-						)
-			    	.andExpect(status().isOk())
-			    	.andExpect(content().contentType("application/json"))
-			    	.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs())).andReturn();
+		MvcResult result = this.mockMvc.perform(get("/poi/search/locationWithin")
+				.param("lat", poi.getLocation().getLat().toString())
+				.param("lng", poi.getLocation().getLng().toString())
+				.param("radius", "5"))
+	    	.andExpect(status().isOk())
+	    	.andExpect(content().contentType("application/json"))
+	    	.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
+	    	.andReturn();
 		String content = result.getResponse().getContentAsString();
-	    log.debug("result /poi/search/name/es:\n" + content);
+	    log.debug("result /poi/search/name/locationWithin:\n" + content);
+	    
+	    // Test not found
+	    result = this.mockMvc.perform(get("/poi/search/locationWithin")
+				.param("lat", alaska.getLat().toString())
+				.param("lng", alaska.getLng().toString())
+				.param("radius", "5"))
+	    	.andExpect(status().isOk())
+	    	.andReturn();
+	 	content = result.getResponse().getContentAsString();	 	 
+	 	Assert.assertEquals(NO_RESULTS, content);
 	    repo.delete(saved);
+	}
+	
+	@Test
+	public void tesFindByLocationNear() throws Exception {
+		repo.deleteAll();
+		Poi poi = PoiFactory.TEIDE;
+		GeoLocation alaska = PoiFactory.ALASKA.getLocation();
+		Poi saved = repo.save(poi); 
 		
+		// Test found
+		MvcResult result = this.mockMvc.perform(get("/poi/search/locationNear")
+				.param("location", "{\"lat\":" + poi.getLocation().getLat() + ", \"lng\":" + poi.getLocation().getLng() + "}")
+				.param("distance", "5"))
+	    	.andExpect(status().isOk())
+	    	.andExpect(content().contentType("application/json"))
+	    	.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
+	    	.andReturn();
+		String content = result.getResponse().getContentAsString();
+	    log.debug("result /poi/search/locationNear:\n" + content);
+	    
+	    // Test Not found
+	 	result = this.mockMvc.perform(get("/poi/search/locationNear")
+				.param("location", "{\"lat\":" + alaska.getLat() + ", \"lng\":" + alaska.getLng() + "}")
+				.param("distance", "5"))
+	    	.andExpect(status().isOk())
+	    	.andReturn();
+	 	content = result.getResponse().getContentAsString();	 	 
+	 	Assert.assertEquals(NO_RESULTS, content);
+	    repo.delete(saved);
 	}
 	
 	

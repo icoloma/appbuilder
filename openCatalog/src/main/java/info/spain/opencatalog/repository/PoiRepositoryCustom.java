@@ -10,7 +10,7 @@ import org.springframework.data.rest.repository.annotation.RestResource;
 
 public interface PoiRepositoryCustom {
 	
-	@RestResource(path = "within", rel="within")
+	@RestResource(path = "locationWithin", rel="locationWithin")
 	public List<Poi> findWithIn(@Param("lat") double lat, @Param("lng") double lng, @Param("radius") double radius);
 
 }

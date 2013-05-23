@@ -103,11 +103,12 @@ public class PoiRepositoryTest {
 
 	@Test
 	public void testGeoLocation(){
-		Poi retiro = PoiFactory.newPoi("Retiro").setLocation(new GeoLocation().setLat(40.4170).setLng(-3.6820));
-		Poi sol = PoiFactory.newPoi("Sol").setLocation(new GeoLocation().setLat(40.416957).setLng(-3.703794));
-		Poi teide = PoiFactory.newPoi("teide").setLocation(new GeoLocation().setLat(28.2735).setLng(-16.6427));
+		Poi retiro = PoiFactory.RETIRO;
+		Poi sol = PoiFactory.SOL;
+		Poi teide = PoiFactory.TEIDE;
+		GeoLocation alaska = PoiFactory.ALASKA.getLocation();
 		
-		GeoLocation alaska = new GeoLocation().setLng(-149.9).setLat(65.9);
+		
 		poiRepository.deleteAll();
 		
 		mongoTemplate.save(retiro);

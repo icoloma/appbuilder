@@ -7,9 +7,17 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @Configuration
-@Import( RepositoryRestMvcConfiguration.class)
+@Import( WebMvcConfigurationSupport.class)
 @ComponentScan( basePackages="info.spain.opencatalog.rest" )
-public class DataRestConfig extends WebMvcConfigurationSupport {
+public class DataRestConfig extends RepositoryRestMvcConfiguration  {
+	
+	
+//  FIXME: No lo registra bien, hay que usar @ConvertWith en los métodos de PoiRepository
+//	@Override
+//	protected void configureConversionService(ConfigurableConversionService conversionService) {
+//		conversionService.addConverter(String[].class, Poi.class, new PointConverter());
+//		conversionService.addConverter(String[].class, Distance.class, new DistanceConverter());
+//	}
 
 	
 }

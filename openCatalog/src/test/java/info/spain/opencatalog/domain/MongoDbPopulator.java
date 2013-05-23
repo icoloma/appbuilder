@@ -8,15 +8,21 @@ import java.util.Random;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.mongodb.core.MongoOperations;
+
+import com.google.common.collect.ImmutableSet;
 
 public class MongoDbPopulator {
 
-	private ApplicationContext context;
+	
+	private PoiRepository poiRepository;
+	private MongoOperations mongoTemplate;
 	
 	private static Random random = new Random();
 	
 	public MongoDbPopulator(ApplicationContext context) {
-		this.context = context;
+		poiRepository = context.getBean(PoiRepository.class);
+		mongoTemplate = context.getBean(MongoOperations.class);
 	}
 
 	public static void main(String[] args) {
@@ -30,16 +36,18 @@ public class MongoDbPopulator {
 	}
 
 	public void populate() {
-		populatePOI(4, 3);
+		PopulateWellKonwnPois();
+		populateRandomPoi(4, 3);
 	}
 
-	
-
-	private void populatePOI(int numParents, int maxChilds) {
+	private void PopulateWellKonwnPois(){
+		mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
 		
+	}
+
+	private void populateRandomPoi(int numParents, int maxChilds) {
 		int numChilds = random.nextInt(maxChilds);
 		
-		PoiRepository poiRepository = context.getBean(PoiRepository.class);
 		
 		poiRepository.deleteAll();
 		
