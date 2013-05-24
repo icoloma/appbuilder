@@ -2,12 +2,13 @@ define(
   [],
   function() {
     return B.View.extend({
+
+      className: 'articleview',
+
       tmpl: _.template(
-        '<div>' + 
-          '<img src="{{appConfig.assets+thumb}}">' + 
-          '<p>{{description}}</p>' +
-          '<p>Located in {{lat}}, {{lon}}.</p>' +
-        '</div>'      
+        '<img src="{{appConfig.assets+thumb}}">' + 
+        '<p>{{description}}</p>' +
+        '<p>Located in {{lat}}, {{lon}}.</p>'
       ),
 
       render: function() {

@@ -62,6 +62,8 @@
       require.config({
         baseUrl: 'js'
       });
+
+      // TODO: mirar 'deviceready'
       require(['lib/globals'], function() {
         // Emular eventos 'tap' para depurar en desktop
         var supportsTouch = (('ontouchstart' in window) ||

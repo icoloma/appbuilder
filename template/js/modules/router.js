@@ -1,9 +1,10 @@
 define(
-  [
-    'category/homeview', 'category/subcatsview', 'poi/collectionview', 'poi/view',
+  [ 
+    'page/pages',
+    'poi/articleview',
     'schemas/schemas'
   ],
-  function(HomeView, SubCatsView, PoisView, PoiView, Db) {
+  function(Page, PoiArticleView, Db) {
     return B.Router.extend({
 
       routes: {
@@ -26,7 +27,7 @@ define(
       renderHome: function() {
         var self = this;
         Db.Category.all().list(function(cats) {
-          self.setView(HomeView, {
+          self.setView(Page.homeView, {
             collection: cats
           });
         });
@@ -35,8 +36,8 @@ define(
       renderCategory: function(category) {
         var self = this;
         Db.SubCategory.all().filter('category', '=', category).list(function(subcats) {
-          self.setView(SubCatsView, {
-            url: '#/tree/' + category + '/',
+          self.setView(Page.categoryView, {
+            category: category,
             collection: subcats
           });
         });
@@ -45,8 +46,7 @@ define(
       renderSubCategory: function(category, subcategory) {
         var self = this;
         Db.Poi.all().filter('subcategory', '=', subcategory).list(function(pois) {
-          self.setView(PoisView, {
-            url: '#/pois/',
+          self.setView(Page.subcategoryView, {
             collection: pois
           });
         });
@@ -55,7 +55,7 @@ define(
       renderPoi: function(poiId) {
         var self = this;
         Db.Poi.findBy('id', poiId, function(poi) {
-          self.setView(PoiView, {
+          self.setView(Page.poiView, {
             model: poi
           });
         });

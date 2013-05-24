@@ -14,7 +14,7 @@ define(['lib/jquery'], function() {
 
   $(document).on('touchstart', function(e) {
     // Cancela el tap al entrar con más de un punto de contacto
-    // OJO: no siempre soportado (e.g. Android 2.3.3)
+    // OJO: no siempre soportado (e.g. Android 2.3.6)
     if (e.originalEvent.touches.length > 1) {
       touched = false;
       return false;
