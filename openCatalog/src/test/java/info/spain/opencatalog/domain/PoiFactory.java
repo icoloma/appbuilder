@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain;
 
-import info.spain.opencatalog.domain.Tag.Tags;
+import info.spain.opencatalog.domain.Tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +46,10 @@ public class PoiFactory {
 		return poi;
 	}
 	
-	private static List<Tag.Tags> randomTags(int numTags){
-		List<Tag.Tags> result = new ArrayList<Tag.Tags>();
+	private static List<Tag> randomTags(int numTags){
+		List<Tag> result = new ArrayList<Tag>();
 		for(int i=0; i<numTags; i++){
-			Tags tag = Tags.values()[(random.nextInt(Tags.values().length))];
+			Tag tag = Tag.values()[(random.nextInt(Tag.values().length))];
 			result.add(tag);
 		}
 		return result;

@@ -1,5 +1,6 @@
 package info.spain.opencatalog.domain;
 
+import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.validator.ValidI18nText;
 
 import java.io.Serializable;
@@ -29,21 +30,21 @@ public class Poi implements Serializable {
 	@Id
 	private String id;
 
-	@ValidI18nText   
+	@ValidI18nText(message="poi.name.validation.message")   
 	@Indexed
 	private I18nText name;
 
-	@ValidI18nText 
+	@ValidI18nText(message="poi.description.validation.message") 
 	private I18nText description; 
 	
-	private Address address;
+	private Address address = new Address();
 	
 
 	@NotNull
 	@GeoSpatialIndexed
 	private GeoLocation location; 	// Geospatial location
 	
-	private List<Tag.Tags> tags = new ArrayList<Tag.Tags>();
+	private List<Tag> tags = new ArrayList<Tag>();
 	
 	@DBRef
 	private List<Poi> related = new ArrayList<Poi>();
@@ -98,17 +99,17 @@ public class Poi implements Serializable {
 	}
 	
 	
-	public List<Tag.Tags> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public Poi setTags(List<Tag.Tags> tag) {
+	public Poi setTags(List<Tag> tag) {
 		this.tags = tag;
 		return this;
 	}
 	
 	
-	public Poi addTag(Tag.Tags tag) {
+	public Poi addTag(Tag tag) {
 		this.tags.add(tag);
 		return this;
 	}

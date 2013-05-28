@@ -13,7 +13,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy=ValidI18nTextConstraintValidator.class)
 public @interface ValidI18nText {
 
-	String message() default "{info.spain.opencatalog.validator.ValidI18nText.message}";
+	String message() default "validI18nText.invalid.message";
 	Class<?>[] groups() default { };
 	Class<? extends Payload>[] payload() default {};
 

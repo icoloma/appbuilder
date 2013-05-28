@@ -17,6 +17,8 @@
 	</listener>
 
 
+
+
 	<!-- API Dispatcher Servlet -->
 	<servlet>
 		<servlet-name>apiServlet</servlet-name>
@@ -51,5 +53,15 @@
 		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Converts POST with _method param into PUT or DELETE -->
+	<filter>
+		<filter-name>hiddenMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>hiddenMethodFilter</filter-name>
+		<servlet-name>dispatcherServlet</servlet-name>
+	</filter-mapping>
 
 </web-app>
