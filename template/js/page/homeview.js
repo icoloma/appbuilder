@@ -4,7 +4,7 @@ define(
 
     return B.View.extend({
 
-      render: function() {
+      initialize: function() {
         this.navbarview = new NavbarView({
           title: this.options.name,
           root: true
@@ -14,7 +14,15 @@ define(
           collection: this.collection,
           trView: TrView
         });
+      },
+
+      starTmpl: _.template(
+        '<a href="#/pois?starred=true"><span class="starred"></span> {{res.Starred}}</a>'
+      ),
+
+      render: function() {
         this.$el.html(this.navbarview.render().$el);
+        this.$el.append(this.starTmpl());
         this.$el.append(this.collectionview.render().$el);
         return this;
       }

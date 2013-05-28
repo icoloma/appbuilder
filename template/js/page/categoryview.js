@@ -4,7 +4,7 @@ define(
 
     return B.View.extend({
 
-      render: function() {
+      initialize: function() {
         this.navbarView = new NavbarView({
           title: this.options.name
         });
@@ -13,7 +13,9 @@ define(
           url: '#/pois?subcategory=',
           trView: TrView
         });
+      },
 
+      render: function() {
         this.$el.html(this.navbarView.render().$el);
         this.$el.append(this.collectionView.render().$el);
         return this;

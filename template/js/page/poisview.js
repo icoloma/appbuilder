@@ -4,6 +4,29 @@ define(
 
     return B.View.extend({
 
+      initialize: function() {
+        this.navbarView = new NavbarView({
+          title: this.options.name,
+          filter: true,
+          sort: true
+        });
+        this.listenTo(this.navbarView, 'sort', this.sort);
+        this.collectionView = new ListView({
+          collection: this.collection,
+          url: '#/pois/',
+          trView: TrView
+        });
+      },
+
+      render: function() {
+        this.$el.html(this.navbarView.render().$el);
+        this.$el.append(this.collectionView.render().$el);
+        return this;
+      },
+
+      sort: function() {
+
+      },
 
       sortByDistance: function(lat, lon) {
         this.collection.sort(function(poi) {
@@ -15,22 +38,6 @@ define(
         this.collectionView.render();
         return this;
       },
-
-      render: function() {
-        this.navbarView = new NavbarView({
-          title: this.options.name,
-          filter: true,
-          sort: true
-        });
-        this.collectionView = new ListView({
-          collection: this.collection,
-          url: '#/pois/',
-          trView: TrView
-        });
-        this.$el.html(this.navbarView.render().$el);
-        this.$el.append(this.collectionView.render().$el);
-        return this;
-      }
 
     });
   }

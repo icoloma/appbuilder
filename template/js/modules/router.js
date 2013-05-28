@@ -81,13 +81,20 @@ define(
             });
           },
           function(cb) {
-            Db.SubCategory.findBy('id', parsedQuery.subcategory, function(subcat) {
-              cb(null, subcat);
-            });
+            // Busca el título adecuado para la página
+            if (parsedQuery.q) {
+              cb(null, res.searchResults);
+            } else if (parsedQuery.starred) {
+              cb(null, res.Starred)
+            } else if (parsedQuery.subcategory) {
+              Db.SubCategory.findBy('id', parsedQuery.subcategory, function(subcat) {
+                cb(null, subcat.name);
+              });
+            }
           }
         ], function(err, results) {
           self.setView(Page.poisView, {
-            name: results[1].name,
+            name: results[1],
             collection: results[0]
           });
         });
