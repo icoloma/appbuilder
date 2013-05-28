@@ -1,5 +1,10 @@
 $(function(){
 	
+	// Disable form submit on Enter
+	$("form :input").on("keypress", function(e) {
+	    return e.keyCode != 13;
+	});
+	
 	// table.poi : add links to Pois
 	$("table.poi tbody tr").each( function(){
 		$(this).click( function(){

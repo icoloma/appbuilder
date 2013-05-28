@@ -10,18 +10,15 @@
 
 <body>
 
-      <!--  Nav bar -->
-	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="brand" href="#">OpenCatalog</a>
-                </div>
-            </div>
-        </div>
+	<!--  Nav bar -->
+	<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">OpenCatalog</a>
+			</div>
+		</div>
+	</div>
     
-    
-   
-        
     <!-- container -->    
 	<div class="container">
 	
@@ -107,15 +104,11 @@
 					</fieldset>					 	
 				</div>
 				
-				<div class="tags">
+				
+				
+				<div>
 					<legend th:text="#{poi.tags}">Tags</legend>
-					
-					<ul>
-					  <li th:each="tag: ${tags}">
-					  	<span th:text="${tag}">Foo</span>
-					  </li>
-					</ul>
-					
+					<input type="text" name="tags" th:placeholder="#{poi.tags.placeholder}" placeholder="Tags" class="tagManager" />
 				</div>
 	  
 			<div class="well">
@@ -131,12 +124,26 @@
 	<footer th:substituteby="fragments/template :: footerTag">
 	    <hr/>
 		<p>&copy; Spain.info</p>
+	</footer>
+	
+
+	<div th:substituteby="fragments/template :: scripts">
 		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
 	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-ui-1.8.16.min.js"></script>
 	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap-alert.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap-tagmanager.js"></script>
 	    <script src="../../../../resources/js/main.js"></script>
-	</footer>
+	</div>
+	
+	<script>
+		$(function(){
+			  $(".tagManager").tagsManager({
+				  typeahead: true,
+				  typeaheadAjaxSource: '/opencatalog/admin/poi/tags'
+			  });
+		})
+	</script>
 	
 </body>
 </html>

@@ -73,18 +73,16 @@
 <footer th:fragment="footerTag">
 	<hr/>
 	<p th:text="#{footer.copyright}">&copy; Spain.info</p>
-    <script src="../../../resources/js/vendor/modernizr-2.6.2.js"
-    		th:src=   "@{/resources/js/vendor/modernizr-2.6.2.js}" ></script>
-    		
-    <script src="../../../resources/js/vendor/jquery-1.9.1.min.js"
-            th:src=   "@{/resources/js/vendor/jquery-1.9.1.min.js}"></script>
-    		
-    <script src="../../../resources/js/vendor/bootstrap.min.js"
-    		th:src=   "@{/resources/js/vendor/bootstrap.min.js}"></script>
-    	    
-	<script src="../../../resources/js/main.js"
-			th:src=   "@{/resources/js/main.js}"></script>
 </footer>
+
+<div th:fragment="scripts">
+	<script src="../../../resources/js/vendor/modernizr-2.6.2.js" th:src="@{/resources/js/vendor/modernizr-2.6.2.js}" ></script>
+	<script src="../../../resources/js/vendor/jquery-1.9.1.min.js" th:src="@{/resources/js/vendor/jquery-1.9.1.min.js}"></script>
+	<script src="../../../resources/js/vendor/bootstrap.min.js"        th:src="@{/resources/js/vendor/bootstrap.min.js}"></script>
+	<script src="../../../resources/js/vendor/bootstrap-tagmanager.js" th:src="@{/resources/js/vendor/bootstrap-tagmanager.js}"></script>
+	<script src="../../../resources/js/main.js" th:src="@{/resources/js/main.js}"></script>
+</div>
+
 
 </body>
 </html>

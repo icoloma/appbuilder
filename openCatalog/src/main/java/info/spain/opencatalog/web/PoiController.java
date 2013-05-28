@@ -1,7 +1,10 @@
 package info.spain.opencatalog.web;
 
 import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.repository.PoiRepository;
+
+import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Handles requests for the application poi page.
@@ -24,6 +28,7 @@ public class PoiController extends AbstractController {
 	
 	@Autowired
 	private PoiRepository poiRepository;
+	
 	
 	/**
 	 * PAGEABLE LIST
@@ -55,6 +60,23 @@ public class PoiController extends AbstractController {
 	public String newPoi(Model model){
 		model.addAttribute("poi", new Poi());
 		return "admin/poi/poi";
+	}
+	
+	@RequestMapping(value="/tags")
+	public @ResponseBody String getAllTags(Locale locale){
+		StringBuffer result = new StringBuffer("{\"tags\":[");
+		Tag[] values = Tag.values();
+		for (int i = 0; i < values.length; i++) {
+			Tag tag = values[i];
+			if (i>0){
+				result.append(",");
+			}
+//			result.append("{\"tag\":\"").append(messageSource.getMessage(tag.toString(), new Object[]{}, locale)).append("\"}");	
+			result.append("{\"tag\":\"").append(tag.toString()).append("\"}");
+		}
+		result.append("]}");
+		return result.toString();
+		
 	}
 
 }

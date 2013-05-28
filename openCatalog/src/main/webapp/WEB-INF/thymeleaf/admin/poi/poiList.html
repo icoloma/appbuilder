@@ -78,11 +78,16 @@
 	<footer th:substituteby="fragments/template :: footerTag">
 	    <hr/>
 		<p>&copy; Spain.info</p>
-	    <script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
-	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
-		<script src="../../../../resources/js/main.js"></script>
 	</footer>
+	
+	<div th:substituteby="fragments/template :: scripts">
+		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-ui-1.8.16.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap-tagmanager.js"></script>
+	    <script src="../../../../resources/js/main.js"></script>
+	</div>
     
 </body>
 </html>
