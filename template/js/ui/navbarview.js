@@ -29,7 +29,8 @@ define(
           filter: false,
           sort: false,
           notify: false,
-          map: false
+          map: false,
+          star: false
         }
       },
 

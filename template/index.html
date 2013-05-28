@@ -65,7 +65,11 @@
 
       // TODO: mirar 'deviceready'
       require(['lib/globals'], function() {
-        // Emular eventos 'tap' para depurar en desktop
+
+        /*
+          Dispara eventos 'tap' en un navegador desktop sin necesidad
+          de simular eventos táctiles en las dev tools 
+        */
         var supportsTouch = (('ontouchstart' in window) ||
           window.DocumentTouch && document instanceof DocumentTouch);
 
@@ -74,6 +78,7 @@
             $(e.target).trigger('tap');
           });
         }
+        /*    */
 
         require(['main'], function(App) {
           App.initDb(function() {

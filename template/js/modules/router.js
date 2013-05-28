@@ -1,10 +1,9 @@
 define(
   [ 
     'page/pages',
-    'poi/articleview',
     'schemas/schemas'
   ],
-  function(Page, PoiArticleView, Db) {
+  function(Page, Db) {
 
     var parseQuery = function(query) {
       var queryObject = {}
