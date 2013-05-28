@@ -30,7 +30,8 @@
       "path": "js"
     },
     {
-      "path": "less"
+      "path": "less",
+      "file_exclude_patterns": ["style.css"]
     },
     {
       "path": "test"

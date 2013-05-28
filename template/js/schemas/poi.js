@@ -7,6 +7,8 @@ define(function() {
     created: 'DATE',
     updated: 'DATE',
     lat: 'REAL',
-    lon: 'REAL'
+    lon: 'REAL',
+    normLon: 'REAL',
+    starred: 'BOOL'
   });
 });

@@ -1,4 +1,10 @@
 {
+  "zone": {
+    "name": {
+      "es": "Provincia de Huesca",
+      "en": "Province of Huesca"
+    }
+  },
   "pois": [
     {
       "name": {
@@ -20,7 +26,8 @@
       ],
       "lat": 41.9352,
       "lon": 0.3936,
-      "subcategory": "vel"
+      "subcategory": "vel",
+      "normLon": 0.263
     },
     {
       "name": {
@@ -42,7 +49,8 @@
       ],
       "lat": 41.9184,
       "lon": 0.1032,
-      "subcategory": "etiam"
+      "subcategory": "etiam",
+      "normLon": 0.0689
     },
     {
       "name": {
@@ -64,7 +72,8 @@
       ],
       "lat": 42.1488,
       "lon": -0.5208,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": -0.3495
     },
     {
       "name": {
@@ -86,7 +95,8 @@
       ],
       "lat": 42.1168,
       "lon": 0.0408,
-      "subcategory": "fringilla"
+      "subcategory": "fringilla",
+      "normLon": 0.0274
     },
     {
       "name": {
@@ -108,7 +118,8 @@
       ],
       "lat": 41.8176,
       "lon": 0.3096,
-      "subcategory": "fringilla"
+      "subcategory": "fringilla",
+      "normLon": 0.2064
     },
     {
       "name": {
@@ -130,7 +141,8 @@
       ],
       "lat": 42.0144,
       "lon": -0.084,
-      "subcategory": "massa"
+      "subcategory": "massa",
+      "normLon": -0.0562
     },
     {
       "name": {
@@ -152,7 +164,8 @@
       ],
       "lat": 42.5896,
       "lon": 0.4836,
-      "subcategory": "gravida"
+      "subcategory": "gravida",
+      "normLon": 0.3273
     },
     {
       "name": {
@@ -174,7 +187,8 @@
       ],
       "lat": 42.408,
       "lon": 0,
-      "subcategory": "mauris"
+      "subcategory": "mauris",
+      "normLon": 0
     },
     {
       "name": {
@@ -196,7 +210,8 @@
       ],
       "lat": 42.516,
       "lon": 0.5688,
-      "subcategory": "id"
+      "subcategory": "id",
+      "normLon": 0.3844
     },
     {
       "name": {
@@ -218,7 +233,8 @@
       ],
       "lat": 42.156,
       "lon": 0.0432,
-      "subcategory": "non"
+      "subcategory": "non",
+      "normLon": 0.029
     },
     {
       "name": {
@@ -240,7 +256,8 @@
       ],
       "lat": 42.3264,
       "lon": 0.4584,
-      "subcategory": "ac"
+      "subcategory": "ac",
+      "normLon": 0.3087
     },
     {
       "name": {
@@ -262,7 +279,8 @@
       ],
       "lat": 42.5816,
       "lon": -0.0216,
-      "subcategory": "vitae"
+      "subcategory": "vitae",
+      "normLon": -0.0146
     },
     {
       "name": {
@@ -284,7 +302,8 @@
       ],
       "lat": 42.4376,
       "lon": 0.456,
-      "subcategory": "quis"
+      "subcategory": "quis",
+      "normLon": 0.3077
     },
     {
       "name": {
@@ -306,7 +325,8 @@
       ],
       "lat": 42.5328,
       "lon": 0.2064,
-      "subcategory": "orci"
+      "subcategory": "orci",
+      "normLon": 0.1395
     },
     {
       "name": {
@@ -328,7 +348,8 @@
       ],
       "lat": 42.4448,
       "lon": 0.0576,
-      "subcategory": "imperdiet"
+      "subcategory": "imperdiet",
+      "normLon": 0.0389
     },
     {
       "name": {
@@ -350,7 +371,8 @@
       ],
       "lat": 42.428,
       "lon": -0.5772,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": -0.3894
     },
     {
       "name": {
@@ -372,7 +394,8 @@
       ],
       "lat": 41.8216,
       "lon": 0.0696,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": 0.0464
     },
     {
       "name": {
@@ -394,7 +417,8 @@
       ],
       "lat": 41.8504,
       "lon": 0.498,
-      "subcategory": "nisl"
+      "subcategory": "nisl",
+      "normLon": 0.3323
     },
     {
       "name": {
@@ -416,7 +440,8 @@
       ],
       "lat": 42.1528,
       "lon": 0.3528,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": 0.2368
     },
     {
       "name": {
@@ -438,7 +463,8 @@
       ],
       "lat": 42.0072,
       "lon": -0.0132,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": -0.0088
     },
     {
       "name": {
@@ -460,7 +486,8 @@
       ],
       "lat": 42.532,
       "lon": 0.2232,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": 0.1509
     },
     {
       "name": {
@@ -482,7 +509,8 @@
       ],
       "lat": 41.8744,
       "lon": 0.1596,
-      "subcategory": "non"
+      "subcategory": "non",
+      "normLon": 0.1065
     },
     {
       "name": {
@@ -504,7 +532,8 @@
       ],
       "lat": 42.424,
       "lon": -0.168,
-      "subcategory": "euismod"
+      "subcategory": "euismod",
+      "normLon": -0.1133
     },
     {
       "name": {
@@ -526,7 +555,8 @@
       ],
       "lat": 42.4464,
       "lon": 0.0636,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": 0.0429
     },
     {
       "name": {
@@ -548,7 +578,8 @@
       ],
       "lat": 41.904,
       "lon": -0.09,
-      "subcategory": "mollis"
+      "subcategory": "mollis",
+      "normLon": -0.0601
     },
     {
       "name": {
@@ -570,7 +601,8 @@
       ],
       "lat": 42.4888,
       "lon": -0.0252,
-      "subcategory": "vel"
+      "subcategory": "vel",
+      "normLon": -0.017
     },
     {
       "name": {
@@ -592,7 +624,8 @@
       ],
       "lat": 41.8832,
       "lon": -0.5148,
-      "subcategory": "justo"
+      "subcategory": "justo",
+      "normLon": -0.3437
     },
     {
       "name": {
@@ -614,7 +647,8 @@
       ],
       "lat": 42.1448,
       "lon": -0.5172,
-      "subcategory": "integer"
+      "subcategory": "integer",
+      "normLon": -0.347
     },
     {
       "name": {
@@ -636,7 +670,8 @@
       ],
       "lat": 42.3592,
       "lon": 0.0084,
-      "subcategory": "congue"
+      "subcategory": "congue",
+      "normLon": 0.0057
     },
     {
       "name": {
@@ -658,7 +693,8 @@
       ],
       "lat": 42.4784,
       "lon": -0.066,
-      "subcategory": "nam"
+      "subcategory": "nam",
+      "normLon": -0.0446
     },
     {
       "name": {
@@ -680,7 +716,8 @@
       ],
       "lat": 42.2064,
       "lon": -0.3432,
-      "subcategory": "etiam"
+      "subcategory": "etiam",
+      "normLon": -0.2306
     },
     {
       "name": {
@@ -702,7 +739,8 @@
       ],
       "lat": 42.4392,
       "lon": 0.498,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": 0.3361
     },
     {
       "name": {
@@ -724,7 +762,8 @@
       ],
       "lat": 42.5032,
       "lon": 0.5424,
-      "subcategory": "dolor"
+      "subcategory": "dolor",
+      "normLon": 0.3665
     },
     {
       "name": {
@@ -746,7 +785,8 @@
       ],
       "lat": 42.1208,
       "lon": -0.1116,
-      "subcategory": "volutpat"
+      "subcategory": "volutpat",
+      "normLon": -0.0748
     },
     {
       "name": {
@@ -768,7 +808,8 @@
       ],
       "lat": 42.0936,
       "lon": 0.5268,
-      "subcategory": "gravida"
+      "subcategory": "gravida",
+      "normLon": 0.3531
     },
     {
       "name": {
@@ -790,7 +831,8 @@
       ],
       "lat": 42.5296,
       "lon": -0.2448,
-      "subcategory": "duis"
+      "subcategory": "duis",
+      "normLon": -0.1655
     },
     {
       "name": {
@@ -812,7 +854,8 @@
       ],
       "lat": 42.2264,
       "lon": -0.1356,
-      "subcategory": "metus"
+      "subcategory": "metus",
+      "normLon": -0.0911
     },
     {
       "name": {
@@ -834,7 +877,8 @@
       ],
       "lat": 42.004,
       "lon": 0.0456,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": 0.0305
     },
     {
       "name": {
@@ -856,7 +900,8 @@
       ],
       "lat": 41.9408,
       "lon": -0.3144,
-      "subcategory": "congue"
+      "subcategory": "congue",
+      "normLon": -0.2101
     },
     {
       "name": {
@@ -878,7 +923,8 @@
       ],
       "lat": 41.964,
       "lon": -0.3912,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": -0.2616
     },
     {
       "name": {
@@ -900,7 +946,8 @@
       ],
       "lat": 41.952,
       "lon": 0.2016,
-      "subcategory": "ac"
+      "subcategory": "ac",
+      "normLon": 0.1348
     },
     {
       "name": {
@@ -922,7 +969,8 @@
       ],
       "lat": 42.4952,
       "lon": 0.1932,
-      "subcategory": "metus"
+      "subcategory": "metus",
+      "normLon": 0.1305
     },
     {
       "name": {
@@ -944,7 +992,8 @@
       ],
       "lat": 42.5744,
       "lon": 0.1464,
-      "subcategory": "volutpat"
+      "subcategory": "volutpat",
+      "normLon": 0.099
     },
     {
       "name": {
@@ -966,7 +1015,8 @@
       ],
       "lat": 42.2736,
       "lon": -0.2892,
-      "subcategory": "laoreet"
+      "subcategory": "laoreet",
+      "normLon": -0.1945
     },
     {
       "name": {
@@ -988,7 +1038,8 @@
       ],
       "lat": 42.056,
       "lon": 0.1944,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": 0.1302
     },
     {
       "name": {
@@ -1010,7 +1061,8 @@
       ],
       "lat": 42.4992,
       "lon": -0.4644,
-      "subcategory": "fermentum"
+      "subcategory": "fermentum",
+      "normLon": -0.3137
     },
     {
       "name": {
@@ -1032,7 +1084,8 @@
       ],
       "lat": 41.9616,
       "lon": -0.0444,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": -0.0297
     },
     {
       "name": {
@@ -1054,7 +1107,8 @@
       ],
       "lat": 41.8776,
       "lon": -0.3996,
-      "subcategory": "nulla"
+      "subcategory": "nulla",
+      "normLon": -0.2667
     },
     {
       "name": {
@@ -1076,7 +1130,8 @@
       ],
       "lat": 42.0792,
       "lon": 0.2388,
-      "subcategory": "justo"
+      "subcategory": "justo",
+      "normLon": 0.16
     },
     {
       "name": {
@@ -1098,7 +1153,8 @@
       ],
       "lat": 41.8368,
       "lon": -0.2028,
-      "subcategory": "congue"
+      "subcategory": "congue",
+      "normLon": -0.1353
     },
     {
       "name": {
@@ -1120,7 +1176,8 @@
       ],
       "lat": 42.4512,
       "lon": -0.4788,
-      "subcategory": "vestibulum"
+      "subcategory": "vestibulum",
+      "normLon": -0.3232
     },
     {
       "name": {
@@ -1142,7 +1199,8 @@
       ],
       "lat": 42.1392,
       "lon": 0.4404,
-      "subcategory": "rutrum"
+      "subcategory": "rutrum",
+      "normLon": 0.2955
     },
     {
       "name": {
@@ -1164,7 +1222,8 @@
       ],
       "lat": 41.948,
       "lon": -0.4044,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": -0.2703
     },
     {
       "name": {
@@ -1186,7 +1245,8 @@
       ],
       "lat": 42.2096,
       "lon": 0.3288,
-      "subcategory": "lobortis"
+      "subcategory": "lobortis",
+      "normLon": 0.2209
     },
     {
       "name": {
@@ -1208,7 +1268,8 @@
       ],
       "lat": 42.1136,
       "lon": 0,
-      "subcategory": "dolor"
+      "subcategory": "dolor",
+      "normLon": 0
     },
     {
       "name": {
@@ -1230,7 +1291,8 @@
       ],
       "lat": 41.9176,
       "lon": -0.5148,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": -0.3439
     },
     {
       "name": {
@@ -1252,7 +1314,8 @@
       ],
       "lat": 41.9936,
       "lon": -0.2664,
-      "subcategory": "gravida"
+      "subcategory": "gravida",
+      "normLon": -0.1782
     },
     {
       "name": {
@@ -1274,7 +1337,8 @@
       ],
       "lat": 42.1336,
       "lon": -0.03,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": -0.0201
     },
     {
       "name": {
@@ -1296,7 +1360,8 @@
       ],
       "lat": 42.06,
       "lon": -0.1212,
-      "subcategory": "orci"
+      "subcategory": "orci",
+      "normLon": -0.0812
     },
     {
       "name": {
@@ -1318,7 +1383,8 @@
       ],
       "lat": 41.848,
       "lon": -0.576,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": -0.3843
     },
     {
       "name": {
@@ -1340,7 +1406,8 @@
       ],
       "lat": 42.1816,
       "lon": -0.162,
-      "subcategory": "vel"
+      "subcategory": "vel",
+      "normLon": -0.1088
     },
     {
       "name": {
@@ -1362,7 +1429,8 @@
       ],
       "lat": 42.1248,
       "lon": 0.3816,
-      "subcategory": "sed"
+      "subcategory": "sed",
+      "normLon": 0.256
     },
     {
       "name": {
@@ -1384,7 +1452,8 @@
       ],
       "lat": 42.16,
       "lon": -0.5772,
-      "subcategory": "massa"
+      "subcategory": "massa",
+      "normLon": -0.3874
     },
     {
       "name": {
@@ -1406,7 +1475,8 @@
       ],
       "lat": 42.2664,
       "lon": -0.108,
-      "subcategory": "nisl"
+      "subcategory": "nisl",
+      "normLon": -0.0726
     },
     {
       "name": {
@@ -1428,7 +1498,8 @@
       ],
       "lat": 42.0016,
       "lon": -0.4884,
-      "subcategory": "etiam"
+      "subcategory": "etiam",
+      "normLon": -0.3268
     },
     {
       "name": {
@@ -1450,7 +1521,8 @@
       ],
       "lat": 41.9888,
       "lon": 0.4092,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": 0.2737
     },
     {
       "name": {
@@ -1472,7 +1544,8 @@
       ],
       "lat": 41.9208,
       "lon": 0.1632,
-      "subcategory": "quis"
+      "subcategory": "quis",
+      "normLon": 0.109
     },
     {
       "name": {
@@ -1494,7 +1567,8 @@
       ],
       "lat": 41.9544,
       "lon": -0.3408,
-      "subcategory": "mauris"
+      "subcategory": "mauris",
+      "normLon": -0.2278
     },
     {
       "name": {
@@ -1516,7 +1590,8 @@
       ],
       "lat": 42.0128,
       "lon": -0.408,
-      "subcategory": "orci"
+      "subcategory": "orci",
+      "normLon": -0.2731
     },
     {
       "name": {
@@ -1538,7 +1613,8 @@
       ],
       "lat": 42.2248,
       "lon": -0.1032,
-      "subcategory": "fringilla"
+      "subcategory": "fringilla",
+      "normLon": -0.0694
     },
     {
       "name": {
@@ -1560,7 +1636,8 @@
       ],
       "lat": 42.3896,
       "lon": -0.2364,
-      "subcategory": "fermentum"
+      "subcategory": "fermentum",
+      "normLon": -0.1594
     },
     {
       "name": {
@@ -1582,7 +1659,8 @@
       ],
       "lat": 42.1088,
       "lon": 0.0624,
-      "subcategory": "mollis"
+      "subcategory": "mollis",
+      "normLon": 0.0418
     },
     {
       "name": {
@@ -1604,7 +1682,8 @@
       ],
       "lat": 41.9296,
       "lon": -0.3552,
-      "subcategory": "quis"
+      "subcategory": "quis",
+      "normLon": -0.2374
     },
     {
       "name": {
@@ -1626,7 +1705,8 @@
       ],
       "lat": 42.416,
       "lon": -0.2268,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": -0.153
     },
     {
       "name": {
@@ -1648,7 +1728,8 @@
       ],
       "lat": 41.8728,
       "lon": -0.1812,
-      "subcategory": "vitae"
+      "subcategory": "vitae",
+      "normLon": -0.1209
     },
     {
       "name": {
@@ -1670,7 +1751,8 @@
       ],
       "lat": 42.0696,
       "lon": -0.366,
-      "subcategory": "nullam"
+      "subcategory": "nullam",
+      "normLon": -0.2452
     },
     {
       "name": {
@@ -1692,7 +1774,8 @@
       ],
       "lat": 42.56,
       "lon": 0.462,
-      "subcategory": "nam"
+      "subcategory": "nam",
+      "normLon": 0.3125
     },
     {
       "name": {
@@ -1714,7 +1797,8 @@
       ],
       "lat": 42.2528,
       "lon": -0.09,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": -0.0605
     },
     {
       "name": {
@@ -1736,7 +1820,8 @@
       ],
       "lat": 42.5632,
       "lon": 0.534,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.3612
     },
     {
       "name": {
@@ -1758,7 +1843,8 @@
       ],
       "lat": 41.8936,
       "lon": -0.0168,
-      "subcategory": "nisi"
+      "subcategory": "nisi",
+      "normLon": -0.0112
     },
     {
       "name": {
@@ -1780,7 +1866,8 @@
       ],
       "lat": 42.54,
       "lon": 0.2664,
-      "subcategory": "fermentum"
+      "subcategory": "fermentum",
+      "normLon": 0.1801
     },
     {
       "name": {
@@ -1802,7 +1889,8 @@
       ],
       "lat": 42.2072,
       "lon": 0.036,
-      "subcategory": "rutrum"
+      "subcategory": "rutrum",
+      "normLon": 0.0242
     },
     {
       "name": {
@@ -1824,7 +1912,8 @@
       ],
       "lat": 42.056,
       "lon": 0.5808,
-      "subcategory": "metus"
+      "subcategory": "metus",
+      "normLon": 0.3891
     },
     {
       "name": {
@@ -1846,7 +1935,8 @@
       ],
       "lat": 42.476,
       "lon": -0.4668,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": -0.3152
     },
     {
       "name": {
@@ -1868,7 +1958,8 @@
       ],
       "lat": 42.0984,
       "lon": -0.5268,
-      "subcategory": "nisi"
+      "subcategory": "nisi",
+      "normLon": -0.3532
     },
     {
       "name": {
@@ -1890,7 +1981,8 @@
       ],
       "lat": 42.1648,
       "lon": 0.1236,
-      "subcategory": "volutpat"
+      "subcategory": "volutpat",
+      "normLon": 0.083
     },
     {
       "name": {
@@ -1912,7 +2004,8 @@
       ],
       "lat": 42.3216,
       "lon": -0.1284,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": -0.0865
     },
     {
       "name": {
@@ -1934,7 +2027,8 @@
       ],
       "lat": 42.2392,
       "lon": -0.5616,
-      "subcategory": "vitae"
+      "subcategory": "vitae",
+      "normLon": -0.3775
     },
     {
       "name": {
@@ -1956,7 +2050,8 @@
       ],
       "lat": 42.2672,
       "lon": 0.1536,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": 0.1033
     },
     {
       "name": {
@@ -1978,7 +2073,8 @@
       ],
       "lat": 42.5584,
       "lon": 0.4356,
-      "subcategory": "volutpat"
+      "subcategory": "volutpat",
+      "normLon": 0.2946
     },
     {
       "name": {
@@ -2000,7 +2096,8 @@
       ],
       "lat": 42.4032,
       "lon": -0.5028,
-      "subcategory": "justo"
+      "subcategory": "justo",
+      "normLon": -0.3391
     },
     {
       "name": {
@@ -2022,7 +2119,8 @@
       ],
       "lat": 42.2632,
       "lon": 0.1692,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": 0.1138
     },
     {
       "name": {
@@ -2044,7 +2142,8 @@
       ],
       "lat": 42.1904,
       "lon": 0.3264,
-      "subcategory": "mollis"
+      "subcategory": "mollis",
+      "normLon": 0.2192
     },
     {
       "name": {
@@ -2066,7 +2165,8 @@
       ],
       "lat": 41.8096,
       "lon": -0.5868,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": -0.3912
     },
     {
       "name": {
@@ -2088,7 +2188,8 @@
       ],
       "lat": 42.0232,
       "lon": 0.4764,
-      "subcategory": "dolor"
+      "subcategory": "dolor",
+      "normLon": 0.3189
     },
     {
       "name": {
@@ -2110,7 +2211,8 @@
       ],
       "lat": 42.5472,
       "lon": 0.204,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.1379
     },
     {
       "name": {
@@ -2132,7 +2234,8 @@
       ],
       "lat": 41.8592,
       "lon": 0.4776,
-      "subcategory": "vestibulum"
+      "subcategory": "vestibulum",
+      "normLon": 0.3187
     },
     {
       "name": {
@@ -2154,7 +2257,8 @@
       ],
       "lat": 42.2872,
       "lon": -0.1836,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": -0.1235
     },
     {
       "name": {
@@ -2176,7 +2280,8 @@
       ],
       "lat": 41.9408,
       "lon": -0.5964,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": -0.3986
     },
     {
       "name": {
@@ -2198,7 +2303,8 @@
       ],
       "lat": 42.2832,
       "lon": -0.3648,
-      "subcategory": "nullam"
+      "subcategory": "nullam",
+      "normLon": -0.2454
     },
     {
       "name": {
@@ -2220,7 +2326,8 @@
       ],
       "lat": 41.8224,
       "lon": -0.2184,
-      "subcategory": "etiam"
+      "subcategory": "etiam",
+      "normLon": -0.1456
     },
     {
       "name": {
@@ -2242,7 +2349,8 @@
       ],
       "lat": 42.5776,
       "lon": 0.0012,
-      "subcategory": "nullam"
+      "subcategory": "nullam",
+      "normLon": 0.0008
     },
     {
       "name": {
@@ -2264,7 +2372,8 @@
       ],
       "lat": 41.8304,
       "lon": -0.168,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": -0.112
     },
     {
       "name": {
@@ -2286,7 +2395,8 @@
       ],
       "lat": 42.004,
       "lon": -0.198,
-      "subcategory": "euismod"
+      "subcategory": "euismod",
+      "normLon": -0.1325
     },
     {
       "name": {
@@ -2308,7 +2418,8 @@
       ],
       "lat": 42.0072,
       "lon": 0.0804,
-      "subcategory": "felis"
+      "subcategory": "felis",
+      "normLon": 0.0538
     },
     {
       "name": {
@@ -2330,7 +2441,8 @@
       ],
       "lat": 41.956,
       "lon": 0.312,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": 0.2086
     },
     {
       "name": {
@@ -2352,7 +2464,8 @@
       ],
       "lat": 42.5288,
       "lon": -0.5748,
-      "subcategory": "lobortis"
+      "subcategory": "lobortis",
+      "normLon": -0.3885
     },
     {
       "name": {
@@ -2374,7 +2487,8 @@
       ],
       "lat": 42.4208,
       "lon": 0.4008,
-      "subcategory": "vel"
+      "subcategory": "vel",
+      "normLon": 0.2704
     },
     {
       "name": {
@@ -2396,7 +2510,8 @@
       ],
       "lat": 41.9752,
       "lon": 0.4236,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": 0.2833
     },
     {
       "name": {
@@ -2418,7 +2533,8 @@
       ],
       "lat": 41.848,
       "lon": 0.072,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.048
     },
     {
       "name": {
@@ -2440,7 +2556,8 @@
       ],
       "lat": 41.9848,
       "lon": -0.5136,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": -0.3436
     },
     {
       "name": {
@@ -2462,7 +2579,8 @@
       ],
       "lat": 41.9056,
       "lon": 0.2196,
-      "subcategory": "integer"
+      "subcategory": "integer",
+      "normLon": 0.1467
     },
     {
       "name": {
@@ -2484,7 +2602,8 @@
       ],
       "lat": 41.9072,
       "lon": -0.216,
-      "subcategory": "mollis"
+      "subcategory": "mollis",
+      "normLon": -0.1443
     },
     {
       "name": {
@@ -2506,7 +2625,8 @@
       ],
       "lat": 42.0208,
       "lon": 0.09,
-      "subcategory": "fermentum"
+      "subcategory": "fermentum",
+      "normLon": 0.0602
     },
     {
       "name": {
@@ -2528,7 +2648,8 @@
       ],
       "lat": 42.1944,
       "lon": -0.57,
-      "subcategory": "nisl"
+      "subcategory": "nisl",
+      "normLon": -0.3828
     },
     {
       "name": {
@@ -2550,7 +2671,8 @@
       ],
       "lat": 42.176,
       "lon": -0.0012,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": -0.0008
     },
     {
       "name": {
@@ -2572,7 +2694,8 @@
       ],
       "lat": 42.0336,
       "lon": -0.0576,
-      "subcategory": "rutrum"
+      "subcategory": "rutrum",
+      "normLon": -0.0386
     },
     {
       "name": {
@@ -2594,7 +2717,8 @@
       ],
       "lat": 41.9768,
       "lon": 0.4032,
-      "subcategory": "metus"
+      "subcategory": "metus",
+      "normLon": 0.2697
     },
     {
       "name": {
@@ -2616,7 +2740,8 @@
       ],
       "lat": 42.3776,
       "lon": -0.0672,
-      "subcategory": "nisi"
+      "subcategory": "nisi",
+      "normLon": -0.0453
     },
     {
       "name": {
@@ -2638,7 +2763,8 @@
       ],
       "lat": 42.0752,
       "lon": 0.0852,
-      "subcategory": "laoreet"
+      "subcategory": "laoreet",
+      "normLon": 0.0571
     },
     {
       "name": {
@@ -2660,7 +2786,8 @@
       ],
       "lat": 42.4944,
       "lon": -0.0228,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": -0.0154
     },
     {
       "name": {
@@ -2682,7 +2809,8 @@
       ],
       "lat": 42.4152,
       "lon": -0.5916,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": -0.399
     },
     {
       "name": {
@@ -2704,7 +2832,8 @@
       ],
       "lat": 42.5472,
       "lon": 0.3792,
-      "subcategory": "et"
+      "subcategory": "et",
+      "normLon": 0.2564
     },
     {
       "name": {
@@ -2726,7 +2855,8 @@
       ],
       "lat": 42.0288,
       "lon": 0.168,
-      "subcategory": "nisi"
+      "subcategory": "nisi",
+      "normLon": 0.1125
     },
     {
       "name": {
@@ -2748,7 +2878,8 @@
       ],
       "lat": 41.9472,
       "lon": 0.5424,
-      "subcategory": "ac"
+      "subcategory": "ac",
+      "normLon": 0.3626
     },
     {
       "name": {
@@ -2770,7 +2901,8 @@
       ],
       "lat": 41.9272,
       "lon": -0.3192,
-      "subcategory": "ac"
+      "subcategory": "ac",
+      "normLon": -0.2133
     },
     {
       "name": {
@@ -2792,7 +2924,8 @@
       ],
       "lat": 42.0816,
       "lon": 0.3684,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.2469
     },
     {
       "name": {
@@ -2814,7 +2947,8 @@
       ],
       "lat": 41.9016,
       "lon": -0.312,
-      "subcategory": "euismod"
+      "subcategory": "euismod",
+      "normLon": -0.2084
     },
     {
       "name": {
@@ -2836,7 +2970,8 @@
       ],
       "lat": 41.9984,
       "lon": -0.2208,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": -0.1477
     },
     {
       "name": {
@@ -2858,7 +2993,8 @@
       ],
       "lat": 42.352,
       "lon": 0.288,
-      "subcategory": "tortor"
+      "subcategory": "tortor",
+      "normLon": 0.194
     },
     {
       "name": {
@@ -2880,7 +3016,8 @@
       ],
       "lat": 41.888,
       "lon": 0.4404,
-      "subcategory": "massa"
+      "subcategory": "massa",
+      "normLon": 0.294
     },
     {
       "name": {
@@ -2902,7 +3039,8 @@
       ],
       "lat": 42.4184,
       "lon": 0.2712,
-      "subcategory": "fermentum"
+      "subcategory": "fermentum",
+      "normLon": 0.1829
     },
     {
       "name": {
@@ -2924,7 +3062,8 @@
       ],
       "lat": 42.4512,
       "lon": 0.4932,
-      "subcategory": "id"
+      "subcategory": "id",
+      "normLon": 0.3329
     },
     {
       "name": {
@@ -2946,7 +3085,8 @@
       ],
       "lat": 42.3152,
       "lon": 0.3132,
-      "subcategory": "metus"
+      "subcategory": "metus",
+      "normLon": 0.2108
     },
     {
       "name": {
@@ -2968,7 +3108,8 @@
       ],
       "lat": 42.072,
       "lon": 0.3036,
-      "subcategory": "non"
+      "subcategory": "non",
+      "normLon": 0.2034
     },
     {
       "name": {
@@ -2990,7 +3131,8 @@
       ],
       "lat": 42.524,
       "lon": -0.5052,
-      "subcategory": "euismod"
+      "subcategory": "euismod",
+      "normLon": -0.3415
     },
     {
       "name": {
@@ -3012,7 +3154,8 @@
       ],
       "lat": 42.1536,
       "lon": -0.4092,
-      "subcategory": "gravida"
+      "subcategory": "gravida",
+      "normLon": -0.2746
     },
     {
       "name": {
@@ -3034,7 +3177,8 @@
       ],
       "lat": 42.2768,
       "lon": 0.3192,
-      "subcategory": "id"
+      "subcategory": "id",
+      "normLon": 0.2147
     },
     {
       "name": {
@@ -3056,7 +3200,8 @@
       ],
       "lat": 42.0576,
       "lon": 0.2004,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": 0.1342
     },
     {
       "name": {
@@ -3078,7 +3223,8 @@
       ],
       "lat": 42.0224,
       "lon": 0.1644,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": 0.1101
     },
     {
       "name": {
@@ -3100,7 +3246,8 @@
       ],
       "lat": 41.8376,
       "lon": 0.234,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.1561
     },
     {
       "name": {
@@ -3122,7 +3269,8 @@
       ],
       "lat": 42.1392,
       "lon": -0.5424,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": -0.3639
     },
     {
       "name": {
@@ -3144,7 +3292,8 @@
       ],
       "lat": 42.1224,
       "lon": 0.2232,
-      "subcategory": "quis"
+      "subcategory": "quis",
+      "normLon": 0.1497
     },
     {
       "name": {
@@ -3166,7 +3315,8 @@
       ],
       "lat": 42.2192,
       "lon": -0.2928,
-      "subcategory": "justo"
+      "subcategory": "justo",
+      "normLon": -0.1968
     },
     {
       "name": {
@@ -3188,7 +3338,8 @@
       ],
       "lat": 42.4712,
       "lon": 0.4068,
-      "subcategory": "integer"
+      "subcategory": "integer",
+      "normLon": 0.2747
     },
     {
       "name": {
@@ -3210,7 +3361,8 @@
       ],
       "lat": 41.9648,
       "lon": 0.2124,
-      "subcategory": "ac"
+      "subcategory": "ac",
+      "normLon": 0.142
     },
     {
       "name": {
@@ -3232,7 +3384,8 @@
       ],
       "lat": 41.9704,
       "lon": -0.3408,
-      "subcategory": "lorem"
+      "subcategory": "lorem",
+      "normLon": -0.2279
     },
     {
       "name": {
@@ -3254,7 +3407,8 @@
       ],
       "lat": 42.0928,
       "lon": 0.408,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": 0.2735
     },
     {
       "name": {
@@ -3276,7 +3430,8 @@
       ],
       "lat": 41.9664,
       "lon": -0.4428,
-      "subcategory": "duis"
+      "subcategory": "duis",
+      "normLon": -0.2961
     },
     {
       "name": {
@@ -3298,7 +3453,8 @@
       ],
       "lat": 42.252,
       "lon": -0.2004,
-      "subcategory": "tortor"
+      "subcategory": "tortor",
+      "normLon": -0.1347
     },
     {
       "name": {
@@ -3320,7 +3476,8 @@
       ],
       "lat": 41.804,
       "lon": 0.336,
-      "subcategory": "rutrum"
+      "subcategory": "rutrum",
+      "normLon": 0.224
     },
     {
       "name": {
@@ -3342,7 +3499,8 @@
       ],
       "lat": 41.9304,
       "lon": 0.5676,
-      "subcategory": "erat"
+      "subcategory": "erat",
+      "normLon": 0.3793
     },
     {
       "name": {
@@ -3364,7 +3522,8 @@
       ],
       "lat": 41.8768,
       "lon": 0.2856,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.1906
     },
     {
       "name": {
@@ -3386,7 +3545,8 @@
       ],
       "lat": 41.9656,
       "lon": -0.036,
-      "subcategory": "integer"
+      "subcategory": "integer",
+      "normLon": -0.0241
     },
     {
       "name": {
@@ -3408,7 +3568,8 @@
       ],
       "lat": 42.0384,
       "lon": -0.234,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": -0.1567
     },
     {
       "name": {
@@ -3430,7 +3591,8 @@
       ],
       "lat": 42.1528,
       "lon": -0.3264,
-      "subcategory": "volutpat"
+      "subcategory": "volutpat",
+      "normLon": -0.2191
     },
     {
       "name": {
@@ -3452,7 +3614,8 @@
       ],
       "lat": 42.064,
       "lon": 0.0096,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": 0.0064
     },
     {
       "name": {
@@ -3474,7 +3637,8 @@
       ],
       "lat": 42.4368,
       "lon": -0.1572,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": -0.1061
     },
     {
       "name": {
@@ -3496,7 +3660,8 @@
       ],
       "lat": 42.5392,
       "lon": 0.5784,
-      "subcategory": "nunc"
+      "subcategory": "nunc",
+      "normLon": 0.3911
     },
     {
       "name": {
@@ -3518,7 +3683,8 @@
       ],
       "lat": 42.252,
       "lon": 0.444,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": 0.2985
     },
     {
       "name": {
@@ -3540,7 +3706,8 @@
       ],
       "lat": 42.3448,
       "lon": -0.462,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": -0.3112
     },
     {
       "name": {
@@ -3562,7 +3729,8 @@
       ],
       "lat": 42.44,
       "lon": -0.3684,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": -0.2486
     },
     {
       "name": {
@@ -3584,7 +3752,8 @@
       ],
       "lat": 42.048,
       "lon": -0.3612,
-      "subcategory": "tortor"
+      "subcategory": "tortor",
+      "normLon": -0.2419
     },
     {
       "name": {
@@ -3606,7 +3775,8 @@
       ],
       "lat": 42.2224,
       "lon": 0.3912,
-      "subcategory": "pellentesque"
+      "subcategory": "pellentesque",
+      "normLon": 0.2629
     },
     {
       "name": {
@@ -3628,7 +3798,8 @@
       ],
       "lat": 41.848,
       "lon": 0.4932,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": 0.329
     },
     {
       "name": {
@@ -3650,7 +3821,8 @@
       ],
       "lat": 41.9992,
       "lon": 0.4644,
-      "subcategory": "ac"
+      "subcategory": "ac",
+      "normLon": 0.3107
     },
     {
       "name": {
@@ -3672,7 +3844,8 @@
       ],
       "lat": 42.3904,
       "lon": -0.1512,
-      "subcategory": "id"
+      "subcategory": "id",
+      "normLon": -0.1019
     },
     {
       "name": {
@@ -3694,7 +3867,8 @@
       ],
       "lat": 42.1672,
       "lon": 0.4116,
-      "subcategory": "lorem"
+      "subcategory": "lorem",
+      "normLon": 0.2763
     },
     {
       "name": {
@@ -3716,7 +3890,8 @@
       ],
       "lat": 42.4232,
       "lon": 0.06,
-      "subcategory": "orci"
+      "subcategory": "orci",
+      "normLon": 0.0405
     },
     {
       "name": {
@@ -3738,7 +3913,8 @@
       ],
       "lat": 41.976,
       "lon": -0.4716,
-      "subcategory": "non"
+      "subcategory": "non",
+      "normLon": -0.3154
     },
     {
       "name": {
@@ -3760,7 +3936,8 @@
       ],
       "lat": 42.1408,
       "lon": 0.2364,
-      "subcategory": "gravida"
+      "subcategory": "gravida",
+      "normLon": 0.1586
     },
     {
       "name": {
@@ -3782,7 +3959,8 @@
       ],
       "lat": 41.9352,
       "lon": -0.5424,
-      "subcategory": "purus"
+      "subcategory": "purus",
+      "normLon": -0.3625
     },
     {
       "name": {
@@ -3804,7 +3982,8 @@
       ],
       "lat": 41.8504,
       "lon": -0.0264,
-      "subcategory": "non"
+      "subcategory": "non",
+      "normLon": -0.0176
     },
     {
       "name": {
@@ -3826,7 +4005,8 @@
       ],
       "lat": 41.9776,
       "lon": 0,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": 0
     },
     {
       "name": {
@@ -3848,7 +4028,8 @@
       ],
       "lat": 42.328,
       "lon": 0.2124,
-      "subcategory": "tortor"
+      "subcategory": "tortor",
+      "normLon": 0.143
     },
     {
       "name": {
@@ -3870,7 +4051,8 @@
       ],
       "lat": 42.0608,
       "lon": -0.1476,
-      "subcategory": "ornare"
+      "subcategory": "ornare",
+      "normLon": -0.0989
     },
     {
       "name": {
@@ -3892,7 +4074,8 @@
       ],
       "lat": 42.3824,
       "lon": 0.4056,
-      "subcategory": "justo"
+      "subcategory": "justo",
+      "normLon": 0.2734
     },
     {
       "name": {
@@ -3914,7 +4097,8 @@
       ],
       "lat": 42.4224,
       "lon": 0.3888,
-      "subcategory": "mauris"
+      "subcategory": "mauris",
+      "normLon": 0.2623
     },
     {
       "name": {
@@ -3936,7 +4120,8 @@
       ],
       "lat": 42.0896,
       "lon": -0.1044,
-      "subcategory": "volutpat"
+      "subcategory": "volutpat",
+      "normLon": -0.07
     },
     {
       "name": {
@@ -3958,7 +4143,8 @@
       ],
       "lat": 42.5968,
       "lon": 0.3552,
-      "subcategory": "fermentum"
+      "subcategory": "fermentum",
+      "normLon": 0.2404
     },
     {
       "name": {
@@ -3980,7 +4166,8 @@
       ],
       "lat": 42.4872,
       "lon": 0.1464,
-      "subcategory": "et"
+      "subcategory": "et",
+      "normLon": 0.0989
     },
     {
       "name": {
@@ -4002,7 +4189,8 @@
       ],
       "lat": 42.5176,
       "lon": -0.342,
-      "subcategory": "congue"
+      "subcategory": "congue",
+      "normLon": -0.2311
     },
     {
       "name": {
@@ -4024,7 +4212,8 @@
       ],
       "lat": 42.1656,
       "lon": 0.204,
-      "subcategory": "mollis"
+      "subcategory": "mollis",
+      "normLon": 0.1369
     },
     {
       "name": {
@@ -4046,7 +4235,8 @@
       ],
       "lat": 41.9952,
       "lon": -0.2136,
-      "subcategory": "sed"
+      "subcategory": "sed",
+      "normLon": -0.1429
     },
     {
       "name": {
@@ -4068,7 +4258,8 @@
       ],
       "lat": 42.4208,
       "lon": 0.3924,
-      "subcategory": "nam"
+      "subcategory": "nam",
+      "normLon": 0.2647
     },
     {
       "name": {
@@ -4090,7 +4281,8 @@
       ],
       "lat": 42.1584,
       "lon": -0.594,
-      "subcategory": "fringilla"
+      "subcategory": "fringilla",
+      "normLon": -0.3987
     },
     {
       "name": {
@@ -4112,7 +4304,8 @@
       ],
       "lat": 42.4816,
       "lon": 0.3144,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": 0.2123
     },
     {
       "name": {
@@ -4134,7 +4327,8 @@
       ],
       "lat": 42.5584,
       "lon": 0.0048,
-      "subcategory": "vehicula"
+      "subcategory": "vehicula",
+      "normLon": 0.0032
     },
     {
       "name": {
@@ -4156,7 +4350,8 @@
       ],
       "lat": 42.4384,
       "lon": -0.5412,
-      "subcategory": "etiam"
+      "subcategory": "etiam",
+      "normLon": -0.3652
     },
     {
       "name": {
@@ -4178,7 +4373,8 @@
       ],
       "lat": 42.4696,
       "lon": -0.5148,
-      "subcategory": "mauris"
+      "subcategory": "mauris",
+      "normLon": -0.3476
     },
     {
       "name": {
@@ -4200,7 +4396,8 @@
       ],
       "lat": 42.4432,
       "lon": -0.2112,
-      "subcategory": "eget"
+      "subcategory": "eget",
+      "normLon": -0.1425
     },
     {
       "name": {
@@ -4222,7 +4419,8 @@
       ],
       "lat": 42.4688,
       "lon": -0.324,
-      "subcategory": "imperdiet"
+      "subcategory": "imperdiet",
+      "normLon": -0.2188
     },
     {
       "name": {
@@ -4244,7 +4442,8 @@
       ],
       "lat": 42.2472,
       "lon": 0.3384,
-      "subcategory": "dui"
+      "subcategory": "dui",
+      "normLon": 0.2275
     },
     {
       "name": {
@@ -4266,7 +4465,8 @@
       ],
       "lat": 42.2992,
       "lon": 0.126,
-      "subcategory": "felis"
+      "subcategory": "felis",
+      "normLon": 0.0848
     },
     {
       "name": {
@@ -4288,7 +4488,8 @@
       ],
       "lat": 41.8384,
       "lon": 0.5964,
-      "subcategory": "lobortis"
+      "subcategory": "lobortis",
+      "normLon": 0.3978
     },
     {
       "name": {
@@ -4310,7 +4511,8 @@
       ],
       "lat": 42.4128,
       "lon": 0.5232,
-      "subcategory": "massa"
+      "subcategory": "massa",
+      "normLon": 0.3529
     },
     {
       "name": {
@@ -4332,7 +4534,8 @@
       ],
       "lat": 42.436,
       "lon": 0.1236,
-      "subcategory": "fringilla"
+      "subcategory": "fringilla",
+      "normLon": 0.0834
     },
     {
       "name": {
@@ -4354,7 +4557,8 @@
       ],
       "lat": 42.3888,
       "lon": 0.1452,
-      "subcategory": "ligula"
+      "subcategory": "ligula",
+      "normLon": 0.0979
     },
     {
       "name": {
@@ -4376,7 +4580,8 @@
       ],
       "lat": 42.164,
       "lon": 0.24,
-      "subcategory": "metus"
+      "subcategory": "metus",
+      "normLon": 0.1611
     },
     {
       "name": {
@@ -4398,7 +4603,8 @@
       ],
       "lat": 42.448,
       "lon": 0.4704,
-      "subcategory": "et"
+      "subcategory": "et",
+      "normLon": 0.3175
     },
     {
       "name": {
@@ -4420,7 +4626,8 @@
       ],
       "lat": 42.1696,
       "lon": 0.5604,
-      "subcategory": "laoreet"
+      "subcategory": "laoreet",
+      "normLon": 0.3762
     }
   ],
   "categories": [
