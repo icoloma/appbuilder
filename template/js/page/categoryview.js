@@ -1,16 +1,21 @@
 define(
-  ['modules/baselistview', 'category/trview'],
-  function(ListView, TrView) {
+  ['modules/baselistview', 'category/trview', 'ui/navbarview'],
+  function(ListView, TrView, NavbarView) {
 
     return B.View.extend({
 
       render: function() {
-        var list = new ListView({
+        this.navbarView = new NavbarView({
+          title: this.options.name
+        });
+        this.collectionView = new ListView({
           collection: this.collection,
-          url: '#/tree/' + this.options.category + '/',
+          url: '#/pois?subcategory=',
           trView: TrView
         });
-        this.$el.html(list.render().$el);
+
+        this.$el.html(this.navbarView.render().$el);
+        this.$el.append(this.collectionView.render().$el);
         return this;
       }
 

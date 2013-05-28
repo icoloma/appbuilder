@@ -1,11 +1,11 @@
 define(
-  ['page/homeview', 'page/poiview', 'page/categoryview', 'page/subcategoryview'],
-  function(HomeView, PoiView, CategoryView, SubcategoryView) {
+  ['page/homeview', 'page/poiview', 'page/categoryview', 'page/poisview'],
+  function(HomeView, PoiView, CategoryView, PoisView) {
     return {
       homeView: HomeView,
       poiView: PoiView,
       categoryView: CategoryView,
-      subcategoryView: SubcategoryView
+      poisView: PoisView
     }
   }
 );
