@@ -3,9 +3,6 @@ define(
     'schemas/schemas', 'db/loaddb'
   ],
   function(Db, LoadDb) {
-    // TODO: get correct locale
-    // navigator.globalization.
-    window.appLocale = 'es';
 
     // BDD y schemas
     persistence.store.websql
@@ -18,7 +15,7 @@ define(
       // Carga inicial de la base de datos
       var findOne = Db.Category.all().limit(1).list(null, function(results) {
         if (!results.length) {
-          return LoadDb(window.appLocale, cb);
+          return LoadDb(window.appConfig.locale, cb);
         } else {
           return cb();
         }
