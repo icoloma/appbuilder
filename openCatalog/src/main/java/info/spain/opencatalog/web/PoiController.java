@@ -12,7 +12,6 @@ import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,18 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping(value = "/admin/poi")
-public class PoiController {
+public class PoiController extends AbstractController {
 	
 	@Autowired
 	private PoiRepository poiRepository;
 	
-	@ModelAttribute("page_title")
-	public String pageName(){
-		return "poi.title";
-	}
-	
 	/**
-	 * Pageable POI list
+	 * PAGEABLE LIST
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model, @PageableDefaults(sort="name.es") Pageable pageable) {
@@ -41,20 +35,25 @@ public class PoiController {
 		return "admin/poi/poiList";
 	}
 	
+	/**
+	 * CREATE 
+	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public String update(@Valid Poi poi,BindingResult errors,  Model model) {
+	public String create(@Valid Poi poi,BindingResult errors,  Model model) {
 		if (errors.hasErrors()){
-			model.addAttribute("edit","true");
 			return "admin/poi/poi";
 		}
 		poi = poiRepository.save(poi);
+		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		return "redirect:/admin/poi/" + poi.getId();
 	}
 	
+	/**
+	 * EMPTY FORM 
+	 */
 	@RequestMapping(value="/new")
 	public String newPoi(Model model){
 		model.addAttribute("poi", new Poi());
-		model.addAttribute("edit","true");
 		return "admin/poi/poi";
 	}
 

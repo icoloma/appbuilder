@@ -18,21 +18,20 @@
                 </div>
             </div>
         </div>
+    
+    
+   
         
     <!-- container -->    
 	<div class="container">
+	
+		<div th:substituteby="fragments/template :: alert" />
+			
 		<h1 th:text="#{poi.header}" >Point of Interest</h1>
 		
 		<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?:''}}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1">
 		 	<input th:if="${poi.id}" type="hidden" name="_method" value="PUT" />
 		 	
-			<fieldset>
-				<div class="pull-right">
-					<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
-		  		 	<button class="btn editButton"><i class="icon-pencil"></i> <span th:text="#{button.edit}">Edit</span></button>
-		  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
-	  		 	</div>
-	  		 	
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#es" data-toggle="tab" th:text="#{lang.es}">Spanish</a></li>
 					<li><a href="#en" data-toggle="tab" th:text="#{lang.en}">English</a></li>
@@ -119,30 +118,25 @@
 					
 				</div>
 	  
-	  		
-	  	</fieldset>
+			<div class="well">
+				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
+	  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
+	  		 	<button class="btn btn-danger deleteButton pull-right"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
+  		 	</div>
 	  		
 	  </form>  
 	</div>
         
-   
-   	<!-- footer -->
+	<!-- footer -->
 	<footer th:substituteby="fragments/template :: footerTag">
 	    <hr/>
 		<p>&copy; Spain.info</p>
 		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
 	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
 	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap-alert.js"></script>
 	    <script src="../../../../resources/js/main.js"></script>
 	</footer>
 	
-	
-	<script>
-		$(function(){
-			$("#poiForm").prepareForm();
-		})
-		
-	</script>
-    
 </body>
 </html>

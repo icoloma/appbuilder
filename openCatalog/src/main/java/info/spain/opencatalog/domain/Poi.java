@@ -25,8 +25,6 @@ public class Poi implements Serializable {
 
 	private static final long serialVersionUID = 5722653798168373056L;
 	
-	
-
 	@Id
 	private String id;
 

@@ -22,10 +22,18 @@
         
     <!-- container -->    
 	<div class="container">
+	
+	   <h1 th:text="#{poi.header}" >Points of Interest</h1>
+		
 	    
-	    <p class="pull-right">	<a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a></p>
-	    
-	    <div id="table">
+	   <div id="table">
+	   		
+	   		<ul class="pager" data-page="0" data-pages="5" data:page="${page.number}" data:pages="${page.totalPages}">
+			  <li class="previous"><a  href="#" th:href="@{/admin/poi/(page.page=${page.number})}" th:text="#{pager.prev}">Previous</a></li>
+			  <li th:text="#{pager.detail(${page.number+1}, ${page.totalPages}, ${page.totalElements})}">Page 0 of 5</li>
+			  <li class="next" ><a href="#" th:href="@{/admin/poi/(page.page=${page.number+2})}" th:text="#{pager.next}">Next</a></li>
+			</ul>
+	   
 	    	<table class="table table-striped table-hover table-bordered poi">
 			  <thead>
 			    <tr>
@@ -56,16 +64,16 @@
 			    </tr>
 			  </tbody>
 			</table>
-			<p th:text="#{pager.detail(${page.number+1}, ${page.totalPages}, ${page.totalElements})}">Page 0 of 5</p>
-			<ul class="pager" data-page="0" data-pages="5" data:page="${page.number}" data:pages="${page.totalPages}">
-			  <li class="previous"><a  href="#" th:href="@{/admin/poi/(page.page=${page.number})}"   th:text="#{pager.prev}">Previous</a></li>
-			  <li class="next" ><a href="#" th:href="@{/admin/poi/(page.page=${page.number+2})}" th:text="#{pager.next}">Next</a></li>
-			</ul>
+			<div class="well">
+		    	<a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a>
+		    </div>
+			
 	    </div>
 	    
 	</div>
         
-   
+	    
+	    
    	<!-- footer -->
 	<footer th:substituteby="fragments/template :: footerTag">
 	    <hr/>
