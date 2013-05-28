@@ -6,6 +6,6 @@ define(
       poiView: PoiView,
       categoryView: CategoryView,
       poisView: PoisView
-    }
+    };
   }
 );

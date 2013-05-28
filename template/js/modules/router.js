@@ -9,7 +9,7 @@ define(
       var queryObject = {}
       , pattern = /(.+)=(.+)/
       ;
-      query.split('\&').forEach(function(param) {
+      query.split('&').forEach(function(param) {
         var parts = param.match(pattern);
         queryObject[parts[1]] = parts[2];
       });
@@ -59,13 +59,13 @@ define(
           function(cb) {
             Db.Category.findBy('id', category, function(cat) {
               cb(null, cat);
-            })
+            });
           }
         ], function(err, results) {
           self.setView(Page.categoryView, {
             name: results[1].name,
             collection: results[0]
-          })
+          });
         });
       },
 
@@ -81,15 +81,15 @@ define(
             });
           },
           function(cb) {
-            Db.SubCategory.findBy('id', parsedQuery['subcategory'], function(subcat) {
+            Db.SubCategory.findBy('id', parsedQuery.subcategory, function(subcat) {
               cb(null, subcat);
-            })
+            });
           }
         ], function(err, results) {
           self.setView(Page.poisView, {
             name: results[1].name,
             collection: results[0]
-          })
+          });
         });
       },
 
