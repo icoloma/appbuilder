@@ -76,6 +76,9 @@
         if (!supportsTouch) {
           $(document).click(function(e) {
             $(e.target).trigger('tap');
+            if (e.target.tagName === 'A') {
+              window.location = e.target.href;
+            }
           });
         }
         /*    */

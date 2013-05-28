@@ -3,7 +3,8 @@
   
   Pequeña librería para dar soporte a eventos táctiles
   Soporta: evento 'tap'
-  Ojo: elimina el evento click por defecto (e.g. enlaces <a>)
+  Ojo: el evento 'click' se elimina, pero la acción por defecto en los <a> se
+  simula al tiempo que se dispara el 'tap', para poder usar enlaces como siempre
 
 */
 
@@ -33,7 +34,13 @@ define(['lib/jquery'], function() {
   $(document).on('touchend', function(e) {
     if (touched) {
       touched = false;
-      $(e.target).trigger('tap');
+      var $target = $(e.target);
+      $target.trigger('tap');
+      // Simulamos un click instantáneo en caso de que
+      // sea un enlace <a>
+      if (e.target.tagName === 'A') {
+        window.location = e.target.href;
+      }
     }
   });
 
@@ -41,4 +48,5 @@ define(['lib/jquery'], function() {
   document.addEventListener('click', function(e) {
     e.preventDefault();
   }, true);
+
 });
