@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -62,19 +63,27 @@ public class PoiController extends AbstractController {
 		return "admin/poi/poi";
 	}
 	
-	@RequestMapping(value="/tags")
-	public @ResponseBody String getAllTags(Locale locale){
-		StringBuffer result = new StringBuffer("{\"tags\":[");
+	/**
+	 * Listado de tags
+	 * @param term
+	 */
+	@RequestMapping(value="/tags", produces="application/json")
+	public @ResponseBody String getAllTags(@RequestParam String term,Locale locale){
+		StringBuffer result = new StringBuffer("[");
 		Tag[] values = Tag.values();
+		boolean empty = true;
 		for (int i = 0; i < values.length; i++) {
 			Tag tag = values[i];
-			if (i>0){
-				result.append(",");
+			String txt = messageSource.getMessage("tags." + tag.toString(), new Object[]{}, locale);
+			if (txt.toLowerCase().contains(term.toLowerCase())){
+				if (i>0 && ! empty){
+					result.append(",");
+				}
+				result.append("{\"id\":\"").append(tag.toString()).append("\", \"label\":\"").append(txt).append("\", \"value\":\"").append(txt).append("\"}");
+				empty = false;
 			}
-//			result.append("{\"tag\":\"").append(messageSource.getMessage(tag.toString(), new Object[]{}, locale)).append("\"}");	
-			result.append("{\"tag\":\"").append(tag.toString()).append("\"}");
 		}
-		result.append("]}");
+		result.append("]");
 		return result.toString();
 		
 	}

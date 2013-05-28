@@ -5,6 +5,8 @@
     <title>Points of interest</title>
     <link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
     <link rel="stylesheet" href="../../../../resources/css/main.css"/>
 </head>
 
@@ -106,9 +108,10 @@
 				
 				
 				
-				<div>
+				<div id="tags">
 					<legend th:text="#{poi.tags}">Tags</legend>
-					<input type="text" name="tags" th:placeholder="#{poi.tags.placeholder}" placeholder="Tags" class="tagManager" />
+					<input type="text" name="tag[]" value="" class="tag"/>
+					
 				</div>
 	  
 			<div class="well">
@@ -130,20 +133,31 @@
 	<div th:substituteby="fragments/template :: scripts">
 		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
 	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
-	    <script src="../../../../resources/js/vendor/jquery-ui-1.8.16.min.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js"></script>
 	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap-tagmanager.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery.tagedit.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery.autoGrowInput.js"></script>
 	    <script src="../../../../resources/js/main.js"></script>
 	</div>
 	
-	<script>
-		$(function(){
-			  $(".tagManager").tagsManager({
-				  typeahead: true,
-				  typeaheadAjaxSource: '/opencatalog/admin/poi/tags'
-			  });
-		})
-	</script>
+	<div th:substituteby="fragments/template :: tags">
+		<script>
+			$(function(){
+				
+				var tags = [{"id":"lodging", 			"label":"Lodging", 				"value":"Lodging"},
+				            {"id":"lodging.apartment", 	"label":"Lodging/Apartment", 	"value":"Lodging/Apartment"},
+				            {"id":"lodging.camping", 	"label":"Lodging/Camping", 		"value":"Lodging/Camping"},
+				            {"id":"lodging.hotel", 		"label":"Lodging/Hotel", 		"value":"Lodging/Hotel"},
+				           ];
+				
+			 	$('input.tag').tagedit({
+			 		autocompleteOptions: {
+						source: tags
+					}
+				});
+			});
+		</script>
+	</div> 
 	
 </body>
 </html>

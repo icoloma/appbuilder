@@ -4,13 +4,9 @@ import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.repository.PoiRepository;
 
-import java.util.Locale;
-
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Handles CRUD requests for the application poi page.
