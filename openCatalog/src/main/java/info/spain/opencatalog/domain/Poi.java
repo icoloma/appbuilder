@@ -25,6 +25,18 @@ public class Poi implements Serializable {
 
 	private static final long serialVersionUID = 5722653798168373056L;
 	
+	public Poi(){}
+	public Poi(Poi other){
+		this.id = other.id;
+		this.name = other.name;
+		this.description = other.description;
+		this.address = other.address;
+		this.location = other.location;
+		this.related = other.related;
+		this.tags = other.tags;
+		this.related = other.related;
+	}
+	
 	@Id
 	private String id;
 
@@ -55,7 +67,10 @@ public class Poi implements Serializable {
 		this.related = related;
 		return this;
 	}
-
+	
+	public void setId(String id){
+		this.id = id;
+	}
 	public String getId() {
 		return id;
 	}

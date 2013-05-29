@@ -29,5 +29,16 @@ $(function(){
 		}
 	});
 	
+	// delete button
+	$("button.deleteButton").click(function(){
+		var form = $($(this).closest('form'));
+		$('input[name="_method"]', form).val("DELETE");
+		
+		// disble required for submit
+		$('[required]', form).each(function(){
+			$(this).removeAttr("required");
+		});
+	});
+	
 });
 

@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web;
+package info.spain.opencatalog.web.controller;
 
 import java.util.Locale;
 

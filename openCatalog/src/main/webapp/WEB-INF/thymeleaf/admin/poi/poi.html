@@ -108,16 +108,17 @@
 				
 				
 				
-				<div id="tags">
-					<legend th:text="#{poi.tags}">Tags</legend>
-					<input type="text" name="tag[]" value="" class="tag"/>
-					
+				<legend th:text="#{poi.tags}">Tags</legend>
+				<div id="tags" >
+					<input th:each="tag : ${poi.tagsInfo}" type="text" name="tag[]" th:name="${'tag[' + tag.id + ']'}" th:value="#{'tags.' + ${tag.key}}"  class="tag"/>
+					<input type="text" name="tag[3-a]" value="Lodging/Hotel" class="tag" th:remove="all"/>
+					<input type="text" name="tag[]" class="tag"/>
 				</div>
 	  
 			<div class="well">
 				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
 	  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
-	  		 	<button class="btn btn-danger deleteButton pull-right"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
+	  		 	<button class="btn btn-danger pull-right deleteButton"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
   		 	</div>
 	  		
 	  </form>  
@@ -151,6 +152,7 @@
 				           ];
 				
 			 	$('input.tag').tagedit({
+			 		allowEdit: false,
 			 		autocompleteOptions: {
 						source: tags
 					}

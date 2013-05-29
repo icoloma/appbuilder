@@ -8,7 +8,7 @@
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
 		<config>src/main/resources/spring/mvc-config.xml</config>
-		<config>src/test/java/info/spain/opencatalog/web/PoiAPITest-config.xml</config>
+		<config>src/test/java/info/spain/opencatalog/web/rest/PoiAPITest-config.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

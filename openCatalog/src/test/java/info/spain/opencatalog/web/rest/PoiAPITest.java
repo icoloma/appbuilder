@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web;
+package info.spain.opencatalog.web.rest;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -93,8 +93,7 @@ public class PoiAPITest {
 	 * @throws Exception
 	 */
 	@Test
-	
-    public void testPOST() throws Exception {
+	public void testPOST() throws Exception {
 		repo.deleteAll();
 		Poi poi = PoiFactory.newPoi("deserializer");
 		String json = new ObjectMapper().writeValueAsString(poi);
