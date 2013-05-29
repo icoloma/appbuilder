@@ -1,16 +1,16 @@
 define(
-  ['modules/baselistview', 'poi/trview', 'ui/navbarview'],
-  function(ListView, TrView, NavbarView) {
+  ['modules/baselistview', 'poi/trview', 'ui/actionbarview'],
+  function(ListView, TrView, ActionbarView) {
 
     return B.View.extend({
 
       initialize: function() {
-        this.navbarView = new NavbarView({
+        this.actionbarView = new ActionbarView({
           title: this.options.name,
           filter: true,
           sort: true
         });
-        this.listenTo(this.navbarView, 'sort', this.sort);
+        this.listenTo(this.actionbarView, 'sort', this.sort);
         this.collectionView = new ListView({
           collection: this.collection,
           url: '#/pois/',
@@ -19,7 +19,7 @@ define(
       },
 
       render: function() {
-        this.$el.html(this.navbarView.render().$el);
+        this.$el.html(this.actionbarView.render().$el);
         this.$el.append(this.collectionView.render().$el);
         return this;
       },

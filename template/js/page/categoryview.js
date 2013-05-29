@@ -1,13 +1,10 @@
 define(
-  ['modules/baselistview', 'category/trview', 'ui/navbarview'],
-  function(ListView, TrView, NavbarView) {
+  ['modules/baselistview', 'category/trview'],
+  function(ListView, TrView) {
 
     return B.View.extend({
 
       initialize: function() {
-        this.navbarView = new NavbarView({
-          title: this.options.name
-        });
         this.collectionView = new ListView({
           collection: this.collection,
           url: '#/pois?subcategory=',
@@ -16,8 +13,7 @@ define(
       },
 
       render: function() {
-        this.$el.html(this.navbarView.render().$el);
-        this.$el.append(this.collectionView.render().$el);
+        this.$el.html(this.collectionView.render().$el);
         return this;
       }
 

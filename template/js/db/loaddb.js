@@ -43,7 +43,7 @@ define(
 
         persistence.flush(callback);
 
-        window.appConfig.zone = json.zone.name[locale];
+        localStorage.appZone = json.zone.name[locale];
       };
     };
 

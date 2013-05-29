@@ -1,26 +1,26 @@
 define(
-  ['poi/articleview', 'ui/navbarview'],
-  function(ArticleView, NavbarView) {
+  ['poi/articleview', 'ui/actionbarview'],
+  function(ArticleView, ActionbarView) {
 
 
     return B.View.extend({
       className: 'poiview',
 
       initialize: function() {
-        this.navbarView = new NavbarView({
+        this.actionbarView = new ActionbarView({
           title: this.model.name,
           map: true,
           star: true,
           notify: true
         });
-        this.listenTo(this.navbarView, 'star', this.star);
+        this.listenTo(this.actionbarView, 'star', this.star);
         this.modelView = new ArticleView({
           model: this.model
         });
       },
 
       render: function() {
-        this.$el.html(this.navbarView.render().$el);
+        this.$el.html(this.actionbarView.render().$el);
         this.$el.append(this.modelView.render().$el);
         return this;
       },

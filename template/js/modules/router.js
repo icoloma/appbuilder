@@ -1,9 +1,13 @@
+/*
+  El router central del app
+*/
 define(
   [ 
     'page/pages',
-    'schemas/schemas'
+    'schemas/schemas',
+    'ui/navbarview'
   ],
-  function(Page, Db) {
+  function(Page, Db, NavbarView) {
 
     var parseQuery = function(query) {
       var queryObject = {}
@@ -28,13 +32,19 @@ define(
 
       initialize: function(options) {
         this.$el = options.$el;
-
-        var self = this;
+        this.$page = this.$el.find('.page');
+        this.navbarView = new NavbarView({
+          el: this.$el.find('.navbar').first(),
+          root: true,
+          title: window.appConfig.zone
+        }).render();
       },
 
-      setView: function(view, options) {
+      setView: function(view, options, navbarOpts) {
         this.currentView = new view(options);
-        this.$el.html(this.currentView.render().$el);
+        this.navbarView.options = navbarOpts;
+        this.navbarView.render();
+        this.$page.html(this.currentView.render().$el);
         return this.currentView;
       },
 
@@ -43,7 +53,9 @@ define(
         Db.Category.all().list(function(cats) {
           self.setView(Page.homeView, {
             collection: cats,
-            name: window.appConfig.name
+          }, {
+            title: window.appConfig.zone,
+            root: true
           });
         });
       },
@@ -63,8 +75,9 @@ define(
           }
         ], function(err, results) {
           self.setView(Page.categoryView, {
-            name: results[1].name,
             collection: results[0]
+          }, {
+            title: results[1].name,
           });
         });
       },
@@ -85,7 +98,7 @@ define(
             if (parsedQuery.q) {
               cb(null, res.searchResults);
             } else if (parsedQuery.starred) {
-              cb(null, res.Starred)
+              cb(null, res.Starred);
             } else if (parsedQuery.subcategory) {
               Db.SubCategory.findBy('id', parsedQuery.subcategory, function(subcat) {
                 cb(null, subcat.name);
@@ -94,8 +107,9 @@ define(
           }
         ], function(err, results) {
           self.setView(Page.poisView, {
-            name: results[1],
             collection: results[0]
+          }, {
+            title: results[1],
           });
         });
       },
@@ -104,7 +118,9 @@ define(
         var self = this;
         Db.Poi.findBy('id', poiId, function(poi) {
           self.setView(Page.poiView, {
-            model: poi
+            model: poi,
+          }, {
+            title: poi.name
           });
         });
       }

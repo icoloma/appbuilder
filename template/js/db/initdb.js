@@ -12,18 +12,22 @@ define(
 
 
     return function(cb) {
+
+      // Carga inicial del nombre de la zona
+      var loadZone = function loadZoneName() {
+        window.appConfig.zone = localStorage.appZone;
+        cb();
+      }
+      ;
+
       // Carga inicial de la base de datos
       var findOne = Db.Category.all().limit(1).list(null, function(results) {
         if (!results.length) {
-          return LoadDb(window.appConfig.locale, cb);
+          LoadDb(window.appConfig.locale, loadZone);
         } else {
-          return cb();
+          return loadZone();
         }
       });
     };
-
-    // TODO: sería bueno que este módulo no retorne hasta que 
-    // la carga de datos haya terminado
-
   }
 );
