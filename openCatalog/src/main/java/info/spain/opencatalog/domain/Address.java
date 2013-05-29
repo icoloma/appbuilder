@@ -2,9 +2,14 @@ package info.spain.opencatalog.domain;
 
 public class Address {
 	
-	private String route;
-	private String city;
-	private String zipCode;
+	public static final String DEFAULT_ROUTE   = "Plaza Puerta del Sol";
+	public static final String DEFAULT_CITY    = "Madrid";
+	public static final String DEFAULT_ZIPCODE = "28013";
+	
+	private String route = DEFAULT_ROUTE;
+	private String city = DEFAULT_CITY;
+	private String zipCode = DEFAULT_ZIPCODE;
+	
 	public String getRoute() {
 		return route;
 	}

@@ -52,7 +52,9 @@ public class PoiForm extends Poi {
 	}
 	
 	
-	public PoiForm(){}
+	public PoiForm(){
+		super();
+	}
 	
 	/**
 	 * Creamos PoiForm con la información del Poi y un genermamos un List< {id,key} > para los tags

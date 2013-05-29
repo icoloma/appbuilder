@@ -3,6 +3,7 @@ package info.spain.opencatalog.web.controller;
 
 import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
+import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
 
@@ -51,6 +52,9 @@ public class PoiController extends AbstractController {
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public String show( @PathVariable("id") String id, Model model) {
 		Poi poi  = poiRepository.findOne(id);
+		if (poi == null){
+			throw new NotFoundException("poi", id);
+		}
 		PoiForm poiForm = new PoiForm(poi);
 		model.addAttribute("poi", poiForm);
 		return "admin/poi/poi";
@@ -84,7 +88,7 @@ public class PoiController extends AbstractController {
 	 */
 	@RequestMapping( value="/{id}", method=RequestMethod.PUT)
 	public String update(@Valid @ModelAttribute("poi") PoiForm poiForm,BindingResult errors,  Model model, @PathVariable("id") String id) {
-
+		
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}

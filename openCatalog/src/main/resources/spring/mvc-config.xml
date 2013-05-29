@@ -26,6 +26,24 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<default-servlet-handler />	
 	
+	
+	<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<beans:property name="exceptionMappings">
+			<beans:map>
+				<beans:entry key="NotFoundException" value="notFoundError"/>
+			</beans:map>
+		</beans:property>
+		<beans:property name="defaultStatusCode" value="500"/>
+		<beans:property name="defaultErrorView" value="error"/>
+	</beans:bean>
+
+
+
+
+
+
+
+
 	<!-- 
 		Controllers
 	 -->
