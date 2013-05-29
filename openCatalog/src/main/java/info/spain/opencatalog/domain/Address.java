@@ -2,14 +2,14 @@ package info.spain.opencatalog.domain;
 
 public class Address {
 	
-	private String address;
+	private String route;
 	private String city;
 	private String zipCode;
-	public String getAddress() {
-		return address;
+	public String getRoute() {
+		return route;
 	}
-	public Address setAddress(String address) {
-		this.address = address;
+	public Address setRoute(String address) {
+		this.route = address;
 		return this;
 	}
 	public String getCity() {
@@ -28,7 +28,7 @@ public class Address {
 	}
 	
 	public String toString(){
-		return "[address=" + address +
+		return "[route=" + route +
 			   ", city=" + city +
 			   ", zipCode=" + zipCode +
 			   "]";

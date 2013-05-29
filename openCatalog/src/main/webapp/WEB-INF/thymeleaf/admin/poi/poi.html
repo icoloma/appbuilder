@@ -89,23 +89,31 @@
 				
 				<div>
 					<fieldset>
-						<legend th:text="#{poi.address}">Address</legend>
-					 	<input name="address.address" type="text" placeholder="address" th:placeholder="#{poi.address.address}" th:value="*{address.address}" value="C/Unknowed 32"/>
-					 	<input name="address.city" type="text" placeholder="city" th:placeholder="#{poi.address.city}" th:value="*{address.city}" value="Madrid"/>
-					 	<input name="address.zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28000"/>
-					</fieldset>
-
-					<fieldset>
 						<legend th:text="#{poi.coord}">Coordinates</legend>
 						
 						<label th:text="#{poi.coord.lat}">Latitude</label>
-					 	<input name="location.lat" type="number" step="any" placeholder="Latitude"  th:placeholder="#{poi.coord.lat}" th:field="*{location.lat}" value="40.402" />
+					 	<input name="location.lat" type="number" step="any" readonly="readonly" placeholder="Latitude"  th:placeholder="#{poi.coord.lat}" th:field="*{location.lat}" value="40.402" />
 					 	
 					 	<label th:text="#{poi.coord.lng}">Longitude</label>
-					 	<input name="location.lng" type="number" step="any" placeholder="Longitude" th:placeholder="#{poi.coord.lng}" th:field="*{location.lng}" value="-3.233"/>
+					 	<input name="location.lng" type="number" step="any" readonly="readonly" placeholder="Longitude" th:placeholder="#{poi.coord.lng}" th:field="*{location.lng}" value="-3.233"/>
+	
+						<div id="map_canvas" class="map rounded" data-coord=" 40.416957,-3.703794" data:coord="${poi.location.lat + ',' + poi.location.lng}"></div>
+						<div id="dialog"></div>
+						
 					</fieldset>					 	
+
+					<fieldset>
+						<legend th:text="#{poi.address}">Address</legend>
+						<label th:text="#{poi.address.route}">Route</label>
+					 	<input name="address.route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="C/Unknowed 32"/>
+					 	<label th:text="#{poi.address.city}">City</label>
+					 	<input name="address.city" type="text" placeholder="city" th:placeholder="#{poi.address.city}" th:value="*{address.city}" value="Madrid"/>
+					 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
+					 	
+					 	<input name="address.zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28000"/>
+					</fieldset>
+
 				</div>
-				
 				
 				
 				<legend th:text="#{poi.tags}">Tags</legend>
@@ -131,14 +139,22 @@
 	</footer>
 	
 
-	<div th:substituteby="fragments/template :: scripts">
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
 		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
 	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
-	    <script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
-	    <script src="../../../../resources/js/vendor/jquery.tagedit.js"></script>
-	    <script src="../../../../resources/js/vendor/jquery.autoGrowInput.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.js"></script>
 	    <script src="../../../../resources/js/main.js"></script>
+	</div>
+	
+	<div>
+		<div th:remove="all"><!-- PAGE SCRIPTS --></div>
+		<script src="http://maps.google.com/maps/api/js?sensor=true" ></script>
+	    <script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" th:src="@{/resources/js/vendor/jquery-ui-1.9.2.custom.js}"></script>
+	    <script src="../../../../resources/js/vendor/jquery.tagedit.js"         th:src="@{/resources/js/vendor/jquery.tagedit.js}"></script>
+	    <script src="../../../../resources/js/vendor/jquery.autoGrowInput.js"   th:src="@{/resources/js/vendor/jquery.autoGrowInput.js}"></script>
+		<script src="../../../../resources/js/vendor/jquery.ui.map.full.min.js" th:src="@{/resources/js/vendor/jquery.ui.map.full.min.js}"></script>
+		 
 	</div>
 	
 	<div th:substituteby="fragments/template :: tags">
@@ -157,9 +173,65 @@
 						source: tags
 					}
 				});
+			 	
 			});
 		</script>
-	</div> 
+	</div>
+			
+	<script>
+	
+		$(function(){
+			var map = $('#map_canvas'); 
+		 	map.gmap({ 
+		 		'center': map.data("coord"),
+		 		'zoom': 17,
+		 		'callback':function() {
+		 	        var self = this;
+		 	        self.addMarker({ 
+		 	        	'position':  map.data("coord"), 
+		 	        });                                                                                                                                                                                                                               
+		 		}
+		 	}).bind('init', function (event, map) { 
+				$(map).click( function(event) {
+					var $map = $('#map_canvas'); 
+					$map.gmap("clear","markers");
+					$map.gmap("addMarker", { 'position' : event.latLng});
+					$('input[name="location.lat"]').val(event.latLng.lat());
+					$('input[name="location.lng"]').val(event.latLng.lng());
+					
+					$map.gmap('search', {'location': event.latLng}, function(results, status) {
+						if ( status === 'OK' ) {
+							
+							var street_number = '';
+							var route = '';
+							var area = ''
+							
+							$.each(results[0].address_components, function(i,v) {
+								if ( v.types[0] == "administrative_area_level_1" ) {
+									if (!area) {
+										area = v.long_name;
+									}
+								} else if ( v.types[0] == "administrative_area_level_2" ) {
+									area = v.long_name;
+								} else if ( v.types[0] == "route") {
+									route = v.long_name;
+								} else if ( v.types[0] == "street_number") {
+									street_number = ', ' + v.long_name;
+								} else if ( v.types[0] == "postal_code") {
+									$('[name="address.zipCode"]').val(v.long_name);
+								}
+							});
+							$('[name="address.route"]').val(route + street_number);
+							$('[name="address.city"]').val(area);
+							
+						}	
+					});
+
+				});
+			});
+		});
+		
+	</script>
 	
 </body>
 </html>

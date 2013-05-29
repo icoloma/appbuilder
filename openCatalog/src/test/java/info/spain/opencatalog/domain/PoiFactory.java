@@ -38,7 +38,7 @@ public class PoiFactory {
 			.setEn("en-"+key+"-description")
 			.setDe("en-"+key+"-description"))
 		.setAddress(new Address()
-			.setAddress( key + "-address")
+			.setRoute( key + "-address")
 			.setCity( key + "-city")
 			.setZipCode(key+"-zipCode"))
 		.setLocation(randomLocation())

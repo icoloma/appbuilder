@@ -68,7 +68,7 @@ public class PoiControllerTest {
 		MvcResult result = this.mockMvc.perform(post("/admin/poi")
 				.param("name.es", poi.getName().getEs())
 				.param("description.es", poi.getDescription().getEs())
-				.param("address.address", poi.getAddress().getAddress())
+				.param("address.route", poi.getAddress().getRoute())
 				.param("address.city", poi.getAddress().getCity())
 				.param("address.zipCode", poi.getAddress().getZipCode())
 				.param("location.lat", poi.getLocation().getLat().toString())
@@ -95,7 +95,7 @@ public class PoiControllerTest {
 		// Test UPDATE 
 		Poi update = new Poi().setName(new I18nText().setEs("xxx"))
 				.setDescription(new I18nText().setEs("xxx"))
-				.setAddress(new Address().setAddress("xxx").setCity("xxx").setZipCode("xxx"))
+				.setAddress(new Address().setRoute("xxx").setCity("xxx").setZipCode("xxx"))
 				.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
 		update.getTags().add(Tag.EATING_CAFE);
 		update.getTags().add(Tag.LEISURE_BEACH);
@@ -104,7 +104,7 @@ public class PoiControllerTest {
 		result = this.mockMvc.perform(put("/admin/poi/" + id)
 				.param("name.es", update.getName().getEs())
 				.param("description.es", update.getDescription().getEs())
-				.param("address.address", update.getAddress().getAddress())
+				.param("address.route", update.getAddress().getRoute())
 				.param("address.city", update.getAddress().getCity())
 				.param("address.zipCode", update.getAddress().getZipCode())
 				.param("location.lat", update.getLocation().getLat().toString())
@@ -133,7 +133,7 @@ public class PoiControllerTest {
 	private void testEquals(Poi expected, Poi actual){
 		assertEquals(expected.getName().getEs(), actual.getName().getEs());
 		assertEquals(expected.getDescription().getEs(), actual.getDescription().getEs());
-		assertEquals(expected.getAddress().getAddress(), actual.getAddress().getAddress());
+		assertEquals(expected.getAddress().getRoute(), actual.getAddress().getRoute());
 		assertEquals(expected.getAddress().getCity(), actual.getAddress().getCity());
 		assertEquals(expected.getAddress().getZipCode(), actual.getAddress().getZipCode());
 		assertEquals(expected.getLocation().getLat(), actual.getLocation().getLat());
