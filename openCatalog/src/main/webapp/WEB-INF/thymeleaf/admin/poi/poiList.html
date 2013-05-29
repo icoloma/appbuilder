@@ -26,7 +26,7 @@
 		<div th:substituteby="fragments/template :: alert" />
 		
 	
-	   <h1 th:text="#{poi.header}" >Points of Interest</h1>
+	   <h1 th:text="#{poi.pois}" >Points of Interest</h1>
 		
 	    
 	   <div id="table">
@@ -85,13 +85,14 @@
 		<p>&copy; Spain.info</p>
 	</footer>
 	
-	<div th:substituteby="fragments/template :: scripts">
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
 		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
 	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap.min.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap-tagmanager.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.js"></script>
 	    <script src="../../../../resources/js/main.js"></script>
 	</div>
+	
     
 </body>
 </html>

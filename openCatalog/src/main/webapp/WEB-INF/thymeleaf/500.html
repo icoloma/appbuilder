@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="../../resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../resources/css/bootstrap-responsive.min.css"/>
     <link rel="stylesheet" href="../../resources/css/main.css"/>
-    
-</head>
+ </head>
 
 <body>
 	  <!--  Nav bar -->
@@ -26,16 +25,15 @@
         
     <!-- container -->    
 	<div class="container">
-	    <div class="hero-unit">
-	       <h1 th:text="#{home.header}" >OpenCantalog</h1>
-	       <p th:utext="#{home.text}">Acceda al API REST del catálogo</p> 
-	       
-	       <ul>
-	       	<li><a href="admin" th:text="#{home.link.admin.text}">Admin page</a></li>
-			<li><a href="api/" th:text="#{home.link.api.text}">API REST</a></li>
-	       </ul>
-	       
+	    
+   
+	    <h1 th:text="#{error.default.title}">Error !!!</h1>
+	    <div class="alert alert-error">
+		    <p th:text="#{error.default.text}">Internal Error</p>
 	    </div>
+	    
+	    
+	
 	</div>
         
    
@@ -43,16 +41,11 @@
 	<footer th:substituteby="fragments/template :: footerTag">
 	    <hr/>
 		<p>&copy; Spain.info</p>
+	    <script src="../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../resources/js/vendor/bootstrap.min.js"></script>
+		<script src="../../resources/js/main.js"></script>
 	</footer>
-	
-	<div th:substituteby="fragments/template :: scripts" >
-	    <!-- COMMON SCRIPTS -->
-		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
-	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
-	    <script src="../../../../resources/js/vendor/bootstrap.js"></script>
-	    <script src="../../../../resources/js/main.js"></script>
-	</div>
-	
     
 </body>
 </html>

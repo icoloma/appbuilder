@@ -34,22 +34,13 @@
 			</beans:map>
 		</beans:property>
 		<beans:property name="defaultStatusCode" value="500"/>
-		<beans:property name="defaultErrorView" value="error"/>
+		<beans:property name="defaultErrorView"  value="500"/>
 	</beans:bean>
-
-
-
-
-
-
-
 
 	<!-- 
 		Controllers
 	 -->
 	<context:component-scan base-package="info.spain.opencatalog.web" />
 	<view-controller path="/api" view-name="api"/>
-	
-
 
 </beans:beans>
