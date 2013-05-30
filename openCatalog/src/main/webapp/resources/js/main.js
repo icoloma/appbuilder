@@ -1,8 +1,10 @@
 $(function(){
 	
 	// Disable form submit on Enter
+	
 	$("form :input").on("keypress", function(e) {
-	    return e.keyCode != 13;
+		if (this.type != "textarea")
+			return (e.keyCode != 13);
 	});
 	
 	// table.poi : add links to Pois
