@@ -26,3 +26,13 @@
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 }
+
+.tagedit-list > li.tagedit-listelement-old {
+	margin: 0 0 5px 5px;
+}
+.tagedit-list > li.tagedit-listelement-old:first-child {
+	margin-left: 0;
+}
+.tagedit-list > li.tagedit-listelement-new {
+	margin: 0;
+}
