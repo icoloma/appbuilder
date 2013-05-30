@@ -42,45 +42,44 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="es">
 						<label th:text="#{poi.name.es}">Name (ES)</label>
-				  		<input name="name.es" type="text" th:field="*{name.es}" placeholder="Enter poi name (spanish)" th:placeholder="#{poi.name.es.placeholder}" required="required"/>
 				  		<div class="alert alert-error" th:if="${#fields.hasErrors('name')}">
 					  		<ul>
 							  <li th:each="err : ${#fields.errors('name')}" th:text="#{${err}}">Input is incorrect</li>
 							</ul>
 				  		</div>
-			  			
+				  		<input name="name.es" type="text" th:field="*{name.es}" placeholder="Enter poi name (spanish)" th:placeholder="#{poi.name.es.placeholder}" class="input-xxlarge" required="required"/>
 			  			<label th:text="#{poi.description.es}">Description	 (ES)</label>
-			  			<textarea name="description.es" class="input-xxlarge" cols="80" th:field="*{description.es}" placeholder="Enter poi description (spanish)" th:placeholder="#{poi.description.es.placeholder}" required="required" ></textarea>
 			  			<div class="alert alert-error" th:if="${#fields.hasErrors('description')}">
 					  		<ul>
 							  <li th:each="err : ${#fields.errors('description')}" th:text="#{${err}}">Input is incorrect</li>
 							</ul>
 				  		</div>
+			  			<textarea name="description.es" class="input-xxlarge" th:field="*{description.es}" placeholder="Enter poi description (spanish)" th:placeholder="#{poi.description.es.placeholder}" required="required" ></textarea>
 			  		</div>
 			  		<div class="tab-pane" id="en">
 						<label th:text="#{poi.name.en}">Name (EN)</label>
-				  		<input name="name.en" type="text" th:field="*{name.en}" placeholder="Enter poi name (english)" th:placeholder="#{poi.name.en.placeholder}"/>
+				  		<input name="name.en"  class="input-xxlarge"  type="text" th:field="*{name.en}" placeholder="Enter poi name (english)" th:placeholder="#{poi.name.en.placeholder}"/>
 			  			
 			  			<label th:text="#{poi.description.en}">Description	 (EN)</label>
 			  			<textarea name="description.en" class="input-xxlarge" cols="80" th:field="*{description.en}" placeholder="Enter poi description (english)" th:placeholder="#{poi.description.en.placeholder}"></textarea>
 			  		</div>
 			  		<div class="tab-pane" id="fr">
 						<label th:text="#{poi.name.fr}">Name (FR)</label>
-				  		<input name="name.fr" type="text" th:field="*{name.fr}" placeholder="Enter poi name (french)" th:placeholder="#{poi.name.fr.placeholder}"/>
+				  		<input name="name.fr"  class="input-xxlarge"  type="text" th:field="*{name.fr}" placeholder="Enter poi name (french)" th:placeholder="#{poi.name.fr.placeholder}"/>
 			  			
 			  			<label th:text="#{poi.description.fr}">Description	 (FR)</label>
 			  			<textarea  name="description.fr" class="input-xxlarge" cols="80" th:field="*{description.fr}" placeholder="Enter poi description (french)" th:placeholder="#{poi.description.fr.placeholder}"></textarea>
 			  		</div>
 			  		<div class="tab-pane" id="de">
 						<label th:text="#{poi.name.de}">Name (DE)</label>
-				  		<input name="name.de" type="text" th:field="*{name.de}" placeholder="Enter poi name (german)" th:placeholder="#{poi.name.de.placeholder}"/>
+				  		<input name="name.de"  class="input-xxlarge"  type="text" th:field="*{name.de}" placeholder="Enter poi name (german)" th:placeholder="#{poi.name.de.placeholder}"/>
 			  			
 			  			<label th:text="#{poi.description.de}">Description	 (DE)</label>
 			  			<textarea name="description.de" class="input-xxlarge" cols="80" th:field="*{description.de}" placeholder="Enter poi description (german)" th:placeholder="#{poi.description.es.placeholder}"></textarea>
 			  		</div>
 			  		<div class="tab-pane" id="it">
 						<label th:text="#{poi.name.it}">Name (IT)</label>
-				  		<input name="name.it" type="text" th:field="*{name.it}" placeholder="Enter poi name (italian)" th:placeholder="#{poi.name.it.placeholder}"/>
+				  		<input name="name.it"  class="input-xxlarge"  type="text" th:field="*{name.it}" placeholder="Enter poi name (italian)" th:placeholder="#{poi.name.it.placeholder}"/>
 			  			
 			  			<label th:text="#{poi.description.it}">Description	 (IT)</label>
 			  			<textarea name="description.it" class="input-xxlarge" cols="80" th:field="*{description.it}" placeholder="Enter poi description (italian)" th:placeholder="#{poi.description.it.placeholder}" ></textarea>
@@ -90,27 +89,38 @@
 				<div>
 					<fieldset>
 						<legend th:text="#{poi.coord}">Coordinates</legend>
+						<div class="row">
+							<div class="span3">
+								<label th:text="#{poi.coord.lat}">Latitude</label>
+							 	<input name="location.lat" type="number" step="any" readonly="readonly" placeholder="Latitude"  th:placeholder="#{poi.coord.lat}" th:field="*{location.lat}" value="40.402" class="input-medium" />
+							</div>
+							<div class="span3">
+							 	<label th:text="#{poi.coord.lng}">Longitude</label>
+							 	<input name="location.lng" type="number" step="any" readonly="readonly" placeholder="Longitude" th:placeholder="#{poi.coord.lng}" th:field="*{location.lng}" value="-3.233" class="input-medium"/>
+							</div>						 	
+						</div>
 						
-						<label th:text="#{poi.coord.lat}">Latitude</label>
-					 	<input name="location.lat" type="number" step="any" readonly="readonly" placeholder="Latitude"  th:placeholder="#{poi.coord.lat}" th:field="*{location.lat}" value="40.402" />
-					 	
-					 	<label th:text="#{poi.coord.lng}">Longitude</label>
-					 	<input name="location.lng" type="number" step="any" readonly="readonly" placeholder="Longitude" th:placeholder="#{poi.coord.lng}" th:field="*{location.lng}" value="-3.233"/>
-	
-						<div id="map_canvas" class="map rounded" data-coord=" 40.416957,-3.703794" data:coord="${poi.location.lat + ',' + poi.location.lng}"></div>
-						<div id="dialog"></div>
-						
+						<div class="item rounded dark">
+							<div id="map_canvas" class="map rounded" data-coord=" 40.416957,-3.703794" data:coord="${poi.location.lat + ',' + poi.location.lng}"></div>
+						</div>
 					</fieldset>					 	
 
 					<fieldset>
 						<legend th:text="#{poi.address}">Address</legend>
-						<label th:text="#{poi.address.route}">Route</label>
-					 	<input name="address.route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="C/Unknowed 32"/>
-					 	<label th:text="#{poi.address.city}">City</label>
-					 	<input name="address.city" type="text" placeholder="city" th:placeholder="#{poi.address.city}" th:value="*{address.city}" value="Madrid"/>
-					 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
-					 	
-					 	<input name="address.zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28000"/>
+						<div class="row">
+							<div class="span4">
+								<label th:text="#{poi.address.route}">Route</label>
+								<input name="address.route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="C/Unknowed 32"/>
+							</div>
+						 	<div class="span4">
+							 	<label th:text="#{poi.address.city}">City</label>
+							 	<input name="address.city" type="text" placeholder="city" th:placeholder="#{poi.address.city}" th:value="*{address.city}" value="Madrid"/>
+							</div>
+							<div class="span4">
+							 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
+							 	<input name="address.zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28000"/>
+							</div>
+						</div>
 					</fieldset>
 
 				</div>
@@ -119,10 +129,14 @@
 				<legend th:text="#{poi.tags}">Tags</legend>
 				<div id="tags" >
 					<input th:each="tag : ${poi.tagsInfo}" type="text" name="tag[]" th:name="${'tag[' + tag.id + ']'}" th:value="#{'tags.' + ${tag.key}}"  class="tag"/>
-					<input type="text" name="tag[3-a]" value="Lodging/Hotel" class="tag" th:remove="all"/>
+					<input type="text" name="tag[3-a]" value="Lodging/A" class="tag" th:remove="all"/>
+					<input type="text" name="tag[3-a]" value="Lodging/B" class="tag" th:remove="all"/>
+					<input type="text" name="tag[3-a]" value="Lodging/C" class="tag" th:remove="all"/>
+					<input type="text" name="tag[3-a]" value="Lodging/D" class="tag" th:remove="all"/>
+					<input type="text" name="tag[3-a]" value="Lodging/E" class="tag" th:remove="all"/>
 					<input type="text" name="tag[]" class="tag"/>
 				</div>
-	  
+	  		<hr/>
 			<div class="well">
 				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
 	  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
