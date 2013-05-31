@@ -37,14 +37,17 @@ public class PoiController extends AbstractController {
 	
 	
 	/**
-	 * PAGEABLE LIST
+	 * SEARCH
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Model model, @PageableDefaults(sort="name.es") Pageable pageable) {
-		Page<Poi>page  = poiRepository.findAll(pageable);
+	public String search(Model model, @PageableDefaults(sort="name.es") Pageable pageable, @RequestParam(value="q",required=false) String q) {
+		String query = q == null ? "" : q; 
+		Page<Poi>page  = poiRepository.findByNameEsLike(query, pageable);
 		model.addAttribute("page", page);
+		model.addAttribute("q", query);
 		return "admin/poi/poiList";
 	}
+
 	
 	/**
 	 * SHOW

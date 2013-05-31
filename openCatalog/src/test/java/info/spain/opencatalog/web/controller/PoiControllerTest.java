@@ -69,7 +69,8 @@ public class PoiControllerTest {
 				.param("name.es", poi.getName().getEs())
 				.param("description.es", poi.getDescription().getEs())
 				.param("address.route", poi.getAddress().getRoute())
-				.param("address.city", poi.getAddress().getCity())
+				.param("address.adminArea1", poi.getAddress().getAdminArea1())
+				.param("address.adminArea2", poi.getAddress().getAdminArea2())
 				.param("address.zipCode", poi.getAddress().getZipCode())
 				.param("location.lat", poi.getLocation().getLat().toString())
 				.param("location.lng", poi.getLocation().getLng().toString())
@@ -95,7 +96,7 @@ public class PoiControllerTest {
 		// Test UPDATE 
 		Poi update = new Poi().setName(new I18nText().setEs("xxx"))
 				.setDescription(new I18nText().setEs("xxx"))
-				.setAddress(new Address().setRoute("xxx").setCity("xxx").setZipCode("xxx"))
+				.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"))
 				.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
 		update.getTags().add(Tag.EATING_CAFE);
 		update.getTags().add(Tag.LEISURE_BEACH);
@@ -105,7 +106,8 @@ public class PoiControllerTest {
 				.param("name.es", update.getName().getEs())
 				.param("description.es", update.getDescription().getEs())
 				.param("address.route", update.getAddress().getRoute())
-				.param("address.city", update.getAddress().getCity())
+				.param("address.adminArea1", update.getAddress().getAdminArea1())
+				.param("address.adminArea2", update.getAddress().getAdminArea2())
 				.param("address.zipCode", update.getAddress().getZipCode())
 				.param("location.lat", update.getLocation().getLat().toString())
 				.param("location.lng", update.getLocation().getLng().toString())
@@ -134,7 +136,8 @@ public class PoiControllerTest {
 		assertEquals(expected.getName().getEs(), actual.getName().getEs());
 		assertEquals(expected.getDescription().getEs(), actual.getDescription().getEs());
 		assertEquals(expected.getAddress().getRoute(), actual.getAddress().getRoute());
-		assertEquals(expected.getAddress().getCity(), actual.getAddress().getCity());
+		assertEquals(expected.getAddress().getAdminArea1(), actual.getAddress().getAdminArea1());
+		assertEquals(expected.getAddress().getAdminArea2(), actual.getAddress().getAdminArea2());
 		assertEquals(expected.getAddress().getZipCode(), actual.getAddress().getZipCode());
 		assertEquals(expected.getLocation().getLat(), actual.getLocation().getLat());
 		assertEquals(expected.getLocation().getLng(), actual.getLocation().getLng());

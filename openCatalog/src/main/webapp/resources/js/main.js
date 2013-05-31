@@ -3,7 +3,7 @@ $(function(){
 	// Disable form submit on Enter
 	
 	$("form :input").on("keypress", function(e) {
-		if (this.type != "textarea")
+		if (this.type != "textarea" && !this.hasClass("search-query"))
 			return (e.keyCode != 13);
 	});
 	

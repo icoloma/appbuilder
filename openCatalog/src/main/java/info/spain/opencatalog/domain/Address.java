@@ -2,12 +2,14 @@ package info.spain.opencatalog.domain;
 
 public class Address {
 	
-	public static final String DEFAULT_ROUTE   = "Plaza Puerta del Sol";
-	public static final String DEFAULT_CITY    = "Madrid";
+	public static final String DEFAULT_ROUTE = "Plaza Puerta del Sol";
+	public static final String DEFAULT_ADMIN_AREA_1 = "Comunidad de Madrid";
+	public static final String DEFAULT_ADMIN_AREA_2 = "Madrid";
 	public static final String DEFAULT_ZIPCODE = "28013";
 	
 	private String route = DEFAULT_ROUTE;
-	private String city = DEFAULT_CITY;
+	private String adminArea1 = DEFAULT_ADMIN_AREA_1;
+	private String adminArea2 = DEFAULT_ADMIN_AREA_2;
 	private String zipCode = DEFAULT_ZIPCODE;
 	
 	public String getRoute() {
@@ -17,13 +19,7 @@ public class Address {
 		this.route = address;
 		return this;
 	}
-	public String getCity() {
-		return city;
-	}
-	public Address setCity(String city) {
-		this.city = city;
-		return this;
-	}
+
 	public String getZipCode() {
 		return zipCode;
 	}
@@ -32,9 +28,25 @@ public class Address {
 		return this;
 	}
 	
+	public String getAdminArea1() {
+		return adminArea1;
+	}
+	public Address setAdminArea1(String adminArea1) {
+		this.adminArea1 = adminArea1;
+		return this;
+	}
+	
+	public String getAdminArea2() {
+		return adminArea2;
+	}
+	public Address setAdminArea2(String adminArea2) {
+		this.adminArea2 = adminArea2;
+		return this;
+	}
 	public String toString(){
 		return "[route=" + route +
-			   ", city=" + city +
+			   ", adminArea1=" + adminArea1+
+			   ", adminArea2=" + adminArea2+
 			   ", zipCode=" + zipCode +
 			   "]";
 	}

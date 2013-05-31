@@ -26,23 +26,26 @@
 		<div th:substituteby="fragments/template :: alert" />
 		
 	
-	   <h1 th:text="#{poi.pois}" >Points of Interest</h1>
+		<h1 th:text="#{poi.pois}" >Points of Interest</h1>
 		
-	    
-	   <div id="table">
-	   		
-	   		<ul class="pager" data-page="0" data-pages="5" data:page="${page.number}" data:pages="${page.totalPages}">
-			  <li class="previous"><a  href="#" th:href="@{/admin/poi/(page.page=${page.number})}" th:text="#{pager.prev}">Previous</a></li>
-			  <li th:text="#{pager.detail(${page.number+1}, ${page.totalPages}, ${page.totalElements})}">Page 0 of 5</li>
-			  <li class="next" ><a href="#" th:href="@{/admin/poi/(page.page=${page.number+2})}" th:text="#{pager.next}">Next</a></li>
-			</ul>
+		<div class="navbar">
+			<div class="navbar-inner">
+				<form class="form-search  pull-right" action="#" th:action="@{'/admin/poi'}" method="GET" >
+					<div class="input-append">
+						<input type="text" name="q" class="span3 search-query" th:value="${q}"/>
+						<button type="submit" class="btn" th:text="#{button.search}">Search</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	   
+	   <div id="table">
 	    	<table class="table table-striped table-hover table-bordered poi">
 			  <thead>
 			    <tr>
 			      <th th:text="#{poi.rows.head.name}">Name</th>
 			      <th th:text="#{poi.rows.head.description}">Description</th>
-			      <th th:text="#{poi.rows.head.city}">City</th>
+			      <th th:text="#{poi.rows.head.adminArea1}">Admin Area 1</th>
 			      <th th:text="#{poi.rows.head.coordinates}">Coordinates</th>
 			    </tr>
 			  </thead>
@@ -50,25 +53,30 @@
 			    <tr th:each="poi : ${page.content}" data:link="@{'/admin/poi/' + ${poi.id}}" data-id="1">
 			      <td th:text="${poi.name.es}">Pico del Teide</td>
 			      <td th:text="${#strings.abbreviate(poi.description.es,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
-			      <td th:text="${poi.address.city}">Tenerife</td>
-			      <td>[<span th:text="${#numbers.formatDecimal(poi.location.lat,3,4,'POINT')}">28.2716</span>,
-			           <span th:text="${#numbers.formatDecimal(poi.location.lng,3,4,'POINT')}">-16.6424</span>
-			          ]
-			      </td>
+			      <td th:text="${poi.address.adminArea1}">Canarias</td>
+			      <td>[<span th:text="${#numbers.formatDecimal(poi.location.lat,3,4,'POINT')}">28.2716</span>, <span th:text="${#numbers.formatDecimal(poi.location.lng,3,4,'POINT')}">-16.6424</span>]</td>
 			      	
 			    </tr>
 			    <tr th:remove="all"  data-id="2">
 			      <td>Pico del Teide</td>
 			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>Canarias</td>
 			      <td>[28.2716,-16.6424]</td>
 			    </tr>
 			    <tr th:remove="all" data-id="3">
 			      <td>Pico del Teide</td>
 			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>Canarias</td>
 			      <td>[28.2716,-16.6424]</td>
 			    </tr>
 			  </tbody>
 			</table>
+			<ul class="pager" data-page="0" data-pages="5" data:page="${page.number}" data:pages="${page.totalPages}">
+			  <li class="previous"><a  href="#" th:href="@{/admin/poi/(page.page=${page.number},q=${q})}" th:text="#{pager.prev}">Previous</a></li>
+			  <li th:text="#{pager.detail(${page.number+1}, ${page.totalPages}, ${page.totalElements})}">Page 0 of 5</li>
+			  <li class="next" ><a href="#" th:href="@{/admin/poi/(page.page=${page.number+2},q=${q})}" th:text="#{pager.next}">Next</a></li>
+			</ul>
+			
 			<div class="well">
 		    	<a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a>
 		    </div>
