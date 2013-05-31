@@ -7,8 +7,8 @@ $(function(){
 			return (e.keyCode != 13);
 	});
 	
-	// table.poi : add links to Pois
-	$("table.poi tbody tr").each( function(){
+	// add links to data-links items
+	$(".dataLink").each( function(){
 		$(this).click( function(){
 			window.location= $(this).data("link");
 		} );
