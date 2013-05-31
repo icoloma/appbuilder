@@ -4632,423 +4632,423 @@
   ],
   "categories": [
     {
-      "uuid": "see",
       "name": {
         "en": "see",
         "es": "ver"
-      }
+      },
+      "id": "see"
     },
     {
-      "uuid": "buy",
       "name": {
         "en": "buy",
         "es": "comprar"
-      }
+      },
+      "id": "buy"
     },
     {
-      "uuid": "do",
       "name": {
         "en": "do",
         "es": "hacer"
-      }
+      },
+      "id": "do"
     },
     {
-      "uuid": "sleep",
       "name": {
         "en": "sleep",
         "es": "dormir"
-      }
+      },
+      "id": "sleep"
     },
     {
-      "uuid": "eat",
       "name": {
         "en": "eat",
         "es": "comer"
-      }
+      },
+      "id": "eat"
     },
     {
-      "uuid": "get-in",
       "name": {
         "en": "get-in",
         "es": "llegar"
-      }
+      },
+      "id": "get-in"
     },
     {
-      "uuid": "get-around",
       "name": {
         "en": "get-around",
         "es": "moverse"
-      }
+      },
+      "id": "get-around"
     }
   ],
   "subcategories": [
     {
-      "uuid": "etiam",
       "name": {
         "es": "es-etiam",
         "en": "etiam"
       },
-      "category": "buy"
+      "category": "buy",
+      "id": "etiam"
     },
     {
-      "uuid": "quis",
       "name": {
         "es": "es-quis",
         "en": "quis"
       },
-      "category": "do"
+      "category": "do",
+      "id": "quis"
     },
     {
-      "uuid": "orci",
       "name": {
         "es": "es-orci",
         "en": "orci"
       },
-      "category": "do"
+      "category": "do",
+      "id": "orci"
     },
     {
-      "uuid": "felis",
       "name": {
         "es": "es-felis",
         "en": "felis"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "felis"
     },
     {
-      "uuid": "fringilla",
       "name": {
         "es": "es-fringilla",
         "en": "fringilla"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "fringilla"
     },
     {
-      "uuid": "erat",
       "name": {
         "es": "es-erat",
         "en": "erat"
       },
-      "category": "get-around"
+      "category": "get-around",
+      "id": "erat"
     },
     {
-      "uuid": "integer",
       "name": {
         "es": "es-integer",
         "en": "integer"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "integer"
     },
     {
-      "uuid": "non",
       "name": {
         "es": "es-non",
         "en": "non"
       },
-      "category": "do"
+      "category": "do",
+      "id": "non"
     },
     {
-      "uuid": "dui",
       "name": {
         "es": "es-dui",
         "en": "dui"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "dui"
     },
     {
-      "uuid": "ac",
       "name": {
         "es": "es-ac",
         "en": "ac"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "ac"
     },
     {
-      "uuid": "massa",
       "name": {
         "es": "es-massa",
         "en": "massa"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "massa"
     },
     {
-      "uuid": "mollis",
       "name": {
         "es": "es-mollis",
         "en": "mollis"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "mollis"
     },
     {
-      "uuid": "laoreet",
       "name": {
         "es": "es-laoreet",
         "en": "laoreet"
       },
-      "category": "see"
+      "category": "see",
+      "id": "laoreet"
     },
     {
-      "uuid": "sed",
       "name": {
         "es": "es-sed",
         "en": "sed"
       },
-      "category": "buy"
+      "category": "buy",
+      "id": "sed"
     },
     {
-      "uuid": "nulla",
       "name": {
         "es": "es-nulla",
         "en": "nulla"
       },
-      "category": "see"
+      "category": "see",
+      "id": "nulla"
     },
     {
-      "uuid": "nam",
       "name": {
         "es": "es-nam",
         "en": "nam"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "nam"
     },
     {
-      "uuid": "et",
       "name": {
         "es": "es-et",
         "en": "et"
       },
-      "category": "buy"
+      "category": "buy",
+      "id": "et"
     },
     {
-      "uuid": "vehicula",
       "name": {
         "es": "es-vehicula",
         "en": "vehicula"
       },
-      "category": "get-around"
+      "category": "get-around",
+      "id": "vehicula"
     },
     {
-      "uuid": "nunc",
       "name": {
         "es": "es-nunc",
         "en": "nunc"
       },
-      "category": "get-around"
+      "category": "get-around",
+      "id": "nunc"
     },
     {
-      "uuid": "nullam",
       "name": {
         "es": "es-nullam",
         "en": "nullam"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "nullam"
     },
     {
-      "uuid": "id",
       "name": {
         "es": "es-id",
         "en": "id"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "id"
     },
     {
-      "uuid": "nisl",
       "name": {
         "es": "es-nisl",
         "en": "nisl"
       },
-      "category": "do"
+      "category": "do",
+      "id": "nisl"
     },
     {
-      "uuid": "pellentesque",
       "name": {
         "es": "es-pellentesque",
         "en": "pellentesque"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "pellentesque"
     },
     {
-      "uuid": "congue",
       "name": {
         "es": "es-congue",
         "en": "congue"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "congue"
     },
     {
-      "uuid": "imperdiet",
       "name": {
         "es": "es-imperdiet",
         "en": "imperdiet"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "imperdiet"
     },
     {
-      "uuid": "tortor",
       "name": {
         "es": "es-tortor",
         "en": "tortor"
       },
-      "category": "do"
+      "category": "do",
+      "id": "tortor"
     },
     {
-      "uuid": "vitae",
       "name": {
         "es": "es-vitae",
         "en": "vitae"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "vitae"
     },
     {
-      "uuid": "vestibulum",
       "name": {
         "es": "es-vestibulum",
         "en": "vestibulum"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "vestibulum"
     },
     {
-      "uuid": "lorem",
       "name": {
         "es": "es-lorem",
         "en": "lorem"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "lorem"
     },
     {
-      "uuid": "duis",
       "name": {
         "es": "es-duis",
         "en": "duis"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "duis"
     },
     {
-      "uuid": "gravida",
       "name": {
         "es": "es-gravida",
         "en": "gravida"
       },
-      "category": "buy"
+      "category": "buy",
+      "id": "gravida"
     },
     {
-      "uuid": "purus",
       "name": {
         "es": "es-purus",
         "en": "purus"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "purus"
     },
     {
-      "uuid": "justo",
       "name": {
         "es": "es-justo",
         "en": "justo"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "justo"
     },
     {
-      "uuid": "vel",
       "name": {
         "es": "es-vel",
         "en": "vel"
       },
-      "category": "see"
+      "category": "see",
+      "id": "vel"
     },
     {
-      "uuid": "ornare",
       "name": {
         "es": "es-ornare",
         "en": "ornare"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "ornare"
     },
     {
-      "uuid": "ligula",
       "name": {
         "es": "es-ligula",
         "en": "ligula"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "ligula"
     },
     {
-      "uuid": "mauris",
       "name": {
         "es": "es-mauris",
         "en": "mauris"
       },
-      "category": "sleep"
+      "category": "sleep",
+      "id": "mauris"
     },
     {
-      "uuid": "metus",
       "name": {
         "es": "es-metus",
         "en": "metus"
       },
-      "category": "buy"
+      "category": "buy",
+      "id": "metus"
     },
     {
-      "uuid": "nisi",
       "name": {
         "es": "es-nisi",
         "en": "nisi"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "nisi"
     },
     {
-      "uuid": "dolor",
       "name": {
         "es": "es-dolor",
         "en": "dolor"
       },
-      "category": "get-around"
+      "category": "get-around",
+      "id": "dolor"
     },
     {
-      "uuid": "rutrum",
       "name": {
         "es": "es-rutrum",
         "en": "rutrum"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "rutrum"
     },
     {
-      "uuid": "fermentum",
       "name": {
         "es": "es-fermentum",
         "en": "fermentum"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "fermentum"
     },
     {
-      "uuid": "volutpat",
       "name": {
         "es": "es-volutpat",
         "en": "volutpat"
       },
-      "category": "eat"
+      "category": "eat",
+      "id": "volutpat"
     },
     {
-      "uuid": "eget",
       "name": {
         "es": "es-eget",
         "en": "eget"
       },
-      "category": "get-around"
+      "category": "get-around",
+      "id": "eget"
     },
     {
-      "uuid": "euismod",
       "name": {
         "es": "es-euismod",
         "en": "euismod"
       },
-      "category": "see"
+      "category": "see",
+      "id": "euismod"
     },
     {
-      "uuid": "lobortis",
       "name": {
         "es": "es-lobortis",
         "en": "lobortis"
       },
-      "category": "get-in"
+      "category": "get-in",
+      "id": "lobortis"
     }
   ]
 }

@@ -19,7 +19,7 @@ define(
           cat = json.categories[i];
           cat.name = cat.name[locale];
           obj = new Db.Category(cat);
-          catHash[cat.uuid] = obj;
+          catHash[cat.id] = obj;
           persistence.add(obj);
         }
 
@@ -28,7 +28,7 @@ define(
           subcat.name = subcat.name[locale];
           obj = new Db.SubCategory(_.omit(subcat, 'category'));
           obj.category = catHash[subcat.category];
-          subcatHash[subcat.uuid] = obj;
+          subcatHash[subcat.id] = obj;
           persistence.add(obj);
         }
 
@@ -36,7 +36,7 @@ define(
           poi = json.pois[i];
           poi.name = poi.name[locale];
           poi.description = poi.description[locale];
-          obj = new Db.Poi(_.omit(poi, 'subcategory')); //TODO: qué hacer con el id o uuid de poi
+          obj = new Db.Poi(_.omit(poi, 'subcategory'));
           obj.subcategory = subcatHash[poi.subcategory];
           persistence.add(obj);
         }
