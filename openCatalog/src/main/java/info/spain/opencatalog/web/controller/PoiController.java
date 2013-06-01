@@ -67,7 +67,7 @@ public class PoiController extends AbstractController {
 	 * CREATE 
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(@Valid PoiForm poiForm ,BindingResult errors,  Model model) {
+	public String create(@Valid @ModelAttribute("poi") PoiForm poiForm ,BindingResult errors,  Model model) {
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
