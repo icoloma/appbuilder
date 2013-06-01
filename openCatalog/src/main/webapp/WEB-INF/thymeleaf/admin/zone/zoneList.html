@@ -52,7 +52,7 @@
 			    <tr th:each="zone : ${page.content}" data:link="@{'/admin/zone/' + ${zone.id}}" data-id="1" class="dataLink" data-link="zone.html">
 			      <td th:text="${zone.name}">Tenerife Sur</td>
 			      <td th:text="${#strings.abbreviate(zone.description,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
-			      <td th:text="${zone.adminArea1}">Canarias</td>
+			      <td th:text="${zone.address.adminArea1}">Canarias</td>
 			    </tr>
 			    <tr th:remove="all"  data-id="2" data-link="zone.html" class="dataLink" >
 			      <td>Pico del Teide</td>

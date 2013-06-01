@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -42,7 +43,7 @@ public class Zone implements Serializable {
 	private Address address = new Address();
 	
 
-	@NotNull
+	@NotEmpty(message="error.notEmpty.path")
 	private List<GeoLocation> path = new ArrayList<GeoLocation>(); 	// p
 	
 	

@@ -29,7 +29,11 @@
 		<h1 th:text="#{zone.header}" >Zone</h1>
         
         
-		<form id="zoneForm" action="#" th:action="@{'/admin/zone/' + ${zone.id?:''}}" th:object="${zone}" method="POST" data:id="${zone.id?:''}" data-id="1">
+		<form id="zoneForm" action="#" data-id="1" method="POST"  
+			th:action="@{'/admin/zone/' + ${zone.id?:''}}" 
+			th:object="${zone}" 
+			data:id="${zone.id?:''}" >
+		 	
 		 	<input th:if="${zone.id}" type="hidden" name="_method" value="PUT" />
 		
 			<div>
@@ -52,26 +56,33 @@
 			</div>
 		
 			
-			<div class="item rounded dark">
-				<div id="map_canvas" class="zoneMap rounded" ></div>
-				<input type="hidden" name="zone" />
-			</div>
-			<div>
-				<fieldset>
-					<legend th:text="#{zone.address}">Address</legend>
-					<div class="row span7">
-					 	<div class="span3">
-						 	<label th:text="#{zone.address.adminArea2}">Admin Area 2</label>
-						 	<input name="zone.address.adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{zone.address.adminArea2}" th:value="*{address.adminArea2}" value="Madrid"/>
-						</div>
-					 	<div class="span3">
-						 	<label th:text="#{zone.address.adminArea1}">Admin Area 1</label>
-						 	<input name="zone.address.adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{zone.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid"/>
-						</div>
+			<fieldset>
+				<legend th:text="#{zone.address}">Address</legend>
+				<div class="row">
+				 	<div class="span3">
+					 	<label th:text="#{zone.address.adminArea2}">Admin Area 2</label>
+					 	<input name="zone.address.adminArea2" id="adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{zone.address.adminArea2}"  th:field="*{address.adminArea2}" value="Madrid"/>
 					</div>
-				</fieldset>
-			</div>
-				
+				 	<div class="span3">
+					 	<label th:text="#{zone.address.adminArea1}">Admin Area 1</label>
+					 	<input name="zone.address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{zone.address.adminArea1}" th:field="*{address.adminArea1}" value="Comunidad de Madrid"/>
+					</div>
+				</div>
+			</fieldset>
+			
+			<fieldset>
+				<legend th:text="#{zone.path}">Path</legend>
+				<div class="alert alert-error" th:if="${#fields.hasErrors('path')}">
+			  		<ul>
+					  <li th:each="err : ${#fields.errors('path')}" th:text="#{${err}}">Input is incorrect</li>
+					</ul>
+		  		</div>
+				<div class="item rounded dark">
+					<div id="map_canvas" class="zoneMap rounded" 
+						data-path="[[40.3549167507906,-3.8081359863281],[40.3004760797494,-3.6392211914062],[40.4406762626823,-3.7820434570312]]"
+						data:path="${zone.pathArray}"></div>
+				</div>
+			</fieldset>	
 	  		<hr/>
 			<div class="well">
 				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
@@ -100,24 +111,23 @@
 	<div>
 		<div th:remove="all"><!-- PAGE SCRIPTS --></div>
 	
-		<script src="http://goo.gl/BIpGZ" th:src="@{http://maps.googleapis.com/maps/api/js(libraries='drawing',sensor='true')}" ></script>
-		
+	    <script src="http://maps.googleapis.com/maps/api/js?libraries=drawing&amp;sensor=true" ></script>	
 		<script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" 	th:src="@{/resources/js/vendor/jquery-ui-1.9.2.custom.js}"></script>
-	    <script src="../../../../resources/js/vendor/jquery.tagedit.js"         	th:src="@{/resources/js/vendor/jquery.tagedit.js}"></script>
-	    <script src="../../../../resources/js/vendor/jquery.autoGrowInput.js"   	th:src="@{/resources/js/vendor/jquery.autoGrowInput.js}"></script>
 		<script src="../../../../resources/js/vendor/jquery.ui.map.js"				th:src="@{/resources/js/vendor/jquery.ui.map.js}"></script>
-		<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" 	th:src="@{/resources/js/vendor/jquery.ui.map.services.js}"></script>
-		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" 	th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
+				<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" th:src="@{/resources/js/vendor/jquery.ui.map.services.js}"></script>
+		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
+		
 	</div>
 	
 	<script>
 	// <![CDATA[
 	// 
-	$(function(){
+   $(function(){
 		
 		var overlay;
 		
 		var latlng = new google.maps.LatLng(40.416957,-3.703794); // Madrid
+		
 		var map = $('#map_canvas').gmap('get','map');
 		$('#map_canvas').gmap();
 		map.panTo(latlng);
@@ -134,10 +144,7 @@
 			},
 			polygonOptions: {
 			    editable:true
-			},
-			rectangleOptions: {
-			    editable:true
-			},
+			}
 		});
 		drawingManager.setMap(map);
 		google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
@@ -146,9 +153,31 @@
 			overlay = event.overlay;
 		});
 		
+		
+		var dataPath = $("#map_canvas").data("path");
+		if (dataPath && dataPath.length > 0){
+			var pathCoords = [];
+			var bounds = new google.maps.LatLngBounds();
+			dataPath.forEach(function(elem){
+				var coord =  new google.maps.LatLng(elem[0],elem[1]);
+				pathCoords.push(coord);
+				bounds.extend(coord);
+			});
+			overlay = new google.maps.Polygon({
+				paths: pathCoords,
+			});
+			map.fitBounds(bounds);
+			overlay.setMap(map);
+			overlay.setEditable(true);
+		}
+		
 		$(".saveButton").click(function(event){
-			event.preventDefault();
 			var form = $($(this).closest('form'));
+			
+			if (!overlay){
+				return;
+			}
+			
 		    var path = overlay.getPath().getArray();
 		    for (i=0;i<path.length;i++){
 		    	var step = path[i];
@@ -164,7 +193,13 @@
 		    	}).appendTo($('#zoneForm'));
 		    }
 		});
+		
+		$('#map_canvas').gmap('autocomplete', 'gsearcher', function(ui) {
+			addAddress(ui.item.position);
+			map.setCenter(ui.item.position);
+		});
 	});
+	
 	// ]]>
 	</script>
 	

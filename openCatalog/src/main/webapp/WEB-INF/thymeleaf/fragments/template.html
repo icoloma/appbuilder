@@ -39,7 +39,14 @@
                         <ul class="nav">
                             <li><a href="#" th:href="@{/}"       th:text="#{nav.home}">Home</a></li>
                             <li><a href="#" th:href="@{/api/}"   th:text="#{nav.api}">API</a></li>
-                            <li><a href="#" th:href="@{/admin/}" th:text="#{nav.admin}">Admin</a></li>
+                            
+                            <li class="dropdown">
+		                        <a class="dropdown-toggle" data-toggle="dropdown" th:text="#{nav.admin}">Admin<b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                          <li><a th:href="@{/admin/poi/}" th:text="#{poi.pois}">Points of interest</a></li>
+		                          <li><a th:href="@{/admin/zone/}" th:text="#{zone.zones}">Zones</a></li>
+		                        </ul>
+		                    </li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>

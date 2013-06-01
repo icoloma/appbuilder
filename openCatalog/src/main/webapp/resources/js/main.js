@@ -3,7 +3,7 @@ $(function(){
 	// Disable form submit on Enter
 	
 	$("form :input").on("keypress", function(e) {
-		if (this.type != "textarea" && !this.hasClass("search-query"))
+		if (this.type != "textarea" && !$(this).hasClass("search-query"))
 			return (e.keyCode != 13);
 	});
 	
@@ -41,6 +41,37 @@ $(function(){
 			$(this).removeAttr("required");
 		});
 	});
+	
+	
+	addAddress = function (latLng){
+		$('#map_canvas').gmap('search', {'location': latLng}, function(results, status) {
+			if ( status === 'OK' ) {
+				processAddressComponents(results[0].address_components);
+			}	
+		});
+	};
+	
+	processAddressComponents = function( address_components ){
+		
+		var street_number = '';
+		var route = '';
+		
+		$.each(address_components, function(i,v) {
+			if ( v.types[0] == "administrative_area_level_1" ) {
+				$('#adminArea1').val(v.long_name);
+			} else if ( v.types[0] == "administrative_area_level_2" ) {
+				$('#adminArea2').val(v.long_name);
+			} else if ( v.types[0] == "route") {
+				route = v.long_name;
+			} else if ( v.types[0] == "street_number") {
+				street_number = ', ' + v.long_name;
+			} else if ( v.types[0] == "postal_code") {
+				$('#zipCode').val(v.long_name);
+			}
+		});
+		$('#route').val(route + street_number);
+		
+	};
 	
 });
 

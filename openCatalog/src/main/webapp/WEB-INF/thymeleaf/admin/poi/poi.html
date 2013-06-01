@@ -113,19 +113,19 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 						<div class="row">
 							<div class="span3">
 								<label th:text="#{poi.address.route}">Route</label>
-								<input name="address.route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="Plaza Puerta del Sol"/>
+								<input name="address.route" id="route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="Plaza Puerta del Sol"/>
 							</div>
 						 	<div class="span3">
 							 	<label th:text="#{poi.address.adminArea2}">Admin Area 2</label>
-							 	<input name="address.adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{poi.address.adminArea2}" th:value="*{address.adminArea2}" value="Madrid"/>
+							 	<input name="address.adminArea2" id="adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{poi.address.adminArea2}" th:value="*{address.adminArea2}" value="Madrid"/>
 							</div>
 						 	<div class="span3">
 							 	<label th:text="#{poi.address.adminArea1}">Admin Area 1</label>
-							 	<input name="address.adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid"/>
+							 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid"/>
 							</div>
 							<div class="span3">
 							 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
-							 	<input name="address.zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28013"/>
+							 	<input name="address.zipCode" id="zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28013"/>
 							</div>
 						</div>
 					</fieldset>
@@ -232,13 +232,7 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 			addAddress(ui.item.position);
 		});
 		
-		function addAddress(latLng){
-			$('#map_canvas').gmap('search', {'location': latLng}, function(results, status) {
-				if ( status === 'OK' ) {
-					processAddressComponents(results[0].address_components);
-				}	
-			});
-		}
+		
 		function addMarker(latLng){
 			map.gmap('clear','markers');
 			map.gmap('addMarker', { 'position' : latLng }, function(map, marker){
@@ -250,27 +244,7 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 			
 		}
 		
-		function processAddressComponents( address_components ){
-			
-			var street_number = '';
-			var route = '';
-			
-			$.each(address_components, function(i,v) {
-				if ( v.types[0] == "administrative_area_level_1" ) {
-					$('[name="address.adminArea1"]').val(v.long_name);
-				} else if ( v.types[0] == "administrative_area_level_2" ) {
-					$('[name="address.adminArea2"]').val(v.long_name);
-				} else if ( v.types[0] == "route") {
-					route = v.long_name;
-				} else if ( v.types[0] == "street_number") {
-					street_number = ', ' + v.long_name;
-				} else if ( v.types[0] == "postal_code") {
-					$('[name="address.zipCode"]').val(v.long_name);
-				}
-			});
-			$('[name="address.route"]').val(route + street_number);
-			
-		}
+		
 	});
 
 	</script>
