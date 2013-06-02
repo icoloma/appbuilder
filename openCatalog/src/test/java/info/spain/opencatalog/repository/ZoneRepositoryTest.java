@@ -51,7 +51,7 @@ public class ZoneRepositoryTest {
 		Zone zone = ZoneFactory.newZone("findByName");
 		mongoTemplate.save(zone);
 		Pageable pageable = new PageRequest(0, 10);
-		Page<Zone> result = zoneRepository.findByNameLike(zone.getName(), pageable);
+		Page<Zone> result = zoneRepository.findByNameIgnoreCaseLike(zone.getName(), pageable);
 	
 		assertEquals(result.getContent().get(0).getName(), zone.getName());
 		mongoTemplate.remove(zone);

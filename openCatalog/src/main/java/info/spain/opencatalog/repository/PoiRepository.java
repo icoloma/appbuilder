@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.geo.Distance;
 import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.repository.annotation.ConvertWith;
 import org.springframework.data.rest.repository.annotation.RestResource;
@@ -16,21 +17,26 @@ import org.springframework.data.rest.repository.annotation.RestResource;
 @RestResource(path = "poi", rel="pois")
 public interface PoiRepository extends MongoRepository<Poi, String>, PoiRepositoryCustom {
 	
-	// { "name.es" : { "$regex" : name}}
+
 	@RestResource(path = "byName_es", rel="byName_es")
-	public Page<Poi> findByNameEsLike(@Param("name") String name, Pageable pageable);
+	@Query( value="{'name.es':{'$regex':?0, '$options': 'i'}}")
+	public Page<Poi> findByNameEsLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
 	@RestResource(path = "byName_en", rel="byName_en")
-	public Page<Poi> findByNameEnLike(@Param("name") String name, Pageable pageable);
+	@Query( value="{'name.en':{'$regex':?0, '$options': 'i'}}")
+	public Page<Poi> findByNameEnLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
 	@RestResource(path = "byName_fr", rel="byName_fr")
-	public Page<Poi> findByNameFrLike(@Param("name") String name, Pageable pageable);
+	@Query( value="{'name.fr':{'$regex':?0, '$options': 'i'}}")
+	public Page<Poi> findByNameFrLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
 	@RestResource(path = "byName_de", rel="byName_de")
-	public Page<Poi> findByNameDeLike(@Param("name") String name, Pageable pageable);
+	@Query( value="{'name.de':{'$regex':?0, '$options': 'i'}}")
+	public Page<Poi> findByNameDeLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
 	@RestResource(path = "byName_it", rel="byName_it")
-	public Page<Poi> findByNameItLike(@Param("name") String name, Pageable pageable);
+	@Query( value="{'name.it':{'$regex':?0, '$options': 'i'}}")
+	public Page<Poi> findByNameItLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
 	// { 'location' : { '$nearSphere' : [location.lng, location.lat], '$maxDistance' : distance}}
 	@RestResource(path = "locationNear", rel="locationNear")

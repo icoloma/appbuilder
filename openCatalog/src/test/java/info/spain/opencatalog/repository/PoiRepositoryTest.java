@@ -95,7 +95,7 @@ public class PoiRepositoryTest {
 		Poi poi = PoiFactory.newPoi("findByName");
 		mongoTemplate.save(poi);
 		Pageable pageable = new PageRequest(0, 10);
-		Page<Poi> result = poiRepository.findByNameEsLike(poi.getName().getEs(), pageable);
+		Page<Poi> result = poiRepository.findByNameEsLikeIgnoreCase(poi.getName().getEs(), pageable);
 	
 		assertEquals(result.getContent().get(0).getName().getEs(), poi.getName().getEs());
 		mongoTemplate.remove(poi);

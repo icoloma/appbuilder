@@ -38,7 +38,7 @@ public class ZoneController extends AbstractController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String search(Model model, @PageableDefaults(sort="name") Pageable pageable, @RequestParam(value="q",required=false) String q) {
 		String query = q == null ? "" : q; 
-		Page<Zone>page  = zoneRepository.findByNameLike(query, pageable);
+		Page<Zone>page  = zoneRepository.findByNameIgnoreCaseLike(query, pageable);
 		model.addAttribute("page", page);
 		model.addAttribute("q", query);
 		return "admin/zone/zoneList";
