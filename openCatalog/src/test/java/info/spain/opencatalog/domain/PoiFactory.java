@@ -39,13 +39,13 @@ public class PoiFactory extends AbstractFactory {
 		return result;
 	}
 
-	public static Poi CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(new GeoLocation().setLat(40.4281).setLng(-3.7585));
-	public static Poi RETIRO = PoiFactory.newPoi("Retiro").setLocation(new GeoLocation().setLat(40.4170).setLng(-3.6820));
-	public static Poi SOL = PoiFactory.newPoi("Sol").setLocation(new GeoLocation().setLat(40.416957).setLng(-3.703794));
-	public static Poi TEIDE = PoiFactory.newPoi("Teide").setLocation(new GeoLocation().setLat(28.2735).setLng(-16.6427));
-	public static Poi ALASKA = PoiFactory.newPoi("Alaska").setLocation(new GeoLocation().setLng(-149.9).setLat(65.9));
+	public static Poi POI_CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(CASA_CAMPO);
+	public static Poi POI_RETIRO = PoiFactory.newPoi("Retiro").setLocation(RETIRO);
+	public static Poi POI_SOL = PoiFactory.newPoi("Sol").setLocation(SOL);
+	public static Poi POI_TEIDE = PoiFactory.newPoi("Teide").setLocation(TEIDE);
+	public static Poi POI_ALASKA = PoiFactory.newPoi("Alaska").setLocation(ALASKA);
 	
-	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(CASA_CAMPO, RETIRO, SOL, TEIDE, ALASKA);
+	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA);
 	
 	
 	

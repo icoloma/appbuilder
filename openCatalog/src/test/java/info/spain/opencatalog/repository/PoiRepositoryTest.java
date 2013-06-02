@@ -103,10 +103,10 @@ public class PoiRepositoryTest {
 
 	@Test
 	public void testGeoLocation(){
-		Poi retiro = PoiFactory.RETIRO;
-		Poi sol = PoiFactory.SOL;
-		Poi teide = PoiFactory.TEIDE;
-		GeoLocation alaska = PoiFactory.ALASKA.getLocation();
+		Poi retiro = PoiFactory.POI_RETIRO;
+		Poi sol = PoiFactory.POI_SOL;
+		Poi teide = PoiFactory.POI_TEIDE;
+		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
 		
 		
 		poiRepository.deleteAll();

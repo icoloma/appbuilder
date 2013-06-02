@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 public class MongoDbPopulator {
@@ -38,22 +39,36 @@ public class MongoDbPopulator {
 		ctx.setConfigLocation("/spring/root-context.xml");
 		ctx.refresh();
 		MongoDbPopulator mongoDBPopulator = new MongoDbPopulator(ctx);
+		mongoDBPopulator.clearAll();
 		mongoDBPopulator.populate();
 		ctx.close();
 	}
+	
+	public void clearAll(){
+		mongoTemplate.dropCollection(Poi.class);
+		mongoTemplate.dropCollection(Zone.class);
+	}
 
 	public void populate() {
-		PopulateWellKonwnPois();
-		populateRandomPoi(MAX_POI, MAX_POI_CHILDS);
+		populatePois();
+		populateZones();
+	}
+	
+	private void populateZones(){
+		// well known
+		mongoTemplate.insertAll(ImmutableList.copyOf(ZoneFactory.WELL_KNOWN_ZONES));
+		// random
 		populateRandomZones(MAX_ZONES);
 	}
 
-	private void PopulateWellKonwnPois(){
+	private void populatePois()	{
+		// well known
 		mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
-		
+		// random pois
+		populateRandomPois(MAX_POI, MAX_POI_CHILDS);
 	}
 
-	private void populateRandomPoi(int numParents, int maxChilds) {
+	private void populateRandomPois(int numParents, int maxChilds) {
 		int numChilds = maxChilds > 0 ? random.nextInt(maxChilds) : 0;
 		
 		for (int p=0; p < numParents; p++) {

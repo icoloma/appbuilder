@@ -37,6 +37,25 @@ public class GeoLocation implements Serializable{
 		loc[LAT]= lat;
 		return this;
 	}
+	
+
+	@Override
+	public int hashCode() {
+		return com.google.common.base.Objects.hashCode(this.loc[LAT], this.loc[LNG]);  
+   }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null){ 
+			return false; 
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final GeoLocation other = (GeoLocation) obj;
+		return com.google.common.base.Objects.equal(this.loc[LAT], other.loc[LAT]) &&
+				com.google.common.base.Objects.equal(this.loc[LNG], other.loc[LNG]);
+	}
 
 	public String toString(){
 		return "[ lng: " + getLng() + ", lat: " + getLat()+ "]";

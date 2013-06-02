@@ -3,6 +3,9 @@ package info.spain.opencatalog.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
 public class ZoneFactory extends AbstractFactory {
 	
 	public static Zone newZone(String key){
@@ -21,27 +24,29 @@ public class ZoneFactory extends AbstractFactory {
 	private static List<GeoLocation> randomPolygon(){
 		List<GeoLocation> result = new ArrayList<GeoLocation>();
 		
+		for (int i=0; i< getRandom().nextInt(3)+3; i++){
+			result.add( randomLocation());
+		}
 		
 		return result;
 	}
 	
-	public static double randomInRange(double min, double max) {
-		  double range = max - min;
-		  double scaled = getRandom().nextDouble() * range;
-		  double shifted = scaled + min;
-		  return shifted; // == (rand.nextDouble() * (max-min)) + min;
-	}
-/*
-	public static Zone CASA_CAMPO = ZoneFactory.newZone("Casa de Campo").setLocation(new GeoLocation().setLat(40.4281).setLng(-3.7585));
-	public static Zone RETIRO = ZoneFactory.newZone("Retiro").setLocation(new GeoLocation().setLat(40.4170).setLng(-3.6820));
-	public static Zone SOL = ZoneFactory.newZone("Sol").setLocation(new GeoLocation().setLat(40.416957).setLng(-3.703794));
-	public static Zone TEIDE = ZoneFactory.newZone("Teide").setLocation(new GeoLocation().setLat(28.2735).setLng(-16.6427));
-	public static Zone ALASKA = ZoneFactory.newZone("Alaska").setLocation(new GeoLocation().setLng(-149.9).setLat(65.9));
 	
-	public static ImmutableSet<Zone> WELL_KNOWN_POIS = ImmutableSet.of(CASA_CAMPO, RETIRO, SOL, TEIDE, ALASKA);
+	public static Zone ZONE_MADRID_CENTRO  = ZoneFactory.newZone("Madrid").setPath( ImmutableList.of(
+			new GeoLocation().setLat(40.5021).setLng(-3.797),
+			new GeoLocation().setLat(40.4752).setLng(-3.591),
+			new GeoLocation().setLat(40.3761).setLng(-3.634),
+			new GeoLocation().setLat(40.3677).setLng(-3.788)
+			));
+	public static Zone ZONE_ALCALA_HENARES = ZoneFactory.newZone("Alcala de Henares").setPath( ImmutableList.of(
+			new GeoLocation().setLat(40.5138).setLng(-3.4185),
+			new GeoLocation().setLat(40.5168).setLng(-3.3198),
+			new GeoLocation().setLat(40.4702).setLng(-3.3263),
+			new GeoLocation().setLat(40.4652).setLng(-3.4202)
+			));
+	
+	public static ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES);
 
-*/
-	
 	
 
 }

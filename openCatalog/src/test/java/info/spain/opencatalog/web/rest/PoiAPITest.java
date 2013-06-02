@@ -134,8 +134,8 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
-		GeoLocation alaska = PoiFactory.ALASKA.getLocation();
-		Poi poi = PoiFactory.TEIDE;
+		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
+		Poi poi = PoiFactory.POI_TEIDE;
 		Poi saved = repo.save(poi); 
 		
 		MvcResult result = this.mockMvc.perform(get("/poi/search/locationWithin")
@@ -164,8 +164,8 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByLocationNear() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.TEIDE;
-		GeoLocation alaska = PoiFactory.ALASKA.getLocation();
+		Poi poi = PoiFactory.POI_TEIDE;
+		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
 		Poi saved = repo.save(poi); 
 		
 		// Test found

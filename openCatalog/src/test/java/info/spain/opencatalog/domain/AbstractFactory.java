@@ -10,6 +10,13 @@ public class AbstractFactory {
 	private static double MIN_LNG = -3.7900;
 	private static double MAX_LNG = -3.5500;
 	
+	public static GeoLocation CASA_CAMPO = new GeoLocation().setLat(40.4281).setLng(-3.7585);
+	public static GeoLocation RETIRO = new GeoLocation().setLat(40.4170).setLng(-3.6820);
+	public static GeoLocation SOL = new GeoLocation().setLat(40.416957).setLng(-3.703794);
+	public static GeoLocation TEIDE = new GeoLocation().setLat(28.2735).setLng(-16.6427);
+	public static GeoLocation ALASKA = new GeoLocation().setLng(-149.9).setLat(65.9);
+	
+	
 	private  static Random random = new Random();
 	
 	public static GeoLocation randomLocation(){
