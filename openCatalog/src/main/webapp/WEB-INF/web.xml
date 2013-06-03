@@ -17,8 +17,6 @@
 	</listener>
 
 
-
-
 	<!-- API Dispatcher Servlet -->
 	<servlet>
 		<servlet-name>apiServlet</servlet-name>
@@ -62,6 +60,16 @@
 	<filter-mapping>
 		<filter-name>hiddenMethodFilter</filter-name>
 		<servlet-name>dispatcherServlet</servlet-name>
+	</filter-mapping>
+	
+	<!-- Block access to List endpoints without page request attribute -->
+	<filter>
+		<filter-name>requestWrapperFilter</filter-name>
+		<filter-class>info.spain.opencatalog.web.filter.RequestWrapperFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestWrapperFilter</filter-name>
+		<servlet-name>apiServlet</servlet-name>
 	</filter-mapping>
 	
 	<error-page>
