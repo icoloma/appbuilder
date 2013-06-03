@@ -45,7 +45,15 @@ public class ZoneFactory extends AbstractFactory {
 			new GeoLocation().setLat(40.4652).setLng(-3.4202)
 			));
 	
-	public static ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES);
+	
+	public static Zone ZONE_COMPLEX = ZoneFactory.newZone("Complex Zone").setPath( ImmutableList.of(
+			new GeoLocation().setLat(40.42988).setLng(-3.70568),  // Metro San Bernardo  ( NW )
+			new GeoLocation().setLat(40.38190).setLng(-3.66829),  // Renfe Asamblea Madrid - Entrevias ( SE )
+			new GeoLocation().setLat(40.43001).setLng(-3.64116),  // Metro Ascao (NE)
+			new GeoLocation().setLat(40.38524).setLng(-3.71905)   // Metro Intercambiador de Plaza Elíptica (SW)
+			));  
+	
+	public static ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES, ZONE_COMPLEX);
 
 	
 

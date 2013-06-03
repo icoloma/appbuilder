@@ -25,11 +25,10 @@ public class ZoneRepositoryTest {
 
 	@Autowired
 	private ZoneRepository zoneRepository;
-
+	
 	@Autowired
 	private MongoOperations mongoTemplate;
 
-	
 	/**
 	 * Test create 
 	 */
@@ -44,8 +43,6 @@ public class ZoneRepositoryTest {
 		assertNull(result);
 	}
 
-	
-	
 	@Test
 	public void testFindByName(){
 		Zone zone = ZoneFactory.newZone("findByName");
@@ -57,34 +54,6 @@ public class ZoneRepositoryTest {
 		mongoTemplate.remove(zone);
 	}
 
-	/*
-	@Test
-	public void testGeoLocation(){
-		Zone retiro = ZoneFactory.RETIRO;
-		Zone sol = ZoneFactory.SOL;
-		Zone teide = ZoneFactory.TEIDE;
-		GeoLocation alaska = ZoneFactory.ALASKA.getLocation();
-		
-		
-		zoneRepository.deleteAll();
-		
-		mongoTemplate.save(retiro);
-		mongoTemplate.save(sol);
-		mongoTemplate.save(teide);
-		
-		List<Zone> result = zoneRepository.findWithIn(retiro.getLocation().getLat(), retiro.getLocation().getLng(), 5);
-		assertEquals(2, result.size());
-		
-		result = zoneRepository.findWithIn(teide.getLocation().getLat(), teide.getLocation().getLng(), 5);
-		assertEquals(1, result.size());
 
-		result = zoneRepository.findWithIn(alaska.getLat(), alaska.getLng(), 5);
-		assertEquals(0, result.size());
 		
-		
-		mongoTemplate.remove(retiro);
-		mongoTemplate.remove(sol);
-		mongoTemplate.remove(teide);
-	}
-	*/
 }

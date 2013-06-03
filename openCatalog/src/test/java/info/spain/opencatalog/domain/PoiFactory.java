@@ -39,11 +39,11 @@ public class PoiFactory extends AbstractFactory {
 		return result;
 	}
 
-	public static Poi POI_CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(CASA_CAMPO);
-	public static Poi POI_RETIRO = PoiFactory.newPoi("Retiro").setLocation(RETIRO);
-	public static Poi POI_SOL = PoiFactory.newPoi("Sol").setLocation(SOL);
-	public static Poi POI_TEIDE = PoiFactory.newPoi("Teide").setLocation(TEIDE);
-	public static Poi POI_ALASKA = PoiFactory.newPoi("Alaska").setLocation(ALASKA);
+	public static Poi POI_CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO);
+	public static Poi POI_RETIRO = PoiFactory.newPoi("Retiro").setLocation(GEO_RETIRO);
+	public static Poi POI_SOL = PoiFactory.newPoi("Sol").setLocation(GEO_SOL);
+	public static Poi POI_TEIDE = PoiFactory.newPoi("Teide").setLocation(GEO_TEIDE);
+	public static Poi POI_ALASKA = PoiFactory.newPoi("Alaska").setLocation(GEO_ALASKA);
 	
 	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA);
 	

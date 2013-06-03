@@ -12,5 +12,9 @@ public interface PoiRepositoryCustom {
 	
 	@RestResource(path = "locationWithin", rel="locationWithin")
 	public List<Poi> findWithIn(@Param("lat") double lat, @Param("lng") double lng, @Param("radius") double radius);
-
+	
+	
+	@RestResource(path = "inZone", rel="inZone")
+	public List<Poi> findWithInZone(@Param("zoneId") String zoneId);
+	
 }
