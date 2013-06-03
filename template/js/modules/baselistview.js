@@ -1,4 +1,4 @@
-define(
+define(['globals'],
   function() {
 
     return B.View.extend({

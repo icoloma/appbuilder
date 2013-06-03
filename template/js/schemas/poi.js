@@ -1,4 +1,4 @@
-define(function() {
+define(['globals'], function() {
   return persistence.define('Poi', {
     name: 'TEXT', //i18n
     description: 'TEXT', //i18n

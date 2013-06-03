@@ -3,11 +3,10 @@
 */
 define(
   [ 
-    'page/pages',
-    'schemas/schemas',
-    'ui/navbarview'
+    'globals', 
+    'page/pages', 'schemas/schemas', 'ui/navbarview'
   ],
-  function(Page, Db, NavbarView) {
+  function(Globals, Page, Db, NavbarView) {
 
     var parseQuery = function(query) {
       var queryObject = {}

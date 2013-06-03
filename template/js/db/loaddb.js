@@ -41,9 +41,8 @@ define(
           persistence.add(obj);
         }
 
-        persistence.flush(callback);
-
         localStorage.appZone = json.zone.name[locale];
+        persistence.flush(callback);
       };
     };
 

@@ -1,8 +1,9 @@
 define(
   [
+    'globals',
     'schemas/schemas', 'db/loaddb'
   ],
-  function(Db, LoadDb) {
+  function(Globals, Db, LoadDb) {
 
     // BDD y schemas
     persistence.store.websql
@@ -14,14 +15,14 @@ define(
     return function(cb) {
 
       // Carga inicial del nombre de la zona
-      var loadZone = function loadZoneName() {
+      var loadZone = function() {
         window.appConfig.zone = localStorage.appZone;
         cb();
       }
       ;
 
       // Carga inicial de la base de datos
-      var findOne = Db.Category.all().limit(1).list(null, function(results) {
+      Db.Category.all().limit(1).list(null, function(results) {
         if (!results.length) {
           LoadDb(window.appConfig.locale, loadZone);
         } else {
