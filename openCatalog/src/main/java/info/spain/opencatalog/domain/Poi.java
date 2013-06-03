@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -32,9 +31,7 @@ public class Poi implements Serializable {
 		this.description = other.description;
 		this.address = other.address;
 		this.location = other.location;
-		this.related = other.related;
 		this.tags = other.tags;
-		this.related = other.related;
 	}
 	
 	@Id
@@ -56,18 +53,7 @@ public class Poi implements Serializable {
 	
 	private List<Tag> tags = new ArrayList<Tag>();
 	
-	@DBRef
-	private List<Poi> related = new ArrayList<Poi>();
-
-	public List<Poi> getRelated() {
-		return related;
-	}
-
-	public Poi setRelated(List<Poi> related) {
-		this.related = related;
-		return this;
-	}
-	
+		
 	public void setId(String id){
 		this.id = id;
 	}

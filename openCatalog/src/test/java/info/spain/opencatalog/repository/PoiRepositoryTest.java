@@ -9,7 +9,6 @@ import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.PoiFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -130,36 +129,4 @@ public class PoiRepositoryTest {
 		mongoTemplate.remove(teide);
 	}
 	
-	
-	/**
-	 * Test DBRef
-	 */
-	@Test
-	public void testDBRef() {
-
-		int NUM_CHILDS = 5;
-
-		List<Poi> related = new ArrayList<Poi>();
-
-		for (int i = 0; i < NUM_CHILDS; i++) {
-			Poi child = PoiFactory.newPoi("child-" + i);
-			related.add(poiRepository.save(child));
-		}
-
-		Poi parent = PoiFactory.newPoi("parent").setRelated(related);
-		Poi result = poiRepository.save(parent);
-
-		String id = result.getId();
-		assertNotNull(id);
-		assertEquals(NUM_CHILDS, result.getRelated().size());
-
-		poiRepository.delete(result);
-
-		// no cascade delete
-		for (int i = 0; i < NUM_CHILDS; i++) {
-			poiRepository.delete(related.get(i));
-		}
-
-	}
-
 }
