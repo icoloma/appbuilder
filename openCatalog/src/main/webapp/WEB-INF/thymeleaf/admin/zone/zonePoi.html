@@ -24,9 +24,13 @@
     <!-- container -->    
 	<div class="container">
 	
-		<div th:substituteby="fragments/template :: alert" />
-			
 		<h1 th:text="${zone.name}" >Zone</h1>
+		
+		<ul class="nav nav-tabs">
+			<li ><a href="zone.html" th:href="@{'/admin/zone/' + ${zone.id}}" th:text="#{zone.data}">Data</a></li>
+			<li class="active"><a href="#" th:text="#{zone.pois}">POIs</a></li>
+		</ul>
+		
 		
       	<div class="item rounded dark">
 			<div id="map_canvas" class="zoneMap rounded" 
@@ -41,12 +45,7 @@
 				>
 			</div>
 		</div>
-		
-		<hr/>
-			<div class="well">
-				<a href="./zone.html"    th:href="@{'/admin/zone/' + ${zone.id}}" th:text="#{button.cancel}" >Cancel</a>
-  		 	</div>
-      
+
 	</div>
         
 	<!-- footer -->

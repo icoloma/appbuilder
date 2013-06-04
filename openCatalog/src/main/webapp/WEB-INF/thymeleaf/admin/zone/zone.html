@@ -27,7 +27,14 @@
 		<div th:substituteby="fragments/template :: alert" />
 			
 		<h1 th:text="#{zone.header}" >Zone</h1>
-        
+     	
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#" th:text="#{zone.data}">Data</a></li>
+			<li th:if="${zone.id}"><a href="zonePoi.html" th:href="@{'/admin/zone/' + ${zone.id} + '/poi'}"  th:text="#{zone.pois}">POIs</a></li>
+		</ul>
+	
+				
+		
         
 		<form id="zoneForm" action="#" data-id="1" method="POST"  
 			th:action="@{'/admin/zone/' + ${zone.id?:''}}" 
@@ -82,7 +89,7 @@
 						data-path="[[40.3549167507906,-3.8081359863281],[40.3004760797494,-3.6392211914062],[40.4406762626823,-3.7820434570312]]"
 						data:path="${zone.pathArray}"></div>
 				</div>
-				<a href="zonePoi.html" th:href="@{'/admin/zone/' + ${zone.id} + '/poi'}" th:text="#{button.show.poi}" class="btn pull-right">Show POI</a>
+				
 			</fieldset>	
 	  		<hr/>
 			<div class="well">
