@@ -25,14 +25,21 @@ define(
       },
 
       sort: function() {
-
+        var self = this;
+        navigator.geolocation.getCurrentPosition(function(position) {
+          self.sortByDistance(position.coords.latitude, position.coords.longitude);
+        }, function(err) {
+          // TODO
+          alert(res.geoError);
+        });
       },
 
       sortByDistance: function(lat, lon) {
+        var normLon = lon*Math.sin(lat/180*Math.PI)
+        ;
         this.collection.sort(function(poi) {
-          var normLon = lon*Math.sin(lat/180*Math.PI)
-          ;
-          return Math.pow((lat-poi.lat)/180*Math.PI,2) +
+          // Se ignora la normalización a radianes, que no cambia el orden
+          return Math.pow((lat-poi.lat),2) +
                   Math.pow(normLon-poi.normLon,2);
         });
         this.collectionView.render();
