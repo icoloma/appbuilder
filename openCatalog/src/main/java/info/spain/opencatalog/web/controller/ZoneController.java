@@ -1,10 +1,15 @@
 package info.spain.opencatalog.web.controller;
 
 
+import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.exception.NotFoundException;
+import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.repository.ZoneRepository;
 import info.spain.opencatalog.web.form.ZoneForm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -30,6 +35,9 @@ public class ZoneController extends AbstractController {
 	
 	@Autowired
 	private ZoneRepository zoneRepository;
+	
+	@Autowired
+	private PoiRepository poiRepository;
 	
 	
 	/**
@@ -109,6 +117,54 @@ public class ZoneController extends AbstractController {
 		model.addAttribute(INFO_MESSAGE, "message.item.deleted" ) ;
 		return "redirect:/admin/zone/";
 	}
+	
+	/**
+	 * ZONE POIs
+	 */
+	@RequestMapping( value="/{id}/poi")
+	public String showPois(@PathVariable("id") String id, Model model){
+		show(id,model);
+		List<Poi> poiList = poiRepository.findWithInZone(id);
+		model.addAttribute("markers", getMarkers(poiList));
+		return "admin/zone/zonePoi";
+	}
 
+	private List<Marker> getMarkers(List<Poi> poiList){
+		List<Marker> result = new ArrayList<>();
+		for (Poi poi : poiList) {
+			result.add( new Marker(poi));
+		}
+		return result;
+	}
+	
+	public class Marker {
+		String id;
+		double lat;
+		double lng;
+		String name;
+
+		public Marker( Poi poi){
+			this.id =poi.getId();
+			this.lat=poi.getLocation().getLat();
+			this.lng=poi.getLocation().getLng();
+			this.name=poi.getName().getEs();
+		}
+		public String toString(){
+			return "{\"id\":\"" + id + "\", \"lat\":" + lat + ", \"lng\":" + lng + ", \"name\" :\"" + name + "\"}";
+		}
+		public String getId() {
+			return id;
+		}
+		public double getLat() {
+			return lat;
+		}
+		public double getLng() {
+			return lng;
+		}
+		public String getName() {
+			return name;
+		}
+		
+	}
 
 }

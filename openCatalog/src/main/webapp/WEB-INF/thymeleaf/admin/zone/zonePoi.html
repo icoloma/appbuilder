@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Zone</title>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/main.css"/>
+</head>
+
+<body>
+
+	<!--  Nav bar -->
+	<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">OpenCatalog</a>
+			</div>
+		</div>
+	</div>
+    
+    <!-- container -->    
+	<div class="container">
+	
+		<div th:substituteby="fragments/template :: alert" />
+			
+		<h1 th:text="${zone.name}" >Zone</h1>
+		
+      	<div class="item rounded dark">
+			<div id="map_canvas" class="zoneMap rounded" 
+				data-path="[[40.334,-3.781],[40.470,-3.539],[40.440,-3.782]]"
+				data:path="${zone.pathArray}"
+				data-markers='[
+				{"id":"p1", "lat":40.402, "lng":-3.739, "name" :"es-165--1052878597-name"},
+				{"id":"p2", "lat":40.370, "lng":-3.744, "name" :"es-142--252606854-name"}, 
+				{"id":"p3", "lat":40.419, "lng":-3.701, "name" :"es-105--377669886-name"}, 
+				{"id":"p4", "lat":40.407, "lng":-3.657, "name" :"es-259--1075476775-name"}]'
+				data:markers="${markers}"
+				>
+			</div>
+		</div>
+		
+		<hr/>
+			<div class="well">
+				<a href="./zone.html"    th:href="@{'/admin/zone/' + ${zone.id}}" th:text="#{button.cancel}" >Cancel</a>
+  		 	</div>
+      
+	</div>
+        
+	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	</footer>
+	
+
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
+		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.js"></script>
+	    <script src="../../../../resources/js/main.js"></script>
+	</div>
+	
+	<div>
+		<div th:remove="all"><!-- PAGE SCRIPTS --></div>
+	
+	    <script src="http://maps.googleapis.com/maps/api/js?libraries=drawing&amp;sensor=true" ></script>	
+		<script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" 	th:src="@{/resources/js/vendor/jquery-ui-1.9.2.custom.js}"></script>
+		<script src="../../../../resources/js/vendor/jquery.ui.map.js"				th:src="@{/resources/js/vendor/jquery.ui.map.js}"></script>
+				<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" th:src="@{/resources/js/vendor/jquery.ui.map.services.js}"></script>
+		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
+		
+	</div>
+	
+	<script>
+	// <![CDATA[
+	// 
+   $(function(){
+		
+		var overlay;
+		
+		
+		var map = $('#map_canvas').gmap('get','map');
+		$('#map_canvas').gmap();
+		map.setZoom(10);
+		
+		
+		var dataPath = $("#map_canvas").data("path");
+		
+		if (dataPath && dataPath.length > 0){
+			var pathCoords = [];
+			var bounds = new google.maps.LatLngBounds();
+			dataPath.forEach(function(elem){
+				var coord =  new google.maps.LatLng(elem[0],elem[1]);
+				pathCoords.push(coord);
+				bounds.extend(coord);
+			});
+			overlay = new google.maps.Polygon({
+				paths: pathCoords,
+			});
+			map.fitBounds(bounds);
+			overlay.setMap(map);
+			overlay.setEditable(false);
+		}
+		
+		var dataMarkers = $("#map_canvas").data("markers");
+		dataMarkers.forEach(function(marker){
+			var mapMarker = new google.maps.Marker({
+			      position: new google.maps.LatLng(marker.lat , marker.lng),
+			      map: map,
+			      title: marker.name,
+			      idPoi : marker.id
+			  });
+			
+		});
+		
+		
+		
+	});
+	
+	// ]]>
+	</script>
+	
+</body>
+</html>
