@@ -1,5 +1,5 @@
 define(
-  [],
+  ['globals'],
   function() {
     return B.View.extend({
 
@@ -12,7 +12,7 @@ define(
       ),
 
       render: function() {
-        this.$el.html(this.tmpl(this.model));
+        this.$el.html(this.tmpl(this.model.toJSON()));
         return this;
       }
     });

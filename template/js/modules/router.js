@@ -4,9 +4,10 @@
 define(
   [ 
     'globals', 
-    'page/pages', 'schemas/schemas', 'ui/navbarview'
+    'page/pages', 'schemas/schemas', 'ui/navbarview',
+    'poi/model'
   ],
-  function(Globals, Page, Db, NavbarView) {
+  function(Globals, Page, Db, NavbarView, PoiModel) {
 
     var parseQuery = function(query) {
       var queryObject = {}
@@ -49,7 +50,7 @@ define(
 
       renderHome: function() {
         var self = this;
-        Db.Category.all().list(function(cats) {
+        Db.Category.all().asCollection(function(cats) {
           self.setView(Page.homeView, {
             collection: cats,
           }, {
@@ -61,22 +62,22 @@ define(
 
       renderCategory: function(category) {
         var self = this;
-        async.parallel([
-          function(cb) {
-            Db.SubCategory.all().filter('category', '=', category).list(function(subcats) {
+        async.parallel({
+          subcategories: function(cb) {
+            Db.SubCategory.all().filter('category', '=', category).asCollection(function(subcats) {
               cb(null, subcats);
             });
           },
-          function(cb) {
+          category: function(cb) {
             Db.Category.findBy('id', category, function(cat) {
               cb(null, cat);
             });
           }
-        ], function(err, results) {
+        }, function(err, results) {
           self.setView(Page.categoryView, {
-            collection: results[0]
+            collection: results.subcategories
           }, {
-            title: results[1].name,
+            title: results.category.name
           });
         });
       },
@@ -86,13 +87,13 @@ define(
         , parsedQuery = parseQuery(query)
         ;
 
-        async.parallel([
-          function(cb) {
-            Db.Poi.all().query(parsedQuery).list(function(pois) {
+        async.parallel({
+          pois: function(cb) {
+            Db.Poi.all().query(parsedQuery).asJSON(function(pois) {
               cb(null, pois);
             });
           },
-          function(cb) {
+          title: function(cb) {
             // Busca el título adecuado para la página
             if (parsedQuery.q) {
               cb(null, res.searchResults);
@@ -102,13 +103,18 @@ define(
               Db.SubCategory.findBy('id', parsedQuery.subcategory, function(subcat) {
                 cb(null, subcat.name);
               });
+            } else {
+              cb(null, '');
             }
           }
-        ], function(err, results) {
+        }, function(err, results) {
+          var collection = new B.Collection(results.pois.map(function(poi) {
+            return new PoiModel(poi);
+          }));
           self.setView(Page.poisView, {
-            collection: results[0]
+            collection: collection
           }, {
-            title: results[1],
+            title: results.title,
           });
         });
       },
@@ -117,7 +123,7 @@ define(
         var self = this;
         Db.Poi.findBy('id', poiId, function(poi) {
           self.setView(Page.poiView, {
-            model: poi,
+            model: new PoiModel(poi.toJSON()),
           }, {
             title: poi.name
           });

@@ -8,7 +8,7 @@ define(
 
       initialize: function() {
         this.actionbarView = new ActionbarView({
-          title: this.model.name,
+          title: this.model.get('name'),
           map: true,
           star: true,
           notify: true
@@ -26,8 +26,8 @@ define(
       },
 
       star: function() {
-        this.model.starred = !this.model.starred;
-        var message = this.model.starred ? res.bookmarkAdded : res.bookmarkRemoved;
+        this.model.set('starred', !this.model.get('starred'));
+        var message = this.model.get('starred') ? res.bookmarkAdded : res.bookmarkRemoved;
         persistence.flush(function() {
           alert(message);
         });
