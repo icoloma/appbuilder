@@ -18,11 +18,12 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.web.PageableDefaults;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,12 +36,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.net.MediaType;
+
 /**
  * Handles requests for the application poi page.
  */
 @Controller
 @RequestMapping(value = "/admin/poi")
 public class PoiController extends AbstractController {
+	
+	private static String NO_IMAGE = "img/no_image.png";
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -175,15 +180,28 @@ public class PoiController extends AbstractController {
 	 */
 	 @RequestMapping(value = "/{id}/image", method = RequestMethod.GET)
 	 public void getById (@PathVariable (value="id") String id, HttpServletResponse response) throws IOException {
-         GridFsResource file = storageService.getByFilename(getPoiImageFilename(id));
-		 if (file == null || file.contentLength() == 0){
-			 response.setStatus(HttpStatus.NOT_FOUND.value());
+		 
+		 String contentType;
+		 int contentLength;
+		 byte data[];
+		 
+		 GridFsResource file = storageService.getByFilename(getPoiImageFilename(id));
+		 if (file != null && file.exists()){
+			  contentType = file.getContentType();
+			 contentLength = (int)file.contentLength();
+			 data= IOUtils.toByteArray(file.getInputStream());
 		 } else {
-			 response.setContentType(file.getContentType());
-			 response.setContentLength((int)file.contentLength());
-			 response.getOutputStream().write(IOUtils.toByteArray(file.getInputStream()));
-			 response.getOutputStream().flush();
+			 Resource img = new  ClassPathResource(NO_IMAGE);
+			 contentLength = (int) img.contentLength();
+			 contentType= MediaType.PNG.toString();
+			 data = IOUtils.toByteArray(img.getInputStream());
 		 }
+		
+		 response.setContentType(contentType);
+		 response.setContentLength(contentLength);
+		 response.getOutputStream().write(data);
+		 response.getOutputStream().flush();
+	 
 	  }
 	 
 	 private String getPoiImageFilename(String idPoi){

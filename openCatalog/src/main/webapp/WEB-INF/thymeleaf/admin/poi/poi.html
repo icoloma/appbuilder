@@ -93,7 +93,7 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 					<fieldset>
 						<legend th:text="#{poi.image}">Image</legend>
 						<div class ="item rounded dark poiImage">
-							<img src="../../../../resources/img/no_image.png" th:src="@{ ${poi.hasImage}? '/admin/poi/' +${poi.id} + '/image' : '/resources/img/no_image.png' }" title="Poi image" th:title="#{poi.image}"/>
+							<img src="../../../../../resources/img/no_image.png" th:src="@{'/admin/poi/' +${poi.id} + '/image'}" title="Poi image" th:title="#{poi.image}"/>
 						</div>
 						<div  th:if="${poi.hasImage}" >
 							<label class="checkbox">

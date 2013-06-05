@@ -125,46 +125,9 @@ public class ZoneController extends AbstractController {
 	public String showPois(@PathVariable("id") String id, Model model){
 		show(id,model);
 		List<Poi> poiList = poiRepository.findWithInZone(id);
-		model.addAttribute("markers", getMarkers(poiList));
+		model.addAttribute("poiList", poiList);
 		return "admin/zone/zonePoi";
 	}
 
-	private List<Marker> getMarkers(List<Poi> poiList){
-		List<Marker> result = new ArrayList<>();
-		for (Poi poi : poiList) {
-			result.add( new Marker(poi));
-		}
-		return result;
-	}
 	
-	public class Marker {
-		String id;
-		double lat;
-		double lng;
-		String name;
-
-		public Marker( Poi poi){
-			this.id =poi.getId();
-			this.lat=poi.getLocation().getLat();
-			this.lng=poi.getLocation().getLng();
-			this.name=poi.getName().getEs();
-		}
-		public String toString(){
-			return "{\"id\":\"" + id + "\", \"lat\":" + lat + ", \"lng\":" + lng + ", \"name\" :\"" + name + "\"}";
-		}
-		public String getId() {
-			return id;
-		}
-		public double getLat() {
-			return lat;
-		}
-		public double getLng() {
-			return lng;
-		}
-		public String getName() {
-			return name;
-		}
-		
-	}
-
 }

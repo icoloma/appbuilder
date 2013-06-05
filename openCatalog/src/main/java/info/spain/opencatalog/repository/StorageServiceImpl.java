@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilena
 
 import java.io.InputStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,15 @@ import org.springframework.data.mongodb.gridfs.GridFsResource;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
+/**
+ * TODO: Comprobar si hay que crear un índice sobre el nombre del fichero  
+ */
 public class StorageServiceImpl implements StorageService {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	GridFsOperations gridFSTemplate;
+	private GridFsOperations gridFSTemplate;
 	
 
 	@Override
@@ -29,6 +33,9 @@ public class StorageServiceImpl implements StorageService {
 		
 	@Override
 	public GridFsResource getByFilename(String filename){
+		if (StringUtils.isBlank(filename)){
+			return null;
+		}
 		try {
 		 return gridFSTemplate.getResource(filename);
 		} catch (NullPointerException e){
