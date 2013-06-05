@@ -1,6 +1,6 @@
 define(
-  ['modules/baselistview', 'poi/trview', 'ui/actionbarview'],
-  function(ListView, TrView, ActionbarView) {
+  ['modules/baselistview', 'poi/trview', 'ui/actionbarview', 'modules/geo', 'poi/collection'],
+  function(ListView, TrView, ActionbarView, Geo, PoiCollection) {
 
     return B.View.extend({
 
@@ -11,6 +11,9 @@ define(
           sort: true
         });
         this.listenTo(this.actionbarView, 'sort', this.sort);
+        this.listenTo(this.actionbarView, 'filter', function() {
+          this.filter(50);
+        });
         this.collectionView = new ListView({
           collection: this.collection,
           url: '#/pois/',
@@ -25,26 +28,34 @@ define(
       },
 
       sort: function() {
-        var self = this;
+        var collection = this.collectionView.collection;
         navigator.geolocation.getCurrentPosition(function(position) {
-          self.sortByDistance(position.coords.latitude, position.coords.longitude);
+          var coords = position.coords;
+          collection.comparator = PoiCollection.sortByDistanceTo(coords.latitude,
+                                                           coords.longitude);
+          collection.sort();
         }, function(err) {
           // TODO
           alert(res.geoError);
         });
       },
 
-      sortByDistance: function(lat, lon) {
-        var normLon = lon*Math.sin(lat/180*Math.PI)
-        ;
-        this.collection.sort(function(poi) {
-          // Se ignora la normalización a radianes, que no cambia el orden
-          return Math.pow((lat-poi.lat),2) +
-                  Math.pow(normLon-poi.normLon,2);
+      filter: function(distance) {
+        var collection = collectionView.collection;
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var coords = position.coords;
+          collection.comparator = PoiCollection.sortByDistanceTo(coords.latitude,
+                                                           coords.longitude);
+
+          collection
+            .filterByDistanceTo(coords.latitude, coords.longitude, distance)
+            .sort();
+        }, function(err) {
+          // TODO
+          alert(res.geoError);
         });
-        this.collectionView.render();
-        return this;
-      },
+      }
 
     });
   }

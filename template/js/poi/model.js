@@ -1,18 +1,7 @@
-define(function() {
+define(['globals', 'modules/geo'], function(Globals, Geo) {
   return B.Model.extend({
-
-    /*
-     * @id
-     * @name (i18n)
-     * @description (i18n)
-     * @geo
-     * @created
-     * @updated
-     * @thumb
-     * @imgs
-     * @tags (i18n)
-     *
-    */
-
+    propDistanceTo: function(lat, lon) {
+      return Geo.propDistance(this.get('lat'), this.get('lon'), lat, lon);
+    }
   });
 });

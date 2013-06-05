@@ -5,9 +5,9 @@ define(
   [ 
     'globals', 
     'page/pages', 'schemas/schemas', 'ui/navbarview',
-    'poi/model'
+    'poi/model', 'poi/collection'
   ],
-  function(Globals, Page, Db, NavbarView, PoiModel) {
+  function(Globals, Page, Db, NavbarView, PoiModel, PoiCollection) {
 
     var parseQuery = function(query) {
       var queryObject = {}
@@ -108,7 +108,7 @@ define(
             }
           }
         }, function(err, results) {
-          var collection = new B.Collection(results.pois.map(function(poi) {
+          var collection = new PoiCollection(results.pois.map(function(poi) {
             return new PoiModel(poi);
           }));
           self.setView(Page.poisView, {
