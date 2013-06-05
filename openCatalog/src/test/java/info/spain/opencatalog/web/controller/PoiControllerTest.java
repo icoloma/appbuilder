@@ -102,7 +102,7 @@ public class PoiControllerTest {
 		update.getTags().add(Tag.LEISURE_BEACH);
 				
 
-		result = this.mockMvc.perform(put("/admin/poi/" + id)
+		result = this.mockMvc.perform(post("/admin/poi/" + id)
 				.param("name.es", update.getName().getEs())
 				.param("description.es", update.getDescription().getEs())
 				.param("address.route", update.getAddress().getRoute())

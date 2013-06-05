@@ -28,8 +28,7 @@
 			
 		<h1 th:text="#{poi.header}" >Point of Interest</h1>
 		
-		<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?:''}}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1">
-		 	<input th:if="${poi.id}" type="hidden" name="_method" value="PUT" />
+		<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?:''}}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
 		 	
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#es" data-toggle="tab" th:text="#{lang.es}">Spanish</a></li>
@@ -38,6 +37,8 @@
 					<li><a href="#de" data-toggle="tab" th:text="#{lang.de}">German</a></li>
 					<li><a href="#it" data-toggle="tab" th:text="#{lang.it}">Italian</a></li>
 				</ul>
+				
+				
 				
 				<div class="tab-content">
 					<div class="tab-pane active" id="es">
@@ -87,6 +88,23 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 			  			<textarea name="description.it" class="input-xxlarge" cols="80" th:field="*{description.it}" placeholder="Enter poi description (italian)" th:placeholder="#{poi.description.it.placeholder}" ></textarea>
 			  		</div>
 				</div>
+				
+				<div>
+					<fieldset>
+						<legend th:text="#{poi.image}">Image</legend>
+						<div class ="item rounded dark poiImage">
+							<img src="../../../../resources/img/no_image.png" th:src="@{ ${poi.hasImage}? '/admin/poi/' +${poi.id} + '/image' : '/resources/img/no_image.png' }" title="Poi image" th:title="#{poi.image}"/>
+						</div>
+						<div  th:if="${poi.hasImage}" >
+							<label class="checkbox">
+						      	<input type="checkbox" name="deleteImage"  value="true"/><span th:text="#{poi.image.delete}" >Delete image</span> 
+						    </label>
+		 
+						</div>
+						<input type="file" name="file" th:if="${!poi.hasImage}" />
+					</fieldset>
+				</div>
+				
 				
 				<div>
 					<fieldset>
@@ -212,12 +230,12 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 		
 		map.gmap({ 
 	 		'center': map.data("coord"),
-	 		'zoom': 17,
+			'zoom': 17,
 	 		'callback':function() {
 	 	        var self = this;
-	 	        self.addMarker({ 
-	 	        	'position':  map.data("coord"), 
-	 	        });                                                                                                                                                                                                                               
+				self.addMarker({ 
+	 	    		'position':  map.data("coord"), 
+	 	        }); 
 	 		}
 	 	}).bind('init', function (event, map) { 
 			$(map).click( function(event) {
@@ -231,7 +249,6 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 			addMarker(ui.item.position );	
 			addAddress(ui.item.position);
 		});
-		
 		
 		function addMarker(latLng){
 			map.gmap('clear','markers');

@@ -5,25 +5,35 @@ import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.PoiRepository;
+import info.spain.opencatalog.repository.StorageService;
 import info.spain.opencatalog.web.form.PoiForm;
 
+import java.io.IOException;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.web.PageableDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Handles requests for the application poi page.
@@ -32,8 +42,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/admin/poi")
 public class PoiController extends AbstractController {
 	
+	private Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private PoiRepository poiRepository;
+	
+	@Autowired
+	private StorageService storageService;
 	
 	
 	/**
@@ -59,6 +74,8 @@ public class PoiController extends AbstractController {
 			throw new NotFoundException("poi", id);
 		}
 		PoiForm poiForm = new PoiForm(poi);
+		poiForm.setHasImage(storageService.existsFile(getPoiImageFilename(id)));
+		
 		model.addAttribute("poi", poiForm);
 		return "admin/poi/poi";
 	}
@@ -73,6 +90,12 @@ public class PoiController extends AbstractController {
 		}
 		Poi poi = poiRepository.save(poiForm.getPoi());
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
+		
+		if (poiForm.getFile() != null) {
+			poiForm.setId(poi.getId());
+			processImage(poiForm, errors);
+		}
+		
 		return "redirect:/admin/poi/" + poi.getId();
 	}
 	
@@ -88,14 +111,16 @@ public class PoiController extends AbstractController {
 	
 	/**
 	 * UPDATE
+	 * 
+	 * FIXME: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
 	 */
-	@RequestMapping( value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping( value="/{id}", method=RequestMethod.POST)
 	public String update(@Valid @ModelAttribute("poi") PoiForm poiForm,BindingResult errors,  Model model, @PathVariable("id") String id) {
 		
-		if (errors.hasErrors()){
+		if (errors.hasErrors() || ! processImage(poiForm, errors)){
 			return "admin/poi/poi";
 		}
-
+		
 		Poi poi = poiForm.getPoi();
 		poi.setId(id);
 		
@@ -103,6 +128,8 @@ public class PoiController extends AbstractController {
 		model.addAttribute(INFO_MESSAGE,  "message.item.updated") ;
 		return "redirect:/admin/poi/" + id;
 	}
+	
+	
 	
 	/**
 	 * DELETE
@@ -142,5 +169,49 @@ public class PoiController extends AbstractController {
 		return result.toString();
 		
 	}
+	
+	/**
+	 * IMAGE
+	 */
+	 @RequestMapping(value = "/{id}/image", method = RequestMethod.GET)
+	 public void getById (@PathVariable (value="id") String id, HttpServletResponse response) throws IOException {
+         GridFsResource file = storageService.getByFilename(getPoiImageFilename(id));
+		 if (file == null || file.contentLength() == 0){
+			 response.setStatus(HttpStatus.NOT_FOUND.value());
+		 } else {
+			 response.setContentType(file.getContentType());
+			 response.setContentLength((int)file.contentLength());
+			 response.getOutputStream().write(IOUtils.toByteArray(file.getInputStream()));
+			 response.getOutputStream().flush();
+		 }
+	  }
+	 
+	 private String getPoiImageFilename(String idPoi){
+		 return idPoi;
+	 }
+	
+	 private boolean processImage(PoiForm form, BindingResult errors ){
+		 String filename = getPoiImageFilename(form.getId());
+		 if (form.isDeleteImage()){
+				storageService.deleteFile(filename);
+		 } else {
+			MultipartFile file = form.getFile();
+			if (file != null && ! file.isEmpty()){
+				try {
+					// FIXME: save on storageService
+					//storageService.saveFile(file, filename, contentType);
+					storageService.saveFile(file.getInputStream(), filename, file.getContentType());
+					
+					//Files.write( file.getBytes(), new File("/tmp/" + filename));
+				} catch (IOException e) {
+					errors.addError( new ObjectError("image", "poi.image.save.error"));
+					log.error(e.getMessage());
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 
 }

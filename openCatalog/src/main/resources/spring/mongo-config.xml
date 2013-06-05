@@ -26,6 +26,11 @@
 	  <constructor-arg name="mongoConverter" ref="mappingConverter"/>
 	</bean>
 	
+	<bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+	    <constructor-arg ref="mongoDbFactory" />
+	    <constructor-arg ref="mappingConverter" />
+	 </bean>
+	
 	
 	<bean class="org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener">
 		<constructor-arg name="validator" ref="localValidatorFactoryBean"/>
@@ -34,5 +39,7 @@
 	<bean id="localValidatorFactoryBean" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<mongo:repositories base-package="info.spain.opencatalog.repository" />
+	
+	<bean id="storageService" class="info.spain.opencatalog.repository.StorageServiceImpl"/>
 
 </beans>

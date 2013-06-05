@@ -8,28 +8,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class PoiForm extends Poi {
 
-
-	
 	private static final long serialVersionUID = 3188263525111774200L;
 	
-	/**
-	 * Used form submits 
-	 */
-	private Map<String,String> tag = new HashMap<String,String>();
+	private boolean hasImage = false;
+	private boolean deleteImage = false;
+	private MultipartFile file; // for file uploads
+	private Map<String,String> tag = new HashMap<String,String>(); // Used for tag
+	private List<TagInfo> tagsInfo = new ArrayList<TagInfo>(); // Used for rendering
+	
+	public boolean isDeleteImage() {
+		return deleteImage;
+	}
+
+	public void setDeleteImage(boolean deleteImage) {
+		this.deleteImage = deleteImage;
+	}
+
+	public boolean isHasImage() {
+		return hasImage;
+	}
+
+	public void setHasImage(boolean hasImage) {
+		this.hasImage = hasImage;
+	}
+
 	public Map<String, String> getTag() {
 		return tag;
 	}
 	
-	/**
-	 * Used for rendering
-	 */
-	private List<TagInfo> tagsInfo = new ArrayList<TagInfo>();
 	public List<TagInfo> getTagsInfo() {
 		return tagsInfo;
 	}
 
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 
 	/** 
 	 * Obtenemos el Poi del PoiForm y le

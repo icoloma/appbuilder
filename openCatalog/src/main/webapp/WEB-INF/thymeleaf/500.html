@@ -30,6 +30,7 @@
 	    <h1 th:text="#{error.default.title}">Error !!!</h1>
 	    <div class="alert alert-error">
 		    <p th:text="#{error.default.text}">Internal Error</p>
+		    <p th:text="${exception.message}">Exception message</p>
 	    </div>
 	    
 	    
