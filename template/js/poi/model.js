@@ -2,6 +2,15 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
   return B.Model.extend({
     propDistanceTo: function(lat, lon) {
       return Geo.propDistance(this.get('lat'), this.get('lon'), lat, lon);
+    },
+    geoLink: function() {
+      if (window.appConfig.platform.match(/ios/i)) {
+        // TODO: testear!!
+        return 'http//:maps.apple.com/?ll=' + this.get('lat') + ',' + this.get('lon') + '&z=17';
+      } else {
+        // Android como valor por defecto
+        return 'geo:' + this.get('lat') + ',' + this.get('lon') + '?z=17';
+      }
     }
   });
 });

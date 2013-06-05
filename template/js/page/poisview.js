@@ -41,7 +41,7 @@ define(
       },
 
       filter: function(distance) {
-        var collection = collectionView.collection;
+        var collection = this.collectionView.collection;
 
         navigator.geolocation.getCurrentPosition(function(position) {
           var coords = position.coords;

@@ -9,7 +9,7 @@ define(
       initialize: function() {
         this.actionbarView = new ActionbarView({
           title: this.model.get('name'),
-          map: true,
+          map: this.model.geoLink(),
           star: true,
           notify: true
         });

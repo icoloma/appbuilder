@@ -3,7 +3,7 @@ define(
   function() {
     return B.View.extend({
 
-      className: 'action-bar',
+      className: 'actionbar',
 
       events: {
         'tap [data-action]': function(e) {
@@ -18,7 +18,7 @@ define(
         '<% if (sort) { %><span data-action="sort" class="sort-button">Sort</span> <% } %>' +
         '<% if (notify) { %><span data-action="notify" class="notify-button">Notify</span> <% } %>' +
         '<% if (star) { %><span data-action="star" class="star-button">Star</span> <% } %>' +
-        '<% if (map) { %><span data-action="map" class="map-button">Map</span> <% } %>'
+        '<% if (map) { %><span data-action="map" class="map-button"><a href="{{map}}">Map</a></span> <% } %>'
       ),
 
       controlDefaults: function () {

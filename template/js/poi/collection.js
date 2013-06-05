@@ -15,7 +15,7 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
     sortByDistanceTo: function(lat, lon) {
       return function(model) {
         return model.propDistanceTo(lat, lon);
-      }
+      };
     }
   });
 });

@@ -1,7 +1,14 @@
 define(function() {
+
+  /*
+    Configuración de la aplicación en desarrollo.
+    Intenta cubrir todos los casos: navegador o nativo, desktop o móvil
+  */
+
   window.appConfig = {
     assets: 'test/assets/',
-    data: 'test/data/'
+    data: 'test/data/',
+    platform: window.device ? device.platform : 'Android'
   };
 
   // Detecta eventos 'touch', para distinguir si estamos en un dispositivo o en desktop

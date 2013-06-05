@@ -30,3 +30,6 @@ La tarea `dev` simplemente compila la hoja LESS y comprueba con JSHint el códig
 * `device`: simplemente copia la estructura de ficheros. Útil para depurar en un móvil compilando una aplicación nativa.
 * `optimize`: optimiza el javascript. Útil para depurar el build de Require.js, ya sea con un navegador o en nativo. 
 * `prod`: compila JS y LESS para producción (necesitará "ensamblarse" con los datos del catálogo).
+
+## Esquema de datos
+Los schemas en `js/schemas` contienen el formato esperado para el volcado de datos desde el repositorio, así como el ejemplo en `test/data/data.json`.
