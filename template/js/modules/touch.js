@@ -9,31 +9,35 @@
 */
 
 define(['lib/jquery'], function() {
-  // Lleva la cuenta los eventos 'touchstart'
-  var touched = false
+  var $doc = $(document)
+
+  // Estado del evento 'tap' 
+  , tapping = false
+
+  // Cancela el tap al mover el punto de contacto
+  // Ojo: Necesita testeo, por si la pantalla es muy sensible
+  , cancelTap = function() {
+    tapping = false;
+    $doc.off('touchmove.cancelTap');
+  }
   ;
 
-  $(document).on('touchstart', function(e) {
+  $doc.on('touchstart', function(e) {
     // Cancela el tap al entrar con más de un punto de contacto
     // OJO: no siempre soportado (e.g. Android 2.3.6)
     if (e.originalEvent.touches.length > 1) {
-      touched = false;
+      tapping = false;
       return false;
     } else {
-      touched = true;
+      tapping = true;
+      $doc.on('touchmove.cancelTap', cancelTap);
     }
   });
 
-  // Cancelar tap al mover el punto de contacto
-  // Ojo: Necesita testeo, por si la pantalla es muy sensible
-  $(document).on('touchmove', function(e) {
-    touched = false;
-  });
-
   // Emite el evento 'tap'
-  $(document).on('touchend', function(e) {
-    if (touched) {
-      touched = false;
+  $doc.on('touchend', function(e) {
+    if (tapping) {
+      tapping = false;
       var $target = $(e.target);
       $target.trigger('tap');
       // Simulamos un click instantáneo en caso de que
@@ -48,5 +52,19 @@ define(['lib/jquery'], function() {
   document.addEventListener('click', function(e) {
     e.preventDefault();
   }, true);
+
+  return {
+    delegateScroll: function(el) {
+      $doc.on('touchmove.delegatedScroll', function(e) {
+        e.preventDefault();
+        console.log("No scroll");
+        // Do something
+      });
+    },
+    undelegateScroll: function() {
+      console.log("Scroll is back!");
+      $doc.off('touchmove.delegatedScroll');
+    }
+  };
 
 });
