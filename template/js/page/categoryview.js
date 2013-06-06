@@ -3,6 +3,7 @@ define(
   function(ListView, TrView) {
 
     return B.View.extend({
+      className: 'categoryview',
 
       initialize: function() {
         this.collectionView = new ListView({

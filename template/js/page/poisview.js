@@ -3,6 +3,7 @@ define(
   function(ListView, TrView, ActionbarView, Geo, PoiCollection) {
 
     return B.View.extend({
+      className: 'poisview',
 
       initialize: function() {
         this.actionbarView = new ActionbarView({
@@ -15,6 +16,7 @@ define(
           this.filter(50);
         });
         this.collectionView = new ListView({
+          className: 'poicollectionview',
           collection: this.collection,
           url: '#/pois/',
           trView: TrView

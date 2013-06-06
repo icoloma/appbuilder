@@ -41,10 +41,11 @@ define(
       },
 
       setView: function(view, options, navbarOpts) {
-        this.currentView = new view(options);
+        this.currentView = new view(options).render();
         this.navbarView.options = navbarOpts;
         this.navbarView.render();
-        this.$page.html(this.currentView.render().$el);
+        this.$page.replaceWith(this.currentView.$el);
+        this.$page = this.currentView.$el;
         return this.currentView;
       },
 

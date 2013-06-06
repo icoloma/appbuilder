@@ -3,6 +3,7 @@ define(
   function(ListView, TrView, ActionbarView) {
 
     return B.View.extend({
+      className: 'homeview',
 
       initialize: function() {
         this.collectionView = new ListView({
@@ -13,7 +14,7 @@ define(
       },
 
       starTmpl: _.template(
-        '<a href="#/pois?starred=true"><span class="starred"></span> {{res.Starred}}</a>'
+        '<a href="#/pois?starred=true"><span class="starred-pois"></span> {{res.Starred}}</a>'
       ),
 
       render: function() {
