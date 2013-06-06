@@ -9,6 +9,7 @@
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-jshint": "~0.5.4",
-    "grunt-regex-replace": "~0.2.5"
+    "grunt-regex-replace": "~0.2.5",
+    "underscore": "~1.4.4"
   }
 }

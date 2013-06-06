@@ -5,16 +5,16 @@
   * 'device'
 */
 
-module.exports = function(grunt) {
+var _ = require('underscore')
 
-grunt.loadNpmTasks('grunt-contrib-clean');
-grunt.loadNpmTasks('grunt-contrib-copy');
-grunt.loadNpmTasks('grunt-contrib-less');
-grunt.loadNpmTasks('grunt-contrib-jshint');
-grunt.loadNpmTasks('grunt-contrib-requirejs');
-grunt.loadNpmTasks('grunt-regex-replace');
+/* Configuración para el build de require.js */
+, rjsConf = require('./js/modules/require.conf.js')
+, rjsBasicConf = _.extend(rjsConf.basic, rjsConf.build)
+, rjsDev = _.extend(_.clone(rjsBasicConf), rjsConf.dev)
+, rjsProd = _.extend(_.clone(rjsBasicConf), rjsConf.prod)
 
-var buildOpenTag = function(opt) {
+/* Regex para editar index.html */
+, buildOpenTag = function(opt) {
   return '<!-- << GRUNT: ' + opt + ' -->';
 }
 , buildCloseTag = function(opt) {
@@ -24,6 +24,17 @@ var buildOpenTag = function(opt) {
   return new RegExp(buildOpenTag(opt) + '[\\s\\S]+' + buildCloseTag(opt));
 }
 ;
+
+
+module.exports = function(grunt) {
+
+grunt.loadNpmTasks('grunt-contrib-clean');
+grunt.loadNpmTasks('grunt-contrib-copy');
+grunt.loadNpmTasks('grunt-contrib-less');
+grunt.loadNpmTasks('grunt-contrib-jshint');
+grunt.loadNpmTasks('grunt-contrib-requirejs');
+grunt.loadNpmTasks('grunt-regex-replace');
+
 
 grunt.initConfig({
   clean: ['build/'],
@@ -48,35 +59,10 @@ grunt.initConfig({
   },
   requirejs: {
     prod: {
-      options: {
-        baseUrl: './js',
-        name: 'main',
-        paths: {
-          globals: 'lib/globals'
-        },
-        include:
-          [
-            'lib/require'
-          ],
-        out: 'build/js/scripts.js',
-        optimize: 'none'
-      }
+      options: rjsProd
     },
     dev: {
-      options: {
-        baseUrl: './js',
-        name: 'main',
-        paths: {
-          globals: 'lib/globals',
-          'modules/config': 'modules/config-dev'
-        },
-        include:
-          [
-            'lib/require'
-          ],
-        out: 'build/js/scripts.js',
-        optimize: 'none'
-      }
+      options: rjsDev
     },
   },
   copy: {
@@ -123,19 +109,17 @@ grunt.initConfig({
   }
 });
 
-// Internal tasks
+/* Tareas internas */
 grunt.registerTask('css-build-dev', ['less:dev', 'copy:css', 'regex-replace:css']);
 grunt.registerTask('css-build-prod', ['less:prod', 'regex-replace:css']);
 grunt.registerTask('basic-build', ['jshint', 'clean', 'copy:index']);
-grunt.registerTask('optimize-js-dev', ['requirejs:dev', 'regex-replace:scripts']);
-grunt.registerTask('optimize-js-prod', ['requirejs:dev', 'regex-replace:scripts']);
+grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
+grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
+/*  */
 
 grunt.registerTask('dev', ['less:dev', 'jshint']);
-grunt.registerTask('device', 
-  ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
-grunt.registerTask('optimized', 
-  ['basic-build', 'copy:data', 'css-build-dev', 'optimize-js-dev']);
-grunt.registerTask('prod', 
-  ['basic-build', 'css-build-prod', 'optimize-js-prod', 'regex-replace:weinre']);
+grunt.registerTask('device', ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
+grunt.registerTask('optimized', ['basic-build', 'copy:data', 'css-build-dev', 'rjs-dev']);
+grunt.registerTask('prod', ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre']);
 
 };

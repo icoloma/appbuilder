@@ -3,7 +3,6 @@ define(['modules/config', 'modules/router', 'db/initdb', 'modules/i18n'],
     return {
       Router: Router,
       Boot: function(callback) {
-        // TODO: mostrar splash image 
         async.series([
           Config,
           function(cb) {
@@ -16,7 +15,6 @@ define(['modules/config', 'modules/router', 'db/initdb', 'modules/i18n'],
           },
           InitDb
         ], function(cb) {
-          // TODO: quitar splash image
           callback();
         });
       }

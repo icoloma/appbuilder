@@ -50,12 +50,13 @@ define(function() {
         window.appConfig.locale = locale.value.match(/^([a-z]{2})/)[1];
         once();
       }, function(err) {
-        // TODO: error handling
+        // TODO: mejor error handling
+        window.appConfig.locale = 'en';
       });
     });
 
     // Un timeout con una configuración por defecto
-    // OJO: supone que siempre se levanta un servidor local para depurar
+    // OJO: supone que siempre se levanta un servidor local para depurar en el navegador
     if (location.protocol === 'http:' || location.protocol === 'https:' ) {
       setTimeout(function() {
         window.appConfig.locale = 'es';
