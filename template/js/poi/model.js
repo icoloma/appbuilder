@@ -1,4 +1,4 @@
-define(['globals', 'modules/geo'], function(Globals, Geo) {
+define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
   return B.Model.extend({
     propDistanceTo: function(lat, lon) {
       return Geo.propDistance(this.get('lat'), this.get('lon'), lat, lon);
@@ -11,6 +11,22 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
         // Android como valor por defecto
         return 'geo:' + this.get('lat') + ',' + this.get('lon') + '?z=17';
       }
+    },
+
+    /* 
+      Un pequeño shim para persistir cambios en un POI 
+      https://github.com/icoloma/appbuilder/issues/29
+    */
+    persist: function(callback) {
+      var changed = this.changed;
+      Poi.load(this.get('id'), function(poi) {
+        if (poi) {
+          _.extend(poi, changed);
+          persistence.flush(callback);
+        } else {
+          // TODO: error handling
+        }
+      });
     }
   });
 });

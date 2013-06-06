@@ -11,7 +11,8 @@ define(
           title: this.model.get('name'),
           map: this.model.geoLink(),
           star: true,
-          notify: true
+          // TODO: implementar notificaciones
+          // notify: true
         });
         this.listenTo(this.actionbarView, 'star', this.star);
         this.modelView = new ArticleView({
@@ -28,7 +29,7 @@ define(
       star: function() {
         this.model.set('starred', !this.model.get('starred'));
         var message = this.model.get('starred') ? res.bookmarkAdded : res.bookmarkRemoved;
-        persistence.flush(function() {
+        this.model.persist(function()  {
           alert(message);
         });
       }
