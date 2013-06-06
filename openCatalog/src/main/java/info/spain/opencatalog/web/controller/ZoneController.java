@@ -8,7 +8,6 @@ import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.repository.ZoneRepository;
 import info.spain.opencatalog.web.form.ZoneForm;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;

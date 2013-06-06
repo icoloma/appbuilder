@@ -5,25 +5,19 @@ import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.PoiRepository;
-import info.spain.opencatalog.repository.StorageService;
 import info.spain.opencatalog.web.form.PoiForm;
+import info.spain.opencatalog.web.util.PoiImageUtilsImpl;
 
 import java.io.IOException;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.web.PageableDefaults;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,9 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.google.common.net.MediaType;
 
 /**
  * Handles requests for the application poi page.
@@ -45,15 +36,11 @@ import com.google.common.net.MediaType;
 @RequestMapping(value = "/admin/poi")
 public class PoiController extends AbstractController {
 	
-	private static String NO_IMAGE = "img/no_image.png";
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
-	
 	@Autowired
 	private PoiRepository poiRepository;
 	
 	@Autowired
-	private StorageService storageService;
+	private PoiImageUtilsImpl poiImageUtils;
 	
 	
 	/**
@@ -79,7 +66,7 @@ public class PoiController extends AbstractController {
 			throw new NotFoundException("poi", id);
 		}
 		PoiForm poiForm = new PoiForm(poi);
-		poiForm.setHasImage(storageService.existsFile(getPoiImageFilename(id)));
+		poiForm.setHasImage(poiImageUtils.hasImage(id));
 		
 		model.addAttribute("poi", poiForm);
 		return "admin/poi/poi";
@@ -179,57 +166,26 @@ public class PoiController extends AbstractController {
 	 * IMAGE
 	 */
 	 @RequestMapping(value = "/{id}/image", method = RequestMethod.GET)
-	 public void getById (@PathVariable (value="id") String id, HttpServletResponse response) throws IOException {
-		 
-		 String contentType;
-		 int contentLength;
-		 byte data[];
-		 
-		 GridFsResource file = storageService.getByFilename(getPoiImageFilename(id));
-		 if (file != null && file.exists()){
-			  contentType = file.getContentType();
-			 contentLength = (int)file.contentLength();
-			 data= IOUtils.toByteArray(file.getInputStream());
-		 } else {
-			 Resource img = new  ClassPathResource(NO_IMAGE);
-			 contentLength = (int) img.contentLength();
-			 contentType= MediaType.PNG.toString();
-			 data = IOUtils.toByteArray(img.getInputStream());
-		 }
-		
-		 response.setContentType(contentType);
-		 response.setContentLength(contentLength);
-		 response.getOutputStream().write(data);
-		 response.getOutputStream().flush();
-	 
+	 public HttpEntity<byte[]> getById (@PathVariable (value="id") String id) throws IOException {
+		 return poiImageUtils.getPoiImageAsHttpEntity(id);
 	  }
 	 
-	 private String getPoiImageFilename(String idPoi){
-		 return idPoi;
-	 }
-	
+	 
+	 /**
+	  * SAVE OR DELETE POI IMAGE
+	  */
 	 private boolean processImage(PoiForm form, BindingResult errors ){
-		 String filename = getPoiImageFilename(form.getId());
+		 poiImageUtils.deleteImage(form.getId());
 		 if (form.isDeleteImage()){
-				storageService.deleteFile(filename);
-		 } else {
-			MultipartFile file = form.getFile();
-			if (file != null && ! file.isEmpty()){
-				try {
-					// FIXME: save on storageService
-					//storageService.saveFile(file, filename, contentType);
-					storageService.saveFile(file.getInputStream(), filename, file.getContentType());
-					
-					//Files.write( file.getBytes(), new File("/tmp/" + filename));
-				} catch (IOException e) {
-					errors.addError( new ObjectError("image", "poi.image.save.error"));
-					log.error(e.getMessage());
-					return false;
-				}
-			}
-		}
-		return true;
+			return true;
+		 } 
+		 try {
+			poiImageUtils.saveImage(form.getId(), form.getFile());
+			return true;
+		 } catch (IOException e) {
+			errors.addError( new ObjectError("image", "poi.image.save.error"));
+			return false;
+		 }
 	}
-	
 
 }

@@ -26,10 +26,6 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<default-servlet-handler />	
 	
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	    <beans:property name="maxUploadSize" value="100000"/>
-	</beans:bean>
-		
 	
 	<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<beans:property name="exceptionMappings">
@@ -40,7 +36,8 @@
 		<beans:property name="defaultStatusCode" value="500"/>
 		<beans:property name="defaultErrorView"  value="500"/>
 	</beans:bean>
-
+	
+	
 	<!-- 
 		Controllers
 	 -->
