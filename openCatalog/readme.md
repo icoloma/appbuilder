@@ -15,8 +15,12 @@ Configurar el servidor (tcServer) para arrancar con el perfil adecuado (dev,prod
 Para realizar una carga inicial de los datos se puede ejecutar **MongoDbPopulator**.
 Hay que tener en cuenta que los test de los repositorios eliminan toda la información de las colecciones. 
 
+# Postman - REST Client
+Una opción para realizar las prubas manuales es a través del Plugin de Chrome [Postman- REST Client](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm)
+
+
 # Rest-Shell
-Para realizar pruebas manuales del API podemos utilizar [REST-SHELL](https://github.com/SpringSource/rest-shell)
+Otra opción para realizar pruebas manuales del API es [REST-SHELL](https://github.com/SpringSource/rest-shell)
 
 Download the binary [.tar.gz](https://github.com/SpringSource/rest-shell/downloads) file
 
