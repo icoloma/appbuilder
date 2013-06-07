@@ -17,8 +17,9 @@ import org.springframework.data.rest.repository.annotation.RestResource;
 @RestResource(path = "poi", rel="pois")
 public interface PoiRepository extends MongoRepository<Poi, String>, PoiRepositoryCustom {
 	
-
-	@RestResource(path = "byName_es", rel="byName_es")
+	// API : /api/poi/?limit=1&page=5&sort=name.es&name.es.dir=DESC
+	// UI  : /admin/poi/?page.page=2&page.size=5&page.sort=name.es&page.sort.dir=DESC
+	@RestResource(path = "byName_es", rel="byName_es")    
 	@Query( value="{'name.es':{'$regex':?0, '$options': 'i'}}")
 	public Page<Poi> findByNameEsLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
