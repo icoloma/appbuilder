@@ -6,8 +6,8 @@ define(
       className: 'articleview',
 
       tmpl: _.template(
-        '<img src="{{appConfig.assets+thumb}}">' + 
-        '<p>{{description}}</p>' +
+        '<img class="poi-img" src="{{appConfig.assets+thumb}}">' + 
+        '<p class="description">{{description}}</p>' +
         '<p>Located in {{lat}}, {{lon}}.</p>'
       ),
 

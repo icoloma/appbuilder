@@ -5,6 +5,7 @@ define(function() {
     Intenta cubrir todos los casos: navegador o nativo, desktop o móvil
   */
 
+  console.log('Configuring application...'); //DEBUG
   window.appConfig = {
     assets: 'test/assets/',
     data: 'test/data/',
@@ -40,11 +41,13 @@ define(function() {
       return function() {
         if (!done) {
           done = true;
+          console.log('Deviceready fired!'); //DEBUG
           callback();
         }
       };
     })();
 
+    console.log('Waiting for deviceready...'); //DEBUG
     document.addEventListener('deviceready', function () {
       navigator.globalization.getLocaleName(function(locale) {
         window.appConfig.locale = locale.value.match(/^([a-z]{2})/)[1];
@@ -59,6 +62,7 @@ define(function() {
     // OJO: supone que siempre se levanta un servidor local para depurar en el navegador
     if (location.protocol === 'http:' || location.protocol === 'https:' ) {
       setTimeout(function() {
+        console.log('Simulando deviceready!');
         window.appConfig.locale = 'es';
         once();
       }, 500);

@@ -57,12 +57,10 @@ define(['lib/jquery'], function() {
     delegateScroll: function(el) {
       $doc.on('touchmove.delegatedScroll', function(e) {
         e.preventDefault();
-        console.log("No scroll");
         // Do something
       });
     },
     undelegateScroll: function() {
-      console.log("Scroll is back!");
       $doc.off('touchmove.delegatedScroll');
     }
   };

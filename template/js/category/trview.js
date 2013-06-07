@@ -4,7 +4,7 @@ define(
     return BaseTrView.extend({
       tmpl: _.template(
         '<td>{{name}}</td>' +
-        '<td class="go">Go</td>'
+        '<td class="go">➤</td>'
       )
     });
   }

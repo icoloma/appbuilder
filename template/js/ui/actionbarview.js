@@ -17,7 +17,7 @@ define(
         '<% if (filter) { %><span data-action="filter" class="filter-button">Filter</span> <% } %>' +
         '<% if (sort) { %><span data-action="sort" class="sort-button">Sort</span> <% } %>' +
         '<% if (notify) { %><span data-action="notify" class="notify-button">Notify</span> <% } %>' +
-        '<% if (star) { %><span data-action="star" class="star-button">Star</span> <% } %>' +
+        '<% if (star) { %><span data-action="star" class="star-button {{isStarred}}">Star</span> <% } %>' +
         '<% if (map) { %><span data-action="map" class="map-button"><a href="{{map}}">Map</a></span> <% } %>'
       ),
 
@@ -33,6 +33,7 @@ define(
       },
 
       render: function() {
+        this.options.isStarred = this.options.starred ? 'starred' : 'non-starred';
         this.$el.html(
           this.tmpl(_.extend(this.controlDefaults(), this.options))
         );

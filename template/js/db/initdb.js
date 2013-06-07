@@ -9,6 +9,7 @@ define(
     persistence.store.websql
       .config(persistence, 'guide', 'Our own very DB', 5 * 1024 * 1024);
 
+    console.log('Sincronizando esquemas'); // DEBUG
     persistence.schemaSync();
 
 

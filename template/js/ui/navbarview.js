@@ -11,9 +11,9 @@ define(['globals'], function() {
     },
 
     tmpl: _.template(
-      '<% if (!root) { %><span data-action="back" class="back-button">Back</span><% } %>' +
-      '<h1 class="pagetitle">{{title}}</h1>' +
-      '<span class="options-button">Options</span>'
+      '<% if (!root) { %><span data-action="back" class="back-button">{{res.Back}}</span><% } %>' +
+      '<h1 class="pagetitle">{{title}}</h1>'
+      // '<span class="options-button">Options</span>'
     ),
 
     render: function() {
