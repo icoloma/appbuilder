@@ -25,6 +25,7 @@ define(
       // Carga inicial de la base de datos
       Db.Category.all().limit(1).list(null, function(results) {
         if (!results.length) {
+          console.log('Cargando la base de datos'); //DEBUG
           LoadDb(window.appConfig.locale, loadZone);
         } else {
           return loadZone();

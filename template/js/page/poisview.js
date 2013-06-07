@@ -1,6 +1,7 @@
 define(
-  ['modules/baselistview', 'poi/trview', 'ui/actionbarview', 'modules/geo', 'poi/collection'],
-  function(ListView, TrView, ActionbarView, Geo, PoiCollection) {
+  ['modules/baselistview', 'poi/trview', 'ui/actionbarview', 'modules/geo',
+   'poi/collection', 'ui/basedialogview'],
+  function(ListView, TrView, ActionbarView, Geo, PoiCollection, DialogView) {
 
     return B.View.extend({
       className: 'poisview',
@@ -12,9 +13,7 @@ define(
           sort: true
         });
         this.listenTo(this.actionbarView, 'sort', this.sort);
-        this.listenTo(this.actionbarView, 'filter', function() {
-          this.filter(50);
-        });
+        this.listenTo(this.actionbarView, 'filter', this.filterDialog);
         this.collectionView = new ListView({
           className: 'poicollectionview',
           collection: this.collection,
@@ -57,6 +56,30 @@ define(
           // TODO
           alert(res.geoError);
         });
+      },
+
+      filterDialog: function() {
+        var self = this
+        , options = _.template(
+          '<ul>' +
+            '<li data-distance="1">1 {{res.kilometers}}</li>' +
+            '<li data-distance="5">5 {{res.kilometers}}</li>' +
+            '<li data-distance="10">10 {{res.kilometers}}</li>' +
+            '<li data-distance="20">20 {{res.kilometers}}</li>' +
+          '</ul>'
+        , {})
+        , dialogView = new DialogView({
+          content: options
+        })
+        ;
+        dialogView.delegateEvents(_.extend(_.clone(dialogView.events), {
+          'tap li': function(e) {
+            var distance = Number($(e.target).closest('[data-distance]').data('distance'));
+            this.dismiss();
+            self.filter(distance);
+          }
+        }));
+        this.trigger('dialog', dialogView);
       }
 
     });

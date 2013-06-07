@@ -4,10 +4,10 @@
 define(
   [ 
     'globals', 
-    'page/pages', 'schemas/schemas', 'ui/navbarview',
+    'page/pages', 'schemas/schemas', 'ui/navbarview', 'ui/basedialogview',
     'poi/model', 'poi/collection'
   ],
-  function(Globals, Page, Db, NavbarView, PoiModel, PoiCollection) {
+  function(Globals, Page, Db, NavbarView, DialogView, PoiModel, PoiCollection) {
 
     var parseQuery = function(query) {
       var queryObject = {}
@@ -41,12 +41,22 @@ define(
       },
 
       setView: function(view, options, navbarOpts) {
+        // Para de escuchar a currentView, para evitar memory leaks
+        this.stopListening(this.currentView);
+
         this.currentView = new view(options).render();
-        this.navbarView.options = navbarOpts;
-        this.navbarView.render();
+        this.listenTo(this.currentView, 'dialog', this.dialog);
         this.$page.replaceWith(this.currentView.$el);
         this.$page = this.currentView.$el;
+
+        this.navbarView.options = navbarOpts;
+        this.navbarView.render();
+
         return this.currentView;
+      },
+
+      dialog: function(dialogView) {
+        this.$el.prepend(dialogView.render().$el);
       },
 
       renderHome: function() {

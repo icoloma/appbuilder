@@ -5,6 +5,7 @@ define({
     bookmarkRemoved: 'Borrado de favoritos',
     geoError: 'La geolocalización no funcionó.',
     Back: 'Atrás',
+    kilometers: 'kilómetros',
   },
   en: {
     Starred: 'Bookmarks',
@@ -12,5 +13,6 @@ define({
     bookmarkRemoved: 'Boorkmark removed',
     geoError: 'Geolocation didn\'t work.',
     Back: 'Back',
+    kilometers: 'kilometers',
   }
 });

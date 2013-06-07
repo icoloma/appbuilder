@@ -1,6 +1,6 @@
 define(
-  ['poi/articleview', 'ui/actionbarview'],
-  function(ArticleView, ActionbarView) {
+  ['poi/articleview', 'ui/actionbarview', 'ui/basedialogview'],
+  function(ArticleView, ActionbarView, DialogView) {
 
 
     return B.View.extend({
@@ -11,6 +11,7 @@ define(
           title: this.model.get('name'),
           map: this.model.geoLink(),
           star: true,
+          starred: this.model.get('starred')
           // TODO: implementar notificaciones
           // notify: true
         });
@@ -27,13 +28,19 @@ define(
       },
 
       star: function() {
+        var self = this;
         this.model.set('starred', !this.model.get('starred'));
         var message = this.model.get('starred') ? res.bookmarkAdded : res.bookmarkRemoved;
-        this.model.persist(function()  {
-          alert(message);
+        this.model.persist(function() {
+          var dialogView = new DialogView({
+            content: '<p>' + message + '</p>'
+          });
+          self.trigger('dialog', dialogView);
+
+          self.actionbarView.options.starred = this.get('starred');
+          self.actionbarView.render();
         });
       }
-
     });
   }
 );

@@ -18,11 +18,12 @@ define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
       https://github.com/icoloma/appbuilder/issues/29
     */
     persist: function(callback) {
+      var self = this;
       var changed = this.changed;
       Poi.load(this.get('id'), function(poi) {
         if (poi) {
           _.extend(poi, changed);
-          persistence.flush(callback);
+          persistence.flush(_.bind(callback, self));
         } else {
           // TODO: error handling
         }
