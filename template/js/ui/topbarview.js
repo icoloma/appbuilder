@@ -11,9 +11,15 @@ define(['globals'], function() {
         history.back();
       },
       'tap [data-action]': function(e) {
-        var action = $(e.target).data('action')
+        var $target = $(e.target)
+        , action = $(e.target).data('action')
         ;
-        this.trigger(action);
+        if (!this.blocked) {
+          this.trigger(action);
+          if (action === 'sort' || action === 'filter') {
+            this.block($target);
+          }
+        }
       }
     },
 
@@ -52,6 +58,15 @@ define(['globals'], function() {
         this.tmpl(_.extend(this.controlDefaults(), this.options))
       );
       return this;
+    },
+
+    block: function($el) {
+      this.blocked$El = $el;
+      $el.addClass('busy');
+    }, 
+    unblock: function() {
+      this.blocked$El.removeClass('busy');
+      this.blocked$El = false;
     }
 
   });

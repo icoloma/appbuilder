@@ -29,22 +29,32 @@ define(
       },
 
       sort: function() {
-        var collection = this.collectionView.collection;
+        var self = this
+        , collection = this.collectionView.collection
+        ;
         navigator.geolocation.getCurrentPosition(function(position) {
+          self.topbarView.unblock();
           var coords = position.coords;
           collection.comparator = PoiCollection.sortByDistanceTo(coords.latitude,
                                                            coords.longitude);
           collection.sort();
         }, function(err) {
           // TODO
-          alert(res.geoError);
+          self.topbarView.unblock();
+          self.trigger('dialog', new DialogView({
+            content: '<p>' + res.geoError + '</p>' 
+          }));
         });
       },
 
       filter: function(distance) {
-        var collection = this.collectionView.collection;
+        var self = this
+        , collection = this.collectionView.collection
+        ;
 
         navigator.geolocation.getCurrentPosition(function(position) {
+          self.topbarView.unblock();
+          
           var coords = position.coords;
           collection.comparator = PoiCollection.sortByDistanceTo(coords.latitude,
                                                            coords.longitude);
@@ -54,7 +64,10 @@ define(
             .sort();
         }, function(err) {
           // TODO
-          alert(res.geoError);
+          self.topbarView.unblock();
+          self.trigger('dialog', new DialogView({
+            content: '<p>' + res.geoError + '</p>' 
+          }));
         });
       },
 

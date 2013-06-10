@@ -71,7 +71,6 @@ grunt.initConfig({
       dest: 'build/index.html'
     },
     js: {
-      // expand: true,
       src: ['js/**'],
       dest: 'build/'
     },
@@ -80,8 +79,10 @@ grunt.initConfig({
       dest: 'build/',
     },
     css: {
-      src: 'less/style.css',
-      dest: 'build/css/style.css'
+      src: [ 'style.css', 'fonts/*', 'img/*', '!fonts/config*' ],
+      dest: 'build/css/',
+      expand: true,
+      cwd: 'less/'
     }
   },
   'regex-replace': {
