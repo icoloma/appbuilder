@@ -3,14 +3,18 @@ package info.spain.opencatalog.domain;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class User {
 	@Id
 	private String id;
+	
 	@NotNull
+	@Indexed(unique=true)
 	private String email;
 	private String name;
 	private String password;
+	
 	@NotNull
 	private String apiKey;
 	

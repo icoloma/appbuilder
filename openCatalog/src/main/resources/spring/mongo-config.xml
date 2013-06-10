@@ -10,11 +10,11 @@
 		
 	<context:annotation-config/>
 
-	<mongo:db-factory dbname="${mongo.dbname}" id="mongoDbFactory"/>
+	<mongo:db-factory dbname="${mongo.dbname}" id="mongoDbFactory" write-concern="${mongo.writeConcern}"/>
 
 	<!-- connection pool -->
 	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
-		<mongo:options auto-connect-retry="true"/>
+		<mongo:options auto-connect-retry="true" write-number="1"/>
 	</mongo:mongo>
 	
 	<mongo:mapping-converter>
@@ -24,6 +24,7 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 	  <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
 	  <constructor-arg name="mongoConverter" ref="mappingConverter"/>
+	  
 	</bean>
 	
 	<bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">

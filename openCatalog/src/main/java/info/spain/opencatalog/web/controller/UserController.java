@@ -79,6 +79,13 @@ public class UserController extends AbstractController {
 		if (errors.hasErrors()){
 			return "admin/user/user";
 		}
+		
+		User dbUser = userRepository.findByEmail(userForm.getEmail());
+		if (dbUser != null){
+			errors.rejectValue("email", "user.email.error.alreadyExists");
+			return "admin/user/user";
+		}
+		
 		User user = userRepository.save(userForm.getUser().setApiKey(ApiKeyGenerator.newKey()));
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		return "redirect:/admin/user/" + user.getId();

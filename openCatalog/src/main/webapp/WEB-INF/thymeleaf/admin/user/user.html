@@ -40,7 +40,7 @@
 				<label th:text="#{user.email}">Email</label>
 		  		<div class="alert alert-error" th:if="${#fields.hasErrors('email')}">
 			  		<ul>
-					  <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}">Input is incorrect</li>
+					  <li th:each="err : ${#fields.errors('email')}" th:text="${err}">Input is incorrect</li>
 					</ul>
 		  		</div>
 		  		<input th:unless="${user.id}" name="email" type="text" th:field="*{email}" placeholder="Enter email" th:placeholder="#{user.email.placeholder}" class="input-xxlarge" required="required" value="root"/>
