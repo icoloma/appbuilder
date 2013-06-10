@@ -1,13 +1,13 @@
 define(
-  ['poi/articleview', 'ui/actionbarview', 'ui/basedialogview'],
-  function(ArticleView, ActionbarView, DialogView) {
+  ['poi/articleview', 'ui/topbarview', 'ui/basedialogview'],
+  function(ArticleView, TopbarView, DialogView) {
 
 
     return B.View.extend({
       className: 'poiview',
 
       initialize: function() {
-        this.actionbarView = new ActionbarView({
+        this.topbarView = new TopbarView({
           title: this.model.get('name'),
           map: this.model.geoLink(),
           star: true,
@@ -15,14 +15,14 @@ define(
           // TODO: implementar notificaciones
           // notify: true
         });
-        this.listenTo(this.actionbarView, 'star', this.star);
+        this.listenTo(this.topbarView, 'star', this.star);
         this.modelView = new ArticleView({
           model: this.model
         });
       },
 
       render: function() {
-        this.$el.html(this.actionbarView.render().$el);
+        this.$el.html(this.topbarView.render().$el);
         this.$el.append(this.modelView.render().$el);
         return this;
       },
@@ -37,8 +37,8 @@ define(
           });
           self.trigger('dialog', dialogView);
 
-          self.actionbarView.options.starred = this.get('starred');
-          self.actionbarView.render();
+          self.topbarView.options.starred = this.get('starred');
+          self.topbarView.render();
         });
       }
     });

@@ -1,6 +1,6 @@
 define(
-  ['modules/baselistview', 'category/trview'],
-  function(ListView, TrView) {
+  ['modules/baselistview', 'category/trview', 'ui/topbarview'],
+  function(ListView, TrView, TopbarView) {
 
     return B.View.extend({
       className: 'categoryview',
@@ -11,10 +11,12 @@ define(
           url: '#/pois?subcategory=',
           trView: TrView
         });
+        this.topbarView = new TopbarView();
       },
 
       render: function() {
-        this.$el.html(this.collectionView.render().$el);
+        this.$el.html(this.topbarView.render().$el);
+        this.$el.append(this.collectionView.render().$el);
         return this;
       }
 

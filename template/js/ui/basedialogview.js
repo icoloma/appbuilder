@@ -3,15 +3,14 @@ define(['globals', 'modules/touch'], function(Globals, Touch) {
     className: 'dialog-container',
 
     events: {
-      'close': 'dismiss',
-      'tap .close-dialog': 'dismiss'
+      'tap': 'dismiss'
     },
 
     tmpl: 
     // _.template(
       '<div class="dialog-mask"></div>' +
       '<div class="dialog">' +
-        '<span class="close-dialog"></span>' +
+        // '<span class="close-dialog icon-close"></span>' +
       '</div>'
     // )
   ,

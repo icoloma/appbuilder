@@ -4,10 +4,10 @@
 define(
   [ 
     'globals', 
-    'page/pages', 'schemas/schemas', 'ui/navbarview', 'ui/basedialogview',
+    'page/pages', 'schemas/schemas', 'ui/basedialogview',
     'poi/model', 'poi/collection'
   ],
-  function(Globals, Page, Db, NavbarView, DialogView, PoiModel, PoiCollection) {
+  function(Globals, Page, Db, DialogView, PoiModel, PoiCollection) {
 
     var parseQuery = function(query) {
       var queryObject = {}
@@ -32,25 +32,15 @@ define(
 
       initialize: function(options) {
         this.$el = options.$el;
-        this.$page = this.$el.find('.page');
-        this.navbarView = new NavbarView({
-          el: this.$el.find('.navbar').first(),
-          root: true,
-          title: window.appConfig.zone
-        }).render();
       },
 
-      setView: function(view, options, navbarOpts) {
+      setView: function(view, options) {
         // Para de escuchar a currentView, para evitar memory leaks
         this.stopListening(this.currentView);
 
         this.currentView = new view(options).render();
         this.listenTo(this.currentView, 'dialog', this.dialog);
-        this.$page.replaceWith(this.currentView.$el);
-        this.$page = this.currentView.$el;
-
-        this.navbarView.options = navbarOpts;
-        this.navbarView.render();
+        this.$el.html(this.currentView.$el);
 
         return this.currentView;
       },
@@ -64,9 +54,7 @@ define(
         Db.Category.all().asCollection(function(cats) {
           self.setView(Page.homeView, {
             collection: cats,
-          }, {
             title: window.appConfig.zone,
-            root: true
           });
         });
       },
@@ -86,8 +74,7 @@ define(
           }
         }, function(err, results) {
           self.setView(Page.categoryView, {
-            collection: results.subcategories
-          }, {
+            collection: results.subcategories,
             title: results.category.name
           });
         });
@@ -123,8 +110,7 @@ define(
             return new PoiModel(poi);
           }));
           self.setView(Page.poisView, {
-            collection: collection
-          }, {
+            collection: collection,
             title: results.title,
           });
         });
@@ -135,7 +121,6 @@ define(
         Db.Poi.findBy('id', poiId, function(poi) {
           self.setView(Page.poiView, {
             model: new PoiModel(poi.toJSON()),
-          }, {
             title: poi.name
           });
         });

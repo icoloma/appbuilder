@@ -12,6 +12,7 @@ define(['globals'],
 
     return B.View.extend({
       tagName: 'table',
+      className: 'collectionview',
 
       events: {
         'tap tr': function(e) {

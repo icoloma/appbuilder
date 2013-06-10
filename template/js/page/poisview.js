@@ -1,19 +1,19 @@
 define(
-  ['modules/baselistview', 'poi/trview', 'ui/actionbarview', 'modules/geo',
+  ['modules/baselistview', 'poi/trview', 'ui/topbarview', 'modules/geo',
    'poi/collection', 'ui/basedialogview'],
-  function(ListView, TrView, ActionbarView, Geo, PoiCollection, DialogView) {
+  function(ListView, TrView, TopbarView, Geo, PoiCollection, DialogView) {
 
     return B.View.extend({
       className: 'poisview',
 
       initialize: function() {
-        this.actionbarView = new ActionbarView({
+        this.topbarView = new TopbarView({
           title: this.options.name,
           filter: true,
           sort: true
         });
-        this.listenTo(this.actionbarView, 'sort', this.sort);
-        this.listenTo(this.actionbarView, 'filter', this.filterDialog);
+        this.listenTo(this.topbarView, 'sort', this.sort);
+        this.listenTo(this.topbarView, 'filter', this.filterDialog);
         this.collectionView = new ListView({
           className: 'poicollectionview',
           collection: this.collection,
@@ -23,7 +23,7 @@ define(
       },
 
       render: function() {
-        this.$el.html(this.actionbarView.render().$el);
+        this.$el.html(this.topbarView.render().$el);
         this.$el.append(this.collectionView.render().$el);
         return this;
       },
