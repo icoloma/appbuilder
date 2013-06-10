@@ -9,7 +9,10 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,12 +29,16 @@ public class Poi implements Serializable {
 	
 	public Poi(){}
 	public Poi(Poi other){
-		this.id = other.id;
-		this.name = other.name;
-		this.description = other.description;
-		this.address = other.address;
-		this.location = other.location;
-		this.tags = other.tags;
+		copyData(this, other);
+	}
+	
+	public static void copyData(Poi target, Poi source){
+		target.id = source.id;
+		target.name = source.name;
+		target.description = source.description;
+		target.address = source.address;
+		target.location = source.location;
+		target.tags = source.tags;
 	}
 	
 	@Id
@@ -53,9 +60,16 @@ public class Poi implements Serializable {
 	
 	private List<Tag> tags = new ArrayList<Tag>();
 	
+	@CreatedDate
+	private DateTime createdDate;
+	
+	@LastModifiedDate
+	private DateTime lastModifiedDate;
+	
 		
-	public void setId(String id){
+	public Poi setId(String id){
 		this.id = id;
+		return this;
 	}
 	public String getId() {
 		return id;
@@ -114,7 +128,14 @@ public class Poi implements Serializable {
 	}
 
 	
+	
 
+	public DateTime getCreatedDate() {
+		return createdDate;
+	}
+	public DateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
 	@Override
 	public String toString() {
 		return "[id=" + id + 
@@ -123,6 +144,8 @@ public class Poi implements Serializable {
 			   ", address=" + address +
 			   ", location=" + location +
 			   ", tags=" + tags +
+			   ", createdDate=" + createdDate +
+			   ", lastModifiedDate=" + lastModifiedDate +
 			   "]";
 	}
 

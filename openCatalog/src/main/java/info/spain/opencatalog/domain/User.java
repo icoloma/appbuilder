@@ -2,7 +2,10 @@ package info.spain.opencatalog.domain;
 
 import javax.validation.constraints.NotNull;
 
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 public class User {
@@ -18,6 +21,12 @@ public class User {
 	@NotNull
 	private String apiKey;
 	
+	@CreatedDate
+	private DateTime createdDate;
+	
+	@LastModifiedDate
+	private DateTime lastModifiedDate;
+	
 	
 	public User(){};
 	public User(User other){
@@ -32,7 +41,12 @@ public class User {
 		target.password = source.password;
 	}
 	
-	
+	public DateTime getCreatedDate() {
+		return createdDate;
+	}
+	public DateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
 	public String getName() {
 		return name;
 	}

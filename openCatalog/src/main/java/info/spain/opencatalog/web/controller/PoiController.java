@@ -113,10 +113,12 @@ public class PoiController extends AbstractController {
 			return "admin/poi/poi";
 		}
 		
-		Poi poi = poiForm.getPoi();
-		poi.setId(id);
+		Poi poi = poiForm.getPoi().setId(id);
+		Poi dbPoi = poiRepository.findOne(id);
+
+		Poi.copyData(dbPoi, poi);
 		
-		poiRepository.save(poi);
+		poiRepository.save(dbPoi);
 		model.addAttribute(INFO_MESSAGE,  "message.item.updated") ;
 		return "redirect:/admin/poi/" + id;
 	}

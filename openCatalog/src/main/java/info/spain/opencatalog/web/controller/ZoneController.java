@@ -99,10 +99,11 @@ public class ZoneController extends AbstractController {
 			return "admin/zone/zone";
 		}
 		
-		Zone zone = zoneForm.getZone();
-		zone.setId(id);
+		Zone zone = zoneForm.getZone().setId(id);
+		Zone dbZone = zoneRepository.findOne(id); 
+		Zone.copyData(dbZone, zone);
 		
-		zoneRepository.save(zone);
+		zoneRepository.save(dbZone);
 		model.addAttribute(INFO_MESSAGE,  "message.item.updated") ;
 		return "redirect:/admin/zone/" + id;
 	}

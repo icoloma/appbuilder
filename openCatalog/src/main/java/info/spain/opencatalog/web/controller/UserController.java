@@ -36,7 +36,6 @@ public class UserController extends AbstractController {
 	
 	
 	
-	
 	/**
 	 * SEARCH
 	 */
@@ -107,7 +106,7 @@ public class UserController extends AbstractController {
 		}
 		User dbUser = userRepository.findOne(id);
 		
-		User user = userForm.getUser();
+		User user = userForm.getUser().setId(id);
 		
 		// No queremos sobreescribir el APIKey
 		user.setApiKey(dbUser.getApiKey());

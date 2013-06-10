@@ -24,8 +24,8 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 	  <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
 	  <constructor-arg name="mongoConverter" ref="mappingConverter"/>
-	  
 	</bean>
+
 	
 	<bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
 	    <constructor-arg ref="mongoDbFactory" />
@@ -42,5 +42,10 @@
 	<mongo:repositories base-package="info.spain.opencatalog.repository" />
 	
 	<bean id="storageService" class="info.spain.opencatalog.repository.StorageServiceImpl"/>
+
+
+	<mongo:auditing mapping-context-ref="customMappingContext" />
+
+	<bean id="customMappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
 
 </beans>

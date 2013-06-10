@@ -8,7 +8,10 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,11 +30,15 @@ public class Zone implements Serializable {
 	public Zone(){}
 	
 	public Zone(Zone other){
-		this.id = other.id;
-		this.name = other.name;
-		this.description = other.description;
-		this.path= other.path;
-		this.address= other.address;
+		copyData(this,other);
+	}
+	
+	public static void copyData(Zone target, Zone source){
+		target.id = source.id;
+		target.name = source.name;
+		target.description = source.description;
+		target.path= source.path;
+		target.address= source.address;
 	}
 	
 	@Id
@@ -47,11 +54,26 @@ public class Zone implements Serializable {
 	private Address address = new Address();
 	
 	@NotEmpty(message="error.notEmpty.path")
-	private List<GeoLocation> path = new ArrayList<GeoLocation>(); 	// p
+	private List<GeoLocation> path = new ArrayList<GeoLocation>(); 	
+	
+	@CreatedDate
+	private DateTime createdDate;
+	
+	@LastModifiedDate
+	private DateTime lastModifiedDate;
 	
 	
-	public void setId(String id){
+	public DateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public DateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public Zone setId(String id){
 		this.id = id;
+		return this;
 	}
 	public String getId() {
 		return id;
