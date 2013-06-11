@@ -41,9 +41,9 @@ define(
         }, function(err) {
           // TODO
           self.topbarView.unblock();
-          self.trigger('dialog', new DialogView({
+          self.$el.prepend(new DialogView({
             content: '<p>' + res.geoError + '</p>' 
-          }));
+          }).render().$el);
         });
       },
 
@@ -65,9 +65,9 @@ define(
         }, function(err) {
           // TODO
           self.topbarView.unblock();
-          self.trigger('dialog', new DialogView({
+          self.$el.prepend(new DialogView({
             content: '<p>' + res.geoError + '</p>' 
-          }));
+          }).render().$el);
         });
       },
 
@@ -85,14 +85,17 @@ define(
           content: options
         })
         ;
-        dialogView.delegateEvents(_.extend(_.clone(dialogView.events), {
+        dialogView.addEvents({
           'tap li': function(e) {
             var distance = Number($(e.target).closest('[data-distance]').data('distance'));
-            this.dismiss();
+            this.close();
             self.filter(distance);
           }
-        }));
-        this.trigger('dialog', dialogView);
+        });
+        dialogView.on('dismiss', function() {
+          self.topbarView.unblock();
+        });
+        this.$el.prepend(dialogView.render().$el);
       }
 
     });

@@ -35,7 +35,7 @@ define(
           var dialogView = new DialogView({
             content: '<p>' + message + '</p>'
           });
-          self.trigger('dialog', dialogView);
+          self.$el.prepend(dialogView.render().$el);
 
           self.topbarView.options.starred = this.get('starred');
           self.topbarView.render();

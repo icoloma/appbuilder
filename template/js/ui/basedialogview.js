@@ -3,16 +3,16 @@ define(['globals', 'modules/touch'], function(Globals, Touch) {
     className: 'dialog-container',
 
     events: {
-      'tap': 'dismiss'
+      'tap .dialog-mask': 'dismiss'
+    },
+
+    addEvents: function(events) {
+      this.delegateEvents(_.extend(_.clone(this.events), events));
     },
 
     tmpl: 
-    // _.template(
       '<div class="dialog-mask"></div>' +
-      '<div class="dialog">' +
-        // '<span class="close-dialog icon-close"></span>' +
-      '</div>'
-    // )
+      '<div class="dialog"></div>'
   ,
 
     render: function() {
@@ -24,10 +24,15 @@ define(['globals', 'modules/touch'], function(Globals, Touch) {
       return this;
     },
 
-    dismiss: function() {
+    close: function() {
       Touch.undelegateScroll();
       $(document).off('backbutton.dismiss');
       this.remove();
+    },
+
+    dismiss: function() {
+      this.trigger('dismiss');
+      this.close();
     },
 
     bindBackButton: function() {

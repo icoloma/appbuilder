@@ -61,8 +61,7 @@ define(['globals'], function() {
     },
 
     block: function($el) {
-      this.blocked$El = $el;
-      $el.addClass('busy');
+      this.blocked$El = $el.addClass('busy');
     }, 
     unblock: function() {
       this.blocked$El.removeClass('busy');

@@ -23,13 +23,8 @@ define(
       },
 
       setView: function(view, options) {
-        // Para de escuchar a currentView, para evitar memory leaks
-        this.stopListening(this.currentView);
-
         this.currentView = new view(options).render();
-        this.listenTo(this.currentView, 'dialog', this.dialog);
         this.$el.html(this.currentView.$el);
-
         return this.currentView;
       },
 

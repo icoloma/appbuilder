@@ -57,7 +57,7 @@ define(['lib/jquery'], function() {
     delegateScroll: function(el) {
       $doc.on('touchmove.delegatedScroll', function(e) {
         e.preventDefault();
-        // Do something
+        // TODO: pasar la capacidad de scrollar a @el
       });
     },
     undelegateScroll: function() {
