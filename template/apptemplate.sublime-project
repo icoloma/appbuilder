@@ -23,7 +23,8 @@
         "js",
         "less",
         "test",
-        "build"
+        "build",
+        "template-android-build"
       ]
     },
     {

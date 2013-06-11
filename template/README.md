@@ -33,3 +33,17 @@ La tarea `dev` simplemente compila la hoja LESS y comprueba con JSHint el códig
 
 ## Esquema de datos
 Los schemas en `js/schemas` contienen el formato esperado para el volcado de datos desde el repositorio, así como el ejemplo en `test/data/data.json`.
+
+## Build en Android
+Requisitos:
+* [Phonegap](http://phonegap.com/).
+* El SDK de Android, con `tools` y `platform-tools` en el `PATH`.
+
+````
+# Dentro de appbuilder/template
+rm -r template-android-build
+{carpeta de PhoneGap}/lib/android/bin/create template-android-build com.segittur segittur
+grunt {opción de build}
+rm -r template-android-build/assets/www
+mv build/ template-android-build/assets/www
+cp {carpeta de Phonegap}/lib/android/cordova*js template-android-build/assets/www/phonegap.js
