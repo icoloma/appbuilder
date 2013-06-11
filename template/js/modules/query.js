@@ -3,6 +3,26 @@ define(['globals'], function() {
   // var minRegex = /^min-(.+)/
   // , maxRegex = /^max-(.+)/
   // ;
+  var parseQuery = function(query) {
+    var queryObject = {}
+    , pattern = /(.+)=(.+)/
+    ;
+    query.split('&').forEach(function(param) {
+      var parts = param.match(pattern);
+      if (parts) {
+        queryObject[parts[1]] = parts[2];
+      }
+    });
+    return queryObject;
+  }
+  , queryToString = function(queryObj) {
+    var queryStr = '';
+    _.each(queryObj, function(value, param) {
+      queryStr = param + '=' + value + '&';
+    });
+    return queryStr;
+  }
+  ;
 
   _.extend(persistence.QueryCollection.prototype, {
     /*
@@ -44,4 +64,9 @@ define(['globals'], function() {
       });
     }
   });
+
+  return {
+    parseQuery: parseQuery,
+    queryToString: queryToString
+  };
 });

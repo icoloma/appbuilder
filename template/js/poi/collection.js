@@ -14,7 +14,7 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
     // Devuelve un comparador por distancia al punto @lat,@lon
     sortByDistanceTo: function(lat, lon) {
       return function(model) {
-        return model.propDistanceTo(lat, lon);
+        return -model.propDistanceTo(lat, lon);
       };
     }
   });

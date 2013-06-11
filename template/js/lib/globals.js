@@ -2,7 +2,7 @@ define(
   [ 
     'lib/jquery', 'lib/underscore', 'lib/backbone', 'modules/touch',
     'lib/persistence', 'lib/persistence.store.sql', 'lib/persistence.store.websql',
-    'lib/async', 'modules/query', 'modules/i18n'
+    'lib/async', 'modules/i18n'
   ],
   function() {
     window.B = Backbone;

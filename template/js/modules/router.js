@@ -3,30 +3,18 @@
 */
 define(
   [ 
-    'globals', 
+    'globals', 'modules/query',
     'page/pages', 'schemas/schemas', 'ui/basedialogview',
     'poi/model', 'poi/collection'
   ],
-  function(Globals, Page, Db, DialogView, PoiModel, PoiCollection) {
-
-    var parseQuery = function(query) {
-      var queryObject = {}
-      , pattern = /(.+)=(.+)/
-      ;
-      query.split('&').forEach(function(param) {
-        var parts = param.match(pattern);
-        queryObject[parts[1]] = parts[2];
-      });
-      return queryObject;
-    }
-    ;
+  function(Globals, Query, Page, Db, DialogView, PoiModel, PoiCollection) {
 
     return B.Router.extend({
 
       routes: {
         '': 'renderHome',
         'category/:category': 'renderCategory',
-        'pois?:query': 'renderPois',
+        'pois(?:query)': 'renderPois',
         'pois/:poiId': 'renderPoi'
       },
 
@@ -82,7 +70,7 @@ define(
 
       renderPois: function(query) {
         var self = this
-        , parsedQuery = parseQuery(query)
+        , parsedQuery = query ? Query.parseQuery(query) : {}
         ;
 
         async.parallel({
