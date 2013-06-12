@@ -71,7 +71,7 @@ public class CatalogExporterTest {
 	@Test
 	public void testSQLiteExporter() throws Exception {
 		File outputDir = Files.createTempDir();
-		SQLiteExporter exporter = new SQLiteExporter(messageSource,  new ImageExporterImpl(outputDir, poiImageUtils));
+		SQLiteExporter exporter = new SQLiteExporter(messageSource,  new ImageExporterImpl(poiImageUtils));
 		export(exporter, outputDir);
 		assertTrue(outputDir.exists());
 		DataSource ds = SQLiteExporter.getDataSource(outputDir);
@@ -85,7 +85,7 @@ public class CatalogExporterTest {
 	@Test
 	public void testJSONExporter() throws Exception {
 		File outputDir = Files.createTempDir();
-		JSONExporter exporter = new JSONExporter(messageSource,  new ImageExporterImpl(outputDir, poiImageUtils));
+		JSONExporter exporter = new JSONExporter(messageSource,  new ImageExporterImpl(poiImageUtils));
 		export(exporter, outputDir);
 		checkImageFilesExists(new File(outputDir, ImageExporterImpl.DIR_NAME));
 		// TODO: Test json content
@@ -93,9 +93,8 @@ public class CatalogExporterTest {
 	
 	
 	private void export(CatalogExporter exporter, File  outputDir){
-		exporter.init(outputDir);
-		exporter.export(pois,zones,Tags.Tag.values());
-		exporter.close();
+		exporter.export(pois,zones,Tags.Tag.values(), outputDir);
+		
 	}
 	
 	private void checkImageFilesExists(File outputDir){

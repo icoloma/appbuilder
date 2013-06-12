@@ -19,19 +19,15 @@ public class ImageExporterImpl implements ImageExporter {
 	
 	Logger log = LoggerFactory.getLogger(getClass());
 
-	private File outputDir;
 	private PoiImageUtils poiImageUtils;
 	
-	public ImageExporterImpl(File outputDir, PoiImageUtils poiImageUtils) {
+	public ImageExporterImpl(PoiImageUtils poiImageUtils) {
 		super();
-		this.outputDir = new File(outputDir, DIR_NAME);
-		if (!this.outputDir.exists()){
-			this.outputDir.mkdir();
-		}
 		this.poiImageUtils = poiImageUtils;
 	}
 
-	public  List<String> exportImages(Poi poi){
+	public  List<String> exportImages(Poi poi, File dir){
+		File outputDir = checkOutputDir(dir);
 		List<String> filenames = new ArrayList<>();
 		File file = poiImageUtils.getPoiImageAsFile(poi.getId());
 		try {
@@ -45,6 +41,15 @@ public class ImageExporterImpl implements ImageExporter {
 			
 		}
 		return filenames;
+	}
+	
+	private File checkOutputDir(File outputDir){
+		File dir = new File(outputDir, DIR_NAME);
+		if (!dir.exists()){
+			dir.mkdir();
+		}
+		return dir;
+		
 	}
 
 }

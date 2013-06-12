@@ -73,9 +73,9 @@ public class SQLiteExporter implements CatalogExporter {
 	 * consultas paginadas
 	 */
 	
-	private void exportPois(List<Poi> pois){
+	private void exportPois(List<Poi> pois, File outputDir){
 		for (Poi poi : pois) {
-			List<String> images = imageExporter.exportImages(poi);
+			List<String> images = imageExporter.exportImages(poi, outputDir);
 			jdbcTemplate.update("insert into Poi  (name, description, thumb, imgs, created, updated, lat, lon, normLon, starred, tag, id ) values (?,?,?,?,?,?,?,?,?,?,?,?);", 
 				poi.getName().getEs(),  
 				poi.getDescription().getEs(), 
@@ -138,14 +138,14 @@ public class SQLiteExporter implements CatalogExporter {
 	
 	
 	@Override
-	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags) {
+	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags, File outputDir) {
+		init(outputDir);
 		exportZones(zones);
-		exportPois(pois);
+		exportPois(pois, outputDir);
 		exportTags(tags);
 	}
 
-	@Override
-	public void init(File outputDir) {
+	private void init(File outputDir) {
 		try {
 			if (!outputDir.exists()){
 				outputDir.mkdir();
@@ -163,9 +163,7 @@ public class SQLiteExporter implements CatalogExporter {
 		}
 	}
 
-	@Override
-	public void close() {}
-	
+		
 	private static File getDBFile(File outputDir){
 		File dir = new File(outputDir, DIR_NAME);
 		if (!dir.exists()){

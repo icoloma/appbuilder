@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface CatalogExporter {
 	
-	
-	public void init(File outputDir);
-	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags);
-	public void close();
+	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags, File outputDir);
 
 }

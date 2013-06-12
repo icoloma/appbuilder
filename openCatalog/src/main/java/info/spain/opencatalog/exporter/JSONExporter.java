@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.Zone;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +15,8 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+
+import com.sun.xml.internal.ws.util.StringUtils;
 
 /**
  * Permite exportar parte del catálogo a una base de datos SQLite 
@@ -27,11 +30,10 @@ public class JSONExporter implements CatalogExporter {
 	
 	private static final Locale LOCALE_ES = new Locale("ES");
 	
-	// Fichero donde se almacenará la base de datos SQLite
-	private FileWriter writer;
 	private MessageSource messageSource;
 	private ImageExporter imageExporter;
-
+	
+	
 	public JSONExporter(MessageSource messageSource, ImageExporter imageExporter) {
 		this.messageSource = messageSource;
 		this.imageExporter = imageExporter;	
@@ -40,12 +42,14 @@ public class JSONExporter implements CatalogExporter {
 	
 
 	@Override
-	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags) {
-		exportZones(zones);
-		write(", ");
-		exportPois(pois);
-		write(", ");
-		exportTags(tags);
+	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags, File outputDir) {
+		Writer writer = init(outputDir);
+		exportZones(zones, writer);
+		writer.append(", ");
+		exportPois(pois, outputDir, writer);
+		writer.append(", ");
+		exportTags(tags, writer);
+		close(writer);
 	}
 
 
@@ -56,21 +60,22 @@ public class JSONExporter implements CatalogExporter {
 	 * el listado completo de zonas de una sola vez y usar, por ejemplo 
 	 * consultas paginadas
 	 */
-	private void exportZones(List<Zone> zones){
-		write("\"zones\": [\n");
+	private void exportZones(List<Zone> zones, Writer writer){
+		writer.append("\"zones\": [\n");
 		for (Iterator<Zone> iterator = zones.iterator(); iterator.hasNext();) {
 			Zone zone = iterator.next();
-			write("{\n");
-			write(" \"name\": \"" + zone.getName() + "\",\n");
-			write(" \"description\" : \"" + zone.getDescription() + "\",\n"); 
-			write(" \"path\": " + getPathAsJSON(zone.getPath())+ ",\n"); 
-			write(" \"id\": " + zone.getId() + "\n");
-			write("}");
+			writer.append("{\n")
+			.append(" \"name\": \"" + zone.getName() + "\",\n")
+			.append(" \"description\" : \"" + zone.getDescription() + "\",\n")
+			.append(" \"path\": " + getPathAsJSON(zone.getPath())+ ",\n")
+			.append(" \"id\": " + zone.getId() + "\n")
+			.append("}");
+			
 			if (iterator.hasNext()){
-				write(",\n");
+				writer.append(",\n");
 			}
 		}
-		write("]\n");
+		writer.append("]\n");
 			
 	}
 
@@ -81,68 +86,75 @@ public class JSONExporter implements CatalogExporter {
 	 * Exporta un listado de Pois
 	 */
 	
-	private void exportPois(List<Poi> pois){
-		write("\"pois\": [\n");
+	private void exportPois(List<Poi> pois, File outputDir, Writer writer){
+		writer.append("\"pois\": [\n");
 		for (Iterator<Poi> iterator = pois.iterator(); iterator.hasNext();) {
 			Poi poi = iterator.next();
-			List<String> images = imageExporter.exportImages(poi);
-			write("{\n");
-			write("  \"id\":" + poi.getId() + ",\n");
-			write("  \"name\":{\n");
-			write("    \"es\": \"" + poi.getName().getEs() + "\",\n");
-			write("    \"en\": \"" + poi.getName().getEn() + "\",\n");
-			write("    \"fr\": \"" + poi.getName().getFr() + "\",\n");
-			write("    \"de\": \"" + poi.getName().getDe() + "\",\n");
-			write("    \"it\": \"" + poi.getName().getIt() + "\"\n");
-			write("  },\n");
-			write("  \"description\":{\n");
-			write("    \"es\": \"" + poi.getDescription().getEs() + "\",\n");
-			write("    \"en\": \"" + poi.getDescription().getEn() + "\",\n");
-			write("    \"fr\": \"" + poi.getDescription().getFr() + "\",\n");
-			write("    \"de\": \"" + poi.getDescription().getDe() + "\",\n");
-			write("    \"it\": \"" + poi.getDescription().getIt() + "\"\n");
-			write("  },\n");
-			write("  \"thumb\": \"thumb.png\",\n");
-			write("  \"imgs\": " +  asStringArray(images)+ ",\n");
-			write("  \"created\": " + poi.getCreatedDate().getMillis() + ",\n");
-			write("  \"updated\": " + poi.getLastModifiedDate().getMillis() + ",\n");
-			write("  \"location\":{\n");
-			write("    \"lat\": " + poi.getLocation().getLat() + ",\n");
-			write("    \"lng\": " + poi.getLocation().getLng() + ",\n");
-			write("    \"normlng\": 0\n");
-			write("  },\n");
-			write("  \"starred\": 0,\n");
-			write("  \"tags\":" + asStringArray(poi.getTags()) + "\n");
-			write(" }");
+			List<String> images = imageExporter.exportImages(poi, outputDir);
+			writer.append("{\n")
+			 .append("  \"id\":" + asQuotedString(poi.getId()) + ",\n")
+			.append("  \"name\":{\n")
+			.append("    \"es\": " +  asQuotedString(poi.getName().getEs()) +",\n")
+			.append("    \"en\": " +  asQuotedString(poi.getName().getEn()) + ",\n")
+			.append("    \"fr\": " +  asQuotedString(poi.getName().getFr()) + ",\n")
+			.append("    \"de\": " +  asQuotedString(poi.getName().getDe()) + ",\n")
+			.append("    \"it\": " +  asQuotedString(poi.getName().getIt()) + "\n")
+			.append("  },\n")
+			.append("  \"description\":{\n")
+			.append("    \"es\": " +  asQuotedString(poi.getDescription().getEs()) + ",\n")
+			.append("    \"en\": " +  asQuotedString(poi.getDescription().getEn()) + ",\n")
+			.append("    \"fr\": " +  asQuotedString(poi.getDescription().getFr()) + ",\n")
+			.append("    \"de\": " +  asQuotedString(poi.getDescription().getDe()) + ",\n")
+			.append("    \"it\": " +  asQuotedString(poi.getDescription().getIt()) + "\n")
+			.append("  },\n")
+			.append("  \"thumb\": \"thumb.png\",\n")
+			.append("  \"imgs\": " +  asStringArray(images)+ ",\n")
+			.append("  \"created\": " + poi.getCreatedDate().getMillis() + ",\n")
+			.append("  \"updated\": " + poi.getLastModifiedDate().getMillis() + ",\n")
+			.append("  \"location\":{\n")
+			.append("    \"lat\": " + poi.getLocation().getLat() + ",\n")
+			.append("    \"lng\": " + poi.getLocation().getLng() + ",\n")
+			.append("    \"normlng\": 0\n")
+			.append("  },\n")
+			.append("  \"starred\": 0,\n")
+			.append("  \"tags\":" + asStringArray(poi.getTags()) + "\n")
+			.append(" }");
 			if (iterator.hasNext()){
-				write(",\n");
+				writer.append(",\n");
 			}
 		}
-		write("]\n");
+		writer.append("]\n");
 	}
 	
+	private String asQuotedString(String str){
+		if (org.apache.commons.lang.StringUtils.isBlank(str)){
+			return "null";
+		} else {
+			return "\"" + str + "\"";
+		}
+	}
 	/**
 	 * Export Tags
 	 * @param tags
 	 * @return
 	 */
-	private void exportTags(Tag[] tags ) {
-		write("\"tags\": [\n");
+	private void exportTags(Tag[] tags, Writer writer ) {
+		writer.append("\"tags\": [\n");
 		for (int i = 0; i < tags.length; i++) {
 			Tag tag = tags[i];
-			write("{\n");
-			write(" \"tag\": \"" +  tag.toString() + "\",\n");
-			write(" \"es\": \"" + translate("tags." + tag.toString(), LOCALE_ES ) + "\",\n");
-			write(" \"en\": \"" + translate("tags." + tag.toString(), Locale.ENGLISH) + "\",\n");
-			write(" \"fr\": \"" + translate("tags." + tag.toString(), Locale.FRENCH ) + "\",\n");
-			write(" \"de\": \"" + translate("tags." + tag.toString(), Locale.GERMAN) + "\",\n");
-			write(" \"it\": \"" + translate("tags." + tag.toString(), Locale.ITALIAN) + "\"\n");
-			write("}\n");
+			writer.append("{\n")
+			.append(" \"tag\": " +  asQuotedString(tag.toString()) + ",\n")
+			.append(" \"es\": " +  asQuotedString(translate("tags." + tag.toString(), LOCALE_ES )) + ",\n")
+			.append(" \"en\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.ENGLISH)) + ",\n")
+			.append(" \"fr\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.FRENCH )) + ",\n")
+			.append(" \"de\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.GERMAN)) + ",\n")
+			.append(" \"it\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.ITALIAN)) + "\n")
+			.append("}\n");
 			if (i < tags.length - 1){
-				write(",");
+				writer.append(",");
 			}
 		}
-		write("]\n");
+		writer.append("]\n");
 		
 	}
 	
@@ -156,7 +168,7 @@ public class JSONExporter implements CatalogExporter {
 		StringBuffer result = new StringBuffer("[");
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Object object = (Object) iterator.next();
-			result.append("\"").append(object.toString()).append("\"");
+			result.append(asQuotedString(object.toString()));
 			if (iterator.hasNext()){
 				result.append(", ");
 			}
@@ -169,21 +181,22 @@ public class JSONExporter implements CatalogExporter {
 		return new File(outputDir, JSON_FILENAME);
 	}
 	
-	@Override
-	public void init(File outputDir) {
+	private Writer init(File dir) {
+		Writer writer = null;
 		try {
-			outputDir = new File(outputDir, DIR_NAME);
+			File outputDir = new File(dir, DIR_NAME);
 			if (!outputDir.exists()){
 				outputDir.mkdir();
 			}
+			
 			File file = getJSONFile(outputDir);
 			if (file.exists()){
 				file.delete();
 			}
 			file.createNewFile();
 			log.debug("Created JSON File {}", file.getAbsolutePath());
-			writer = new FileWriter(file);
-			write("{\n");
+			writer = new Writer(file);
+			writer.append("{\n");
 			
     	} catch(Exception e) {
     		try {
@@ -194,12 +207,12 @@ public class JSONExporter implements CatalogExporter {
     		log.error(e.getMessage());
 			throw new RuntimeException(e);
     	}
+		return writer;
 	}
 
-	@Override
-	public void close() {
+	private void close(Writer writer) {
 		try {
-			write("\n}");
+			writer.write("\n}");
 			writer.close();
 		} catch( Exception e) {
 			log.error(e.getMessage());
@@ -223,12 +236,26 @@ public class JSONExporter implements CatalogExporter {
 		return result.toString();
 	}
 	
-	private void write( String text ){
-		try {
-			writer.append(text);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	/**
+	 * Custom class
+	 * @author ehdez
+	 *
+	 */
+	class Writer extends FileWriter {
+
+		public Writer(File file) throws IOException {
+			super(file);
 		}
+		@Override
+		 public Writer append(CharSequence csq) {
+			try {
+				super.append(csq);
+				return this;
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
 	}
 
 }
