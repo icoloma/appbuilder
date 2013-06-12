@@ -1,6 +1,5 @@
 package info.spain.opencatalog.exporter;
 
-import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.domain.Zone;
@@ -12,35 +11,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-
-import com.sun.xml.internal.ws.util.StringUtils;
 
 /**
  * Permite exportar parte del catálogo a una base de datos SQLite 
  */
-public class JSONExporter implements CatalogExporter {
+public class JSONExporter extends AbstractExporter implements CatalogExporter {
 	
-	public static Logger log = LoggerFactory.getLogger(JSONExporter.class);
 	
 	public static final String DIR_NAME = "data";
 	public static final String JSON_FILENAME ="openCatalog.json";
-	
-	private static final Locale LOCALE_ES = new Locale("ES");
-	
-	private MessageSource messageSource;
-	private ImageExporter imageExporter;
-	
 	
 	public JSONExporter(MessageSource messageSource, ImageExporter imageExporter) {
 		this.messageSource = messageSource;
 		this.imageExporter = imageExporter;	
 	}
 	
-	
-
 	@Override
 	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags, File outputDir) {
 		Writer writer = init(outputDir);
@@ -114,7 +100,7 @@ public class JSONExporter implements CatalogExporter {
 			.append("  \"location\":{\n")
 			.append("    \"lat\": " + poi.getLocation().getLat() + ",\n")
 			.append("    \"lng\": " + poi.getLocation().getLng() + ",\n")
-			.append("    \"normlng\": 0\n")
+			.append("    \"normlng\": " + getNormLong(poi.getLocation()) + "\n")
 			.append("  },\n")
 			.append("  \"starred\": 0,\n")
 			.append("  \"tags\":" + asStringArray(poi.getTags()) + "\n")
@@ -126,13 +112,6 @@ public class JSONExporter implements CatalogExporter {
 		writer.append("]\n");
 	}
 	
-	private String asQuotedString(String str){
-		if (org.apache.commons.lang.StringUtils.isBlank(str)){
-			return "null";
-		} else {
-			return "\"" + str + "\"";
-		}
-	}
 	/**
 	 * Export Tags
 	 * @param tags
@@ -158,24 +137,6 @@ public class JSONExporter implements CatalogExporter {
 		
 	}
 	
-	private String translate(String text, Locale locale) {
-		return messageSource.getMessage(text, null, text, locale);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	private String asStringArray( List list){
-		StringBuffer result = new StringBuffer("[");
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			Object object = (Object) iterator.next();
-			result.append(asQuotedString(object.toString()));
-			if (iterator.hasNext()){
-				result.append(", ");
-			}
-		}
-		result.append("]");
-		return result.toString();
-	}
 	
 	public static File getJSONFile(File outputDir){
 		return new File(outputDir, JSON_FILENAME);
@@ -220,21 +181,7 @@ public class JSONExporter implements CatalogExporter {
 		}
 	}
 	
-	private String getPathAsJSON(List<GeoLocation> path){
-		StringBuilder result = new StringBuilder("[");
-		for (Iterator<GeoLocation> iterator = path.iterator(); iterator.hasNext();) {
-			GeoLocation loc = iterator.next();
-			result.append("{")
-			.append("\"lat\":").append(loc.getLat())
-			.append(",\"lng\":").append(loc.getLng())
-			.append("}");
-			if (iterator.hasNext()){
-				result.append(", ");
-			}
-		}
-		result.append("]");
-		return result.toString();
-	}
+	
 	
 	/**
 	 * Custom class
