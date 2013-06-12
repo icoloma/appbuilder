@@ -177,12 +177,14 @@ public class PoiController extends AbstractController {
 	  * SAVE OR DELETE POI IMAGE
 	  */
 	 private boolean processImage(PoiForm form, BindingResult errors ){
-		 poiImageUtils.deleteImage(form.getId());
+
 		 if (form.isDeleteImage()){
+			 poiImageUtils.deleteImage(form.getId());
 			return true;
 		 } 
 		 try {
 			 if (form.getFile() != null && ! form.getFile().isEmpty()) {
+				 poiImageUtils.deleteImage(form.getId());
 				 poiImageUtils.saveImage(form.getId(), form.getFile().getInputStream(), form.getFile().getContentType());
 			 }
 			return true;
