@@ -5,6 +5,10 @@ import info.spain.opencatalog.domain.Tags.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
+
 import com.google.common.collect.ImmutableSet;
 
 public class PoiFactory extends AbstractFactory {
@@ -37,6 +41,22 @@ public class PoiFactory extends AbstractFactory {
 			result.add(tag);
 		}
 		return result;
+	}
+	
+	public static List<Poi> generatePois(int numPois){
+		// random
+		List<Poi> result = new ArrayList<Poi>();
+		for (int i = 0; i < numPois; i++) {
+			result.add(newPoi("" + i));
+		}
+		return result;
+	}
+	
+	public static Resource randomImage(){
+		String imageFilename = "/img/" + getRandom().nextInt(9) + ".jpg";
+		Resource image = new ClassPathResource(imageFilename);
+		Assert.isTrue(image.exists());
+		return image;
 	}
 
 	public static Poi POI_CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO);

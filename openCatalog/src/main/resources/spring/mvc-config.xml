@@ -17,7 +17,6 @@
 	    </argument-resolvers>
 	</annotation-driven>
 	
-	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages/messages"/>
 	
 	<!-- 
 		Handles HTTP GET requests for /resources/** by efficiently serving up static resources 

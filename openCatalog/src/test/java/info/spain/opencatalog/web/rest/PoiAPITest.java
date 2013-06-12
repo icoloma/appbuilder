@@ -27,8 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
        
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,6 +52,9 @@ public class PoiAPITest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 
+	
+	// TODO: Test POI images
+	
 	/**
 	 * Test discover and GET of POI
 	 * @throws Exception
@@ -95,9 +96,30 @@ public class PoiAPITest {
 	@Test
 	public void testPOST() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.newPoi("deserializer");
-		String json = new ObjectMapper().writeValueAsString(poi);
-		json = json.replaceAll("\"id\":null,", ""); // eliminamos id
+		String json = "{" +
+				"'name':{" +
+					"'es':'es-name'," +
+					"'en':'en-name'," +
+					"'de':'en-name'" +
+				"}," +
+				"'description':{" +
+					"'es':'es-description'," +
+					"'en':'en-description'," +
+					"'de':'en-description'" +
+				"}," +
+				"'address':{" +
+					"'route':'route'," +
+					"'adminArea1':'area1'," +
+					"'adminArea2':'area2'," +
+					"'zipCode':'zipCode'" +
+				"}," +
+				"'location':{" +
+					"'lat':40.45259106740161," +
+					"'lng':-3.7391396261243433" +
+				"}," +
+				"'tags':['LEISURE']" +
+				"}";
+		json = json.replaceAll("'", "\"");
 		
 		System.out.println( "POI:" + json);
 	    this.mockMvc.perform(post("/poi")
@@ -106,16 +128,7 @@ public class PoiAPITest {
 			.andExpect(status().isCreated());
     }
 	
-	@Test
-	public void testPoiSerializerDeserializer() throws Exception	{
-		Poi poi = PoiFactory.newPoi("deserializer");
-		String json = new ObjectMapper().writeValueAsString(poi);
-		System.out.println(json);
-		Poi result = new ObjectMapper().readValue(json, Poi.class);
-		System.out.println(result);
-		Assert.assertEquals(poi.getName().getEs(),result.getName().getEs());  
-	}
-	
+
 	@Test
 	public void tesFindByName() throws Exception {
 		repo.deleteAll();

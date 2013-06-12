@@ -27,7 +27,11 @@ public class Poi implements Serializable {
 
 	private static final long serialVersionUID = 5722653798168373056L;
 	
-	public Poi(){}
+	public Poi(){
+		this.createdDate = new DateTime();
+		this.lastModifiedDate = new DateTime();
+	}
+	
 	public Poi(Poi other){
 		copyData(this, other);
 	}

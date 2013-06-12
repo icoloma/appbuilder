@@ -31,6 +31,13 @@ public class ZoneFactory extends AbstractFactory {
 		return result;
 	}
 	
+	public static List<Zone> generateZones(int maxZones){
+		List<Zone> result = new ArrayList<>();
+		for (int i = 0; i < maxZones; i++) {
+			result.add(newZone("" + i));
+		}
+		return result;
+	}
 	
 	public static Zone ZONE_MADRID_CENTRO  = ZoneFactory.newZone("Madrid").setPath( ImmutableList.of(
 			new GeoLocation().setLat(40.5021).setLng(-3.797),

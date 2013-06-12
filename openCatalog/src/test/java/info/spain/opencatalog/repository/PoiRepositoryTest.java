@@ -18,7 +18,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,6 @@ public class PoiRepositoryTest {
 	 * Test Validations
 	 */
 	@Test(expected = ConstraintViolationException.class)
-	@Ignore
 	public void testPoiValidation() {
 		Poi poi = PoiFactory.newPoi("testJSR303").setName(new I18nText().setEn("home")); // no default;
 		
@@ -71,7 +69,6 @@ public class PoiRepositoryTest {
 	 * Test create 
 	 */
 	@Test
-	@Ignore
 	public void testCreate() {
 		Poi poi = PoiFactory.newPoi("testCreate");
 		Poi result = poiRepository.save(poi);

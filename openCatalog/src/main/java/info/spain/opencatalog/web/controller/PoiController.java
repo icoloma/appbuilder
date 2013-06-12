@@ -4,9 +4,9 @@ package info.spain.opencatalog.web.controller;
 import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.exception.NotFoundException;
+import info.spain.opencatalog.image.PoiImageUtilsImpl;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
-import info.spain.opencatalog.web.util.PoiImageUtilsImpl;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -182,7 +182,9 @@ public class PoiController extends AbstractController {
 			return true;
 		 } 
 		 try {
-			poiImageUtils.saveImage(form.getId(), form.getFile());
+			 if (form.getFile() != null && ! form.getFile().isEmpty()) {
+				 poiImageUtils.saveImage(form.getId(), form.getFile().getInputStream(), form.getFile().getContentType());
+			 }
 			return true;
 		 } catch (IOException e) {
 			errors.addError( new ObjectError("image", "poi.image.save.error"));

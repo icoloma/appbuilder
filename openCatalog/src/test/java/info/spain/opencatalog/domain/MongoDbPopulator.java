@@ -1,14 +1,19 @@
 package info.spain.opencatalog.domain;
 
-import java.util.UUID;
+import info.spain.opencatalog.image.PoiImageUtils;
+import info.spain.opencatalog.image.PoiImageUtilsImpl;
+import info.spain.opencatalog.repository.StorageService;
 
-import info.spain.opencatalog.repository.PoiRepository;
-import info.spain.opencatalog.repository.UserRepository;
-import info.spain.opencatalog.repository.ZoneRepository;
+import java.io.FileInputStream;
+import java.util.Collection;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.MediaType;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -20,16 +25,15 @@ public class MongoDbPopulator {
 	private static final int MAX_USERS = 30;
 
 	
-	private ZoneRepository zoneRepository;
-	private PoiRepository poiRepository;
 	private MongoOperations mongoTemplate;
-	private UserRepository userRepository;
+	private GridFsOperations gridFsTemplate;
+	private PoiImageUtils poiImageUtils;
 	
 	public MongoDbPopulator(ApplicationContext context) {
-		poiRepository = context.getBean(PoiRepository.class);
 		mongoTemplate = context.getBean(MongoOperations.class);
-		zoneRepository = context.getBean(ZoneRepository.class);
-		userRepository = context.getBean(UserRepository.class);
+		gridFsTemplate = context.getBean(GridFsOperations.class);
+		StorageService storageService = context.getBean(StorageService.class);
+		poiImageUtils = new PoiImageUtilsImpl(storageService);
 	}
 
 	public static void main(String[] args) {
@@ -47,6 +51,8 @@ public class MongoDbPopulator {
 		mongoTemplate.dropCollection(Poi.class);
 		mongoTemplate.dropCollection(Zone.class);
 		mongoTemplate.dropCollection(User.class);
+		gridFsTemplate.delete(new Query());
+		
 	}
 
 	public void populate() {
@@ -59,29 +65,36 @@ public class MongoDbPopulator {
 		// well known
 		mongoTemplate.insertAll(ImmutableList.copyOf(UserFactory.WELL_KNOWN_USERS));
 		// random
-		for (int i = 0; i < MAX_USERS; i++) {
-			User user = UserFactory.newUser("" + i);
-			userRepository.save(user);
-		}
+		mongoTemplate.insertAll(UserFactory.generateUsers(MAX_USERS));
+
 	}
 	
 	private void populateZones(){
 		// well known
 		mongoTemplate.insertAll(ImmutableList.copyOf(ZoneFactory.WELL_KNOWN_ZONES));
 		// random
-		for (int i = 0; i < MAX_ZONES; i++) {
-			Zone zone = ZoneFactory.newZone("" + i);
-			zoneRepository.save(zone);
-		}
+		mongoTemplate.insertAll(ZoneFactory.generateZones(MAX_ZONES));
 	}
 
 	private void populatePois()	{
 		// well known
-		mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
+		insertAllPoi(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
+		//mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
 		// random pois
-		for (int i=0; i < MAX_POI; i++) {
-			Poi poi = PoiFactory.newPoi(UUID.randomUUID().toString()+i);
-			poiRepository.save(poi);
+		insertAllPoi(PoiFactory.generatePois(MAX_POI));
+		//mongoTemplate.insertAll(PoiFactory.generatePois(MAX_POI));
+	}
+	
+	private void insertAllPoi(Collection<Poi> pois){
+		for (Poi poi : pois) {
+			mongoTemplate.save(poi);
+			Resource image = PoiFactory.randomImage();
+			try { 
+				poiImageUtils.saveImage(poi.getId(), new FileInputStream(image.getFile()), MediaType.IMAGE_JPEG_VALUE);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			
 		}
 	}
 

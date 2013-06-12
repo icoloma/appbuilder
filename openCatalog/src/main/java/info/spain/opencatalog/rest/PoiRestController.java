@@ -3,8 +3,8 @@ package info.spain.opencatalog.rest;
 import java.io.IOException;
 
 import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.image.PoiImageUtilsImpl;
 import info.spain.opencatalog.repository.PoiRepository;
-import info.spain.opencatalog.web.util.PoiImageUtilsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -59,7 +59,7 @@ public class PoiRestController {
 	 public HttpEntity<byte[]> save (@PathVariable (value="id") String id, @RequestParam("file") MultipartFile file)  {
 		 try {
 			 poiImageUtils.deleteImage(id);
-			 poiImageUtils.saveImage(id, file);
+			 poiImageUtils.saveImage(id, file.getInputStream(), file.getContentType());
 			 return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		 } catch (IOException e) {
 			 return new ResponseEntity<byte[]>(e.getMessage().getBytes(), HttpStatus.INTERNAL_SERVER_ERROR);
