@@ -35,23 +35,23 @@ import com.google.common.io.Files;
 @ActiveProfiles("dev")
 public class CatalogExporterTest {
 	
+	private static Integer NUM_TAGS = Tags.Tag.values().length;
+	private static Integer NUM_POIS = 10;
+	private static Integer NUM_ZONES =2;
+	
+	
 	@Autowired
 	private MessageSource messageSource;
 	
 	@Autowired
-	PoiRepository poiRepository;
+	private PoiRepository poiRepository;
 	
 	@Autowired
-	MongoOperations mongoTemplate;
+	private MongoOperations mongoTemplate;
 	
-	PoiImageUtils poiImageUtils = new PoiImageUtilsMock();
-	
-	private static Integer NUM_TAGS = Tags.Tag.values().length;
-	
-	private static Integer NUM_POIS = 2;
-	private static Integer  NUM_ZONES =2;
-	private List<Poi> pois;
 	private List<Zone> zones;
+	private List<Poi> pois;
+	private PoiImageUtils poiImageUtils = new PoiImageUtilsMock();
 	
 	@Before
 	public void init(){
@@ -79,7 +79,7 @@ public class CatalogExporterTest {
 		assertEquals(NUM_POIS, jdbcTemplate.queryForObject("select count(*) from Poi", Integer.class));		
 		assertEquals(NUM_ZONES, jdbcTemplate.queryForObject("select count(*) from Zone", Integer.class));
 		assertEquals(NUM_TAGS, jdbcTemplate.queryForObject("select count(*) from Tag", Integer.class));
-		checkImageFilesExists(outputDir);
+		checkImageFilesExists(new File(outputDir, ImageExporterImpl.DIR_NAME));
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class CatalogExporterTest {
 		File outputDir = Files.createTempDir();
 		JSONExporter exporter = new JSONExporter(messageSource,  new ImageExporterImpl(outputDir, poiImageUtils));
 		export(exporter, outputDir);
-		checkImageFilesExists(outputDir);
+		checkImageFilesExists(new File(outputDir, ImageExporterImpl.DIR_NAME));
 		// TODO: Test json content
 	}
 	
@@ -100,7 +100,7 @@ public class CatalogExporterTest {
 	
 	private void checkImageFilesExists(File outputDir){
 		String[] filesNames = outputDir.list();
-		assertEquals(pois.size(), filesNames.length - 1);
+		assertEquals(pois.size(), filesNames.length);
 	}
 	
 	

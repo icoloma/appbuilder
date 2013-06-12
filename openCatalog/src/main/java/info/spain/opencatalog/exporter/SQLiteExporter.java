@@ -25,7 +25,8 @@ public class SQLiteExporter implements CatalogExporter {
 	
 	public static Logger log = LoggerFactory.getLogger(SQLiteExporter.class);
 	
-	public static String DB_FILENAME = "openCatalog.db"; 
+	public static final String DIR_NAME = "data";
+	public static final String DB_FILENAME = "openCatalog.db"; 
 	
 	private static final Locale LOCALE_ES = new Locale("ES");
 	
@@ -166,7 +167,11 @@ public class SQLiteExporter implements CatalogExporter {
 	public void close() {}
 	
 	private static File getDBFile(File outputDir){
-		return new File(outputDir, DB_FILENAME);
+		File dir = new File(outputDir, DIR_NAME);
+		if (!dir.exists()){
+			dir.mkdir();
+		}
+		return new File(dir, DB_FILENAME);
 	}
 	
 	public static DataSource getDataSource(File outputDir){

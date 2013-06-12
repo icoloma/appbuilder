@@ -15,6 +15,8 @@ import com.google.common.io.Files;
 
 public class ImageExporterImpl implements ImageExporter {
 	
+	public static final String DIR_NAME ="assets";
+	
 	Logger log = LoggerFactory.getLogger(getClass());
 
 	private File outputDir;
@@ -22,7 +24,10 @@ public class ImageExporterImpl implements ImageExporter {
 	
 	public ImageExporterImpl(File outputDir, PoiImageUtils poiImageUtils) {
 		super();
-		this.outputDir = outputDir;
+		this.outputDir = new File(outputDir, DIR_NAME);
+		if (!this.outputDir.exists()){
+			this.outputDir.mkdir();
+		}
 		this.poiImageUtils = poiImageUtils;
 	}
 

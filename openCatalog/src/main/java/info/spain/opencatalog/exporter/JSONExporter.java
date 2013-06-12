@@ -22,6 +22,7 @@ public class JSONExporter implements CatalogExporter {
 	
 	public static Logger log = LoggerFactory.getLogger(JSONExporter.class);
 	
+	public static final String DIR_NAME = "data";
 	public static final String JSON_FILENAME ="openCatalog.json";
 	
 	private static final Locale LOCALE_ES = new Locale("ES");
@@ -171,6 +172,7 @@ public class JSONExporter implements CatalogExporter {
 	@Override
 	public void init(File outputDir) {
 		try {
+			outputDir = new File(outputDir, DIR_NAME);
 			if (!outputDir.exists()){
 				outputDir.mkdir();
 			}
