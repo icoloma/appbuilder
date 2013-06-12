@@ -55,7 +55,6 @@ public class CatalogExporterTest {
 	
 	@Before
 	public void init(){
-		
 		// Necesitamos que los Poi tengan id para asociarles imágenes
 		pois = PoiFactory.generatePois(NUM_POIS);
 		for (Poi poi : pois) {
@@ -67,10 +66,8 @@ public class CatalogExporterTest {
 	@Test
 	public void testSQLiteExporter() throws Exception {
 		File outputDir = Files.createTempDir();
-		
 		SQLiteExporter exporter = new SQLiteExporter(messageSource,  new ImageExporterImpl(outputDir, poiImageUtils));
 		export(exporter, outputDir);
-		
 		assertTrue(outputDir.exists());
 		DataSource ds = SQLiteExporter.getDataSource(outputDir);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);

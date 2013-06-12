@@ -179,6 +179,7 @@ public class JSONExporter implements CatalogExporter {
 				file.delete();
 			}
 			file.createNewFile();
+			log.debug("Created JSON File {}", file.getAbsolutePath());
 			writer = new FileWriter(file);
 			write("{\n");
 			

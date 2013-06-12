@@ -153,6 +153,7 @@ public class SQLiteExporter implements CatalogExporter {
 			if (outputFile.exists()){
 				outputFile.delete();
 			}
+			log.debug("Created SQLite file {}", outputFile.getAbsolutePath());
 			this.jdbcTemplate = new JdbcTemplate(getDataSource(outputDir));
 			createSchemas(jdbcTemplate, this.outputFile);
 		} catch(Exception e) {
@@ -172,7 +173,6 @@ public class SQLiteExporter implements CatalogExporter {
 		try {
 			File file = getDBFile(outputDir);
 			String path = file.getAbsolutePath();
-			log.debug("SQLite exported file {}", path);
 			BasicDataSource ds = new BasicDataSource();
 			ds.setDriverClassName("org.sqlite.JDBC");
 			ds.setUrl("jdbc:sqlite:" + path);

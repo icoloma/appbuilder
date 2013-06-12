@@ -8,9 +8,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.io.Files;
 
 public class ImageExporterImpl implements ImageExporter {
+	
+	Logger log = LoggerFactory.getLogger(getClass());
 
 	private File outputDir;
 	private PoiImageUtils poiImageUtils;
@@ -25,8 +30,10 @@ public class ImageExporterImpl implements ImageExporter {
 		List<String> filenames = new ArrayList<>();
 		File file = poiImageUtils.getPoiImageAsFile(poi.getId());
 		try {
-			String filename = poiImageUtils.getPoiImageFilename(poi.getId()); 
-			Files.copy(file, new File(outputDir, filename));
+			String filename = poiImageUtils.getPoiImageFilename(poi.getId());
+			File target = new File(outputDir, filename);
+			Files.copy(file, target);
+			log.debug("Exporting image:  " + target.getAbsolutePath());
 			filenames.add(filename);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
