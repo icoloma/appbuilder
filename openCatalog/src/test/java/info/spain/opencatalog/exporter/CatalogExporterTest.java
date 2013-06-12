@@ -51,14 +51,19 @@ public class CatalogExporterTest {
 	private static Integer NUM_POIS = 2;
 	private static Integer  NUM_ZONES =2;
 	private List<Poi> pois;
-	private List<Zone> zones = ZoneFactory.generateZones(NUM_ZONES);
+	private List<Zone> zones;
 	
 	@Before
 	public void init(){
-		// Necesitamos que los Poi tengan id para asociarles imágenes
+		// Como no se almacenan en la base de datos, asignamos id manualmente
 		pois = PoiFactory.generatePois(NUM_POIS);
 		for (Poi poi : pois) {
 			poi.setId(UUID.randomUUID().toString());
+		}
+		
+		zones = ZoneFactory.generateZones(NUM_ZONES);
+		for(Zone zone: zones){
+			zone.setId(UUID.randomUUID().toString());
 		}
 	}
 	
@@ -74,15 +79,16 @@ public class CatalogExporterTest {
 		assertEquals(NUM_POIS, jdbcTemplate.queryForObject("select count(*) from Poi", Integer.class));		
 		assertEquals(NUM_ZONES, jdbcTemplate.queryForObject("select count(*) from Zone", Integer.class));
 		assertEquals(NUM_TAGS, jdbcTemplate.queryForObject("select count(*) from Tag", Integer.class));
+		checkImageFilesExists(outputDir);
 	}
 	
 	@Test
 	public void testJSONExporter() throws Exception {
 		File outputDir = Files.createTempDir();
-		
 		JSONExporter exporter = new JSONExporter(messageSource,  new ImageExporterImpl(outputDir, poiImageUtils));
 		export(exporter, outputDir);
-		// TODO: Test json 
+		checkImageFilesExists(outputDir);
+		// TODO: Test json content
 	}
 	
 	
@@ -90,6 +96,11 @@ public class CatalogExporterTest {
 		exporter.init(outputDir);
 		exporter.export(pois,zones,Tags.Tag.values());
 		exporter.close();
+	}
+	
+	private void checkImageFilesExists(File outputDir){
+		String[] filesNames = outputDir.list();
+		assertEquals(pois.size(), filesNames.length - 1);
 	}
 	
 	
