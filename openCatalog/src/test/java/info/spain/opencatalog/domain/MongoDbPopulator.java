@@ -20,9 +20,9 @@ import com.google.common.collect.ImmutableSet;
 
 public class MongoDbPopulator {
 	
-	private static final int MAX_POI = 300;
-	private static final int MAX_ZONES = 30;
-	private static final int MAX_USERS = 30;
+	private static final int NUM_RANDOM_POIS = 100;
+	private static final int NUM_RANDOM_ZONES = 2;
+	private static final int NUM_RANDOM_USERS = 30;
 
 	
 	private MongoOperations mongoTemplate;
@@ -65,7 +65,7 @@ public class MongoDbPopulator {
 		// well known
 		mongoTemplate.insertAll(ImmutableList.copyOf(UserFactory.WELL_KNOWN_USERS));
 		// random
-		mongoTemplate.insertAll(UserFactory.generateUsers(MAX_USERS));
+		mongoTemplate.insertAll(UserFactory.generateUsers(NUM_RANDOM_USERS));
 
 	}
 	
@@ -73,7 +73,7 @@ public class MongoDbPopulator {
 		// well known
 		mongoTemplate.insertAll(ImmutableList.copyOf(ZoneFactory.WELL_KNOWN_ZONES));
 		// random
-		mongoTemplate.insertAll(ZoneFactory.generateZones(MAX_ZONES));
+		mongoTemplate.insertAll(ZoneFactory.generateZones(NUM_RANDOM_ZONES));
 	}
 
 	private void populatePois()	{
@@ -81,8 +81,8 @@ public class MongoDbPopulator {
 		insertAllPoi(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
 		//mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
 		// random pois
-		insertAllPoi(PoiFactory.generatePois(MAX_POI));
-		//mongoTemplate.insertAll(PoiFactory.generatePois(MAX_POI));
+		insertAllPoi(PoiFactory.generatePois(NUM_RANDOM_POIS));
+		//mongoTemplate.insertAll(PoiFactory.generatePois(NUM_RANDOM_POIS));
 	}
 	
 	private void insertAllPoi(Collection<Poi> pois){

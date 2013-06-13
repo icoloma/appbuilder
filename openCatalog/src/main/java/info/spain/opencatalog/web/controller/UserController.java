@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping(value = "/admin/user")
-public class UserController extends AbstractController {
+public class UserController extends AbstractUIController {
 	
 	@Autowired
 	private UserRepository userRepository;

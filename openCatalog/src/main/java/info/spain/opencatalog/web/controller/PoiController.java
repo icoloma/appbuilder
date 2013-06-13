@@ -4,7 +4,8 @@ package info.spain.opencatalog.web.controller;
 import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.exception.NotFoundException;
-import info.spain.opencatalog.image.PoiImageUtilsImpl;
+import info.spain.opencatalog.image.ImageResource;
+import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
 
@@ -34,13 +35,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/admin/poi")
-public class PoiController extends AbstractController {
+public class PoiController extends AbstractUIController {
 	
 	@Autowired
 	private PoiRepository poiRepository;
 	
 	@Autowired
-	private PoiImageUtilsImpl poiImageUtils;
+	private PoiImageUtils poiImageUtils;
 	
 	
 	/**
@@ -169,7 +170,8 @@ public class PoiController extends AbstractController {
 	 */
 	 @RequestMapping(value = "/{id}/image", method = RequestMethod.GET)
 	 public HttpEntity<byte[]> getById (@PathVariable (value="id") String id) throws IOException {
-		 return poiImageUtils.getPoiImageAsHttpEntity(id);
+		 ImageResource img = poiImageUtils.getPoiImageResource(id);
+		 return super.getInputStreamAsHttpEntity(img.getInputStream(), img.getContentType(), img.getContentLenght(), img.getFilename());
 	  }
 	 
 	 

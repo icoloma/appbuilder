@@ -1,32 +1,34 @@
 package info.spain.opencatalog.web.controller;
 
-import java.util.Locale;
+import java.io.InputStream;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.commons.compress.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 public abstract class AbstractController {
 	
-	public static final String INFO_MESSAGE = "infoMessage";
+	protected Logger log = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	protected MessageSource messageSource;
-	
-	/**
-	 * Añade el parámetro "infoMessage" si existe y hay traducción al Model
-	 * Esto se hace par poder mostrar mensajes tras un redirect.
-	 */
-	@ModelAttribute(value=INFO_MESSAGE)
-	public void messages(@RequestParam(required=false) String infoMessage, Locale locale, Model model){
+	protected HttpEntity<byte[]> getInputStreamAsHttpEntity(InputStream is, String contentType, long contentLength, String filename) {
+		HttpHeaders headers = new HttpHeaders();
 		try {
-			messageSource.getMessage(infoMessage, new Object[]{} , locale);
-			model.addAttribute(INFO_MESSAGE, infoMessage);
-		} catch( Exception e ){
-			// do nothing, not valid key
+			byte data[]= IOUtils.toByteArray(is);
+			headers.setContentType(MediaType.valueOf(contentType));
+			headers.setContentLength(contentLength);
+			headers.setContentDispositionFormData("attachment", filename);
+			return new HttpEntity<byte[]>(data, headers);
+		} catch( Exception e) {
+			return new ResponseEntity<byte[]>(e.getMessage().getBytes(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+    
 	}
+	 
+
 
 }

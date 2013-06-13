@@ -25,6 +25,19 @@
 	
 	<bean id="poiImageUtils" class="info.spain.opencatalog.image.PoiImageUtilsImpl" />
 	
+	<bean id="imageExporter" class="info.spain.opencatalog.exporter.ImageExporterImpl">
+		<constructor-arg ref="poiImageUtils"/>
+	</bean>
+	
+	<bean id="jsonExporter" class="info.spain.opencatalog.exporter.JSONExporter">
+		<constructor-arg ref="messageSource"/>
+		<constructor-arg ref="imageExporter"/>
+	</bean>
+
+	<bean id="sqliteExporter" class="info.spain.opencatalog.exporter.SQLiteExporter">
+		<constructor-arg ref="messageSource"/>
+		<constructor-arg ref="imageExporter"/>
+	</bean>
 
 	
 	

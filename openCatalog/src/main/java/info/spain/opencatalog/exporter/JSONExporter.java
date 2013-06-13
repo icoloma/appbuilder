@@ -151,9 +151,6 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 			}
 			
 			File file = getJSONFile(outputDir);
-			if (file.exists()){
-				file.delete();
-			}
 			file.createNewFile();
 			log.debug("Created JSON File {}", file.getAbsolutePath());
 			writer = new Writer(file);

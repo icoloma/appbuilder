@@ -1,10 +1,12 @@
 package info.spain.opencatalog.rest;
 
-import java.io.IOException;
-
 import info.spain.opencatalog.domain.Poi;
-import info.spain.opencatalog.image.PoiImageUtilsImpl;
+import info.spain.opencatalog.image.ImageResource;
+import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
+import info.spain.opencatalog.web.controller.AbstractController;
+
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -26,13 +28,13 @@ import org.springframework.web.multipart.MultipartFile;
 */
 @Controller
 @ExposesResourceFor(Poi.class)
-public class PoiRestController {
+public class PoiRestController extends AbstractController {
 
 	@Autowired 
 	PoiRepository poiRepository;
 	
 	@Autowired
-	PoiImageUtilsImpl poiImageUtils;
+	PoiImageUtils poiImageUtils;
 	
 
 	/**
@@ -40,7 +42,8 @@ public class PoiRestController {
 	 */
 	 @RequestMapping(value = "/poi/{id}/image", method = RequestMethod.GET)
 	 public HttpEntity<byte[]> getById (@PathVariable (value="id") String id)  {
-		 return poiImageUtils.getPoiImageAsHttpEntity(id);
+		 ImageResource image = poiImageUtils.getPoiImageResource(id);
+		 return super.getInputStreamAsHttpEntity(image.getInputStream(), image.getContentType(), image.getContentLenght(), image.getFilename());
 	 }
 	 
 	 /**

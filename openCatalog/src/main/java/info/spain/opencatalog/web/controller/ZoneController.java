@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping(value = "/admin/zone")
-public class ZoneController extends AbstractController {
+public class ZoneController extends AbstractUIController {
 	
 	@Autowired
 	private ZoneRepository zoneRepository;

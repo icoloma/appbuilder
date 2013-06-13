@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Exporter</title>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+    <link rel="stylesheet" href="../../../../resources/css/main.css"/>
+</head>
+
+<body>
+
+	<!--  Nav bar -->
+	<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">OpenCatalog</a>
+			</div>
+		</div>
+	</div>
+    
+    <!-- container -->    
+	<div class="container">
+	
+		<div th:substituteby="fragments/template :: alert" />
+			
+		<h1 th:text="#{exporter.header}" >Exporter</h1>
+		
+		<form id="exporterForm" action="#" th:action="@{'/admin/exporter/'}" method="POST" >
+			<select name="type">
+				<option value="SQLITE">SQLite</option>
+				<option value="JSON">JSON</option>
+			</select>
+		 	<hr/>
+			<div class="well">
+				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.generate}" value="Generate" ></input>
+  		 	</div>
+	  		
+	  </form>  
+	</div>
+        
+	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	</footer>
+	
+
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
+		<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../../resources/js/vendor/bootstrap.js"></script>
+	    <script src="../../../../resources/js/main.js"></script>
+	</div>
+	
+			
+	
+</body>
+</html>
