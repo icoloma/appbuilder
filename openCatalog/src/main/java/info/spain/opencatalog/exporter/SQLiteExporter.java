@@ -28,27 +28,39 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	}
 
 	private void createSchemas(JdbcTemplate jdbcTemplate, File file){
-		jdbcTemplate.execute("create table Poi  (" +
-				" name_es text, desc_es text," +
-				" name_en text, desc_en text," +
-				" name_de text, desc_de text," +
-				" name_fr text, desc_fr text," +
-				" name_it text, desc_it text," +
-				" thumb text, imgs text," +
-	            " created numeric , updated numeric, lat numeric, lon numeric, normLon numeric," +
-	            " starred boolean , tag text," +
-	            " id text PRIMARY KEY);");
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS  `Poi`  (" +
+				" `name_es` TEXT, `desc_es` TEXT," +
+				" `name_en` TEXT, `desc_en` TEXT," +
+				" `name_de` TEXT, `desc_de` TEXT," +
+				" `name_fr` TEXT, `desc_fr` TEXT," +
+				" `name_it` TEXT, `desc_it` TEXT," +
+				" `thumb` TEXT, `imgs` TEXT," +
+	            " `created` numeric , `updated` numeric," +
+	            " `lat` numeric, `lon` numeric, `normLon` numeric," +
+	            " `starred` boolean , `tag` TEXT," +
+	            " `idPoi` TEXT," +
+	            " `id` VARCHAR(32) PRIMARY KEY" +
+	            ");");
 
-		jdbcTemplate.execute("create table Zone (" +
-				" name_es text, desc_es text," +
-				" name_en text, desc_en text," +
-				" name_de text, desc_de text," +
-				" name_fr text, desc_fr text," +
-				" name_it text, desc_it text," +
-				" path text," +
-				" id text PRIMARY KEY);");
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS  `Zone` (" +
+				" `name_es` TEXT, `desc_es` TEXT," +
+				" `name_en` TEXT, `desc_en` TEXT," +
+				" `name_de` TEXT, `desc_de` TEXT," +
+				" `name_fr` TEXT, `desc_fr` TEXT," +
+				" `name_it` TEXT, `desc_it` TEXT," +
+				" `path` TEXT," +
+				" `idZone` TEXT," +
+				" `id` VARCHAR(32) PRIMARY KEY" +
+				");");
 		
-		jdbcTemplate.execute("create table Tag  (tag text, es text, en text, fr text, de text, it text );");
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS  `Tag` (" +
+				" `tag` TEXT," +
+				" `es`  TEXT," +
+				" `en`  TEXT," +
+				" `fr`  TEXT," +
+				" `de`  TEXT," +
+				" `it`  TEXT " +
+				");");
 	}
 
 
@@ -59,12 +71,14 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	 * consultas paginadas
 	 */
 	private void exportZones(List<Zone> zones, JdbcTemplate jdbcTemplate){
+		int id=0;
 		for (Zone zone: zones){
-			jdbcTemplate.update("insert into Zone (name_es, desc_es, path, id ) values(?,?,?,?);",
+			jdbcTemplate.update("INSERT INTO `Zone` (`name_es`, `desc_es`, `path`, `idZone`, `id` ) VALUES (?,?,?,?,?);",
 				zone.getName(),
 				zone.getDescription(),
 				getPathAsJSON(zone.getPath()),
-				zone.getId()
+				zone.getId(),
+				id++
 			);
 		}
 			
@@ -78,20 +92,22 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	 */
 	
 	private void exportPois(List<Poi> pois, File outputDir, JdbcTemplate jdbcTemplate){
+		int id=0;
 		for (Poi poi : pois) {
 			List<String> images = imageExporter.exportImages(poi, outputDir);
-			jdbcTemplate.update("insert into Poi (" +
-					" name_es, desc_es," +
-					" name_en, desc_en," +
-					" name_de, desc_de," +
-					" name_fr, desc_fr," +
-					" name_it, desc_it," +
-					" thumb, imgs," +
-					" created, updated," +
-					" lat, lon, normLon," +
-					" starred," +
-					" tag," +
-					" id ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);", 
+			jdbcTemplate.update("INSERT INTO `Poi` (" +
+					" `name_es`, `desc_es`," +
+					" `name_en`, `desc_en`," +
+					" `name_de`, `desc_de`," +
+					" `name_fr`, `desc_fr`," +
+					" `name_it`, `desc_it`," +
+					" `thumb`, `imgs`," +
+					" `created`, `updated`," +
+					" `lat`, `lon`, `normLon`," +
+					" `starred`," +
+					" `tag`," +
+					" `idPoi`," +
+					" `id` ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);", 
 				poi.getName().getEs(),  
 				poi.getDescription().getEs(), 
 				poi.getName().getEn(),  
@@ -111,7 +127,8 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				getNormLong(poi.getLocation()), // normLon
 				false, // starred
 				asStringArray(poi.getTags()),
-				poi.getId()
+				poi.getId(),
+				id++
 			);
 			
 		}
@@ -127,7 +144,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 		
 		for (int i = 0; i < tags.length; i++) {
 			Tag tag = tags[i];
-			jdbcTemplate.update("insert into Tag (tag, es, en, fr, de, it ) values (?,?,?,?,?,?);",
+			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `es`, `en`, `fr`, `de`, `it` ) VALUES (?,?,?,?,?,?);",
 				tag.toString(),
 				translate("tags." + tag.toString(), LOCALE_ES ),
 				translate("tags." + tag.toString(), Locale.ENGLISH),
@@ -155,9 +172,6 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				outputDir.mkdir();
 			}
 			File outputFile = SQLiteExporter.getDBFile(outputDir);
-			if (outputFile.exists()){
-				outputFile.delete();
-			}
 			log.debug("Created SQLite file {}", outputFile.getAbsolutePath());
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource(outputDir));
 			createSchemas(jdbcTemplate, outputFile);
