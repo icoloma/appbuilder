@@ -30,7 +30,7 @@ public class ImageExporterImpl implements ImageExporter {
 
 	public  List<String> exportImages(Poi poi, File dir){
 		File outputDir = checkOutputDir(dir);
-		List<String> filenames = new ArrayList<>();
+		List<String> filenames = new ArrayList<String>();
 		ImageResource image = poiImageUtils.getPoiImageResource(poi.getId());
 		try {
 			String filename = image.getFilename();

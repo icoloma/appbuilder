@@ -18,7 +18,7 @@ public class UserFactory extends AbstractFactory {
 	}
 	
 	public static List<User> generateUsers(int maxUsers){
-		List<User> result = new ArrayList<>();
+		List<User> result = new ArrayList<User>();
 		for (int i = 0; i < maxUsers; i++) {
 			result.add(newUser("" + i));
 		}

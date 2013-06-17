@@ -32,7 +32,7 @@ public class ZoneFactory extends AbstractFactory {
 	}
 	
 	public static List<Zone> generateZones(int maxZones){
-		List<Zone> result = new ArrayList<>();
+		List<Zone> result = new ArrayList<Zone>();
 		for (int i = 0; i < maxZones; i++) {
 			result.add(newZone("" + i));
 		}

@@ -31,14 +31,14 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	 */
 	@Override
 	public List<Poi> findWithInZone(String zoneId) {
-		List<Poi> result = new ArrayList<>();
+		List<Poi> result = new ArrayList<Poi>();
 		Zone zone = mongoTemplate.findOne(query(where("_id").is(zoneId)), Zone.class);
 		if (zone != null){
 			List<GeoLocation> path = zone.getPath();
 			Point p1 = asPoint(path.get(0));
 			Point p2 = asPoint(path.get(1));
 			Point p3 = asPoint(path.get(2));
-			List<Point> others = new ArrayList<>();
+			List<Point> others = new ArrayList<Point>();
 			for(int i=3; i<path.size(); i++){
 				others.add(asPoint(path.get(i)));
 			}
