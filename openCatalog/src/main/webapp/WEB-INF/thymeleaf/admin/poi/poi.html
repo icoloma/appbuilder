@@ -141,7 +141,12 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 							</div>
 						 	<div class="span3">
 							 	<label th:text="#{poi.address.adminArea1}">Admin Area 1</label>
-							 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid"/>
+							 	<div class="alert alert-error" th:if="${#fields.hasErrors('address.adminArea1')}">
+							  		<ul>
+									  <li th:each="err : ${#fields.errors('address.adminArea1')}" th:text="#{${err}}">Input is incorrect</li>
+									</ul>
+						  		</div>
+							 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid" required="required"/>
 							</div>
 							<div class="span3">
 							 	<label th:text="#{poi.address.zipCode}">ZipCode</label>

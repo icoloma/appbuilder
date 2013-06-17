@@ -4,6 +4,8 @@ import info.spain.opencatalog.converter.DistanceConverter;
 import info.spain.opencatalog.converter.PointConverter;
 import info.spain.opencatalog.domain.Poi;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.geo.Distance;
@@ -22,6 +24,8 @@ public interface PoiRepository extends MongoRepository<Poi, String>, PoiReposito
 	@RestResource(path = "byName_es", rel="byName_es")    
 	@Query( value="{'name.es':{'$regex':?0, '$options': 'i'}}")
 	public Page<Poi> findByNameEsLikeIgnoreCase(@Param("name") String name, Pageable pageable);
+	
+	public Page<Poi> findByNameEs(@Param("name") String name, Pageable pageable);
 	
 	@RestResource(path = "byName_en", rel="byName_en")
 	@Query( value="{'name.en':{'$regex':?0, '$options': 'i'}}")
@@ -43,8 +47,19 @@ public interface PoiRepository extends MongoRepository<Poi, String>, PoiReposito
 	@RestResource(path = "locationNear", rel="locationNear")
 	public Page<Poi> findByLocationNear(@Param("location") @ConvertWith(value=PointConverter.class) Point location, @Param("distance") @ConvertWith(value=DistanceConverter.class) Distance distance, Pageable pageable);
 	
-//	@RestResource
-//	public List<Poi> findByLocationWithin(@Param("circle") Circle circle);
+	@Query( value="{'address.adminArea1':{'$regex':?0, '$options': 'i'}}")
+	public List<Poi> findByAddressArea1LikeIgnoreCase(@Param("adminArea1") String name);
+	
+	@Query( value="{'address.adminArea1':?0}")
+	public List<Poi> findByAddressArea1(@Param("adminArea1") String name);
 
+	@Query( value="{'address.adminArea2':{'$regex':?0, '$options': 'i'}}")
+	public List<Poi> findByAddressArea2LikeIgnoreCase(@Param("adminArea2") String name);
+	
+	@Query( value="{'address.adminArea2':?0}")
+	public List<Poi> findByAddressArea2(@Param("adminArea2") String name);
+	
+	@Query( value="{ '_id' : {'$in': ?0}}")
+	public List<Poi> findByIds(String[] ids);
 
 }

@@ -26,13 +26,15 @@ public class PoiFactory extends AbstractFactory {
 			.setDe("en-"+key+"-description"))
 		.setAddress(new Address()
 			.setRoute( key + "-address")
-			.setAdminArea1( key + "-area1")
-			.setAdminArea2( key + "-area2")
+			.setAdminArea1( "adminArea1-" + getRandom().nextInt(10))
+			.setAdminArea2( "adminArea2-" + getRandom().nextInt(10))
 			.setZipCode(key+"-zipCode"))
 		.setLocation(randomLocation())
 		.setTags(randomTags(getRandom().nextInt(4)));
 		return poi;
 	}
+	
+	
 	
 	private static List<Tag> randomTags(int numTags){
 		List<Tag> result = new ArrayList<Tag>();
@@ -59,13 +61,15 @@ public class PoiFactory extends AbstractFactory {
 		return image;
 	}
 
-	public static Poi POI_CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO);
-	public static Poi POI_RETIRO = PoiFactory.newPoi("Retiro").setLocation(GEO_RETIRO);
-	public static Poi POI_SOL = PoiFactory.newPoi("Sol").setLocation(GEO_SOL);
-	public static Poi POI_TEIDE = PoiFactory.newPoi("Teide").setLocation(GEO_TEIDE);
+	public static Poi POI_CASA_CAMPO = PoiFactory.newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static Poi POI_RETIRO = PoiFactory.newPoi("Retiro").setLocation(GEO_RETIRO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static Poi POI_SOL = PoiFactory.newPoi("Sol").setLocation(GEO_SOL).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static Poi POI_TEIDE = PoiFactory.newPoi("Teide").setLocation(GEO_TEIDE).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
+	public static Poi POI_PLAYA_TERESITAS= PoiFactory.newPoi("Playa de las Teresitas").setLocation(GEO_PLAYA_TERESITAS).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
+	public static Poi POI_ROQUE_NUBLO= PoiFactory.newPoi("Roque Nublo").setLocation(GEO_ROQUE_NUBLO).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Gran Canaria"));
 	public static Poi POI_ALASKA = PoiFactory.newPoi("Alaska").setLocation(GEO_ALASKA);
 	
-	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA);
+	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
 	
 	
 	

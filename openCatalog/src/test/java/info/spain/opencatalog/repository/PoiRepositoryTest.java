@@ -125,6 +125,7 @@ public class PoiRepositoryTest {
 		assertEquals(3, pois.size());
 	}
 	
+	
 	/**
 	 * Formamos una zona en forma de pajarita que deja el retiro dentro de los límites (NW,NE,SE,SO) pero fuera del polígono
 	 * Puerta del Sol también cae dentro
@@ -174,5 +175,36 @@ public class PoiRepositoryTest {
 		mongoTemplate.remove(sol);
 		mongoTemplate.remove(teide);
 	}
+	
+	@Test
+	public void testPoisInAdminArea(){
+
+		poiRepository.deleteAll();
+		
+		mongoTemplate.save(PoiFactory.POI_RETIRO);
+		mongoTemplate.save(PoiFactory.POI_SOL);
+		mongoTemplate.save(PoiFactory.POI_CASA_CAMPO);
+		mongoTemplate.save(PoiFactory.POI_TEIDE);
+		mongoTemplate.save(PoiFactory.POI_PLAYA_TERESITAS);
+		
+		// Admin Area 1
+		List<String> areas = poiRepository.findAdminArea1ByName("adrid");
+		assertEquals(1, areas.size());
+		
+		List<Poi> pois = poiRepository.findByAddressArea1LikeIgnoreCase("adrid");
+		assertEquals(3, pois.size());
+		
+		
+		// Admin Area 2
+		areas = poiRepository.findAdminArea2ByName("Tenerife");
+		assertEquals(1, areas.size());
+		
+		pois = poiRepository.findByAddressArea2LikeIgnoreCase("Tenerife");
+		assertEquals(2, pois.size());
+
+		
+	}
+	
+	
 	
 }

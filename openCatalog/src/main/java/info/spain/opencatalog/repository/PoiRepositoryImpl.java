@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Zone;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.data.mongodb.core.geo.Polygon;
 import org.springframework.data.mongodb.core.geo.Shape;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+
 public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	
 	@Autowired
 	MongoOperations mongoTemplate;
 	
-
 	/**
 	 *  Busca los POI dentro de un polígono 
 	 *	query : { 'location' : { $geoWithin : { $polygon : [ [x1,y1],[x2,y2],[x3,y3],... ] } } }
@@ -55,4 +58,26 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 		List<Poi> result = mongoTemplate.find(query(where("location").within(circle)), Poi.class);
 		return result;
 	}
+	
+	public List<String> findAdminArea1ByName(String name){
+		return getUniqueFields("address.adminArea1", name);
+	}
+
+	public List<String> findAdminArea2ByName(String name){
+		return getUniqueFields("address.adminArea2", name);
+	}
+	
+	@SuppressWarnings("unchecked")
+	/**
+	 * FIXME: Utilizar limit y sort en la consulta 
+	 * https://jira.mongodb.org/browse/SERVER-2130
+	 */
+	private List<String> getUniqueFields(String fieldName, String fieldValue){
+		DBCollection coll = mongoTemplate.getCollection("poi");
+		BasicDBObject query =  new BasicDBObject().append(fieldName, new BasicDBObject().append("$regex", fieldValue).append("$options","i"));
+		List<String> res = coll.distinct(fieldName, query);
+		Collections.sort(res);
+		return res;
+	}
+	
 }

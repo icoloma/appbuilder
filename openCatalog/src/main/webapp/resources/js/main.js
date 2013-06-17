@@ -42,6 +42,21 @@ $(function(){
 		});
 	});
 	
+	// checkAll 
+	$('#checkAll').click(function(){
+		if ($("#checkAll").is(':checked')) {
+            $("input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+
+        } else {
+            $("input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        }	
+			
+	});
+	
 	
 	addAddress = function (latLng){
 		$('#map_canvas').gmap('search', {'location': latLng}, function(results, status) {

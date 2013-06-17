@@ -16,5 +16,8 @@ public interface ZoneRepository extends MongoRepository<Zone, String> {
 	@Query( value="{'name':{'$regex':?0, '$options': 'i'}}")
 	public Page<Zone> findByNameIgnoreCaseLike(@Param("name") String name, Pageable pageable);
 	
+	@Query( value="{'name':?0}")
+	public Page<Zone> findByName(@Param("name") String name, Pageable pageable);
+	
 
 }

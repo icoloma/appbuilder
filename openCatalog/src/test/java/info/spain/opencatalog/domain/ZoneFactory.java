@@ -52,7 +52,13 @@ public class ZoneFactory extends AbstractFactory {
 			new GeoLocation().setLat(40.4652).setLng(-3.4202)
 			));
 	
-	
+	public static Zone ZONE_PROVINCIA_STA_CRUZ = ZoneFactory.newZone("Santa Cruz de Tenerife").setPath( ImmutableList.of(
+			new GeoLocation().setLat(29.084976575985912).setLng(-18.3636474609375),
+			new GeoLocation().setLat(29.036960648558267).setLng(-15.3094482421875),
+			new GeoLocation().setLat(27.362010549240278).setLng(-17.0672607421875),
+			new GeoLocation().setLat(27.6543381066919).setLng(-18.3636474609375)
+			));
+		
 	public static Zone ZONE_COMPLEX = ZoneFactory.newZone("Complex Zone").setPath( ImmutableList.of(
 			new GeoLocation().setLat(40.42988).setLng(-3.70568),  // Metro San Bernardo  ( NW )
 			new GeoLocation().setLat(40.38190).setLng(-3.66829),  // Renfe Asamblea Madrid - Entrevias ( SE )
@@ -60,7 +66,7 @@ public class ZoneFactory extends AbstractFactory {
 			new GeoLocation().setLat(40.38524).setLng(-3.71905)   // Metro Intercambiador de Plaza Elíptica (SW)
 			));  
 	
-	public static ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES, ZONE_COMPLEX);
+	public static ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES, ZONE_COMPLEX, ZONE_PROVINCIA_STA_CRUZ);
 
 	
 
