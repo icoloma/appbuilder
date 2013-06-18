@@ -37,8 +37,8 @@
 			      <th><input type="checkbox" id="checkAll"  /></th>
 			      <th th:text="#{poi.rows.head.name}">Name</th>
 			      <th th:text="#{poi.rows.head.description}">Description</th>
-			      <th th:text="#{poi.rows.head.adminArea1}">Admin Area 1</th>
 			       <th th:text="#{poi.rows.head.adminArea2}">Admin Area 2</th>
+			      <th th:text="#{poi.rows.head.adminArea1}">Admin Area 1</th>
 			    </tr>
 			  </thead>
 			  <tfoot>
@@ -51,16 +51,16 @@
 			      <td><input type="checkbox" name="idPoi[1]" value="1" /></td>
 			      <td>Roque Nublo</td>
 			      <td>Situado en la isla de Gran Canaria ...</td>
-			      <td>Canarias</td>
 			      <td>Tenerife</td>
+			      <td>Canarias</td>
 			     
 			    </tr>
 			    <tr th:remove="all"  >
 			      <td><input type="checkbox" name="idPoi[[2]" value="2" /></td>
 			      <td>Playa de las Teresitas</td>
 			      <td>Situado en la isla de Tenerife ...</td>
-			      <td>Canarias</td>
 			      <td>Tenrife</td>
+			      <td>Canarias</td>
 			     
 			    </tr>
 			  </tbody>
@@ -184,8 +184,8 @@
 							td1.appendTo(tr);
 							$('<td>').text(that.name).click(function(){window.open(poiURL);}).appendTo(tr);
 						    $('<td>').text(that.description).click(function(){window.open(poiURL);}).appendTo(tr);
-						    $('<td>').text(that.area1).click(function(){window.open(poiURL);}).appendTo(tr);
 						    $('<td>').text(that.area2).click(function(){window.open(poiURL);}).appendTo(tr);
+						    $('<td>').text(that.area1).click(function(){window.open(poiURL);}).appendTo(tr);
 							$(tr).appendTo('#table table tbody');
 						}
 						

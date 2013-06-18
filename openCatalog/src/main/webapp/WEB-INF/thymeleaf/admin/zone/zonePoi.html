@@ -47,6 +47,7 @@
 			    <tr>
 			      <th th:text="#{poi.rows.head.name}">Name</th>
 			      <th th:text="#{poi.rows.head.description}">Description</th>
+			      <th th:text="#{poi.rows.head.adminArea2}">Admin Area 2</th>
 			      <th th:text="#{poi.rows.head.adminArea1}">Admin Area 1</th>
 			    </tr>
 			  </thead>
@@ -62,7 +63,8 @@
 			      >
 			      <td th:text="${poi.name.es}">Poi-1</td>
 			      <td th:text="${#strings.abbreviate(poi.description.es,50)}">bla,bla,bla ...</td>
-			      <td th:text="${poi.address.adminArea1}">Madrid</td>
+			      <td th:text="${poi.address.adminArea2}">Madrid</td>
+			      <td th:text="${poi.address.adminArea1}">Comunidad de Madrid</td>
 			      	
 			    </tr>
 			    <tr th:remove="all"
@@ -77,6 +79,7 @@
 			      <td>Poi-2</td>
 			      <td>bla,bla,bla ...</td>
 			      <td>Madrid</td>
+			      <td>Comunidad de Madrid</td>
 			    </tr>
 			  <tr th:remove="all"
 			    	data-name="Poi-3" 
@@ -90,19 +93,7 @@
 			      <td>Poi-3</td>
 			      <td>bla,bla,bla ...</td>
 			      <td>Madrid</td>
-			    </tr>
-			  <tr th:remove="all"
-			    	data-name="Poi-4" 
-			    	data-link="../poi/poi.html" 
-			    	data-lat ="40.407"
-			    	data-lng ="-3.657"
-			    	data-desc="bla,bla,bla"
-			    	data-img="../../../../../resources/img/no_image.png"
-			    	class="markerLink" 
-			    	>
-			      <td>Poi-4</td>
-			      <td>bla,bla,bla ...</td>
-			      <td>Madrid</td>
+			      <td>Comunidad de Madrid</td>
 			    </tr>
 			  
 			  </tbody>

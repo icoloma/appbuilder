@@ -133,11 +133,11 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 						<div class="row">
 							<div class="span3">
 								<label th:text="#{poi.address.route}">Route</label>
-								<input name="address.route" id="route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="Plaza Puerta del Sol"/>
+								<input name="address.route" id="route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="*{address.route}" value="Plaza Puerta del Sol" class="span3"/>
 							</div>
 						 	<div class="span3">
 							 	<label th:text="#{poi.address.adminArea2}">Admin Area 2</label>
-							 	<input name="address.adminArea2" id="adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{poi.address.adminArea2}" th:value="*{address.adminArea2}" value="Madrid"/>
+							 	<input name="address.adminArea2" id="adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{poi.address.adminArea2}" th:value="*{address.adminArea2}" value="Madrid" class="span3"/>
 							</div>
 						 	<div class="span3">
 							 	<label th:text="#{poi.address.adminArea1}">Admin Area 1</label>
@@ -146,11 +146,11 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 									  <li th:each="err : ${#fields.errors('address.adminArea1')}" th:text="#{${err}}">Input is incorrect</li>
 									</ul>
 						  		</div>
-							 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid" required="required"/>
+							 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid" required="required" class="span3"/>
 							</div>
 							<div class="span3">
 							 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
-							 	<input name="address.zipCode" id="zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28013"/>
+							 	<input name="address.zipCode" id="zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28013" class="span3"/>
 							</div>
 						</div>
 					</fieldset>
