@@ -9,7 +9,9 @@ define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
         return 'http//:maps.apple.com/?ll=' + this.get('lat') + ',' + this.get('lon') + '&z=17';
       } else {
         // Android como valor por defecto
-        return 'geo:' + this.get('lat') + ',' + this.get('lon') + '?z=17';
+        return 'geo:' + this.get('lat') + ',' + this.get('lon') + 
+               '?q=' + this.get('lat') + ',' + this.get('lon') + 
+               '(' + this.get('name') + ')';
       }
     },
 
