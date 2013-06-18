@@ -12,10 +12,11 @@ import org.springframework.data.rest.repository.annotation.RestResource;
 @RestResource(path = "zone", rel="zones")
 public interface ZoneRepository extends MongoRepository<Zone, String> {
 	
-	@RestResource(path = "byName", rel="byName")
+	@RestResource(path = "byNameLike", rel="byNameLike")
 	@Query( value="{'name':{'$regex':?0, '$options': 'i'}}")
 	public Page<Zone> findByNameIgnoreCaseLike(@Param("name") String name, Pageable pageable);
 	
+	@RestResource(path = "byName", rel="byName")
 	@Query( value="{'name':?0}")
 	public Page<Zone> findByName(@Param("name") String name, Pageable pageable);
 	

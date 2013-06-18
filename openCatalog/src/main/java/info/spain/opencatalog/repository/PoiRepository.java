@@ -21,45 +21,36 @@ public interface PoiRepository extends MongoRepository<Poi, String>, PoiReposito
 	
 	// API : /api/poi/?limit=1&page=5&sort=name.es&name.es.dir=DESC
 	// UI  : /admin/poi/?page.page=2&page.size=5&page.sort=name.es&page.sort.dir=DESC
-	@RestResource(path = "byName_es", rel="byName_es")    
+	@RestResource(path = "byNameLike", rel="byNameLike")    
 	@Query( value="{'name.es':{'$regex':?0, '$options': 'i'}}")
 	public Page<Poi> findByNameEsLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
+	@RestResource(path = "byName", rel="byName")    
 	public Page<Poi> findByNameEs(@Param("name") String name, Pageable pageable);
 	
-	@RestResource(path = "byName_en", rel="byName_en")
-	@Query( value="{'name.en':{'$regex':?0, '$options': 'i'}}")
-	public Page<Poi> findByNameEnLikeIgnoreCase(@Param("name") String name, Pageable pageable);
-	
-	@RestResource(path = "byName_fr", rel="byName_fr")
-	@Query( value="{'name.fr':{'$regex':?0, '$options': 'i'}}")
-	public Page<Poi> findByNameFrLikeIgnoreCase(@Param("name") String name, Pageable pageable);
-	
-	@RestResource(path = "byName_de", rel="byName_de")
-	@Query( value="{'name.de':{'$regex':?0, '$options': 'i'}}")
-	public Page<Poi> findByNameDeLikeIgnoreCase(@Param("name") String name, Pageable pageable);
-	
-	@RestResource(path = "byName_it", rel="byName_it")
-	@Query( value="{'name.it':{'$regex':?0, '$options': 'i'}}")
-	public Page<Poi> findByNameItLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 	
 	// { 'location' : { '$nearSphere' : [location.lng, location.lat], '$maxDistance' : distance}}
-	@RestResource(path = "locationNear", rel="locationNear")
+	@RestResource(path = "byLocationNear", rel="byLocationNear")
 	public Page<Poi> findByLocationNear(@Param("location") @ConvertWith(value=PointConverter.class) Point location, @Param("distance") @ConvertWith(value=DistanceConverter.class) Distance distance, Pageable pageable);
 	
+	@RestResource( path="byArea1Like", rel="byArea1Like")
 	@Query( value="{'address.adminArea1':{'$regex':?0, '$options': 'i'}}")
 	public List<Poi> findByAddressArea1LikeIgnoreCase(@Param("adminArea1") String name);
 	
+	@RestResource( path="byArea1", rel="byArea1")
 	@Query( value="{'address.adminArea1':?0}")
 	public List<Poi> findByAddressArea1(@Param("adminArea1") String name);
 
+	@RestResource( path="byArea2Like", rel="byArea2Like")
 	@Query( value="{'address.adminArea2':{'$regex':?0, '$options': 'i'}}")
 	public List<Poi> findByAddressArea2LikeIgnoreCase(@Param("adminArea2") String name);
 	
+	@RestResource( path="byArea2", rel="byArea2")
 	@Query( value="{'address.adminArea2':?0}")
 	public List<Poi> findByAddressArea2(@Param("adminArea2") String name);
 	
+	@RestResource( path="byId", rel="byId")
 	@Query( value="{ '_id' : {'$in': ?0}}")
-	public List<Poi> findByIds(String[] ids);
+	public List<Poi> findByIds(@Param("id") String[] ids);
 
 }
