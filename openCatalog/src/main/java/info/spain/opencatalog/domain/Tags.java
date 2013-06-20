@@ -49,7 +49,7 @@ public class Tags {
 					return tag;
 				}
 			}
-			throw new IllegalArgumentException("unkowed id Tag : " + id);
+			throw new IllegalArgumentException("unknown id Tag : " + id);
 		}
 	};
 	

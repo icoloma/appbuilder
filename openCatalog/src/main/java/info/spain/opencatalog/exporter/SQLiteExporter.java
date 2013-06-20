@@ -55,11 +55,11 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 		
 		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS  `Tag` (" +
 				" `tag` TEXT," +
-				" `es`  TEXT," +
-				" `en`  TEXT," +
-				" `fr`  TEXT," +
-				" `de`  TEXT," +
-				" `it`  TEXT," +
+				" `name_es`  TEXT," +
+				" `name_en`  TEXT," +
+				" `name_fr`  TEXT," +
+				" `name_de`  TEXT," +
+				" `name_it`  TEXT," +
 				" `id` VARCHAR(32) PRIMARY KEY" +
 				");");
 		
@@ -153,7 +153,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 		
 		for (int i = 0; i < tags.length; i++) {
 			Tag tag = tags[i];
-			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `es`, `en`, `fr`, `de`, `it`, `id` ) VALUES (?,?,?,?,?,?,?);",
+			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `name_es`, `name_en`, `name_fr`, `name_de`, `name_it`, `id` ) VALUES (?,?,?,?,?,?,?);",
 				tag.toString(),
 				translate("tags." + tag.toString(), LOCALE_ES ),
 				translate("tags." + tag.toString(), Locale.ENGLISH),
