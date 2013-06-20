@@ -71,25 +71,25 @@
 		<h2 th:text="#{exporter.addPois}">Add Pois</h2>
 		<label th:text="#{exporter.zone}">Zone</label>
 		<div class="input-append">
-			  <input class="span2 typeahead" data-provide="typeahead" name="zone" type="text" placeholder="Zone" data:url="@{/admin/exporter/zoneTypeahead}" />
+			  <input class="span2" data-provide="typeahead" name="zone" type="text" placeholder="Zone" data:url="@{/admin/exporter/zoneTypeahead}" />
 			  <button class="btn poiBtn" type="button" data:url="@{/admin/exporter/zonePois}" ><i class="icon icon-plus"></i></button>
 		</div>
 
 		<label th:text="#{exporter.adminArea1}">Admin Area 1</label>
 		<div class="input-append">
-			  <input class="span2 typeahead" data-provide="typeahead" name="adminArea1" type="text" placeholder="Area" data:url="@{/admin/exporter/area1Typeahead}"/>
+			  <input class="span2" data-provide="typeahead" name="adminArea1" type="text" placeholder="Area" data:url="@{/admin/exporter/area1Typeahead}"/>
 			  <button class="btn poiBtn" type="button"  data:url="@{/admin/exporter/areaPois1}"><i class="icon icon-plus"></i></button>
 		</div>
 			
 		<label th:text="#{exporter.adminArea2}">Admin Area 2</label>
 		<div class="input-append">
-			  <input class="span2 typeahead" data-provide="typeahead" name="adminArea2" type="text" placeholder="Area" data:url="@{/admin/exporter/area2Typeahead}"/>
+			  <input class="span2" data-provide="typeahead" name="adminArea2" type="text" placeholder="Area" data:url="@{/admin/exporter/area2Typeahead}"/>
 			  <button class="btn poiBtn" type="button"  data:url="@{/admin/exporter/areaPois2}"><i class="icon icon-plus"></i></button>
 		</div>
 
 		<label th:text="#{exporter.poi}">Point of Interest</label>
 		<div class="input-append">
-			  <input class="span2 typeahead" name="poi" type="text" placeholder="Poi" data-provide="typeahead" data:url="@{/admin/exporter/poiTypeahead}" />
+			  <input class="span2" name="poi" type="text" placeholder="Poi" data-provide="typeahead" data:url="@{/admin/exporter/poiTypeahead}" />
 			  <button class="btn poiBtn" type="button"  data:url="@{/admin/exporter/poi}"><i class="icon icon-plus"></i></button>
 		</div>
 			
@@ -138,7 +138,7 @@
 
 	$(function(){
 		
-		$('.typeahead').typeahead({
+		$('[data-provide="typeahead"]').typeahead({
 			source : function(query, process) {
 		        jQuery.ajax({
 		            url : $(this.$element).data("url"),

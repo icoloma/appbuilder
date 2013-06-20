@@ -67,7 +67,7 @@ form.form-search {
 	overflow: auto;
 }
 
-#exporterForm input.typeahead {
+#exporterForm [data-provide="typeahead"] {
 	margin-top: 0px;
 	
 }
