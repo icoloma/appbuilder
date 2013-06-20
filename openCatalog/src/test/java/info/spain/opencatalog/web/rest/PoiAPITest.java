@@ -134,7 +134,7 @@ public class PoiAPITest {
 		repo.deleteAll();
 		Poi poi = PoiFactory.newPoi("tesFindByName");
 		Poi saved = repo.save(poi);
-		MvcResult result = this.mockMvc.perform(get("/poi/search/byName_es").param("name", poi.getName().getEs()))
+		MvcResult result = this.mockMvc.perform(get("/poi/search/byName").param("name", poi.getName().getEs()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType("application/json"))
 			.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
@@ -182,7 +182,7 @@ public class PoiAPITest {
 		Poi saved = repo.save(poi); 
 		
 		// Test found
-		MvcResult result = this.mockMvc.perform(get("/poi/search/locationNear")
+		MvcResult result = this.mockMvc.perform(get("/poi/search/byLocationNear")
 				.param("location", "{\"lat\":" + poi.getLocation().getLat() + ", \"lng\":" + poi.getLocation().getLng() + "}")
 				.param("distance", "5"))
 	    	.andExpect(status().isOk())
@@ -193,7 +193,7 @@ public class PoiAPITest {
 	    log.debug("result /poi/search/locationNear:\n" + content);
 	    
 	    // Test Not found
-	 	result = this.mockMvc.perform(get("/poi/search/locationNear")
+	 	result = this.mockMvc.perform(get("/poi/search/byLocationNear")
 				.param("location", "{\"lat\":" + alaska.getLat() + ", \"lng\":" + alaska.getLng() + "}")
 				.param("distance", "5"))
 	    	.andExpect(status().isOk())
