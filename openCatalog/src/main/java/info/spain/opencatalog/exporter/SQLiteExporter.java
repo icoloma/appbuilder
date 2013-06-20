@@ -59,7 +59,8 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				" `en`  TEXT," +
 				" `fr`  TEXT," +
 				" `de`  TEXT," +
-				" `it`  TEXT " +
+				" `it`  TEXT," +
+				" `id` VARCHAR(32) PRIMARY KEY" +
 				");");
 	}
 
@@ -141,16 +142,17 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	 * Expor tags
 	 */
 	private void exportTags(Tag[] tags, JdbcTemplate jdbcTemplate ) {
-		
+		int id=0;
 		for (int i = 0; i < tags.length; i++) {
 			Tag tag = tags[i];
-			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `es`, `en`, `fr`, `de`, `it` ) VALUES (?,?,?,?,?,?);",
+			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `es`, `en`, `fr`, `de`, `it`, `id` ) VALUES (?,?,?,?,?,?,?);",
 				tag.toString(),
 				translate("tags." + tag.toString(), LOCALE_ES ),
 				translate("tags." + tag.toString(), Locale.ENGLISH),
 				translate("tags." + tag.toString(), Locale.FRENCH),
 				translate("tags." + tag.toString(), Locale.GERMAN),
-				translate("tags." + tag.toString(), Locale.ITALIAN)
+				translate("tags." + tag.toString(), Locale.ITALIAN),
+				id++
 			);
 					
 		}
