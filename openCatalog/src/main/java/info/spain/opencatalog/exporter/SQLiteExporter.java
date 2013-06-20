@@ -37,7 +37,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				" `thumb` TEXT, `imgs` TEXT," +
 	            " `created` numeric , `updated` numeric," +
 	            " `lat` numeric, `lon` numeric, `normLon` numeric," +
-	            " `starred` boolean , `tag` TEXT," +
+	            " `starred` boolean," +
 	            " `idPoi` TEXT," +
 	            " `id` VARCHAR(32) PRIMARY KEY" +
 	            ");");
@@ -62,6 +62,13 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				" `it`  TEXT," +
 				" `id` VARCHAR(32) PRIMARY KEY" +
 				");");
+		
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS `PoiTag` (" +
+				" `idPoi` TEXT," +
+				" `tag` TEXT" +
+				");");
+		
+		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS idx_poiTag ON PoiTag(tag)");
 	}
 
 
@@ -106,9 +113,8 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 					" `created`, `updated`," +
 					" `lat`, `lon`, `normLon`," +
 					" `starred`," +
-					" `tag`," +
 					" `idPoi`," +
-					" `id` ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);", 
+					" `id` ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);", 
 				poi.getName().getEs(),  
 				poi.getDescription().getEs(), 
 				poi.getName().getEn(),  
@@ -127,11 +133,13 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				poi.getLocation().getLng(),
 				getNormLong(poi.getLocation()), // normLon
 				false, // starred
-				asStringArray(poi.getTags()),
 				poi.getId(),
 				id++
 			);
 			
+			for (Tag tag : poi.getTags()) {
+				jdbcTemplate.update("INSERT INTO `PoiTag` (idPoi, tag) VALUES (?,?)", poi.getId(), tag.toString());
+			}
 		}
 	}
 	
@@ -142,7 +150,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	 * Expor tags
 	 */
 	private void exportTags(Tag[] tags, JdbcTemplate jdbcTemplate ) {
-		int id=0;
+		
 		for (int i = 0; i < tags.length; i++) {
 			Tag tag = tags[i];
 			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `es`, `en`, `fr`, `de`, `it`, `id` ) VALUES (?,?,?,?,?,?,?);",
@@ -152,7 +160,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				translate("tags." + tag.toString(), Locale.FRENCH),
 				translate("tags." + tag.toString(), Locale.GERMAN),
 				translate("tags." + tag.toString(), Locale.ITALIAN),
-				id++
+				tag.getId()
 			);
 					
 		}
