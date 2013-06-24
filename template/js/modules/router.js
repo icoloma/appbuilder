@@ -3,12 +3,11 @@
 */
 define(
   [ 
-    'globals', 'modules/query',
+    'globals', 'db/utils',
     'page/pages', 'schemas/schemas', 'ui/basedialogview',
     'poi/poi', 'poi/collection'
   ],
-  function(Globals, Query, Page, Db, DialogView, Poi) {
-
+  function(Globals, DbUtils, Page, Db, DialogView, Poi) {
     return B.Router.extend({
 
       routes: {
@@ -34,7 +33,7 @@ define(
 
       renderHome: function() {
         var self = this;
-        Db.Tag.all().asCollection(function(tags) {
+        Db.Tag.all().asCollection(Db.Tag, function(tags) {
           self.setView(Page.TagsView, {
             collection: tags,
             title: window.appConfig.zone,
@@ -65,14 +64,13 @@ define(
 
       renderPois: function(query) {
         var self = this
-        , parsedQuery = query ? Query.parseQuery(query) : {}
-        ;
+        , parsedQuery = query ? DbUtils.parseQuery(query) : {} ;
 
         async.parallel({
           pois: function(cb) {
             // TODO: esto tiene que ser más general
-            Db.Tag.filter('id', '=', parsedQuery.tag).list(function(tags) {
-              tags[0].pois.all().asJSON(function(pois) {
+            Db.Tag.findBy('id', parsedQuery.tag, function(tag) {
+              tag.pois.all().asJSON(Db.Poi, function(pois) {
                 cb(null, pois);
               });
             });
@@ -106,7 +104,7 @@ define(
         var self = this;
         Db.Poi.findBy('id', poiId, function(poi) {
           self.setView(Page.PoiView, {
-            model: new Poi.Model(poi.toJSON()),
+            model: new Poi.Model(poi.localizedJSON()),
             title: poi.name
           });
         });
