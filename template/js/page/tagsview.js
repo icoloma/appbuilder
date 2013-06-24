@@ -3,12 +3,12 @@ define(
   function(ListView, TrView, TopbarView) {
 
     return B.View.extend({
-      className: 'categoryview',
+      className: 'tagsview',
 
       initialize: function() {
         this.collectionView = new ListView({
           collection: this.collection,
-          url: '#/pois?subcategory=',
+          url: '#/pois?tag=',
           trView: TrView
         });
         this.topbarView = new TopbarView();
@@ -19,7 +19,6 @@ define(
         this.$el.append(this.collectionView.render().$el);
         return this;
       }
-
     });
   }
 );
