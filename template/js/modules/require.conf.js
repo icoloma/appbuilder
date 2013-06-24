@@ -19,7 +19,7 @@ var require = {
       deps: ['lib/persistence.store.sql']
     },
     'lib/persistence.sql': {
-      deps: ['lib/persistence']
+      deps: ['lib/persistence', 'lib/SQLitePlugin']
     }
   }
 }

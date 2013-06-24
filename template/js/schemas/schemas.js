@@ -1,9 +1,14 @@
 define(
-  ['schemas/category', 'schemas/subcategory', 'schemas/poi'],
-  function(Category, SubCategory, Poi) {
+  [
+  // 'schemas/category', 'schemas/subcategory', 
+  'schemas/Tag', 'schemas/poi'],
+  function(Tag, Poi) {
+    Poi.hasMany('tags', Tag, 'pois');
+    Tag.hasMany('pois', Poi, 'tags');
     return {
-      Category: Category,
-      SubCategory: SubCategory,
+      // Category: Category,
+      // SubCategory: SubCategory,
+      Tag: Tag,
       Poi: Poi
     };
   }

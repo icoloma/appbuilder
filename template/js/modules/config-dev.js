@@ -1,4 +1,4 @@
-define(function() {
+define(['globals'], function() {
 
   /*
     Configuración de la aplicación en desarrollo.
@@ -11,6 +11,8 @@ define(function() {
     data: 'test/data/',
     platform: window.device ? device.platform : 'Android'
   };
+
+
 
   // Detecta eventos 'touch', para distinguir si estamos en un dispositivo o en desktop
   var supportsTouch = (('ontouchstart' in window) ||
@@ -49,6 +51,9 @@ define(function() {
 
     console.log('Waiting for deviceready...'); //DEBUG
     document.addEventListener('deviceready', function () {
+      // Reemplazar el API WebSQL del WebView por el API nativa de SQLitePlugin en un dispositivo
+      window.openDatabase = window.sqlitePlugin.openDatabase.bind(window.sqlitePlugin);
+      // Obtener el locale
       navigator.globalization.getLocaleName(function(locale) {
         window.appConfig.locale = locale.value.match(/^([a-z]{2})/)[1];
         once();
