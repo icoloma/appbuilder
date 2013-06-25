@@ -2,5 +2,6 @@
 /build
 /target
 /.gradle
-openCatalog.i*
-out
+*.ipr
+*.iml
+*.iws

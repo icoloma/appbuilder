@@ -45,8 +45,7 @@ public class Beach extends AbstractPoi {
 	
 
 	private List<Accessibility> accessibility = new ArrayList<Accessibility>(); 
-	private List<Certificate> certificate = new ArrayList<Certificate>(); 
-	
+
 	private Double large;
 	private Double width;
 	

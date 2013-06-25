@@ -3,16 +3,9 @@ package info.spain.opencatalog.domain.poi;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.Tags;
 import info.spain.opencatalog.domain.Tags.Tag;
+import info.spain.opencatalog.domain.poi.lodging.types.AbstractPoiType;
 import info.spain.opencatalog.validator.ValidI18nText;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -20,30 +13,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 public abstract class AbstractPoi implements Serializable {
 	
 	private static final long serialVersionUID = 5722653798168373056L;
-	
-	public AbstractPoi(){
-		this.createdDate = new DateTime();
-		this.lastModifiedDate = new DateTime();
-	}
-	
-	public AbstractPoi(AbstractPoi other){
-		copyData(this, other);
-	}
-	
-	public static void copyData(AbstractPoi target, AbstractPoi source){
-		target.id = source.id;
-		target.name = source.name;
-		target.description = source.description;
-		target.address = source.address;
-		target.location = source.location;
-		target.tags = source.tags;
-	}
-	
+
 	@Id
 	private String id;
+
+    private AbstractPoiType type;
 
 	@ValidI18nText(message="poi.name.validation.message")   
 	@Indexed
@@ -54,7 +37,6 @@ public abstract class AbstractPoi implements Serializable {
 	
 	private Address address = new Address();
 	
-
 	@NotNull
 	@GeoSpatialIndexed
 	private GeoLocation location; 	// Geospatial location
@@ -66,9 +48,33 @@ public abstract class AbstractPoi implements Serializable {
 	
 	@LastModifiedDate
 	private DateTime lastModifiedDate;
-	
-		
-	public AbstractPoi setId(String id){
+
+    /** certificados que se han otorgado a este poi: patrominio de la humanidad, bandera azul, etc */
+    private Set<QualityCertificate> certificates;
+
+    public AbstractPoi(){
+        this.createdDate = new DateTime();
+        this.lastModifiedDate = new DateTime();
+    }
+
+    public AbstractPoi(AbstractPoi other){
+        copyData(this, other);
+    }
+
+    public static void copyData(AbstractPoi target, AbstractPoi source){
+        target.id = source.id;
+        target.name = source.name;
+        target.description = source.description;
+        target.address = source.address;
+        target.location = source.location;
+        target.tags = source.tags;
+    }
+
+    protected AbstractPoi(AbstractPoiType type) {
+        this.type = type;
+    }
+
+    public AbstractPoi setId(String id){
 		this.id = id;
 		return this;
 	}
