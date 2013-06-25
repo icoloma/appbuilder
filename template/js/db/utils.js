@@ -22,47 +22,42 @@ define(['globals'], function() {
     });
     return queryStr;
   }
-  ;
-
-  _.extend(persistence.Entity.prototype, {
-
-    /*
-      Devuelve una lista de los campos de la entidad, filtrada por idioma
-      OJO: no devuelve campos 1:N o M:N
-    */
-    _fields: function(lang) {
-      var fields = _.keys(this.meta.fields)
+  /*
+    Devuelve una lista de los campos de la entidad, filtrada por idioma
+    OJO: no devuelve campos 1:N o M:N
+  */
+  , localizedFields = function(entity, lang) {
+      var fields = _.keys(entity.meta.fields)
       , regex = new RegExp('_' + lang + '$')
       ;
       fields = _.filter(fields, function(field) {
         return field.match(regex) || ! field.match(/_{a-z}{2}$/);
       });
       return fields.concat(['id']);
-    },
-    /*
-      Copia el valor de los campos i18n correspondientes al idioma de la app
-      usando claves sin idioma. e.g. 'name_fr' -> 'name'
-    */
-    localizedJSON: function(lang) {
-      var json = this.toJSON()
-      , regex = new RegExp('(.+)_' + lang)
-      ;
-      _.each(json, function(value, key) {
-        var match = key.match(regex);
-        if (key) {
-          json[match[1]] = value;
-        }
-      });
-      return json;
-    }
-  });
+  },
+  /*
+    Copia el valor de los campos i18n correspondientes al idioma de la app
+    usando claves sin idioma. e.g. 'name_fr' -> 'name'
+  */
+  localizedJSON = function(json, lang) {
+    var regex = new RegExp('(.+)_' + lang)
+    ;
+    _.each(json, function(value, key) {
+      var match = key.match(regex);
+      if (match) {
+        json[match[1]] = value;
+      }
+    });
+    return json;
+  }
+  ;
 
   _.extend(persistence.QueryCollection.prototype, {
     /*
       Filtra la Query según el idioma de la aplicación
     */
     _localizedList: function(entity, cb) {
-      return this.selectJSON(entity._fields(window.appConfig.locale), cb);
+      return this.selectJSON(localizedFields(entity, window.appConfig.locale), cb);
     },
     /*
       QueryCollection.query permite especificar varios filtros en un solo objeto @queryObject
@@ -91,7 +86,7 @@ define(['globals'], function() {
     asJSON: function(entity, callback) {
       this._localizedList(entity, function(results) {
         callback(results.map(function(item) {
-          return item.localizedJSON(window.appConfig.locale);
+          return localizedJSON(item, window.appConfig.locale);
         }));
       });
     },
@@ -104,7 +99,7 @@ define(['globals'], function() {
       this._localizedList(entity, function(results) {
         callback(new B.Collection(
           results.map(function(item) {
-            return new B.Model(item.localizedJSON(window.appConfig.locale));
+            return new B.Model(localizedJSON(item, window.appConfig.locale));
           })
         ));
       });
@@ -113,6 +108,9 @@ define(['globals'], function() {
 
   return {
     parseQuery: parseQuery,
-    queryToString: queryToString
+    queryToString: queryToString,
+    localizedJSON: function(entity) {
+      return localizedJSON(entity.toJSON(), window.appConfig.locale);
+    }
   };
 });

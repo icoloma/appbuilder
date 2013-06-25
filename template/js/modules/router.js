@@ -70,7 +70,7 @@ define(
           pois: function(cb) {
             // TODO: esto tiene que ser más general
             Db.Tag.findBy('id', parsedQuery.tag, function(tag) {
-              tag.pois.all().asJSON(Db.Poi, function(pois) {
+              tag.pois.asJSON(Db.Poi, function(pois) {
                 cb(null, pois);
               });
             });
@@ -82,7 +82,7 @@ define(
             } else if (parsedQuery.starred) {
               cb(null, res.Starred);
             } else if (parsedQuery.tag) {
-              Db.Tags.findBy('id', parsedQuery.tag, function(subcat) {
+              Db.Tag.findBy('id', parsedQuery.tag, function(subcat) {
                 cb(null, subcat.name);
               });
             } else {
@@ -104,7 +104,7 @@ define(
         var self = this;
         Db.Poi.findBy('id', poiId, function(poi) {
           self.setView(Page.PoiView, {
-            model: new Poi.Model(poi.localizedJSON()),
+            model: new Poi.Model(DbUtils.localizedJSON(poi)),
             title: poi.name
           });
         });
