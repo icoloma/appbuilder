@@ -8,40 +8,41 @@ define(
   ['schemas/schemas'],
   function(Db) {
 
-    var loadData = function(locale, callback) {
+    var loadData = function(callback) {
       return function() {
         var json = JSON.parse(this.responseText)
-        , i, cat, subcat, poi, obj
-        , catHash = {}, subcatHash = {}
+        , i, tagObj, poi, obj
+        , tagEntitiesHash = {}
+        , tagJsonHash = _.object(_.pluck(json.tags, 'tag'), json.tags)
+        , addTags = function(tags, poiEntity) {
+          var processTag = function(tag) {
+            if (tagEntitiesHash[tag]) {
+              poiEntity.tags.add(tagEntitiesHash[tag]);
+            } else {
+              tagObj = new Db.Tag(tagJsonHash[tag]);
+              poiEntity.tags.add(tagObj);
+              tagEntitiesHash[tag] = tagObj;
+            }
+          };
+          tags.forEach(processTag);
+        }
         ;
 
-        for (i = 0; i < json.categories.length; i++) {
-          cat = json.categories[i];
-          cat.name = cat.name[locale];
-          obj = new Db.Category(cat);
-          catHash[cat.id] = obj;
-          persistence.add(obj);
-        }
-
-        for (i = 0; i < json.subcategories.length; i++) {
-          subcat = json.subcategories[i];
-          subcat.name = subcat.name[locale];
-          obj = new Db.SubCategory(_.omit(subcat, 'category'));
-          obj.category = catHash[subcat.category];
-          subcatHash[subcat.id] = obj;
-          persistence.add(obj);
-        }
+        // for (i = 0; i < json.tags.length; i++) {
+        //   cat = json.tags[i];
+        //   obj = new Db.Tag(_.omit(cat, ['tags']));
+        //   tagEntitiesHash[tag.tag] = tag;
+        //   persistence.add(obj);
+        // }
 
         for (i = 0; i < json.pois.length; i++) {
           poi = json.pois[i];
-          poi.name = poi.name[locale];
-          poi.description = poi.description[locale];
-          obj = new Db.Poi(_.omit(poi, 'subcategory'));
-          obj.subcategory = subcatHash[poi.subcategory];
+          obj = new Db.Poi(_.omit(poi, ['id', 'tags']));
+          addTags(poi.tags, obj);
           persistence.add(obj);
         }
 
-        localStorage.appZone = json.zone.name[locale];
+        // localStorage.appZone = json.zone.name[locale];
         persistence.flush(callback);
       };
     };
@@ -49,7 +50,7 @@ define(
     return function(locale, callback) {
       var req = new XMLHttpRequest();
       req.onload = loadData(locale, callback);
-      req.open('get', window.appConfig.data + 'data.json', true);
+      req.open('get', window.appConfig.data + 'openCatalog.json', true);
       req.send();
     };
   }

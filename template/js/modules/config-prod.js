@@ -12,7 +12,6 @@ define(['globals'],
   window.appConfig = {
     assets: 'assets/',
     // data: 'data/',
-    platform: device.platform
   };
 
   // Reemplazar el API WebSQL del WebView por el API nativa de SQLitePlugin
@@ -20,7 +19,9 @@ define(['globals'],
 
   return function(callback) {
     document.addEventListener('deviceready', function () {
-      // Obtener el locale
+      // Obtener la plataforma y el locale
+      window.appConfig.platform = device.platform;
+
       navigator.globalization.getLocaleName(function(locale) {
         window.appConfig.locale = locale.value.match(/^([a-z]{2})/)[1];
         callback();

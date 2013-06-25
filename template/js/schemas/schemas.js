@@ -1,7 +1,7 @@
 define(
   [
   // 'schemas/category', 'schemas/subcategory', 
-  'schemas/Tag', 'schemas/poi'],
+  'schemas/tag', 'schemas/poi'],
   function(Tag, Poi) {
     Poi.hasMany('tags', Tag, 'pois');
     Tag.hasMany('pois', Poi, 'tags');
