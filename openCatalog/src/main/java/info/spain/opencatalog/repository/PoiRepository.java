@@ -2,7 +2,7 @@ package info.spain.opencatalog.repository;
 
 import info.spain.opencatalog.converter.DistanceConverter;
 import info.spain.opencatalog.converter.PointConverter;
-import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.domain.poi.Poi;
 
 import java.util.List;
 
@@ -52,5 +52,7 @@ public interface PoiRepository extends MongoRepository<Poi, String>, PoiReposito
 	@RestResource( path="byId", rel="byId")
 	@Query( value="{ '_id' : {'$in': ?0}}")
 	public List<Poi> findByIds(@Param("id") String[] ids);
+	
+	
 
 }

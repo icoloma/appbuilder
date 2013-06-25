@@ -1,6 +1,6 @@
 package info.spain.opencatalog.rest;
 
-import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.domain.poi.Poi;
 
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;

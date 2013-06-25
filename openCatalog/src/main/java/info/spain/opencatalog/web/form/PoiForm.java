@@ -1,7 +1,7 @@
 package info.spain.opencatalog.web.form;
 
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
+import info.spain.opencatalog.domain.poi.Poi;
 
 import java.util.ArrayList;
 import java.util.HashMap;

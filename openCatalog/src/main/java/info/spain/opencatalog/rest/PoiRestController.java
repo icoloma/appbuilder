@@ -1,6 +1,6 @@
 package info.spain.opencatalog.rest;
 
-import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;

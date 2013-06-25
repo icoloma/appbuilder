@@ -2,11 +2,11 @@ package info.spain.opencatalog.exporter;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.PoiFactory;
 import info.spain.opencatalog.domain.Tags;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsMock;
 import info.spain.opencatalog.repository.PoiRepository;

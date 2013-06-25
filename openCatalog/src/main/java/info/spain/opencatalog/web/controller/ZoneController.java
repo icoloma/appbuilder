@@ -1,8 +1,8 @@
 package info.spain.opencatalog.web.controller;
 
 
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Zone;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.repository.ZoneRepository;

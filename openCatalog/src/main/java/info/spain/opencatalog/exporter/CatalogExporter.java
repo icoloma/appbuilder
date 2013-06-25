@@ -1,7 +1,7 @@
 package info.spain.opencatalog.exporter;
 
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.Zone;
 
 import java.io.File;

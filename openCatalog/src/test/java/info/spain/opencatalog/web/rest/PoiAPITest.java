@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import info.spain.opencatalog.domain.GeoLocation;
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.PoiFactory;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.repository.PoiRepository;
 import junit.framework.Assert;
 
@@ -62,7 +62,7 @@ public class PoiAPITest {
 	@Test
     public void testDiscoverAndGET() throws Exception {
 		repo.deleteAll();
-		Poi poi= PoiFactory.newPoi("getPoi");
+		Poi poi= PoiFactory.newPoi("getPoi").build();
 		Poi saved = repo.save(poi);
 		
 		// test poi
@@ -132,7 +132,7 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByName() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.newPoi("tesFindByName");
+		Poi poi = PoiFactory.newPoi("tesFindByName").build();
 		Poi saved = repo.save(poi);
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byName").param("name", poi.getName().getEs()))
 			.andExpect(status().isOk())

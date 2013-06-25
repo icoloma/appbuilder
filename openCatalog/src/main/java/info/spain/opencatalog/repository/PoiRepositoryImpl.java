@@ -3,8 +3,8 @@ package info.spain.opencatalog.repository;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 import info.spain.opencatalog.domain.GeoLocation;
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Zone;
+import info.spain.opencatalog.domain.poi.Poi;
 
 import java.util.ArrayList;
 import java.util.Collections;

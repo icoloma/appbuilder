@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.PoiFactory;
 import info.spain.opencatalog.domain.Tags.Tag;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class PoiControllerTest {
 	@Test
 	public void test_POST_GET_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.newPoi("poiTest");
+		Poi poi = PoiFactory.newPoi("poiTest").build();
 		poi.setTags( new ArrayList<Tag>());
 		poi.getTags().add(Tag.EATING_RESTAURANT);
 		poi.getTags().add(Tag.LODGING_APARTAMENT);
@@ -93,10 +93,11 @@ public class PoiControllerTest {
 				.andReturn();
 		
 		// Test UPDATE 
-		Poi update = new Poi().setName(new I18nText().setEs("xxx"))
-				.setDescription(new I18nText().setEs("xxx"))
-				.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"))
-				.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
+		Poi update = new Poi();
+		update.setName(new I18nText().setEs("xxx"));
+		update.setDescription(new I18nText().setEs("xxx"));
+		update.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"));
+		update.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
 		update.getTags().add(Tag.EATING_CAFE);
 		update.getTags().add(Tag.LEISURE_BEACH);
 				

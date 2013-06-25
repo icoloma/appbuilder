@@ -1,5 +1,9 @@
-package info.spain.opencatalog.domain;
+package info.spain.opencatalog.domain.poi;
 
+import info.spain.opencatalog.domain.Address;
+import info.spain.opencatalog.domain.GeoLocation;
+import info.spain.opencatalog.domain.I18nText;
+import info.spain.opencatalog.domain.Tags;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.validator.ValidI18nText;
 
@@ -15,28 +19,21 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Point of Interest
- * 
- * @author ehdez
- */
-@Document
-public class Poi implements Serializable {
-
+public abstract class AbstractPoi implements Serializable {
+	
 	private static final long serialVersionUID = 5722653798168373056L;
 	
-	public Poi(){
+	public AbstractPoi(){
 		this.createdDate = new DateTime();
 		this.lastModifiedDate = new DateTime();
 	}
 	
-	public Poi(Poi other){
+	public AbstractPoi(AbstractPoi other){
 		copyData(this, other);
 	}
 	
-	public static void copyData(Poi target, Poi source){
+	public static void copyData(AbstractPoi target, AbstractPoi source){
 		target.id = source.id;
 		target.name = source.name;
 		target.description = source.description;
@@ -71,7 +68,7 @@ public class Poi implements Serializable {
 	private DateTime lastModifiedDate;
 	
 		
-	public Poi setId(String id){
+	public AbstractPoi setId(String id){
 		this.id = id;
 		return this;
 	}
@@ -87,32 +84,29 @@ public class Poi implements Serializable {
 		return description;
 	}
 
-	public Poi setLocation(GeoLocation loc) {
+	public void setLocation(GeoLocation loc) {
 		this.location = loc;
-		return this;
+		
 	}
 
-	public Poi setDescription(I18nText description) {
+	public void setDescription(I18nText description) {
 		this.description = description;
-		return this;
 	}
 
 	public I18nText getName() {
 		return name;
 	}
 
-	public Poi setName(I18nText name) {
+	public void setName(I18nText name) {
 		this.name = name;
-		return this;
 	}
 
 	public Address getAddress() {
 		return address;
 	}
 
-	public Poi setAddress(Address address) {
+	public void setAddress(Address address) {
 		this.address = address;
-		return this;
 	}
 	
 	
@@ -120,19 +114,14 @@ public class Poi implements Serializable {
 		return tags;
 	}
 
-	public Poi setTags(List<Tag> tag) {
+	public void setTags(List<Tag> tag) {
 		this.tags = tag;
-		return this;
 	}
 	
 	
-	public Poi addTag(Tag tag) {
+	public void addTag(Tag tag) {
 		this.tags.add(tag);
-		return this;
 	}
-
-	
-	
 
 	public DateTime getCreatedDate() {
 		return createdDate;
@@ -140,6 +129,9 @@ public class Poi implements Serializable {
 	public DateTime getLastModifiedDate() {
 		return lastModifiedDate;
 	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "[id=" + id + 

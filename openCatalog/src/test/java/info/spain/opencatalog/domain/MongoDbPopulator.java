@@ -1,5 +1,6 @@
 package info.spain.opencatalog.domain;
 
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsImpl;
 import info.spain.opencatalog.repository.StorageService;
@@ -20,7 +21,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class MongoDbPopulator {
 	
-	private static final int NUM_RANDOM_POIS = 100;
+	private static final int NUM_RANDOM_POIS = 1;
 	private static final int NUM_RANDOM_ZONES = 2;
 	private static final int NUM_RANDOM_USERS = 30;
 
@@ -78,11 +79,14 @@ public class MongoDbPopulator {
 
 	private void populatePois()	{
 		// well known
-		insertAllPoi(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
+		//insertAllPoi(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
 		//mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
 		// random pois
-		insertAllPoi(PoiFactory.generatePois(NUM_RANDOM_POIS));
+		//insertAllPoi(PoiFactory.generatePois(NUM_RANDOM_POIS));
 		//mongoTemplate.insertAll(PoiFactory.generatePois(NUM_RANDOM_POIS));
+		
+		mongoTemplate.save(PoiFactory.HOTEL);
+		mongoTemplate.save(PoiFactory.CAMPING);
 	}
 	
 	private void insertAllPoi(Collection<Poi> pois){

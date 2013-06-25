@@ -1,8 +1,8 @@
 package info.spain.opencatalog.web.controller;
 
 
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.Tags.Tag;
+import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
@@ -114,7 +114,8 @@ public class PoiController extends AbstractUIController {
 			return "admin/poi/poi";
 		}
 		
-		Poi poi = poiForm.getPoi().setId(id);
+		Poi poi = poiForm.getPoi();
+		poi.setId(id);
 		Poi dbPoi = poiRepository.findOne(id);
 
 		Poi.copyData(dbPoi, poi);

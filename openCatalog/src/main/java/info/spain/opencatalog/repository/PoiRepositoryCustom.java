@@ -1,6 +1,6 @@
 package info.spain.opencatalog.repository;
 
-import info.spain.opencatalog.domain.Poi;
+import info.spain.opencatalog.domain.poi.Poi;
 
 import java.util.List;
 

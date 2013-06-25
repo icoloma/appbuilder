@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.Poi;
 import info.spain.opencatalog.domain.PoiFactory;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.poi.Poi;
 
 import java.util.List;
 import java.util.Set;
@@ -55,7 +55,9 @@ public class PoiRepositoryTest {
 	 */
 	@Test(expected = ConstraintViolationException.class)
 	public void testPoiValidation() {
-		Poi poi = PoiFactory.newPoi("testJSR303").setName(new I18nText().setEn("home")); // no default;
+		Poi poi = PoiFactory.newPoi("testJSR303")
+			.setName(new I18nText().setEn("home")) // no default;
+			.build();
 		
 		// Test validator directly
 		Set<ConstraintViolation<Poi>> constraintViolations = validator.validate(poi);
@@ -70,7 +72,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testCreate() {
-		Poi poi = PoiFactory.newPoi("testCreate");
+		Poi poi = PoiFactory.newPoi("testCreate").build();
 		Poi result = poiRepository.save(poi);
 		String id = result.getId();
 		assertNotNull(id);
@@ -84,7 +86,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testMongoTemplate() {
-		Poi poi = PoiFactory.newPoi("testMongoTemplate");
+		Poi poi = PoiFactory.newPoi("testMongoTemplate").build();
 		mongoTemplate.save(poi);
 		String id = poi.getId();
 		assertNotNull(id);
@@ -97,7 +99,7 @@ public class PoiRepositoryTest {
 	
 	@Test
 	public void testFindByName(){
-		Poi poi = PoiFactory.newPoi("findByName");
+		Poi poi = PoiFactory.newPoi("findByName").build();
 		mongoTemplate.save(poi);
 		Pageable pageable = new PageRequest(0, 10);
 		Page<Poi> result = poiRepository.findByNameEsLikeIgnoreCase(poi.getName().getEs(), pageable);
