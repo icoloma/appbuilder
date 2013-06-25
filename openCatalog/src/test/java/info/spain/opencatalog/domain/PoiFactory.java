@@ -6,6 +6,9 @@ import info.spain.opencatalog.domain.poi.Certificate;
 import info.spain.opencatalog.domain.poi.Certificate.CertificateType;
 import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.poi.beach.Beach;
+import info.spain.opencatalog.domain.poi.beach.Beach.BeachBathCondition;
+import info.spain.opencatalog.domain.poi.beach.Beach.BeachComposition;
+import info.spain.opencatalog.domain.poi.beach.Beach.BeachSandType;
 import info.spain.opencatalog.domain.poi.lodging.Regime;
 import info.spain.opencatalog.domain.poi.lodging.Season;
 import info.spain.opencatalog.domain.poi.lodging.camping.Camping;
@@ -20,6 +23,7 @@ import info.spain.opencatalog.domain.poi.lodging.hotel.HotelPrice.HotelPriceType
 import info.spain.opencatalog.domain.poi.lodging.hotel.HotelService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.core.io.ClassPathResource;
@@ -109,6 +113,7 @@ public class PoiFactory extends AbstractFactory {
 		HOTEL = new Hotel();
 		
 		Poi.copyData(HOTEL, PoiFactory.newPoi("Hotel California").build());
+		HOTEL.setTags(Arrays.asList(Tag.LODGING_HOTEL));
 		HOTEL.setPrices(hotelPrices);
 		HOTEL.setCategory(HotelCategory.STAR_2);
 		HOTEL.setServices(hotelServices);
@@ -131,6 +136,7 @@ public class PoiFactory extends AbstractFactory {
 		CAMPING = new Camping();
 		
 		Poi.copyData(CAMPING, PoiFactory.newPoi("Montaña rajada").build());
+		CAMPING.setTags(Arrays.asList(Tag.LODGING_CAMPING));
 		CAMPING .setPrices(campingPrices);
 		CAMPING .setCategory(CampingCategory.CAT_3);
 		CAMPING .setServices(campingServices);
@@ -142,9 +148,16 @@ public class PoiFactory extends AbstractFactory {
 		// Beach
 		BEACH = new Beach();
 		Poi.copyData(BEACH, PoiFactory.newPoi("Beach One").build());
+		BEACH.setTags(Arrays.asList(Tag.LEISURE_BEACH));
+		BEACH.getAccessibility().add(Accessibility.GUIDE_DOG_ALLOWED);
+		BEACH.getCertificate().add( new Certificate(CertificateType.BANDERA_AZUL, 2012));
+		BEACH.setLarge(Double.valueOf(100));
+		BEACH.setWidth(Double.valueOf(20));
+		BEACH.setAnchorZone(Boolean.TRUE);
+		BEACH.setBathCondition(BeachBathCondition.MODERATE_WAVES);
+		BEACH.setComposition(BeachComposition.VOLCANIC_BLACK_SAND);
+		BEACH.setSandType(BeachSandType.DARK);
 		
-		CAMPING.getAccessibility().add(Accessibility.GUIDE_DOG_ALLOWED);
-		CAMPING.getCertificate().add( new Certificate(CertificateType.BANDERA_AZUL, 2012));
 		
 		
 		

@@ -87,6 +87,7 @@ public class MongoDbPopulator {
 		
 		mongoTemplate.save(PoiFactory.HOTEL);
 		mongoTemplate.save(PoiFactory.CAMPING);
+		mongoTemplate.save(PoiFactory.BEACH);
 	}
 	
 	private void insertAllPoi(Collection<Poi> pois){

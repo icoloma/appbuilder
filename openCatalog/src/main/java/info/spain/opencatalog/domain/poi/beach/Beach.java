@@ -7,6 +7,8 @@ import info.spain.opencatalog.domain.poi.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Playa 
  *
@@ -14,7 +16,7 @@ import java.util.List;
  *
  */
 
-
+@Document(collection="poi")
 public class Beach extends AbstractPoi {
 	
 	private static final long serialVersionUID = -707739442931238340L;
@@ -51,8 +53,8 @@ public class Beach extends AbstractPoi {
 	private BeachComposition composition;
 	private BeachSandType sandType;
 	private BeachBathCondition bathCondition;
-	private Boolean	anchorZone;
-	private Boolean	promenade;
+	private Boolean	anchorZone = Boolean.FALSE;	 // zona de fondeo
+	private Boolean	promenade = Boolean.FALSE;	 // paseo marítimo
 
 	
 	public List<Accessibility> getAccessibility() {
