@@ -18,6 +18,7 @@ define(['globals'], function() {
     lat: 'REAL',
     lon: 'REAL',
     normLon: 'REAL',
-    starred: 'BOOL'
+    starred: 'BOOL',
+    idPoi: 'TEXT'
   });
 });

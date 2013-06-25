@@ -63,12 +63,13 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				" `id` VARCHAR(32) PRIMARY KEY" +
 				");");
 		
-		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS `PoiTag` (" +
-				" `idPoi` TEXT," +
-				" `tag` TEXT" +
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS `Poi_tags_Tag` (" +
+				" `Poi_tags` VARCHAR(32)," +
+				" `Tag_pois` VARCHAR(32)" +
 				");");
 		
-		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS idx_poiTag ON PoiTag(tag)");
+		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS `Poi_tags_Tag__Tag_pois` ON `Poi_tags_Tag` (`Tag_pois`)");
+		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS `Poi_tags_Tag__Poi_tags` ON `Poi_tags_Tag` (`Poi_tags`)");
 	}
 
 
@@ -138,7 +139,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 			);
 			
 			for (Tag tag : poi.getTags()) {
-				jdbcTemplate.update("INSERT INTO `PoiTag` (idPoi, tag) VALUES (?,?)", poi.getId(), tag.toString());
+				jdbcTemplate.update("INSERT INTO `Poi_tags_Tag` (Poi_tags, Tag_pois) VALUES (?,?)", id, tag.getId());
 			}
 		}
 	}
