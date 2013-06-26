@@ -1,11 +1,12 @@
 package info.spain.opencatalog.domain.poi.beach;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
-import info.spain.opencatalog.domain.poi.Accessibility;
-import info.spain.opencatalog.domain.poi.Certificate;
+import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.QualityCertificate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -44,7 +45,7 @@ public class Beach extends AbstractPoi {
 	
 	
 
-	private List<Accessibility> accessibility = new ArrayList<Accessibility>(); 
+	private List<DisabledAccessibility> accessibility = new ArrayList<DisabledAccessibility>(); 
 
 	private Double large;
 	private Double width;
@@ -56,19 +57,19 @@ public class Beach extends AbstractPoi {
 	private Boolean	promenade = Boolean.FALSE;	 // paseo marítimo
 
 	
-	public List<Accessibility> getAccessibility() {
+	public List<DisabledAccessibility> getAccessibility() {
 		return accessibility;
 	}
-	public void setAccessibility(List<Accessibility> accessibility) {
+	public void setAccessibility(List<DisabledAccessibility> accessibility) {
 		this.accessibility = accessibility;
 	}
 	
 	
-	public List<Certificate> getCertificate() {
-		return certificate;
+	public Set<QualityCertificate> getCertificate() {
+		return certificates;
 	}
-	public void setCertificate(List<Certificate> certificate) {
-		this.certificate = certificate;
+	public void setCertificate(Set<QualityCertificate> certificate) {
+		this.certificates = certificate;
 	}
 	
 	

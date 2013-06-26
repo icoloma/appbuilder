@@ -4,7 +4,7 @@ import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.Tags.Tag;
-import info.spain.opencatalog.domain.poi.lodging.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
 import info.spain.opencatalog.validator.ValidI18nText;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,6 +41,9 @@ public abstract class AbstractPoi implements Serializable {
 	@GeoSpatialIndexed
 	private GeoLocation location; 	// Geospatial location
 	
+	/** certificados que se han otorgado a este poi: patrominio de la humanidad, bandera azul, etc */
+	protected Set<QualityCertificate> certificates;
+
 	private List<Tag> tags = new ArrayList<Tag>();
 	
 	@CreatedDate
@@ -48,9 +51,6 @@ public abstract class AbstractPoi implements Serializable {
 	
 	@LastModifiedDate
 	private DateTime lastModifiedDate;
-
-    /** certificados que se han otorgado a este poi: patrominio de la humanidad, bandera azul, etc */
-    private Set<QualityCertificate> certificates;
 
     public AbstractPoi(){
         this.createdDate = new DateTime();

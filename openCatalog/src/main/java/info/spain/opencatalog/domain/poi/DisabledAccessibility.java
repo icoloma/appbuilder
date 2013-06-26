@@ -1,6 +1,9 @@
 package info.spain.opencatalog.domain.poi;
 
-public enum Accessibility {
+/**
+ * Facilidades para personas con discapacidad
+ */
+public enum DisabledAccessibility {
 	DISABLED_ACCESS,
 	GUIDE_DOG_ALLOWED,
 	ADAPTED_VEHICLE_RENT,

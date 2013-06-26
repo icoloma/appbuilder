@@ -1,8 +1,9 @@
 package info.spain.opencatalog.domain.poi.lodging;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
-import info.spain.opencatalog.domain.poi.Accessibility;
-import info.spain.opencatalog.domain.poi.Certificate;
+import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.types.lodging.LodgingPrice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,22 +29,22 @@ public abstract class AbstractLodging<P extends LodgingPrice, C, S > extends Abs
 	public abstract List<S> getServices();
 	public abstract void setServices(List<S> services);
 	
-	private List<Accessibility> accessibility = new ArrayList<Accessibility>(); 
-	private List<Certificate> certificate = new ArrayList<Certificate>(); 
+	private List<DisabledAccessibility> accessibility = new ArrayList<DisabledAccessibility>(); 
+	private List<QualityCertificate> certificate = new ArrayList<QualityCertificate>(); 
 
 	
-	public List<Accessibility> getAccessibility() {
+	public List<DisabledAccessibility> getAccessibility() {
 		return accessibility;
 	}
-	public void setAccessibility(List<Accessibility> accessibility) {
+	public void setAccessibility(List<DisabledAccessibility> accessibility) {
 		this.accessibility = accessibility;
 	}
 	
 	
-	public List<Certificate> getCertificate() {
+	public List<QualityCertificate> getCertificate() {
 		return certificate;
 	}
-	public void setCertificate(List<Certificate> certificate) {
+	public void setCertificate(List<QualityCertificate> certificate) {
 		this.certificate = certificate;
 	}
 	@SuppressWarnings("rawtypes")

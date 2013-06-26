@@ -17,7 +17,6 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.http.MediaType;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 public class MongoDbPopulator {
 	
@@ -85,9 +84,12 @@ public class MongoDbPopulator {
 		//insertAllPoi(PoiFactory.generatePois(NUM_RANDOM_POIS));
 		//mongoTemplate.insertAll(PoiFactory.generatePois(NUM_RANDOM_POIS));
 		
-		mongoTemplate.save(PoiFactory.HOTEL);
-		mongoTemplate.save(PoiFactory.CAMPING);
-		mongoTemplate.save(PoiFactory.BEACH);
+		mongoTemplate.insert(PoiFactory.HOTEL);
+		mongoTemplate.insert(PoiFactory.BEACH);
+		mongoTemplate.insert(PoiFactory.CAMPING);
+		mongoTemplate.insert(PoiFactory.APARTMENT);
+		
+		
 	}
 	
 	private void insertAllPoi(Collection<Poi> pois){

@@ -1,29 +1,24 @@
 package info.spain.opencatalog.domain;
 
 import info.spain.opencatalog.domain.Tags.Tag;
-import info.spain.opencatalog.domain.poi.Accessibility;
-import info.spain.opencatalog.domain.poi.Certificate;
-import info.spain.opencatalog.domain.poi.Certificate.CertificateType;
+import info.spain.opencatalog.domain.poi.DisabledAccessibility;
 import info.spain.opencatalog.domain.poi.Poi;
-import info.spain.opencatalog.domain.poi.beach.Beach;
-import info.spain.opencatalog.domain.poi.beach.Beach.BeachBathCondition;
-import info.spain.opencatalog.domain.poi.beach.Beach.BeachComposition;
-import info.spain.opencatalog.domain.poi.beach.Beach.BeachSandType;
-import info.spain.opencatalog.domain.poi.lodging.Regime;
-import info.spain.opencatalog.domain.poi.lodging.Season;
-import info.spain.opencatalog.domain.poi.lodging.camping.Camping;
-import info.spain.opencatalog.domain.poi.lodging.camping.CampingCategory;
-import info.spain.opencatalog.domain.poi.lodging.camping.CampingPrice;
-import info.spain.opencatalog.domain.poi.lodging.camping.CampingPrice.CampingPriceType;
-import info.spain.opencatalog.domain.poi.lodging.camping.CampingService;
-import info.spain.opencatalog.domain.poi.lodging.hotel.Hotel;
-import info.spain.opencatalog.domain.poi.lodging.hotel.HotelCategory;
-import info.spain.opencatalog.domain.poi.lodging.hotel.HotelPrice;
-import info.spain.opencatalog.domain.poi.lodging.hotel.HotelPrice.HotelPriceType;
-import info.spain.opencatalog.domain.poi.lodging.hotel.HotelService;
+import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
+import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.types.beach.BeachBathCondition;
+import info.spain.opencatalog.domain.poi.types.beach.BeachComposition;
+import info.spain.opencatalog.domain.poi.types.beach.BeachPoiType;
+import info.spain.opencatalog.domain.poi.types.beach.BeachSandType;
+import info.spain.opencatalog.domain.poi.types.lodging.LodgingFlag;
+import info.spain.opencatalog.domain.poi.types.lodging.LodgingPoiType;
+import info.spain.opencatalog.domain.poi.types.lodging.LodgingPrice;
+import info.spain.opencatalog.domain.poi.types.lodging.LodgingType;
+import info.spain.opencatalog.domain.poi.types.lodging.LodgingTypeFlag;
+import info.spain.opencatalog.domain.poi.types.lodging.Regime;
+import info.spain.opencatalog.domain.poi.types.lodging.Score;
+import info.spain.opencatalog.domain.poi.types.lodging.Season;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.core.io.ClassPathResource;
@@ -53,6 +48,14 @@ public class PoiFactory extends AbstractFactory {
 			.setLocation(randomLocation())
 			.setTags(randomTags(getRandom().nextInt(4)));
 		}
+	
+	public static LodgingPoiType newLodging(String key, PoiType poiType){
+		key = key + "-" + getRandom().nextInt();
+		
+		LodgingPoiType result = new LodgingPoiType().setPoiType(poiType);
+		return result;
+		
+	}
 
 	
 	private static List<Tag> randomTags(int numTags){
@@ -94,71 +97,132 @@ public class PoiFactory extends AbstractFactory {
 	
 	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
 	
-	public static Hotel HOTEL;
-	public static Camping CAMPING;
-	public static Beach BEACH;
+	public static LodgingPoiType HOTEL;
+	public static LodgingPoiType CAMPING;
+	public static LodgingPoiType APARTMENT;
+	public static BeachPoiType BEACH;
+
 	
 	static {
 		// Hotel
-		List<HotelPrice> hotelPrices = new ArrayList<HotelPrice>();
-		hotelPrices.add(new HotelPrice(HotelPriceType.HAB2, Season.HIGH_SEASON, Regime.AD, Double.valueOf(55)));
-		hotelPrices.add(new HotelPrice(HotelPriceType.HAB2, Season.LOW_SEASON, Regime.AD, Double.valueOf(45)));
-		hotelPrices.add(new HotelPrice(HotelPriceType.HAB2, Season.CHIRSTMAS, Regime.AD, Double.valueOf(35)));
+		HOTEL = new LodgingPoiType()
+			.setPoiType(PoiType.HOTEL)
+			.setName(new I18nText().setEs("Hotel Puerta del Sol"))				// required
+			.setDescription(new I18nText().setEs("Descripción del hotel..."))	// required	
+			.setLocation(AbstractFactory.GEO_SOL)								// required
+			.setAddress(new Address().setRoute("Puerta del Sol").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setScores(Score.STAR_3)
+			.setLodgingFlags(
+				LodgingFlag.CASINO, 
+				LodgingFlag.CREDIT_CARD, 
+				LodgingFlag.EXCHANGE)
+			.setLodgingTypes(
+				LodgingType.HAB1,
+				LodgingType.HAB2)
+			.setLodgingPrices(
+				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, Double.valueOf(30)),
+				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(25)),
+				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, Double.valueOf(20)))
+			.setLodgingTypeFlags(
+				LodgingTypeFlag.JACUZZI,
+				LodgingTypeFlag.SAFE_BOX)
+			.setDisabledAccessibility(
+				DisabledAccessibility.ADAPTED_ROOMS,
+				DisabledAccessibility.LIFT_ACCESSIBLE,
+				DisabledAccessibility.ADAPTED_VEHICLE_RENT,
+				DisabledAccessibility.PARKING_ACCESSIBLE,
+				DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+				DisabledAccessibility.GUIDE_DOG_ALLOWED
+			);
 		
-		List<HotelService> hotelServices = new ArrayList<HotelService>();
-		hotelServices.add(HotelService.BAR);
-		hotelServices.add(HotelService.CASINO);
-		hotelServices.add(HotelService.CREDIT_CARD);
+		HOTEL.validateTypeAllowedValues();
 		
-		HOTEL = new Hotel();
-		
-		Poi.copyData(HOTEL, PoiFactory.newPoi("Hotel California").build());
-		HOTEL.setTags(Arrays.asList(Tag.LODGING_HOTEL));
-		HOTEL.setPrices(hotelPrices);
-		HOTEL.setCategory(HotelCategory.STAR_2);
-		HOTEL.setServices(hotelServices);
-		HOTEL.getAccessibility().add(Accessibility.ADAPTED_ROOMS);
-		HOTEL.getAccessibility().add(Accessibility.DISABLED_ACCESS);
-		HOTEL.getCertificate().add( new Certificate(CertificateType.ACCESIBILIDAD, 2013));
-		HOTEL.getCertificate().add( new Certificate(CertificateType.ACCESIBILIDAD, 2012));
-		
+	
 		// Camping
-		List<CampingPrice> campingPrices = new ArrayList<CampingPrice>();
-		campingPrices.add(new CampingPrice(CampingPriceType.BUNGALOW, Season.HIGH_SEASON, Regime.AD, Double.valueOf(55)));
-		campingPrices.add(new CampingPrice(CampingPriceType.BUS, Season.LOW_SEASON, Regime.AD, Double.valueOf(45)));
-		campingPrices.add(new CampingPrice(CampingPriceType.MOTORBIKE, Season.CHIRSTMAS, Regime.AD, Double.valueOf(35)));
+		CAMPING = new LodgingPoiType()
+			.setPoiType(PoiType.CAMPING)
+			.setName(new I18nText().setEs("CAMPING Montaña Rajada"))				// required
+			.setDescription(new I18nText().setEs("Descripción del CAMPING..."))	// required	
+			.setLocation(AbstractFactory.GEO_CASA_CAMPO)								// required
+			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setScores(Score.CAT_1)
+			.setLodgingFlags(
+				LodgingFlag.BBQ,
+				LodgingFlag.BIKE_RENT,
+				LodgingFlag.CLOACKROOM,
+				LodgingFlag.CREDIT_CARD 
+				)
+			.setLodgingTypes(
+				LodgingType.TENT,
+				LodgingType.TENT_FAM)
+			.setLodgingPrices(
+				new LodgingPrice(LodgingType.TENT, Season.HIGH_SEASON, Regime.AD, Double.valueOf(30)),
+				new LodgingPrice(LodgingType.TENT, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(25)),
+				new LodgingPrice(LodgingType.TENT, Season.LOW_SEASON, Regime.AD, Double.valueOf(20)))
+			.setDisabledAccessibility(
+				DisabledAccessibility.ADAPTED_ROOMS,
+				DisabledAccessibility.LIFT_ACCESSIBLE,
+				DisabledAccessibility.ADAPTED_VEHICLE_RENT,
+				DisabledAccessibility.PARKING_ACCESSIBLE,
+				DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+				DisabledAccessibility.GUIDE_DOG_ALLOWED
+			);
 		
-		List<CampingService> campingServices = new ArrayList<CampingService>();
-		campingServices.add(CampingService.BEACH);
-		campingServices.add(CampingService.BIKE_RENT);
-		campingServices.add(CampingService.CREDIT_CARD);
+		CAMPING.validateTypeAllowedValues();
+
 		
-		CAMPING = new Camping();
+
+		// Apartmnent
+		APARTMENT = new LodgingPoiType()
+			.setPoiType(PoiType.APARTMENT)
+			.setName(new I18nText().setEs("Apartamentos Bahía azul"))				// required
+			.setDescription(new I18nText().setEs("Descripción del apartamento..."))	// required	
+			.setLocation(randomLocation())											// required
+			.setScores(Score.KEY_1)
+			.setLodgingFlags(
+				LodgingFlag.CREDIT_CARD 
+				)
+			.setLodgingTypes(
+				LodgingType.HAB1,
+				LodgingType.HAB2)
+			.setLodgingPrices(
+				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, Double.valueOf(30)),
+				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(25)),
+				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, Double.valueOf(20)),
+				new LodgingPrice(LodgingType.HAB2, Season.HIGH_SEASON, Regime.AD, Double.valueOf(60)),
+				new LodgingPrice(LodgingType.HAB2, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(50)),
+				new LodgingPrice(LodgingType.HAB2, Season.LOW_SEASON, Regime.AD, Double.valueOf(40)))
+			.setDisabledAccessibility(
+				DisabledAccessibility.ADAPTED_ROOMS,
+				DisabledAccessibility.LIFT_ACCESSIBLE
+			);
 		
-		Poi.copyData(CAMPING, PoiFactory.newPoi("Montaña rajada").build());
-		CAMPING.setTags(Arrays.asList(Tag.LODGING_CAMPING));
-		CAMPING .setPrices(campingPrices);
-		CAMPING .setCategory(CampingCategory.CAT_3);
-		CAMPING .setServices(campingServices);
-		CAMPING.getAccessibility().add(Accessibility.GUIDE_DOG_ALLOWED);
-		CAMPING.getAccessibility().add(Accessibility.PARKING_ACCESSIBLE);
-		CAMPING.getCertificate().add( new Certificate(CertificateType.Q_CALIDAD, 2012));
+		APARTMENT.validateTypeAllowedValues();
+		
 		
 		
 		// Beach
-		BEACH = new Beach();
-		Poi.copyData(BEACH, PoiFactory.newPoi("Beach One").build());
-		BEACH.setTags(Arrays.asList(Tag.LEISURE_BEACH));
-		BEACH.getAccessibility().add(Accessibility.GUIDE_DOG_ALLOWED);
-		BEACH.getCertificate().add( new Certificate(CertificateType.BANDERA_AZUL, 2012));
-		BEACH.setLarge(Double.valueOf(100));
-		BEACH.setWidth(Double.valueOf(20));
-		BEACH.setAnchorZone(Boolean.TRUE);
-		BEACH.setBathCondition(BeachBathCondition.MODERATE_WAVES);
-		BEACH.setComposition(BeachComposition.VOLCANIC_BLACK_SAND);
-		BEACH.setSandType(BeachSandType.DARK);
+		BEACH = new BeachPoiType()
+			.setName(new I18nText().setEs("Playa de las teresitas"))			// required
+			.setDescription(new I18nText().setEs("Descripción de la playa..."))	// required	
+			.setLocation(AbstractFactory.GEO_PLAYA_TERESITAS)					// required
+			.setAddress(new Address().setRoute("Las teresitas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
+			.setQualityCertificates(
+					QualityCertificate.BANDERA_AZUL,
+					QualityCertificate.NATURISTA)
+			.setLarge(Double.valueOf(100))
+			.setWidth(Double.valueOf(20))
+			.setAnchorZone(Boolean.TRUE)
+			.setBathCondition(BeachBathCondition.MODERATE_WAVES)
+			.setComposition(BeachComposition.VOLCANIC_BLACK_SAND)
+			.setSandType(BeachSandType.DARK)
+			.setDisabledAccessibility(
+					DisabledAccessibility.PARKING_ACCESSIBLE,
+					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+					DisabledAccessibility.GUIDE_DOG_ALLOWED
+			);
 		
-		
+		BEACH.validateTypeAllowedValues();
 		
 		
 	}
