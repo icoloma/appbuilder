@@ -140,9 +140,9 @@ public class PoiFactory extends AbstractFactory {
 				LodgingType.HAB1,
 				LodgingType.HAB2)
 			.setLodgingPrices(
-				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, Double.valueOf(30)),
-				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(25)),
-				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, Double.valueOf(20)))
+				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
+				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
+				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, 20d))
 			.setLodgingTypeFlags(
 				LodgingTypeFlag.JACUZZI,
 				LodgingTypeFlag.SAFE_BOX)
@@ -176,9 +176,9 @@ public class PoiFactory extends AbstractFactory {
 				LodgingType.TENT,
 				LodgingType.TENT_FAM)
 			.setLodgingPrices(
-				new LodgingPrice(LodgingType.TENT, Season.HIGH_SEASON, Regime.AD, Double.valueOf(30)),
-				new LodgingPrice(LodgingType.TENT, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(25)),
-				new LodgingPrice(LodgingType.TENT, Season.LOW_SEASON, Regime.AD, Double.valueOf(20)))
+				new LodgingPrice(LodgingType.TENT, Season.HIGH_SEASON, Regime.AD, 30d),
+				new LodgingPrice(LodgingType.TENT, Season.MEDIUM_SEASON, Regime.AD, 25d),
+				new LodgingPrice(LodgingType.TENT, Season.LOW_SEASON, Regime.AD, 20d))
 			.setDisabledAccessibility(
 				DisabledAccessibility.ADAPTED_ROOMS,
 				DisabledAccessibility.LIFT_ACCESSIBLE,
@@ -206,12 +206,12 @@ public class PoiFactory extends AbstractFactory {
 				LodgingType.HAB1,
 				LodgingType.HAB2)
 			.setLodgingPrices(
-				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, Double.valueOf(30)),
-				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(25)),
-				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, Double.valueOf(20)),
-				new LodgingPrice(LodgingType.HAB2, Season.HIGH_SEASON, Regime.AD, Double.valueOf(60)),
-				new LodgingPrice(LodgingType.HAB2, Season.MEDIUM_SEASON, Regime.AD, Double.valueOf(50)),
-				new LodgingPrice(LodgingType.HAB2, Season.LOW_SEASON, Regime.AD, Double.valueOf(40)))
+				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
+				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
+				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, 20d),
+				new LodgingPrice(LodgingType.HAB2, Season.HIGH_SEASON, Regime.AD, 60d),
+				new LodgingPrice(LodgingType.HAB2, Season.MEDIUM_SEASON, Regime.AD, 50d),
+				new LodgingPrice(LodgingType.HAB2, Season.LOW_SEASON, Regime.AD, 40d))
 			.setDisabledAccessibility(
 				DisabledAccessibility.ADAPTED_ROOMS,
 				DisabledAccessibility.LIFT_ACCESSIBLE
@@ -230,8 +230,8 @@ public class PoiFactory extends AbstractFactory {
 			.setQualityCertificates(
 					QualityCertificate.BANDERA_AZUL,
 					QualityCertificate.NATURISTA)
-			.setLarge(Double.valueOf(100))
-			.setWidth(Double.valueOf(20))
+			.setLarge(100d)
+			.setWidth(20d)
 			.setAnchorZone(Boolean.TRUE)
 			.setBathCondition(BeachBathCondition.MODERATE_WAVES)
 			.setComposition(BeachComposition.VOLCANIC_BLACK_SAND)
@@ -287,13 +287,13 @@ public class PoiFactory extends AbstractFactory {
 			.setPrices(
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.GENERAL, CulturePriceType.GROUPS)
-					.setPrice(Double.valueOf(14)),
+					.setPrice(14d),
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.REDUCED)
-					.setPrice(Double.valueOf(7)),
+					.setPrice(7d),
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.STUDENT)
-					.setPrice(Double.valueOf(10)),
+					.setPrice(10d),
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
@@ -357,13 +357,13 @@ public class PoiFactory extends AbstractFactory {
 			.setPrices(
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.GENERAL, CulturePriceType.GROUPS)
-					.setPrice(Double.valueOf(14)),
+					.setPrice(14d),
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.REDUCED)
-					.setPrice(Double.valueOf(7)),
+					.setPrice(7d),
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.STUDENT)
-					.setPrice(Double.valueOf(10)),
+					.setPrice(10d),
 				new CulturePrice()
 					.setPriceTypes(CulturePriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
