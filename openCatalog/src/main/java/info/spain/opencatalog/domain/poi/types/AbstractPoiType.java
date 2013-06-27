@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 
 /**
- *
+ * Clase base para cualquier POI
  */
 public abstract class AbstractPoiType {
 	

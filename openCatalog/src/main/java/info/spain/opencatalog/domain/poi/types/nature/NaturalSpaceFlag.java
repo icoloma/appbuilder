@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.types.nature;
 
+/**
+ * Flags para indicar el tipo de parques naturales
+ */
 public enum NaturalSpaceFlag {
 	NATURAL_MONUMENT,	// Monumento Natural
 	NATIONAL_PARK,		// Parque Nacional

@@ -1,6 +1,8 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
-
+/**
+ * Tipo de tarifa
+ */
 public enum PriceType {
 	GENERAL,		// General
 	ADULT, 			// Adultos

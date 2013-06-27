@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
+/**
+ * Periodo histórico 
+ */
 public enum HistoricalPeriod {
 	CELTIC, 			// Celta,
 	VARIOUS_TIMES,		// Diversas épocas

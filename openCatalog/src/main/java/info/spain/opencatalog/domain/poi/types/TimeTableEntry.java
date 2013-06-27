@@ -7,25 +7,27 @@ import com.google.common.collect.Sets;
 
 
 /**
- * 
- 
-    Horario de un establecimiento (museo, restaurante, etc)
-	
-	De Lunes a Sábado 
-		De 10:00 a 20:00 
-		De 10:00 a 19:00 
-	
-	06 ene De 10:00 a 14:00 
-	24 dic De 10:00 a 14:00 
-	31 dic De 10:00 a 14:00 
-
-	Cerrado: 
-		1 de enero, 
-		1 de mayo, 
-		25 de diciembre.
-	
- 
- */
+* 
+*    Horario de un establecimiento (museo, restaurante, etc)
+*
+*	Permite especificar días concretos de la semana y/o del mes así como
+*	los días de cierre. 
+*		
+*		Lunes, Miércoles y Viernes
+*			De 10:00 a 20:00 
+*			De 10:00 a 19:00 
+*	
+*		06 ene De 10:00 a 14:00 
+*		24 dic De 10:00 a 14:00 
+*		31 dic De 10:00 a 14:00 
+*
+*	Cerrado: 
+*		1 de enero, 
+*		1 de mayo, 
+*		25 de diciembre.
+*	
+*
+*/
 public class TimeTableEntry {
 	  
 	public static enum WeekDay {MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY}

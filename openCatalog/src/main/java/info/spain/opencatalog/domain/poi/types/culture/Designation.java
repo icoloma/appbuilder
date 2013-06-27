@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
+/**
+ * Desginación de un museo
+ */
 public enum Designation {
 	COLLECTION_MUSEUM,	// Colección museográfica
 	REGIONAL_MUSEUM,	// Museo Autonómico

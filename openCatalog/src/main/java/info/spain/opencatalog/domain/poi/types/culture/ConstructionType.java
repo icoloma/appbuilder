@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
+/**
+ * Tipo de construcción
+ */
 public enum ConstructionType {
 
 	PREHISTORY,		// Abrigo Prehistórico

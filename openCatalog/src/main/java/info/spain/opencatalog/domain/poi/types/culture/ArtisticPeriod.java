@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
+/**
+ * Periodo artístico
+ */
 public enum ArtisticPeriod {
 	ANDALUSI,		// Andalusí
 	ARABIC,			// Árabe

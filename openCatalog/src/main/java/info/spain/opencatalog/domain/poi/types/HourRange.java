@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * Rango de horas; 
+ * Rango de horas
  */
 public class HourRange {
 	

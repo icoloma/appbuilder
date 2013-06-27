@@ -3,14 +3,10 @@ package info.spain.opencatalog.domain.poi.types.lodging;
 import com.google.common.base.Objects;
 
 
-
-
 /**
  * Precio de un servicio en función de la temporada y el régimen de alojamiento  
  *
  * Ej.: hab-doble, temporada alta, media pensión, 100
- * 
- * @author ehdez
  *
  */
 public class LodgingPrice {

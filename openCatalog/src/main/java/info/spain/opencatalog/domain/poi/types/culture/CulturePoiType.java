@@ -19,9 +19,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 
 /**
- * 
- * Arte y Cultura ( Museos, Monumentos, Parques y Jardines ) 
- * 
+ * Tipo de POI que representa lugares relacionados con Arte y Cultura:  Museos, Monumentos, Parques y Jardines  
  */
 @Document(collection="poi")
 public class CulturePoiType extends AbstractPoiType {
