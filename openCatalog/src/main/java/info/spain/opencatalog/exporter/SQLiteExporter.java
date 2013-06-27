@@ -1,8 +1,8 @@
 package info.spain.opencatalog.exporter;
 
-import info.spain.opencatalog.domain.Tags.Tag;
-import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.Zone;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 
 import java.io.File;
 import java.util.List;
@@ -53,23 +53,22 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				" `id` VARCHAR(32) PRIMARY KEY" +
 				");");
 		
-		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS  `Tag` (" +
-				" `tag` TEXT," +
-				" `name_es`  TEXT," +
-				" `name_en`  TEXT," +
-				" `name_fr`  TEXT," +
-				" `name_de`  TEXT," +
-				" `name_it`  TEXT," +
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS  `Flag` (" +
+				" `flag` TEXT," +
+				" `es`  TEXT," +
+				" `en`  TEXT," +
+				" `fr`  TEXT," +
+				" `de`  TEXT," +
+				" `it`  TEXT," +
 				" `id` VARCHAR(32) PRIMARY KEY" +
 				");");
 		
-		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS `Poi_tags_Tag` (" +
-				" `Poi_tags` VARCHAR(32)," +
-				" `Tag_pois` VARCHAR(32)" +
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS `PoiFlag` (" +
+				" `idPoi` TEXT," +
+				" `flag` TEXT" +
 				");");
 		
-		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS `Poi_tags_Tag__Tag_pois` ON `Poi_tags_Tag` (`Tag_pois`)");
-		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS `Poi_tags_Tag__Poi_tags` ON `Poi_tags_Tag` (`Poi_tags`)");
+		jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS idx_poiFlag ON PoiFlag(flag)");
 	}
 
 
@@ -100,9 +99,9 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	 * consultas paginadas
 	 */
 	
-	private void exportPois(List<Poi> pois, File outputDir, JdbcTemplate jdbcTemplate){
+	private void exportPois(List<BasicPoi> pois, File outputDir, JdbcTemplate jdbcTemplate){
 		int id=0;
-		for (Poi poi : pois) {
+		for (BasicPoi poi : pois) {
 			List<String> images = imageExporter.exportImages(poi, outputDir);
 			jdbcTemplate.update("INSERT INTO `Poi` (" +
 					" `name_es`, `desc_es`," +
@@ -137,9 +136,8 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 				poi.getId(),
 				id++
 			);
-			
-			for (Tag tag : poi.getTags()) {
-				jdbcTemplate.update("INSERT INTO `Poi_tags_Tag` (Poi_tags, Tag_pois) VALUES (?,?)", id, tag.getId());
+			for (Flag flag : poi.getFlags()) {
+				jdbcTemplate.update("INSERT INTO `PoiFlag` (idPoi, flag) VALUES (?,?)", poi.getId(), flag);
 			}
 		}
 	}
@@ -150,18 +148,18 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	/**
 	 * Expor tags
 	 */
-	private void exportTags(Tag[] tags, JdbcTemplate jdbcTemplate ) {
+	private void exportFlags(Flag[] flags, JdbcTemplate jdbcTemplate ) {
 		
-		for (int i = 0; i < tags.length; i++) {
-			Tag tag = tags[i];
-			jdbcTemplate.update("INSERT INTO `Tag` (`tag`, `name_es`, `name_en`, `name_fr`, `name_de`, `name_it`, `id` ) VALUES (?,?,?,?,?,?,?);",
-				tag.toString(),
-				translate("tags." + tag.toString(), LOCALE_ES ),
-				translate("tags." + tag.toString(), Locale.ENGLISH),
-				translate("tags." + tag.toString(), Locale.FRENCH),
-				translate("tags." + tag.toString(), Locale.GERMAN),
-				translate("tags." + tag.toString(), Locale.ITALIAN),
-				tag.getId()
+		for (int i = 0; i < flags.length; i++) {
+			Flag flag = flags[i];
+			jdbcTemplate.update("INSERT INTO `Flag` (`flag`, `es`, `en`, `fr`, `de`, `it`, `id` ) VALUES (?,?,?,?,?,?,?);",
+				flag.toString(),
+				translate("flags." + flag, LOCALE_ES ),
+				translate("flags." + flag, Locale.ENGLISH),
+				translate("flags." + flag, Locale.FRENCH),
+				translate("flags." + flag, Locale.GERMAN),
+				translate("flags." + flag, Locale.ITALIAN),
+				i
 			);
 					
 		}
@@ -170,11 +168,11 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	
 	
 	@Override
-	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags, File outputDir) {
+	public void export(List<BasicPoi> pois, List<Zone> zones, Flag[] flags, File outputDir) {
 		JdbcTemplate jdbcTemplate = init(outputDir);
 		exportZones(zones, jdbcTemplate);
 		exportPois(pois, outputDir, jdbcTemplate);
-		exportTags(tags, jdbcTemplate);
+		exportFlags(flags, jdbcTemplate);
 	}
 
 	private JdbcTemplate init(File outputDir) {

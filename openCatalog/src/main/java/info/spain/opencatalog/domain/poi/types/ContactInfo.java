@@ -1,7 +1,7 @@
 package info.spain.opencatalog.domain.poi.types;
 
 /**
- * Información de contacto: teléfono, fax, mail, ...
+ * Informaci&oacute;n de contacto: tel&eacute;fono, fax, mail, ...
  */
 public class ContactInfo {
 	

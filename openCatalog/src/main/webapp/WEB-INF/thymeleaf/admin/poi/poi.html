@@ -160,13 +160,13 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 				
 				<legend th:text="#{poi.tags}">Tags</legend>
 				<div id="tags" >
-					<input th:each="tag : ${poi.tagsInfo}" type="text" name="tag[]" th:name="${'tag[' + tag.id + ']'}" th:value="#{'tags.' + ${tag.key}}"  class="tag"/>
-					<input type="text" name="tag[3-a]" value="Lodging/A" class="tag" th:remove="all"/>
-					<input type="text" name="tag[3-a]" value="Lodging/B" class="tag" th:remove="all"/>
-					<input type="text" name="tag[3-a]" value="Lodging/C" class="tag" th:remove="all"/>
-					<input type="text" name="tag[3-a]" value="Lodging/D" class="tag" th:remove="all"/>
-					<input type="text" name="tag[3-a]" value="Lodging/E" class="tag" th:remove="all"/>
-					<input type="text" name="tag[]" class="tag"/>
+					<input th:each="flag : ${poi.flagsInfo}" type="text" name="flag[]" th:name="${'flag[' + flag  + ']'}" th:value="#{'flags.' + ${flag}}"  class="tag"/>
+					<input type="text" name="flag[3-a]" value="Lodging/A" class="tag" th:remove="all"/>
+					<input type="text" name="flag[3-a]" value="Lodging/B" class="tag" th:remove="all"/>
+					<input type="text" name="flag[3-a]" value="Lodging/C" class="tag" th:remove="all"/>
+					<input type="text" name="flag[3-a]" value="Lodging/D" class="tag" th:remove="all"/>
+					<input type="text" name="flag[3-a]" value="Lodging/E" class="tag" th:remove="all"/>
+					<input type="text" name="flag[]" class="tag"/>
 				</div>
 	  		<hr/>
 			<div class="well">

@@ -3,10 +3,10 @@ package info.spain.opencatalog.exporter;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import info.spain.opencatalog.domain.PoiFactory;
-import info.spain.opencatalog.domain.Tags;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.ZoneFactory;
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsMock;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -35,7 +35,7 @@ import com.google.common.io.Files;
 @ActiveProfiles("dev")
 public class CatalogExporterTest {
 	
-	private static Integer NUM_TAGS = Tags.Tag.values().length;
+	private static Integer NUM_FLAGS = Flag.values().length;
 	private static Integer NUM_POIS = 10;
 	private static Integer NUM_ZONES =2;
 	
@@ -50,14 +50,14 @@ public class CatalogExporterTest {
 	private MongoOperations mongoTemplate;
 	
 	private List<Zone> zones;
-	private List<Poi> pois;
+	private List<BasicPoi> pois;
 	private PoiImageUtils poiImageUtils = new PoiImageUtilsMock();
 	
 	@Before
 	public void init(){
 		// Como no se almacenan en la base de datos, asignamos id manualmente
 		pois = PoiFactory.generatePois(NUM_POIS);
-		for (Poi poi : pois) {
+		for (BasicPoi poi : pois) {
 			poi.setId(UUID.randomUUID().toString());
 		}
 		
@@ -78,7 +78,7 @@ public class CatalogExporterTest {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 		assertEquals(NUM_POIS, jdbcTemplate.queryForObject("select count(*) from Poi", Integer.class));		
 		assertEquals(NUM_ZONES, jdbcTemplate.queryForObject("select count(*) from Zone", Integer.class));
-		assertEquals(NUM_TAGS, jdbcTemplate.queryForObject("select count(*) from Tag", Integer.class));
+		assertEquals(NUM_FLAGS, jdbcTemplate.queryForObject("select count(*) from Flag", Integer.class));
 		checkImageFilesExists(new File(outputDir, ImageExporterImpl.DIR_NAME));
 	}
 	
@@ -93,7 +93,7 @@ public class CatalogExporterTest {
 	
 	
 	private void export(CatalogExporter exporter, File  outputDir){
-		exporter.export(pois,zones,Tags.Tag.values(), outputDir);
+		exporter.export(pois,zones,Flag.values(), outputDir);
 		
 	}
 	

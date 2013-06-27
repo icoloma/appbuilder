@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain;
 
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsImpl;
 import info.spain.opencatalog.repository.StorageService;
@@ -48,7 +48,7 @@ public class MongoDbPopulator {
 	}
 	
 	public void clearAll(){
-		mongoTemplate.dropCollection(Poi.class);
+		mongoTemplate.dropCollection(BasicPoi.class);
 		mongoTemplate.dropCollection(Zone.class);
 		mongoTemplate.dropCollection(User.class);
 		gridFsTemplate.delete(new Query());
@@ -97,8 +97,8 @@ public class MongoDbPopulator {
 		
 	}
 	
-	private void insertAllPoi(Collection<Poi> pois){
-		for (Poi poi : pois) {
+	private void insertAllPoi(Collection<BasicPoi> pois){
+		for (BasicPoi poi : pois) {
 			mongoTemplate.save(poi);
 			Resource image = PoiFactory.randomImage();
 			try { 

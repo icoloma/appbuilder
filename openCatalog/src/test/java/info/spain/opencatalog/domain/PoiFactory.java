@@ -1,11 +1,10 @@
 package info.spain.opencatalog.domain;
 
-import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.domain.poi.DisabledAccessibility;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
 import info.spain.opencatalog.domain.poi.types.HourRange;
 import info.spain.opencatalog.domain.poi.types.TimeTableDay;
@@ -30,11 +29,12 @@ import info.spain.opencatalog.domain.poi.types.lodging.LodgingTypeFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.Regime;
 import info.spain.opencatalog.domain.poi.types.lodging.Score;
 import info.spain.opencatalog.domain.poi.types.lodging.Season;
-import info.spain.opencatalog.domain.poi.types.nature.NaturalSpacePoiType;
 import info.spain.opencatalog.domain.poi.types.nature.NaturalSpaceFlag;
+import info.spain.opencatalog.domain.poi.types.nature.NaturalSpacePoiType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTimeConstants;
 import org.springframework.core.io.ClassPathResource;
@@ -42,12 +42,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 public class PoiFactory extends AbstractFactory {
 	
-	public static PoiBuilder newPoi(String key){
+	public static BasicPoi newPoi(String key){
 		key = key + "-" + getRandom().nextInt();
-		return  new PoiBuilder()
+		return  new BasicPoi()
 			.setName( new I18nText()
 				.setEs("es-"+key+"-name")
 				.setEn("en-"+key+"-name")
@@ -62,7 +63,7 @@ public class PoiFactory extends AbstractFactory {
 				.setAdminArea2( "adminArea2-" + getRandom().nextInt(10))
 				.setZipCode(key+"-zipCode"))
 			.setLocation(randomLocation())
-			.setTags(randomTags(getRandom().nextInt(4)));
+			.setFlags(randomFlags(getRandom().nextInt(4)));
 		}
 	
 	public static LodgingPoiType newLodging(String key, PoiType poiType){
@@ -74,21 +75,21 @@ public class PoiFactory extends AbstractFactory {
 	}
 
 	
-	private static List<Tag> randomTags(int numTags){
-		List<Tag> result = new ArrayList<Tag>();
-		for(int i=0; i<numTags; i++){
-			Tag tag = Tag.values()[(getRandom().nextInt(Tag.values().length))];
-			result.add(tag);
+	private static Set<Flag> randomFlags(int numFlags){
+		Set<Flag> result = Sets.newHashSet();
+		for(int i=0; i< numFlags; i++){
+			Flag flag = Flag.values()[(getRandom().nextInt(Flag.values().length))];
+			result.add(flag);
 		}
 		return result;
 	}
 	
 	
-	public static List<Poi> generatePois(int numPois){
+	public static List<BasicPoi> generatePois(int numPois){
 		// random
-		List<Poi> result = new ArrayList<Poi>();
+		List<BasicPoi> result = new ArrayList<BasicPoi>();
 		for (int i = 0; i < numPois; i++) {
-			result.add(newPoi("" + i).build());
+			result.add(newPoi("" + i));
 		}
 		return result;
 	}
@@ -101,15 +102,15 @@ public class PoiFactory extends AbstractFactory {
 	}
 
 	
-	public static Poi POI_CASA_CAMPO =  newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO).setAddress(new Address().setAdminArea1("Comunidad de Madrid")).build();
-	public static Poi POI_RETIRO = newPoi("Retiro").setLocation(GEO_RETIRO).setAddress(new Address().setAdminArea1("Comunidad de Madrid")).build();
-	public static Poi POI_SOL = newPoi("Sol").setLocation(GEO_SOL).setAddress(new Address().setAdminArea1("Comunidad de Madrid")).build();
-	public static Poi POI_TEIDE = newPoi("Teide").setLocation(GEO_TEIDE).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife")).build();
-	public static Poi POI_PLAYA_TERESITAS= newPoi("Playa de las Teresitas").setLocation(GEO_PLAYA_TERESITAS).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife")).build();
-	public static Poi POI_ROQUE_NUBLO= newPoi("Roque Nublo").setLocation(GEO_ROQUE_NUBLO).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Gran Canaria")).build();
-	public static Poi POI_ALASKA = newPoi("Alaska").setLocation(GEO_ALASKA).build();
+	public static BasicPoi POI_CASA_CAMPO =  newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static BasicPoi POI_RETIRO = newPoi("Retiro").setLocation(GEO_RETIRO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static BasicPoi POI_SOL = newPoi("Sol").setLocation(GEO_SOL).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static BasicPoi POI_TEIDE = newPoi("Teide").setLocation(GEO_TEIDE).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
+	public static BasicPoi POI_PLAYA_TERESITAS= newPoi("Playa de las Teresitas").setLocation(GEO_PLAYA_TERESITAS).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
+	public static BasicPoi POI_ROQUE_NUBLO= newPoi("Roque Nublo").setLocation(GEO_ROQUE_NUBLO).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Gran Canaria"));
+	public static BasicPoi POI_ALASKA = newPoi("Alaska").setLocation(GEO_ALASKA);
 	
-	public static ImmutableSet<Poi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
+	public static ImmutableSet<BasicPoi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
 	
 	public static LodgingPoiType HOTEL;
 	public static LodgingPoiType CAMPING;

@@ -7,7 +7,7 @@ import info.spain.opencatalog.domain.poi.DisabledAccessibility;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
-import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
@@ -21,7 +21,7 @@ import com.google.common.base.Objects;
  * Playas 
  */
 @Document(collection="poi")
-public class BeachPoiType extends AbstractPoiType {
+public class BeachPoiType extends BasicPoi {
 	
 	private Double large;
 	private Double width;
@@ -51,7 +51,7 @@ public class BeachPoiType extends AbstractPoiType {
 	}
 
 
-	public BeachPoiType(AbstractPoiType other) {
+	public BeachPoiType(BasicPoi other) {
 		super(other);
 		// TODO Auto-generated constructor stub
 	}

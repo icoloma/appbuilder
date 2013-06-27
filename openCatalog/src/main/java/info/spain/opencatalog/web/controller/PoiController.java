@@ -1,8 +1,8 @@
 package info.spain.opencatalog.web.controller;
 
 
-import info.spain.opencatalog.domain.Tags.Tag;
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
@@ -50,7 +50,7 @@ public class PoiController extends AbstractUIController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String search(Model model, @PageableDefaults(sort="name.es") Pageable pageable, @RequestParam(value="q",required=false) String q) {
 		String query = q == null ? "" : q; 
-		Page<Poi>page  = poiRepository.findByNameEsLikeIgnoreCase(query, pageable);
+		Page<BasicPoi>page  = poiRepository.findByNameEsLikeIgnoreCase(query, pageable);
 		model.addAttribute("page", page);
 		model.addAttribute("q", query);
 		return "admin/poi/poiList";
@@ -62,7 +62,7 @@ public class PoiController extends AbstractUIController {
 	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public String show( @PathVariable("id") String id, Model model) {
-		Poi poi  = poiRepository.findOne(id);
+		BasicPoi poi  = poiRepository.findOne(id);
 		if (poi == null){
 			throw new NotFoundException("poi", id);
 		}
@@ -81,7 +81,7 @@ public class PoiController extends AbstractUIController {
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
-		Poi poi = poiRepository.save(poiForm.getPoi());
+		BasicPoi poi = poiRepository.save(poiForm.getPoi());
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
 		if (poiForm.getFile() != null) {
@@ -114,11 +114,11 @@ public class PoiController extends AbstractUIController {
 			return "admin/poi/poi";
 		}
 		
-		Poi poi = poiForm.getPoi();
+		BasicPoi poi = poiForm.getPoi();
 		poi.setId(id);
-		Poi dbPoi = poiRepository.findOne(id);
+		BasicPoi dbPoi = poiRepository.findOne(id);
 
-		Poi.copyData(dbPoi, poi);
+		dbPoi.copyData(poi);
 		
 		poiRepository.save(dbPoi);
 		model.addAttribute(INFO_MESSAGE,  "message.item.updated") ;
@@ -148,16 +148,16 @@ public class PoiController extends AbstractUIController {
 	@RequestMapping(value="/tags", produces="application/json")
 	public @ResponseBody String getAllTags(@RequestParam String term,Locale locale){
 		StringBuffer result = new StringBuffer("[");
-		Tag[] values = Tag.values();
+		Flag[] values = Flag.values();
 		boolean empty = true;
 		for (int i = 0; i < values.length; i++) {
-			Tag tag = values[i];
-			String txt = messageSource.getMessage("tags." + tag.toString(), new Object[]{}, locale);
+			Flag flag = values[i];
+			String txt = messageSource.getMessage("flags." + flag, new Object[]{}, locale);
 			if (txt.toLowerCase().contains(term.toLowerCase())){
 				if (i>0 && ! empty){
 					result.append(",");
 				}
-				result.append("{\"id\":\"").append(tag.getId()).append("\", \"label\":\"").append(txt).append("\", \"value\":\"").append(txt).append("\"}");
+				result.append("{\"id\":\"").append(flag).append("\", \"label\":\"").append(txt).append("\", \"value\":\"").append(txt).append("\"}");
 				empty = false;
 			}
 		}

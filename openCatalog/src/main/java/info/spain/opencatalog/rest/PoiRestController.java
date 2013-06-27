@@ -1,6 +1,6 @@
 package info.spain.opencatalog.rest;
 
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
     
 */
 @Controller
-@ExposesResourceFor(Poi.class)
+@ExposesResourceFor(BasicPoi.class)
 public class PoiRestController extends AbstractController {
 
 	@Autowired 

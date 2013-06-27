@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain.poi;
 
-import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.beach.BeachPoiType;
 import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingFlag;
@@ -17,13 +17,18 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
- * Especifica los valores válidos para cada tipo de POI.
+ * <pre>
+ * Especifica los valores v&aacute;lidos para cada tipo de POI.
  * Para ello se crea una instancia de cada tipo y se le especifican los valores que luego serán los posibles valores válidos que podrán almacenar.
+ * </pre>
  */
 public class PoiTypeRepository {
 	
 	/** Tipos de POI permitidos */
 	public static enum PoiType {
+		
+		// Basic poi
+		POI,
 		
 		// Lodging
 		HOTEL,
@@ -48,12 +53,16 @@ public class PoiTypeRepository {
 	
 	
 	/** Almacena la información permitida para cada tipo */
-   private static Map<PoiType, AbstractPoiType> types;
+   private static Map<PoiType, BasicPoi> types;
     
     
    static {
 	   
         types = Maps.newHashMap();
+        
+        // POI
+        types.put(PoiType.POI, basicPoi());
+        
         
         // Lodging
         types.put(PoiType.HOTEL, hotel());
@@ -72,6 +81,10 @@ public class PoiTypeRepository {
         
         
     }
+   
+   private static BasicPoi basicPoi(){
+	   return new BasicPoi();
+   }
     
    /** Hotel */
    private static LodgingPoiType hotel(){
@@ -224,8 +237,8 @@ public class PoiTypeRepository {
   
   
     
-    public static AbstractPoiType getPoiType(PoiType type){
-		AbstractPoiType result =  types.get(type);
+    public static BasicPoi getPoiType(PoiType type){
+		BasicPoi result =  types.get(type);
 		if (result == null){
 			throw new IllegalArgumentException("No PoiType found with name " + type );
 		}

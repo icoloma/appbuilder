@@ -3,7 +3,7 @@ package info.spain.opencatalog.domain.poi.types;
 
 
 /**
- * Representa un día en formato día/mes
+ * Representa un d&iacute;a en formato d&iacute;a/mes
  */
 public class TimeTableDay {
 	

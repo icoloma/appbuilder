@@ -1,16 +1,17 @@
 package info.spain.opencatalog.web.rest;
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static junit.framework.Assert.*;
+
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.PoiFactory;
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.repository.PoiRepository;
-import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -62,8 +63,8 @@ public class PoiAPITest {
 	@Test
     public void testDiscoverAndGET() throws Exception {
 		repo.deleteAll();
-		Poi poi= PoiFactory.newPoi("getPoi").build();
-		Poi saved = repo.save(poi);
+		BasicPoi poi= PoiFactory.newPoi("getPoi");
+		BasicPoi saved = repo.save(poi);
 		
 		// test poi
 	    MvcResult result = this.mockMvc.perform(get("/poi/" + saved.getId())
@@ -117,7 +118,7 @@ public class PoiAPITest {
 					"'lat':40.45259106740161," +
 					"'lng':-3.7391396261243433" +
 				"}," +
-				"'tags':['LEISURE']" +
+				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
 				"}";
 		json = json.replaceAll("'", "\"");
 		
@@ -132,8 +133,8 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByName() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.newPoi("tesFindByName").build();
-		Poi saved = repo.save(poi);
+		BasicPoi poi = PoiFactory.newPoi("tesFindByName");
+		BasicPoi saved = repo.save(poi);
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byName").param("name", poi.getName().getEs()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType("application/json"))
@@ -148,8 +149,8 @@ public class PoiAPITest {
 	public void tesFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
 		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
-		Poi poi = PoiFactory.POI_TEIDE;
-		Poi saved = repo.save(poi); 
+		BasicPoi poi = PoiFactory.POI_TEIDE;
+		BasicPoi saved = repo.save(poi); 
 		
 		MvcResult result = this.mockMvc.perform(get("/poi/search/locationWithin")
 				.param("lat", poi.getLocation().getLat().toString())
@@ -170,16 +171,16 @@ public class PoiAPITest {
 	    	.andExpect(status().isOk())
 	    	.andReturn();
 	 	content = result.getResponse().getContentAsString();	 	 
-	 	Assert.assertEquals(NO_RESULTS, content);
+	 	assertEquals(NO_RESULTS, content);
 	    repo.delete(saved);
 	}
 	
 	@Test
 	public void tesFindByLocationNear() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.POI_TEIDE;
+		BasicPoi poi = PoiFactory.POI_TEIDE;
 		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
-		Poi saved = repo.save(poi); 
+		BasicPoi saved = repo.save(poi); 
 		
 		// Test found
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byLocationNear")
@@ -199,7 +200,7 @@ public class PoiAPITest {
 	    	.andExpect(status().isOk())
 	    	.andReturn();
 	 	content = result.getResponse().getContentAsString();	 	 
-	 	Assert.assertEquals(NO_RESULTS, content);
+	 	assertEquals(NO_RESULTS, content);
 	    repo.delete(saved);
 	}
 	

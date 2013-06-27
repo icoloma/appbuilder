@@ -20,6 +20,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.Assert;
 
 import com.google.common.base.Objects;
@@ -28,7 +29,8 @@ import com.google.common.collect.Sets;
 /**
  * Clase base para cualquier POI
  */
-public abstract class AbstractPoiType {
+@Document(collection="poi")
+public class BasicPoi {
 	
 	@Id
 	private String id;
@@ -71,16 +73,21 @@ public abstract class AbstractPoiType {
 	
 	@LastModifiedDate
 	private DateTime lastModifiedDate;
-
-	public AbstractPoiType(){
+	
+	public BasicPoi(){
+		this.poiType = PoiType.POI;
         this.createdDate = new DateTime();
         this.lastModifiedDate = new DateTime();
     }
+	public BasicPoi(BasicPoi other){
+		this.poiType = PoiType.POI;
+	    copyData(other);
+	}
 	
 	/** Permite definir las validaciones en función del tipo */
 	public void validateTypeAllowedValues(){
 		Assert.notNull(getPoiType());
-		AbstractPoiType type = PoiTypeRepository.getPoiType(getPoiType());
+		BasicPoi type = PoiTypeRepository.getPoiType(getPoiType());
 		validateFlags(type.getFlags(), getFlags());
 		validateFlags(type.getDisabledAccessibility(), getDisabledAccessibility());
 		validateFlags(type.getQualityCertificates(), getQualityCertificates());
@@ -99,29 +106,29 @@ public abstract class AbstractPoiType {
 		}
 	}
 	
-	public AbstractPoiType(AbstractPoiType other){
-		copyData(other);
-	}
-	
-	public void copyData(AbstractPoiType source){
+	public void copyData(BasicPoi source){
         this.id = source.id;
         this.name = source.name;
         this.description = source.description;
         this.address = source.address;
         this.location = source.location;
-       
+        this.contactInfo = source.contactInfo;
+        this.disabledAccessibility = source.disabledAccessibility;
+        this.flags = source.flags;
+        this.qualityCertificates = source.qualityCertificates;
+        this.timetable = source.timetable;
     }	
 	
 	public Set<TimeTableEntry> getTimetable() {
 		return timetable;
 	}
 
-	public AbstractPoiType setTimetable(Set<TimeTableEntry> timetable) {
+	public BasicPoi setTimetable(Set<TimeTableEntry> timetable) {
 		this.timetable = timetable;
 		return this;
 	}
 
-	public AbstractPoiType setTimetable(TimeTableEntry... timetable) {
+	public BasicPoi setTimetable(TimeTableEntry... timetable) {
 		return setTimetable(Sets.newHashSet(timetable));
 	}
 
@@ -131,29 +138,29 @@ public abstract class AbstractPoiType {
 	}
 
 
-	public AbstractPoiType setDisabledAccessibility(Set<DisabledAccessibility> disabledAccessibility) {
+	public BasicPoi setDisabledAccessibility(Set<DisabledAccessibility> disabledAccessibility) {
 		this.disabledAccessibility = disabledAccessibility;
 		return this;
 	}
-	public AbstractPoiType setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
+	public BasicPoi setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
 		return setDisabledAccessibility(Sets.newHashSet(disabledAccessibility));
 	}
 	
-    public AbstractPoiType setFlags(Flag... flags) {
+    public BasicPoi setFlags(Flag... flags) {
         return this.setFlags(Sets.newHashSet(flags));
     }
 
-    public AbstractPoiType setFlags(Set <Flag> flags) {
+    public BasicPoi setFlags(Set <Flag> flags) {
         this.flags = flags;
         return this;
     }
 
-	public AbstractPoiType setQualityCertificates(Set<QualityCertificate> qualityCertificates) {
+	public BasicPoi setQualityCertificates(Set<QualityCertificate> qualityCertificates) {
 		this.qualityCertificates = qualityCertificates;
 		return this;
 	}
 	
-	public AbstractPoiType setQualityCertificates(QualityCertificate... qualityCertificates) {
+	public BasicPoi setQualityCertificates(QualityCertificate... qualityCertificates) {
 		return setQualityCertificates(Sets.newHashSet(qualityCertificates));
 	}
 
@@ -169,7 +176,7 @@ public abstract class AbstractPoiType {
 		return poiType;
 	}
 
-	public AbstractPoiType setPoiType(PoiType poiType) {
+	public BasicPoi setPoiType(PoiType poiType) {
 		this.poiType = poiType;
 		return this;
 	}
@@ -178,7 +185,7 @@ public abstract class AbstractPoiType {
 		return id;
 	}
 
-	public AbstractPoiType setId(String id) {
+	public BasicPoi setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -187,7 +194,7 @@ public abstract class AbstractPoiType {
 		return name;
 	}
 
-	public AbstractPoiType setName(I18nText name) {
+	public BasicPoi setName(I18nText name) {
 		this.name = name;
 		return this;
 	}
@@ -196,7 +203,7 @@ public abstract class AbstractPoiType {
 		return description;
 	}
 
-	public AbstractPoiType setDescription(I18nText description) {
+	public BasicPoi setDescription(I18nText description) {
 		this.description = description;
 		return this;
 	}
@@ -205,7 +212,7 @@ public abstract class AbstractPoiType {
 		return address;
 	}
 
-	public AbstractPoiType setAddress(Address address) {
+	public BasicPoi setAddress(Address address) {
 		this.address = address;
 		return this;
 	}
@@ -214,7 +221,7 @@ public abstract class AbstractPoiType {
 		return location;
 	}
 
-	public AbstractPoiType setLocation(GeoLocation location) {
+	public BasicPoi setLocation(GeoLocation location) {
 		this.location = location;
 		return this;
 	}
@@ -223,7 +230,7 @@ public abstract class AbstractPoiType {
 		return contactInfo;
 	}
 
-	public AbstractPoiType setContactInfo(ContactInfo contactInfo) {
+	public BasicPoi setContactInfo(ContactInfo contactInfo) {
 		this.contactInfo = contactInfo;
 		return this;
 	}

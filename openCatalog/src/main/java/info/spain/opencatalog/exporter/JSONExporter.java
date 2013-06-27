@@ -3,6 +3,8 @@ package info.spain.opencatalog.exporter;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.Zone;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,13 +30,13 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 	}
 	
 	@Override
-	public void export(List<Poi> pois, List<Zone> zones, Tag[] tags, File outputDir) {
+	public void export(List<BasicPoi> pois, List<Zone> zones, Flag[] flags, File outputDir) {
 		Writer writer = init(outputDir);
 		exportZones(zones, writer);
 		writer.append(", ");
 		exportPois(pois, outputDir, writer);
 		writer.append(", ");
-		exportTags(tags, writer);
+		exportFlags(flags, writer);
 		close(writer);
 	}
 
@@ -54,7 +56,7 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 			.append(" \"name\": \"" + zone.getName() + "\",\n")
 			.append(" \"description\" : \"" + zone.getDescription() + "\",\n")
 			.append(" \"path\": " + getPathAsJSON(zone.getPath())+ ",\n")
-			.append(" \"id\": \"" + zone.getId() + "\"\n")
+			.append(" \"id\": " + zone.getId() + "\n")
 			.append("}");
 			
 			if (iterator.hasNext()){
@@ -72,32 +74,36 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 	 * Exporta un listado de Pois
 	 */
 	
-	private void exportPois(List<Poi> pois, File outputDir, Writer writer){
+	private void exportPois(List<BasicPoi> pois, File outputDir, Writer writer){
 		writer.append("\"pois\": [\n");
-		for (Iterator<Poi> iterator = pois.iterator(); iterator.hasNext();) {
-			Poi poi = iterator.next();
+		for (Iterator<BasicPoi> iterator = pois.iterator(); iterator.hasNext();) {
+			BasicPoi poi = iterator.next();
 			List<String> images = imageExporter.exportImages(poi, outputDir);
 			writer.append("{\n")
 			 .append("  \"id\":" + asQuotedString(poi.getId()) + ",\n")
-			.append("  \"name_es\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"name_en\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"name_fr\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"name_de\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"name_it\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"desc_es\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"desc_en\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"desc_fr\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"desc_de\": " +  asQuotedString(poi.getName().getEs()) +",\n")
-			.append("  \"desc_it\": " +  asQuotedString(poi.getName().getEs()) +",\n")
+			.append("  \"name\":{\n")
+			.append("    \"es\": " +  asQuotedString(poi.getName().getEs()) +",\n")
+			.append("    \"en\": " +  asQuotedString(poi.getName().getEn()) + ",\n")
+			.append("    \"fr\": " +  asQuotedString(poi.getName().getFr()) + ",\n")
+			.append("    \"de\": " +  asQuotedString(poi.getName().getDe()) + ",\n")
+			.append("    \"it\": " +  asQuotedString(poi.getName().getIt()) + "\n")
+			.append("  },\n")
+			.append("  \"description\":{\n")
+			.append("    \"es\": " +  asQuotedString(poi.getDescription().getEs()) + ",\n")
+			.append("    \"en\": " +  asQuotedString(poi.getDescription().getEn()) + ",\n")
+			.append("    \"fr\": " +  asQuotedString(poi.getDescription().getFr()) + ",\n")
+			.append("    \"de\": " +  asQuotedString(poi.getDescription().getDe()) + ",\n")
+			.append("    \"it\": " +  asQuotedString(poi.getDescription().getIt()) + "\n")
+			.append("  },\n")
 			.append("  \"thumb\": \"thumb.png\",\n")
 			.append("  \"imgs\": " +  asStringArray(images)+ ",\n")
 			.append("  \"created\": " + poi.getCreatedDate().getMillis() + ",\n")
 			.append("  \"updated\": " + poi.getLastModifiedDate().getMillis() + ",\n")
 			.append("  \"lat\": " + poi.getLocation().getLat() + ",\n")
-			.append("  \"lon\": " + poi.getLocation().getLng() + ",\n")
-			.append("  \"normLon\": " + getNormLong(poi.getLocation()) + ",\n")
-			.append("  \"starred\": 0,\n")
-			.append("  \"tags\":" + asStringArray(poi.getTags()) + "\n")
+			.append("  \"lng\": " + poi.getLocation().getLng() + ",\n")
+			.append("  \"normlng\": " + getNormLong(poi.getLocation()) + ",\n")
+//			.append("  \"tags\":" + asStringArray(poi.getTags()) + ",\n")
+			.append("  \"starred\": 0\n")
 			.append(" }");
 			if (iterator.hasNext()){
 				writer.append(",\n");
@@ -111,22 +117,23 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 	 * @param tags
 	 * @return
 	 */
-	private void exportTags(Tag[] tags, Writer writer ) {
+	private void exportFlags(Flag[] flags, Writer writer ) {
 		writer.append("\"tags\": [\n");
-		for (int i = 0; i < tags.length; i++) {
-			Tag tag = tags[i];
-			writer.append("{\n")
-			.append(" \"tag\": " +  asQuotedString(tag.toString()) + ",\n")
-			.append(" \"name_es\": " +  asQuotedString(translate("tags." + tag.toString(), LOCALE_ES )) + ",\n")
-			.append(" \"name_en\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.ENGLISH)) + ",\n")
-			.append(" \"name_fr\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.FRENCH )) + ",\n")
-			.append(" \"name_de\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.GERMAN)) + ",\n")
-			.append(" \"name_it\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.ITALIAN)) + "\n")
-			.append("}\n");
-			if (i < tags.length - 1){
-				writer.append(",");
-			}
-		}
+		
+//		for (int i = 0; i < flags.length; i++) {
+//			Flag flag = flags[i];
+//			writer.append("{\n")
+//			.append(" \"tag\": " +  asQuotedString(flag.toString()) + ",\n")
+//			.append(" \"es\": " +  asQuotedString(translate("tags." + tag.toString(), LOCALE_ES )) + ",\n")
+//			.append(" \"en\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.ENGLISH)) + ",\n")
+//			.append(" \"fr\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.FRENCH )) + ",\n")
+//			.append(" \"de\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.GERMAN)) + ",\n")
+//			.append(" \"it\": " +  asQuotedString(translate("tags." + tag.toString(), Locale.ITALIAN)) + "\n")
+//			.append("}\n");
+//			if (i < flag.length - 1){
+//				writer.append(",");
+//			}
+//		}
 		writer.append("]\n");
 		
 	}

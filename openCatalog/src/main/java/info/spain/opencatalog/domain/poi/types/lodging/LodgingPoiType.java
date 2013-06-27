@@ -8,7 +8,7 @@ import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
-import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
@@ -25,7 +25,7 @@ import com.google.common.collect.Sets;
  * 
  */
 @Document(collection="poi")
-public class LodgingPoiType extends AbstractPoiType {
+public class LodgingPoiType extends BasicPoi {
 	
 	/** servicios que dispone el recinto del alojamiento: piscina, pub, terraza */
     private Set<LodgingFlag> lodgingFlags;

@@ -7,7 +7,7 @@ import info.spain.opencatalog.domain.poi.DisabledAccessibility;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
-import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
@@ -22,7 +22,7 @@ import com.google.common.collect.Sets;
  * Tipo de POI que representa lugares relacionados con Arte y Cultura:  Museos, Monumentos, Parques y Jardines  
  */
 @Document(collection="poi")
-public class CulturePoiType extends AbstractPoiType {
+public class CulturePoiType extends BasicPoi {
 	
     /** precios: */
     private Set<CulturePrice> culturePrices;

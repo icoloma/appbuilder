@@ -1,11 +1,11 @@
 package info.spain.opencatalog.exporter;
 
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 
 import java.io.File;
 import java.util.List;
 
 public interface ImageExporter {
-	public List<String> exportImages(Poi poi, File outputDir);
+	public List<String> exportImages(BasicPoi poi, File outputDir);
 
 }

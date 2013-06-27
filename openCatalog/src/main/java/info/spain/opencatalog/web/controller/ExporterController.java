@@ -1,8 +1,8 @@
 package info.spain.opencatalog.web.controller;
 
-import info.spain.opencatalog.domain.Tags;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.exporter.CatalogExporter;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -89,7 +89,7 @@ public class ExporterController extends AbstractUIController {
 		if (zones.getNumberOfElements() == 0){
 			return "{ \"data\" : []}";
 		}
-		List<Poi> pois = poiRepository.findWithInZone(zones.getContent().get(0).getId());
+		List<BasicPoi> pois = poiRepository.findWithInZone(zones.getContent().get(0).getId());
 		return pois2JSON(pois);
 	}
 	
@@ -121,10 +121,10 @@ public class ExporterController extends AbstractUIController {
 
 	@RequestMapping(value="/admin/exporter/poiTypeahead", produces="application/json")
 	public @ResponseBody String poiTypeahead(@RequestParam String query){
-		Page<Poi> pois= poiRepository.findByNameEsLikeIgnoreCase(query, new PageRequest(0, 10));
+		Page<BasicPoi> pois= poiRepository.findByNameEsLikeIgnoreCase(query, new PageRequest(0, 10));
 		StringBuffer result = new StringBuffer("{\"options\": [");
-		for (Iterator<Poi> iterator = pois.iterator(); iterator.hasNext();) {
-			Poi poi=  iterator.next();
+		for (Iterator<BasicPoi> iterator = pois.iterator(); iterator.hasNext();) {
+			BasicPoi poi=  iterator.next();
 			result.append("\"" + poi.getName().getEs() + "\"");
 			if (iterator.hasNext()){
 				result.append(",");
@@ -140,7 +140,7 @@ public class ExporterController extends AbstractUIController {
 	 */
 	@RequestMapping(value="/admin/exporter/poi", produces="application/json")
 	public @ResponseBody String poi(@RequestParam String q){
-		Page<Poi> pois= poiRepository.findByNameEs(q, new PageRequest(0, 10));
+		Page<BasicPoi> pois= poiRepository.findByNameEs(q, new PageRequest(0, 10));
 		if (pois.getNumberOfElements() == 0){
 			return "{ \"data\" : []}";
 		}
@@ -153,7 +153,7 @@ public class ExporterController extends AbstractUIController {
 	 */
 	@RequestMapping(value="/admin/exporter/areaPois1", produces="application/json")
 	public @ResponseBody String areaPois1(@RequestParam String q){
-		List<Poi> pois = poiRepository.findByAddressArea1(q);
+		List<BasicPoi> pois = poiRepository.findByAddressArea1(q);
 		return pois2JSON(pois);
 	}
 	
@@ -163,19 +163,19 @@ public class ExporterController extends AbstractUIController {
 	 */
 	@RequestMapping(value="/admin/exporter/areaPois2", produces="application/json")
 	public @ResponseBody String areaPois2(@RequestParam String q){
-		List<Poi> pois = poiRepository.findByAddressArea2(q);
+		List<BasicPoi> pois = poiRepository.findByAddressArea2(q);
 		return pois2JSON(pois);
 	}
 	
-	private String pois2JSON(List<Poi> pois){
+	private String pois2JSON(List<BasicPoi> pois){
 		
 		if (pois.size() == 0){
 			return "{ \"data\" : []}";
 		}
 
 		StringBuffer result = new StringBuffer("{ \"data\" : [");
-		for (Iterator<Poi> iterator = pois.iterator(); iterator.hasNext();) {
-			Poi poi = iterator.next();
+		for (Iterator<BasicPoi> iterator = pois.iterator(); iterator.hasNext();) {
+			BasicPoi poi = iterator.next();
 			result.append("{")
 			.append("\"id\": \"" + poi.getId() + "\",")
 			.append("\"name\": \"" + poi.getName().getEs() + "\",")
@@ -201,10 +201,10 @@ public class ExporterController extends AbstractUIController {
 		 File outputDir = new File(tmpDir,"openCatalog");
 		 outputDir.mkdir();
 		 
-		 List<Poi> pois = poiRepository.findByIds(idPoi.toArray(new String[]{}));
+		 List<BasicPoi> pois = poiRepository.findByIds(idPoi.toArray(new String[]{}));
 		 List<Zone> zones = zoneRepository.findAll();
 		 
-		 exporter.export(pois, zones, Tags.Tag.values(), outputDir);
+		 exporter.export(pois, zones, Flag.values(), outputDir);
 		
 		 File file = createTarGZ(outputDir);
 		 

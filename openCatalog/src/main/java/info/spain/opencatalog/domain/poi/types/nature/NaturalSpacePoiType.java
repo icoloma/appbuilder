@@ -7,7 +7,7 @@ import info.spain.opencatalog.domain.poi.DisabledAccessibility;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
-import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
@@ -24,7 +24,7 @@ import com.google.common.collect.Sets;
  * 
  */
 @Document(collection="poi")
-public class NaturalSpacePoiType extends AbstractPoiType {
+public class NaturalSpacePoiType extends BasicPoi {
 	
 	/** Tipos de espacio natural: Parque natural, Parque nacional, ... */
 	private Set<NaturalSpaceFlag> naturalSpaceFlags;
@@ -40,7 +40,7 @@ public class NaturalSpacePoiType extends AbstractPoiType {
 		return (NaturalSpacePoiType) super.setName(name);
 	}
 
-	public NaturalSpacePoiType(AbstractPoiType other) {
+	public NaturalSpacePoiType(BasicPoi other) {
 		super(other);
 	}
 

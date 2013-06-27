@@ -1,6 +1,5 @@
 package info.spain.opencatalog.web.controller;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -12,11 +11,11 @@ import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.PoiFactory;
-import info.spain.opencatalog.domain.Tags.Tag;
-import info.spain.opencatalog.domain.poi.Poi;
+import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.repository.PoiRepository;
 
-import java.util.ArrayList;
+import static junit.framework.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -58,10 +57,8 @@ public class PoiControllerTest {
 	@Test
 	public void test_POST_GET_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
-		Poi poi = PoiFactory.newPoi("poiTest").build();
-		poi.setTags( new ArrayList<Tag>());
-		poi.getTags().add(Tag.EATING_RESTAURANT);
-		poi.getTags().add(Tag.LODGING_APARTAMENT);
+		BasicPoi poi = PoiFactory.newPoi("poiTest");
+		poi.setFlags( Flag.SHOP, Flag.GUIDED_TOUR);
 		
 		// Test POST
 		MvcResult result = this.mockMvc.perform(post("/admin/poi")
@@ -73,8 +70,8 @@ public class PoiControllerTest {
 				.param("address.zipCode", poi.getAddress().getZipCode())
 				.param("location.lat", poi.getLocation().getLat().toString())
 				.param("location.lng", poi.getLocation().getLng().toString())
-			    .param("tag[" + Tag.EATING_RESTAURANT.getId() + "-a]", "whatever")
-			    .param("tag[" + Tag.LODGING_APARTAMENT.getId() + "-a]", "whatever")
+			    .param("flag[" + Flag.GUIDED_TOUR + "-a]", "whatever")
+			    .param("flag[" + Flag.SHOP + "-a]", "whatever")
 			    )
 	    	.andExpect(status().isMovedTemporarily())
 	    	.andReturn();
@@ -83,7 +80,7 @@ public class PoiControllerTest {
 		assertTrue( location.contains("message.item.created"));
 		String id = location.substring("/admin/poi/".length(), location.indexOf('?'));
 		
-		Poi repoPoi = repo.findOne(id);
+		BasicPoi repoPoi = repo.findOne(id);
 		testEquals(poi, repoPoi);
 		
 		// Test GET
@@ -93,13 +90,12 @@ public class PoiControllerTest {
 				.andReturn();
 		
 		// Test UPDATE 
-		Poi update = new Poi();
+		BasicPoi update = new BasicPoi();
 		update.setName(new I18nText().setEs("xxx"));
 		update.setDescription(new I18nText().setEs("xxx"));
 		update.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"));
 		update.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
-		update.getTags().add(Tag.EATING_CAFE);
-		update.getTags().add(Tag.LEISURE_BEACH);
+		update.setFlags(Flag.WC, Flag.DISABLED);
 				
 
 		result = this.mockMvc.perform(post("/admin/poi/" + id)
@@ -111,8 +107,8 @@ public class PoiControllerTest {
 				.param("address.zipCode", update.getAddress().getZipCode())
 				.param("location.lat", update.getLocation().getLat().toString())
 				.param("location.lng", update.getLocation().getLng().toString())
-			    .param("tag[" + Tag.EATING_CAFE.getId() + "-a]", "whatever")
-			    .param("tag[" + Tag.LEISURE_BEACH.getId() + "-a]", "whatever")
+			    .param("flag[" + Flag.WC + "-a]", "whatever")
+			    .param("flag[" + Flag.DISABLED + "-a]", "whatever")
 			    )
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();
@@ -132,7 +128,7 @@ public class PoiControllerTest {
 		
     }
 	
-	private void testEquals(Poi expected, Poi actual){
+	private void testEquals(BasicPoi expected, BasicPoi actual){
 		assertEquals(expected.getName().getEs(), actual.getName().getEs());
 		assertEquals(expected.getDescription().getEs(), actual.getDescription().getEs());
 		assertEquals(expected.getAddress().getRoute(), actual.getAddress().getRoute());
@@ -141,9 +137,20 @@ public class PoiControllerTest {
 		assertEquals(expected.getAddress().getZipCode(), actual.getAddress().getZipCode());
 		assertEquals(expected.getLocation().getLat(), actual.getLocation().getLat());
 		assertEquals(expected.getLocation().getLng(), actual.getLocation().getLng());
-		assertEquals(expected.getTags().size(), actual.getTags().size());
-		for (Tag tag : expected.getTags()) {
-			assertTrue( actual.getTags().contains(tag));
+		if (expected.getFlags() != null ) {
+			assertEquals(expected.getFlags().size(), actual.getFlags().size());
+			for (Flag flag : expected.getFlags()) {
+				assertTrue( actual.getFlags().contains(flag));
+			}
+		}
+		if (expected.getDisabledAccessibility()!= null ) {
+			assertEquals(expected.getDisabledAccessibility().size(), actual.getDisabledAccessibility().size());
+		}
+		if (expected.getQualityCertificates() != null ) {
+			assertEquals(expected.getQualityCertificates().size(), actual.getQualityCertificates().size());
+		}
+		if (expected.getTimetable()!= null ) {
+			assertEquals(expected.getTimetable().size(), actual.getTimetable().size());
 		}
 		
 	}

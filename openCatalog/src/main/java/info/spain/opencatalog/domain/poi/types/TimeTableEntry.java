@@ -7,13 +7,13 @@ import com.google.common.collect.Sets;
 
 
 /**
-* 
+* <pre> 
 *    Horario de un establecimiento (museo, restaurante, etc)
 *
-*	Permite especificar días concretos de la semana y/o del mes así como
+*	Permite especificar d&iacute;as concretos de la semana y/o del mes as&iacute; como
 *	los días de cierre. 
 *		
-*		Lunes, Miércoles y Viernes
+*		Lunes, Mi&eacute;rcoles y Viernes
 *			De 10:00 a 20:00 
 *			De 10:00 a 19:00 
 *	
@@ -26,7 +26,7 @@ import com.google.common.collect.Sets;
 *		1 de mayo, 
 *		25 de diciembre.
 *	
-*
+* </pre>
 */
 public class TimeTableEntry {
 	  
