@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
-public enum CultureArtisticPeriod {
+public enum ArtisticPeriod {
 	ANDALUSI,		// Andalusí
 	ARABIC,			// Árabe
 	ART_DECO,		// Art-Decó

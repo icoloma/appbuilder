@@ -18,9 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.Objects;
 
 /**
- * 
- * Define los campos comunes que tendrán los Poi de tipo Lodging
- * 
+ * Playas 
  */
 @Document(collection="poi")
 public class BeachPoiType extends AbstractPoiType {
@@ -28,8 +26,8 @@ public class BeachPoiType extends AbstractPoiType {
 	private Double large;
 	private Double width;
 	private BeachComposition composition;
-	private BeachSandType sandType;
-	private BeachBathCondition bathCondition;
+	private SandType sandType;
+	private BathCondition bathCondition;
 	private Boolean	anchorZone = Boolean.FALSE;	 // zona de fondeo
 	private Boolean	promenade = Boolean.FALSE;	 // paseo marítimo
 
@@ -140,20 +138,20 @@ public class BeachPoiType extends AbstractPoiType {
 		return this;
 	}
 
-	public BeachSandType getSandType() {
+	public SandType getSandType() {
 		return sandType;
 	}
 
-	public BeachPoiType setSandType(BeachSandType sandType) {
+	public BeachPoiType setSandType(SandType sandType) {
 		this.sandType = sandType;
 		return this;
 	}
 
-	public BeachBathCondition getBathCondition() {
+	public BathCondition getBathCondition() {
 		return bathCondition;
 	}
 
-	public BeachPoiType setBathCondition(BeachBathCondition bathCondition) {
+	public BeachPoiType setBathCondition(BathCondition bathCondition) {
 		this.bathCondition = bathCondition;
 		return this;
 	}
@@ -186,6 +184,7 @@ public class BeachPoiType extends AbstractPoiType {
 			.add("description", getDescription())
 			.add("location", getLocation())
 			.add("contactInfo", getContactInfo())
+			.add("flags", getFlags())
 			.add("createdDate", getCreatedDate())
 			.add("lastModifiedDate", getLastModifiedDate())
 			.add("large",large)

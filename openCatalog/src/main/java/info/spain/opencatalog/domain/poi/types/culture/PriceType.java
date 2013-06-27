@@ -1,7 +1,7 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
 
-public enum CulturePriceType {
+public enum PriceType {
 	GENERAL,		// General
 	ADULT, 			// Adultos
 	CHILD,			// Niños

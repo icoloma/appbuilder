@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
-public enum CultureDesignation {
+public enum Designation {
 	COLLECTION_MUSEUM,	// Colección museográfica
 	REGIONAL_MUSEUM,	// Museo Autonómico
 	CATHEDRAL_MUSEUM,	// Museo Catedralicio

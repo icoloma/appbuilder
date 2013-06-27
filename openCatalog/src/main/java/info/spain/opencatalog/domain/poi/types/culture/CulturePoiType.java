@@ -20,32 +20,32 @@ import com.google.common.collect.Sets;
 
 /**
  * 
- * Define los campos comunes que tendrán los Poi de tipo Lodging
+ * Arte y Cultura ( Museos, Monumentos, Parques y Jardines ) 
  * 
  */
 @Document(collection="poi")
 public class CulturePoiType extends AbstractPoiType {
 	
     /** precios: */
-    private Set<CulturePrice> prices;
+    private Set<CulturePrice> culturePrices;
     
     /** URL, mail o teléfono para reservas */
     private String reservation; 
     
     /** Tipo de construcción: Muralla, Monumento, etc  */
-    private CultureConstructionType constructionType;
+    private ConstructionType constructionType;
    
     /** Periodo artístico: árabe, neorrománico, ... */
-    private CultureArtisticPeriod artisticPeriod;
+    private ArtisticPeriod artisticPeriod;
    
     /** Periodo histórico: Siglo II, Prehistoira. */
-    private CultureHistoricalPeriod historicalPeriod;
+    private HistoricalPeriod historicalPeriod;
     
     /** Entorno: El generalife, ... */
     private I18nText enviroment;
     
     /** Denominación */
-    private CultureDesignation designation;
+    private Designation designation;
     
 	
     /** */ 
@@ -122,11 +122,11 @@ public class CulturePoiType extends AbstractPoiType {
 	}
 
 	public Set<CulturePrice> getPrices() {
-		return prices;
+		return culturePrices;
 	}
 
-	public CulturePoiType setPrices(Set<CulturePrice> prices) {
-		this.prices = prices;
+	public CulturePoiType setPrices(Set<CulturePrice> culturePrices) {
+		this.culturePrices = culturePrices;
 		return this;
 	}
 	
@@ -134,29 +134,29 @@ public class CulturePoiType extends AbstractPoiType {
 		return setPrices(Sets.newHashSet(prices));
 	}
 	
-	public CultureConstructionType getConstructionType() {
+	public ConstructionType getConstructionType() {
 		return constructionType;
 	}
 
-	public CulturePoiType setConstructionType(CultureConstructionType constructionType) {
+	public CulturePoiType setConstructionType(ConstructionType constructionType) {
 		this.constructionType = constructionType;
 		return this;
 	}
 	
-	public CultureArtisticPeriod getArtisticPeriod() {
+	public ArtisticPeriod getArtisticPeriod() {
 		return artisticPeriod;
 	}
 
-	public CulturePoiType setArtisticPeriod(CultureArtisticPeriod artisticPeriod) {
+	public CulturePoiType setArtisticPeriod(ArtisticPeriod artisticPeriod) {
 		this.artisticPeriod = artisticPeriod;
 		return this;
 	}
 
-	public CultureHistoricalPeriod getHistoricalPeriod() {
+	public HistoricalPeriod getHistoricalPeriod() {
 		return historicalPeriod;
 	}
 
-	public CulturePoiType setHistoricalPeriod(CultureHistoricalPeriod historicalPeriod) {
+	public CulturePoiType setHistoricalPeriod(HistoricalPeriod historicalPeriod) {
 		this.historicalPeriod = historicalPeriod;
 		return this;
 	}
@@ -171,11 +171,11 @@ public class CulturePoiType extends AbstractPoiType {
 	}
 
 	
-	public CultureDesignation getDesignation() {
+	public Designation getDesignation() {
 		return designation;
 	}
 
-	public CulturePoiType setDesignation(CultureDesignation designation) {
+	public CulturePoiType setDesignation(Designation designation) {
 		this.designation = designation;
 		return this;
 	}
@@ -188,10 +188,11 @@ public class CulturePoiType extends AbstractPoiType {
 			.add("name", getName())
 			.add("description", getDescription())
 			.add("location", getLocation())
+			.add("flags", getFlags())
 			.add("createdDate", getCreatedDate())
 			.add("lastModifiedDate", getLastModifiedDate())
 			.add("timeTable", getTimetable())
-			.add("prices", prices)
+			.add("culturePrices", culturePrices)
 			.add("reservation", reservation)
 			.toString();
 	}

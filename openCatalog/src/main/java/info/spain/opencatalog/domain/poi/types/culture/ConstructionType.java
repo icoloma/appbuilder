@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
-public enum CultureConstructionType {
+public enum ConstructionType {
 
 	PREHISTORY,		// Abrigo Prehistórico
 	ACROPOLYS,		// Acrópolis

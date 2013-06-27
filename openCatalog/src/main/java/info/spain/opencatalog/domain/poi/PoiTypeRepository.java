@@ -2,12 +2,13 @@ package info.spain.opencatalog.domain.poi;
 
 import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
 import info.spain.opencatalog.domain.poi.types.beach.BeachPoiType;
+import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingPoiType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingTypeFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.Score;
-import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
+import info.spain.opencatalog.domain.poi.types.nature.NaturalSpacePoiType;
 
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +30,9 @@ public class PoiTypeRepository {
 		CAMPING,
 		APARTMENT,
 		
+		// Nature
 		BEACH,
+		NATURAL_SPACE,
 		
 		// Culture
 		MUSEUM,
@@ -59,12 +62,15 @@ public class PoiTypeRepository {
         
         // Nature 
         types.put(PoiType.BEACH, beach());
-        //types.put(PoiType.NATURE, nature());
+        types.put(PoiType.NATURAL_SPACE, nature());
         
         // Culture
         types.put(PoiType.MUSEUM, museum());
         types.put(PoiType.MONUMENT, monument());
         types.put(PoiType.PARK_GARDEN, parkGarden());
+        
+        
+        
     }
     
    /** Hotel */
@@ -164,13 +170,26 @@ public class PoiTypeRepository {
     			DisabledAccessibility.DISABLED_ACCESS,
     			DisabledAccessibility.GUIDE_DOG_ALLOWED,
     			DisabledAccessibility.PARKING_ACCESSIBLE)
-    			
     	.setQualityCertificates(
     			QualityCertificate.BANDERA_AZUL,
     			QualityCertificate.ACCESIBILIDAD,
     			QualityCertificate.NATURISTA);
     }
     
+    /** espacio natural*/
+    private static NaturalSpacePoiType nature(){
+    	return new NaturalSpacePoiType()
+    	.setDisabledAccessibility(
+    			DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+    			DisabledAccessibility.DISABLED_ACCESS,
+    			DisabledAccessibility.GUIDE_DOG_ALLOWED,
+    			DisabledAccessibility.PARKING_ACCESSIBLE)
+    	.setQualityCertificates(
+    			QualityCertificate.ECOTURISMO,
+    			QualityCertificate.ACCESIBILIDAD,
+    			QualityCertificate.PATRIMONIO_HUMANIDAD
+    			);
+    }
     /** Museo */
     private static CulturePoiType museum(){
     	return new CulturePoiType()

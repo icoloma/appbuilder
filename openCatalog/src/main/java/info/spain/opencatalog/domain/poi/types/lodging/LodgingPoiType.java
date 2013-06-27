@@ -203,6 +203,7 @@ public class LodgingPoiType extends AbstractPoiType {
 			.add("location", getLocation())
 			.add("contactInfo", getContactInfo())
 			.add("timeTable", getTimetable())
+			.add("flags", getFlags())
 			.add("createdDate", getCreatedDate())
 			.add("lastModifiedDate", getLastModifiedDate())
 			.add("lodgingFlags",lodgingFlags)

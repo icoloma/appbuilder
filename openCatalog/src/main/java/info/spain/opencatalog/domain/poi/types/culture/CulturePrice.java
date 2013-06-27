@@ -21,7 +21,7 @@ public class CulturePrice {
 	private Double price;
 	
 	/** Tipo de tarifa:  General, Adulto, Niño, Estudiante, ... */
-	private Set<CulturePriceType> priceTypes;
+	private Set<PriceType> priceTypes;
 	
 	/** Horarios aplicados a este precio: Lunes-Viernes de 18:00 a 20:00 */
 	private Set<TimeTableEntry> timeTable;
@@ -37,14 +37,14 @@ public class CulturePrice {
 		this.price = price;
 		return this;
 	}
-	public Set<CulturePriceType> getPriceTypes() {
+	public Set<PriceType> getPriceTypes() {
 		return priceTypes;
 	}
-	public CulturePrice setPriceTypes(Set<CulturePriceType> culturePriceTypes) {
-		this.priceTypes = culturePriceTypes;
+	public CulturePrice setPriceTypes(Set<PriceType> priceTypes) {
+		this.priceTypes = priceTypes;
 		return this;
 	}
-	public CulturePrice setPriceTypes(CulturePriceType... culturePriceTypes) {
+	public CulturePrice setPriceTypes(PriceType... culturePriceTypes) {
 		return setPriceTypes(Sets.newHashSet(culturePriceTypes));
 	}
 	public Set<TimeTableEntry> getTimeTable() {

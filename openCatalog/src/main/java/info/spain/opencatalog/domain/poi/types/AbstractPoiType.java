@@ -33,7 +33,7 @@ public abstract class AbstractPoiType {
 	@Id
 	private String id;
 
-	/** Tipo de POI específico */
+	/** Tipo de POI específico: Hotel, Monumento, Playa, ... */
 	@NotNull
 	private PoiType poiType;
 	
@@ -51,8 +51,7 @@ public abstract class AbstractPoiType {
 	@GeoSpatialIndexed
 	private GeoLocation location; 	
 	
-
-    /** características que un PoiType puede tener o no */
+    /** características que un PoiType puede tener o no: visitas guiadas, tiendas, etc.. */
     private Set<Flag> flags;
 
     /** certificados que pueden asignarse a este poi */
@@ -249,6 +248,7 @@ public abstract class AbstractPoiType {
 			.add("timeTable", timetable)
 			.add("contactInfo", contactInfo)
 			.add("createdDate", createdDate)
+			.add("flags", flags)
 			.add("lastModifiedDate", lastModifiedDate).toString();
 	}
     

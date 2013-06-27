@@ -11,17 +11,17 @@ import info.spain.opencatalog.domain.poi.types.HourRange;
 import info.spain.opencatalog.domain.poi.types.TimeTableDay;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry.WeekDay;
-import info.spain.opencatalog.domain.poi.types.beach.BeachBathCondition;
+import info.spain.opencatalog.domain.poi.types.beach.BathCondition;
 import info.spain.opencatalog.domain.poi.types.beach.BeachComposition;
 import info.spain.opencatalog.domain.poi.types.beach.BeachPoiType;
-import info.spain.opencatalog.domain.poi.types.beach.BeachSandType;
-import info.spain.opencatalog.domain.poi.types.culture.CultureArtisticPeriod;
-import info.spain.opencatalog.domain.poi.types.culture.CultureConstructionType;
-import info.spain.opencatalog.domain.poi.types.culture.CultureDesignation;
-import info.spain.opencatalog.domain.poi.types.culture.CultureHistoricalPeriod;
+import info.spain.opencatalog.domain.poi.types.beach.SandType;
+import info.spain.opencatalog.domain.poi.types.culture.ArtisticPeriod;
+import info.spain.opencatalog.domain.poi.types.culture.ConstructionType;
 import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
 import info.spain.opencatalog.domain.poi.types.culture.CulturePrice;
-import info.spain.opencatalog.domain.poi.types.culture.CulturePriceType;
+import info.spain.opencatalog.domain.poi.types.culture.Designation;
+import info.spain.opencatalog.domain.poi.types.culture.HistoricalPeriod;
+import info.spain.opencatalog.domain.poi.types.culture.PriceType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingPoiType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingPrice;
@@ -30,6 +30,8 @@ import info.spain.opencatalog.domain.poi.types.lodging.LodgingTypeFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.Regime;
 import info.spain.opencatalog.domain.poi.types.lodging.Score;
 import info.spain.opencatalog.domain.poi.types.lodging.Season;
+import info.spain.opencatalog.domain.poi.types.nature.NaturalSpacePoiType;
+import info.spain.opencatalog.domain.poi.types.nature.NaturalSpaceFlag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +117,7 @@ public class PoiFactory extends AbstractFactory {
 	public static BeachPoiType BEACH;
 	public static CulturePoiType MUSEUM;
 	public static CulturePoiType MONUMENT;
+	public static NaturalSpacePoiType NATURAL_PARK;
 	
 
 	
@@ -233,9 +236,9 @@ public class PoiFactory extends AbstractFactory {
 			.setLarge(100d)
 			.setWidth(20d)
 			.setAnchorZone(Boolean.TRUE)
-			.setBathCondition(BeachBathCondition.MODERATE_WAVES)
+			.setBathCondition(BathCondition.MODERATE_WAVES)
 			.setComposition(BeachComposition.VOLCANIC_BLACK_SAND)
-			.setSandType(BeachSandType.DARK)
+			.setSandType(SandType.DARK)
 			.setDisabledAccessibility(
 					DisabledAccessibility.PARKING_ACCESSIBLE,
 					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
@@ -256,7 +259,7 @@ public class PoiFactory extends AbstractFactory {
 				.setUrl("http://www.museodelprado.com")
 				.setPhone("+34 000000000")
 			)
-			.setDesignation(CultureDesignation.NATIONAL_MUSEUM)
+			.setDesignation(Designation.NATIONAL_MUSEUM)
 			.setFlags(Flag.GUIDED_TOUR)
 			.setDisabledAccessibility(
 					DisabledAccessibility.PARKING_ACCESSIBLE,
@@ -286,16 +289,16 @@ public class PoiFactory extends AbstractFactory {
 			)
 			.setPrices(
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.GENERAL, CulturePriceType.GROUPS)
+					.setPriceTypes(PriceType.GENERAL, PriceType.GROUPS)
 					.setPrice(14d),
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.REDUCED)
+					.setPriceTypes(PriceType.REDUCED)
 					.setPrice(7d),
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.STUDENT)
+					.setPriceTypes(PriceType.STUDENT)
 					.setPrice(10d),
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.FREE)
+					.setPriceTypes(PriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 					.setTimetable(
 						new TimeTableEntry()
@@ -314,17 +317,17 @@ public class PoiFactory extends AbstractFactory {
 		// MONUMENTO
 		MONUMENT = new CulturePoiType()
 			.setPoiType(PoiType.MONUMENT)
-			.setName(new I18nText().setEs("La Alhambra"))					// required
-			.setDescription(new I18nText().setEs("Descripción del monumento"))		// required	
-			.setLocation(randomLocation())					// required
+			.setName(new I18nText().setEs("La Alhambra"))						// required
+			.setDescription(new I18nText().setEs("Descripción del monumento"))	// required	
+			.setLocation(randomLocation())										// required
 			.setContactInfo( new ContactInfo()
 				.setEmail("info@lahalambra.com")	
 				.setUrl("http://www.lahalambra.com")
 				.setPhone("+34 000000000")
 			)
-			.setConstructionType(CultureConstructionType.PALACE)
-			.setArtisticPeriod( CultureArtisticPeriod.ARABIC)
-			.setHistoricalPeriod( CultureHistoricalPeriod.CENTURY_14)
+			.setConstructionType(ConstructionType.PALACE)
+			.setArtisticPeriod( ArtisticPeriod.ARABIC)
+			.setHistoricalPeriod( HistoricalPeriod.CENTURY_14)
 			.setEnviroment(new I18nText().setEs("El Generalife").setEn("The Generalife"))
 			.setQualityCertificates( QualityCertificate.PATRIMONIO_HUMANIDAD )
 			.setFlags(Flag.GUIDED_TOUR)
@@ -356,16 +359,16 @@ public class PoiFactory extends AbstractFactory {
 			)
 			.setPrices(
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.GENERAL, CulturePriceType.GROUPS)
+					.setPriceTypes(PriceType.GENERAL, PriceType.GROUPS)
 					.setPrice(14d),
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.REDUCED)
+					.setPriceTypes(PriceType.REDUCED)
 					.setPrice(7d),
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.STUDENT)
+					.setPriceTypes(PriceType.STUDENT)
 					.setPrice(10d),
 				new CulturePrice()
-					.setPriceTypes(CulturePriceType.FREE)
+					.setPriceTypes(PriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 					.setTimetable(
 						new TimeTableEntry()
@@ -378,6 +381,28 @@ public class PoiFactory extends AbstractFactory {
 			);
 		
 		MONUMENT.validateTypeAllowedValues();
+		
+		
+		
+		// Natural Park
+		NATURAL_PARK = new NaturalSpacePoiType()
+			.setName(new I18nText().setEs("Parque nacional del Teide"))			// required
+			.setDescription(new I18nText().setEs("Descripción del parque"))		// required	
+			.setLocation(AbstractFactory.GEO_TEIDE)								// required
+			.setAddress(new Address().setRoute("Las cañadas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
+			.setQualityCertificates(
+					QualityCertificate.PATRIMONIO_HUMANIDAD)
+			.setDisabledAccessibility(
+					DisabledAccessibility.PARKING_ACCESSIBLE,
+					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+					DisabledAccessibility.GUIDE_DOG_ALLOWED)
+			.setNaturalSpaceFlags(
+					NaturalSpaceFlag.BIOSPHERE_RESERVE,
+					NaturalSpaceFlag.NATIONAL_PARK
+					);
+		
+		NATURAL_PARK.validateTypeAllowedValues();
+		
 	}
 	
 	

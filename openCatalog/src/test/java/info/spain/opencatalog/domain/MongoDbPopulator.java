@@ -85,11 +85,14 @@ public class MongoDbPopulator {
 		//mongoTemplate.insertAll(PoiFactory.generatePois(NUM_RANDOM_POIS));
 		
 //		mongoTemplate.insert(PoiFactory.HOTEL);
-//		mongoTemplate.insert(PoiFactory.BEACH);
 //		mongoTemplate.insert(PoiFactory.CAMPING);
 //		mongoTemplate.insert(PoiFactory.APARTMENT);
+//
 //		mongoTemplate.insert(PoiFactory.MUSEUM);
-		mongoTemplate.insert(PoiFactory.MONUMENT);
+//		mongoTemplate.insert(PoiFactory.MONUMENT);
+//		
+//		mongoTemplate.insert(PoiFactory.BEACH);
+		mongoTemplate.insert(PoiFactory.NATURAL_PARK);
 		
 		
 	}
