@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
+import com.google.common.base.Strings;
+
 public abstract class AbstractExporter {
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
@@ -40,7 +42,7 @@ public abstract class AbstractExporter {
 	}
 	
 	protected String asQuotedString(String str){
-		if (org.apache.commons.lang.StringUtils.isBlank(str)){
+		if (Strings.isNullOrEmpty(str)){
 			return "null";
 		} else {
 			return "\"" + str + "\"";

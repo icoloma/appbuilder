@@ -30,12 +30,12 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractPoiType {
 	
-	
-	/** Tipo de POI específico */
-	private PoiType poiType;
-	
 	@Id
 	private String id;
+
+	/** Tipo de POI específico */
+	@NotNull
+	private PoiType poiType;
 	
 	@ValidI18nText(message="poi.name.validation.message")   
 	@Indexed
@@ -61,8 +61,13 @@ public abstract class AbstractPoiType {
     /** Accesibilidad para personas con discapacidad */
 	private Set<DisabledAccessibility> disabledAccessibility;     
 
+	/** horarios de apertura/cierre */
+	private Set<TimeTableEntry> timetable;
+	
+	/** Información de contacto */
+    private ContactInfo contactInfo;
     
-	@CreatedDate
+    @CreatedDate
 	private DateTime createdDate;
 	
 	@LastModifiedDate
@@ -107,6 +112,19 @@ public abstract class AbstractPoiType {
         this.location = source.location;
        
     }	
+	
+	public Set<TimeTableEntry> getTimetable() {
+		return timetable;
+	}
+
+	public AbstractPoiType setTimetable(Set<TimeTableEntry> timetable) {
+		this.timetable = timetable;
+		return this;
+	}
+
+	public AbstractPoiType setTimetable(TimeTableEntry... timetable) {
+		return setTimetable(Sets.newHashSet(timetable));
+	}
 
 
 	public Set<DisabledAccessibility> getDisabledAccessibility() {
@@ -121,8 +139,6 @@ public abstract class AbstractPoiType {
 	public AbstractPoiType setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
 		return setDisabledAccessibility(Sets.newHashSet(disabledAccessibility));
 	}
-		
-	
 	
     public AbstractPoiType setFlags(Flag... flags) {
         return this.setFlags(Sets.newHashSet(flags));
@@ -158,8 +174,6 @@ public abstract class AbstractPoiType {
 		this.poiType = poiType;
 		return this;
 	}
-	
-	
 
 	public String getId() {
 		return id;
@@ -205,6 +219,15 @@ public abstract class AbstractPoiType {
 		this.location = location;
 		return this;
 	}
+	
+	public ContactInfo getContactInfo() {
+		return contactInfo;
+	}
+
+	public AbstractPoiType setContactInfo(ContactInfo contactInfo) {
+		this.contactInfo = contactInfo;
+		return this;
+	}
 
 	public DateTime getCreatedDate() {
 		return createdDate;
@@ -214,8 +237,7 @@ public abstract class AbstractPoiType {
 	public DateTime getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(getClass())
@@ -224,6 +246,8 @@ public abstract class AbstractPoiType {
 			.add("name", name)
 			.add("description", description)
 			.add("location", location)
+			.add("timeTable", timetable)
+			.add("contactInfo", contactInfo)
 			.add("createdDate", createdDate)
 			.add("lastModifiedDate", lastModifiedDate).toString();
 	}

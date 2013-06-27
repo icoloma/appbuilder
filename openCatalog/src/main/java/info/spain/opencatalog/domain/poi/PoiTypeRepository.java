@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.poi.types.lodging.LodgingPoiType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingTypeFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.Score;
+import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
 
 import java.util.Map;
 import java.util.Set;
@@ -30,11 +31,17 @@ public class PoiTypeRepository {
 		
 		BEACH,
 		
+		// Culture
+		MUSEUM,
+		MONUMENT,
+		PARK_GARDEN
+		
 		
 	}
 	
 	/** Referencias a las agrupaciones lógicas de los diferentes tipos de POI */
 	public static final Set<PoiType> LODGING_TYPES = Sets.newHashSet(PoiType.HOTEL, PoiType.CAMPING, PoiType.APARTMENT);
+	public static final Set<PoiType> CULTURE_TYPES = Sets.newHashSet(PoiType.MUSEUM, PoiType.MONUMENT, PoiType.PARK_GARDEN);
 	
 	
 	/** Almacena la información permitida para cada tipo */
@@ -49,12 +56,19 @@ public class PoiTypeRepository {
         types.put(PoiType.HOTEL, hotel());
         types.put(PoiType.CAMPING, camping());
         types.put(PoiType.APARTMENT, apartment());
-        types.put(PoiType.BEACH, beach());
         
-    
+        // Nature 
+        types.put(PoiType.BEACH, beach());
+        //types.put(PoiType.NATURE, nature());
+        
+        // Culture
+        types.put(PoiType.MUSEUM, museum());
+        types.put(PoiType.MONUMENT, monument());
+        types.put(PoiType.PARK_GARDEN, parkGarden());
     }
     
-    private static LodgingPoiType hotel(){
+   /** Hotel */
+   private static LodgingPoiType hotel(){
     	return new LodgingPoiType()
         .setScores(
     		Score.STAR_1, 
@@ -86,7 +100,8 @@ public class PoiTypeRepository {
         ;
     }
 
-    private static LodgingPoiType camping() {
+   /** Camping */
+   private static LodgingPoiType camping() {
     	return new LodgingPoiType()
 		.setScores(
 			Score.OTHER,
@@ -117,7 +132,8 @@ public class PoiTypeRepository {
 	    //.setFlags()   // común a cualquier poi
 	    ;
     }
-    
+   
+   	/** Apartamento */
     private static LodgingPoiType apartment(){
     	return new LodgingPoiType()
     	.setScores(
@@ -140,7 +156,7 @@ public class PoiTypeRepository {
         ;
     }
     
-    
+    /** Playa */
     private static BeachPoiType beach(){
     	return new BeachPoiType()
     	.setDisabledAccessibility(
@@ -154,6 +170,40 @@ public class PoiTypeRepository {
     			QualityCertificate.ACCESIBILIDAD,
     			QualityCertificate.NATURISTA);
     }
+    
+    /** Museo */
+    private static CulturePoiType museum(){
+    	return new CulturePoiType()
+    		.setQualityCertificates(
+    			QualityCertificate.ACCESIBILIDAD,
+    			QualityCertificate.MICHELIN,
+    			QualityCertificate.CAMPSA);
+    }
+   
+    /** Monumento */
+    private static CulturePoiType monument(){
+    	return new CulturePoiType()
+    	.setQualityCertificates(
+    			QualityCertificate.PATRIMONIO_HUMANIDAD,
+    			QualityCertificate.ACCESIBILIDAD,
+    			QualityCertificate.MICHELIN,
+    			QualityCertificate.RESERVA_BIOSFERA,
+    			QualityCertificate.CAMPSA);
+    }
+    
+    /** Parques y jardines*/
+    private static CulturePoiType parkGarden(){
+    	return new CulturePoiType()
+    	.setQualityCertificates(
+    			QualityCertificate.PATRIMONIO_HUMANIDAD,
+    			QualityCertificate.ACCESIBILIDAD,
+    			QualityCertificate.MICHELIN,
+    			QualityCertificate.RESERVA_BIOSFERA,
+    			QualityCertificate.CAMPSA);
+    }
+    
+  
+  
     
     public static AbstractPoiType getPoiType(PoiType type){
 		AbstractPoiType result =  types.get(type);

@@ -5,13 +5,13 @@ import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilena
 
 import java.io.InputStream;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 
+import com.google.common.base.Strings;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
@@ -33,7 +33,7 @@ public class StorageServiceImpl implements StorageService {
 		
 	@Override
 	public GridFsResource getByFilename(String filename){
-		if (StringUtils.isBlank(filename)){
+		if (Strings.isNullOrEmpty(filename)){
 			return null;
 		}
 		try {

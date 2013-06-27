@@ -10,7 +10,6 @@ import info.spain.opencatalog.web.form.UserForm;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.common.base.Strings;
 
 /**
  * Handles requests for the application User page.
@@ -114,7 +115,7 @@ public class UserController extends AbstractUIController {
 		// No queremos sobreescribir el email
 		user.setEmail(dbUser.getEmail());
 
-		if (StringUtils.isBlank(user.getPassword())){
+		if (Strings.isNullOrEmpty(user.getPassword())){
 			// No queremos sobreescribir el password si no se ha especificado
 			user.setPassword(dbUser.getPassword());
 		}

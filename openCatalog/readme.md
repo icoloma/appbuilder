@@ -4,10 +4,39 @@
 - JDK 1.7
 - MongoDB 2.4.3 corriendo sobre el puerto 27017 (default)
 
+# Spring Tool Suite
+En caso de que problemas al importar el proyecto, hay que modificar el .project y sustituir el contenido por:
+
+		<?xml version="1.0" encoding="UTF-8"?>
+		<projectDescription>
+			<name>openCatalog</name>
+			<buildSpec>
+				<buildCommand>
+					<name>org.eclipse.wst.common.project.facet.core.builder</name>
+				</buildCommand>
+				<buildCommand>
+					<name>org.eclipse.jdt.core.javabuilder</name>
+				</buildCommand>
+				<buildCommand>
+					<name>org.springframework.ide.eclipse.core.springbuilder</name>
+				</buildCommand>
+				<buildCommand>
+					<name>org.eclipse.wst.validation.validationbuilder</name>
+				</buildCommand>
+			</buildSpec>
+			<natures>
+				<nature>org.springframework.ide.eclipse.core.springnature</nature>
+				<nature>org.eclipse.jdt.core.javanature</nature>
+				<nature>org.springsource.ide.eclipse.gradle.core.nature</nature>
+				<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+				<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
+			</natures>
+		</projectDescription>
+
+
 
 Configurar el servidor (tcServer) para arrancar con el perfil adecuado (dev,prod)
 (doble click en el server --> Open Launch configuration --> Arguments)
-
 
 		-Dspring.profiles.active=dev
 

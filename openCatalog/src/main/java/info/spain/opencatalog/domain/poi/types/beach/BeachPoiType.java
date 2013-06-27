@@ -8,6 +8,8 @@ import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
 import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.ContactInfo;
+import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
 import java.util.Set;
 
@@ -95,6 +97,21 @@ public class BeachPoiType extends AbstractPoiType {
 		return (BeachPoiType) super.setDisabledAccessibility(disabledAccessibility);
 	}
 	
+	@Override
+	public BeachPoiType setTimetable(Set<TimeTableEntry> timetable) {
+		return (BeachPoiType) super.setTimetable(timetable);
+	}
+
+	@Override
+	public BeachPoiType setTimetable(TimeTableEntry... timetable) {
+		return (BeachPoiType) super.setTimetable(timetable);
+	}
+	
+	@Override
+ 	public BeachPoiType setContactInfo(ContactInfo contactInfo) {
+		return (BeachPoiType) super.setContactInfo(contactInfo);
+	}
+
 	
 	public Double getLarge() {
 		return large;
@@ -168,6 +185,7 @@ public class BeachPoiType extends AbstractPoiType {
 			.add("name", getName())
 			.add("description", getDescription())
 			.add("location", getLocation())
+			.add("contactInfo", getContactInfo())
 			.add("createdDate", getCreatedDate())
 			.add("lastModifiedDate", getLastModifiedDate())
 			.add("large",large)

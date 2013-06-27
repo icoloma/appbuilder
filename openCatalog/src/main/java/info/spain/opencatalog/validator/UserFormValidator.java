@@ -2,9 +2,10 @@ package info.spain.opencatalog.validator;
 
 import info.spain.opencatalog.web.form.UserForm;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
+import com.google.common.base.Strings;
 
 public class UserFormValidator implements Validator {
 	
@@ -38,7 +39,7 @@ public class UserFormValidator implements Validator {
 	}
 	
 	private void validatePasswordLength(UserForm userForm, Errors errors){
-		if (StringUtils.isNotBlank(userForm.getPassword()) &&  userForm.getPassword().length() < MIN_PASSWORD_LENGTH ){
+		if (!Strings.isNullOrEmpty(userForm.getPassword()) &&  userForm.getPassword().length() < MIN_PASSWORD_LENGTH ){
 			errors.rejectValue("password", "user.password.error.length", "Password lenght minmun is " + MIN_PASSWORD_LENGTH);
 		}
 		

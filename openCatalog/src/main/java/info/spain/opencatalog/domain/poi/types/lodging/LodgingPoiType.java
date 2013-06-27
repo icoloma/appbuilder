@@ -9,6 +9,8 @@ import info.spain.opencatalog.domain.poi.PoiTypeRepository;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
 import info.spain.opencatalog.domain.poi.types.AbstractPoiType;
+import info.spain.opencatalog.domain.poi.types.ContactInfo;
+import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
 import java.util.Set;
 
@@ -64,6 +66,16 @@ public class LodgingPoiType extends AbstractPoiType {
     	
     }
     
+	@Override
+	public LodgingPoiType setTimetable(Set<TimeTableEntry> timetable) {
+		return (LodgingPoiType) super.setTimetable(timetable);
+	}
+
+	@Override
+	public LodgingPoiType setTimetable(TimeTableEntry... timetable) {
+		return (LodgingPoiType) super.setTimetable(timetable);
+	}
+
   
 
     @Override
@@ -110,7 +122,12 @@ public class LodgingPoiType extends AbstractPoiType {
  		return (LodgingPoiType) super.setDisabledAccessibility(disabledAccessibility);
  	}
  
-    public Set<LodgingPrice> getLodgingPrices() {
+ 	@Override
+ 	public LodgingPoiType setContactInfo(ContactInfo contactInfo) {
+		return (LodgingPoiType) super.setContactInfo(contactInfo);
+	}
+
+	public Set<LodgingPrice> getLodgingPrices() {
     	return lodgingPrices;
     }
     
@@ -184,6 +201,8 @@ public class LodgingPoiType extends AbstractPoiType {
 			.add("name", getName())
 			.add("description", getDescription())
 			.add("location", getLocation())
+			.add("contactInfo", getContactInfo())
+			.add("timeTable", getTimetable())
 			.add("createdDate", getCreatedDate())
 			.add("lastModifiedDate", getLastModifiedDate())
 			.add("lodgingFlags",lodgingFlags)

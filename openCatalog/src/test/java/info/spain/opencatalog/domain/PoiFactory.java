@@ -2,13 +2,26 @@ package info.spain.opencatalog.domain;
 
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.types.ContactInfo;
+import info.spain.opencatalog.domain.poi.types.HourRange;
+import info.spain.opencatalog.domain.poi.types.TimeTableDay;
+import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.types.TimeTableEntry.WeekDay;
 import info.spain.opencatalog.domain.poi.types.beach.BeachBathCondition;
 import info.spain.opencatalog.domain.poi.types.beach.BeachComposition;
 import info.spain.opencatalog.domain.poi.types.beach.BeachPoiType;
 import info.spain.opencatalog.domain.poi.types.beach.BeachSandType;
+import info.spain.opencatalog.domain.poi.types.culture.CultureArtisticPeriod;
+import info.spain.opencatalog.domain.poi.types.culture.CultureConstructionType;
+import info.spain.opencatalog.domain.poi.types.culture.CultureDesignation;
+import info.spain.opencatalog.domain.poi.types.culture.CultureHistoricalPeriod;
+import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
+import info.spain.opencatalog.domain.poi.types.culture.CulturePrice;
+import info.spain.opencatalog.domain.poi.types.culture.CulturePriceType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingFlag;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingPoiType;
 import info.spain.opencatalog.domain.poi.types.lodging.LodgingPrice;
@@ -21,6 +34,7 @@ import info.spain.opencatalog.domain.poi.types.lodging.Season;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTimeConstants;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -68,8 +82,6 @@ public class PoiFactory extends AbstractFactory {
 	}
 	
 	
-	
-	
 	public static List<Poi> generatePois(int numPois){
 		// random
 		List<Poi> result = new ArrayList<Poi>();
@@ -101,6 +113,9 @@ public class PoiFactory extends AbstractFactory {
 	public static LodgingPoiType CAMPING;
 	public static LodgingPoiType APARTMENT;
 	public static BeachPoiType BEACH;
+	public static CulturePoiType MUSEUM;
+	public static CulturePoiType MONUMENT;
+	
 
 	
 	static {
@@ -112,6 +127,11 @@ public class PoiFactory extends AbstractFactory {
 			.setLocation(AbstractFactory.GEO_SOL)								// required
 			.setAddress(new Address().setRoute("Puerta del Sol").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
 			.setScores(Score.STAR_3)
+			.setContactInfo( new ContactInfo()
+				.setEmail("info@hotelpuertadelsol.com")	
+				.setUrl("http://www.hotelpuertadelsol.com")
+				.setPhone("+34 000000000")
+			)
 			.setLodgingFlags(
 				LodgingFlag.CASINO, 
 				LodgingFlag.CREDIT_CARD, 
@@ -224,7 +244,140 @@ public class PoiFactory extends AbstractFactory {
 		
 		BEACH.validateTypeAllowedValues();
 		
+
+		// Museum
+		MUSEUM = new CulturePoiType()
+			.setPoiType(PoiType.MUSEUM)
+			.setName(new I18nText().setEs("Museo del Prado"))					// required
+			.setDescription(new I18nText().setEs("Descripción del museo"))		// required	
+			.setLocation(randomLocation())					// required
+			.setContactInfo( new ContactInfo()
+				.setEmail("info@mueseodelprado.com")	
+				.setUrl("http://www.museodelprado.com")
+				.setPhone("+34 000000000")
+			)
+			.setDesignation(CultureDesignation.NATIONAL_MUSEUM)
+			.setFlags(Flag.GUIDED_TOUR)
+			.setDisabledAccessibility(
+					DisabledAccessibility.PARKING_ACCESSIBLE,
+					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+					DisabledAccessibility.GUIDE_DOG_ALLOWED
+			)
+			.setTimetable(
+				new TimeTableEntry()
+					.setWeekDays(
+							WeekDay.MONDAY, 
+							WeekDay.WEDNESDAY, 
+							WeekDay.FRIDAY)
+					.setHourRange( 
+						new HourRange("09:00", "13:00"),
+						new HourRange("15:00", "20:00")),
+				new TimeTableEntry()
+					.setDays( new TimeTableDay(6,DateTimeConstants.JANUARY))
+					.setDays( new TimeTableDay(24,DateTimeConstants.DECEMBER))
+					.setHourRange(
+						new HourRange("10:00","14:00")),
+				new TimeTableEntry()
+					.setClosedDays( 
+							new TimeTableDay(1,DateTimeConstants.JANUARY),
+							new TimeTableDay(1,DateTimeConstants.MAY),
+							new TimeTableDay(25,DateTimeConstants.DECEMBER)
+					)
+			)
+			.setPrices(
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.GENERAL, CulturePriceType.GROUPS)
+					.setPrice(Double.valueOf(14)),
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.REDUCED)
+					.setPrice(Double.valueOf(7)),
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.STUDENT)
+					.setPrice(Double.valueOf(10)),
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.FREE)
+					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
+					.setTimetable(
+						new TimeTableEntry()
+							.setWeekDays(WeekDay.MONDAY,WeekDay.TUESDAY,WeekDay.WEDNESDAY,WeekDay.THURSDAY,WeekDay.FRIDAY)
+							.setHourRange(new HourRange("18:00","20:00")),
+						new TimeTableEntry()
+							.setWeekDays(WeekDay.SATURDAY, WeekDay.SUNDAY)
+							.setHourRange(new HourRange("17:00","19:00"))
+					)
+			);
 		
+		MUSEUM.validateTypeAllowedValues();
+	
+		
+
+		// MONUMENTO
+		MONUMENT = new CulturePoiType()
+			.setPoiType(PoiType.MONUMENT)
+			.setName(new I18nText().setEs("La Alhambra"))					// required
+			.setDescription(new I18nText().setEs("Descripción del monumento"))		// required	
+			.setLocation(randomLocation())					// required
+			.setContactInfo( new ContactInfo()
+				.setEmail("info@lahalambra.com")	
+				.setUrl("http://www.lahalambra.com")
+				.setPhone("+34 000000000")
+			)
+			.setConstructionType(CultureConstructionType.PALACE)
+			.setArtisticPeriod( CultureArtisticPeriod.ARABIC)
+			.setHistoricalPeriod( CultureHistoricalPeriod.CENTURY_14)
+			.setEnviroment(new I18nText().setEs("El Generalife").setEn("The Generalife"))
+			.setQualityCertificates( QualityCertificate.PATRIMONIO_HUMANIDAD )
+			.setFlags(Flag.GUIDED_TOUR)
+			.setDisabledAccessibility(
+					DisabledAccessibility.PARKING_ACCESSIBLE,
+					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
+					DisabledAccessibility.GUIDE_DOG_ALLOWED
+			)
+			.setTimetable(
+				new TimeTableEntry()
+					.setWeekDays(
+							WeekDay.MONDAY, 
+							WeekDay.WEDNESDAY, 
+							WeekDay.FRIDAY)
+					.setHourRange( 
+						new HourRange("09:00", "13:00"),
+						new HourRange("15:00", "20:00")),
+				new TimeTableEntry()
+					.setDays( new TimeTableDay(6,DateTimeConstants.JANUARY))
+					.setDays( new TimeTableDay(24,DateTimeConstants.DECEMBER))
+					.setHourRange(
+						new HourRange("10:00","14:00")),
+				new TimeTableEntry()
+					.setClosedDays( 
+							new TimeTableDay(1,DateTimeConstants.JANUARY),
+							new TimeTableDay(1,DateTimeConstants.MAY),
+							new TimeTableDay(25,DateTimeConstants.DECEMBER)
+					)
+			)
+			.setPrices(
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.GENERAL, CulturePriceType.GROUPS)
+					.setPrice(Double.valueOf(14)),
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.REDUCED)
+					.setPrice(Double.valueOf(7)),
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.STUDENT)
+					.setPrice(Double.valueOf(10)),
+				new CulturePrice()
+					.setPriceTypes(CulturePriceType.FREE)
+					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
+					.setTimetable(
+						new TimeTableEntry()
+							.setWeekDays(WeekDay.MONDAY,WeekDay.TUESDAY,WeekDay.WEDNESDAY,WeekDay.THURSDAY,WeekDay.FRIDAY)
+							.setHourRange(new HourRange("18:00","20:00")),
+						new TimeTableEntry()
+							.setWeekDays(WeekDay.SATURDAY, WeekDay.SUNDAY)
+							.setHourRange(new HourRange("17:00","19:00"))
+					)
+			);
+		
+		MONUMENT.validateTypeAllowedValues();
 	}
 	
 	
