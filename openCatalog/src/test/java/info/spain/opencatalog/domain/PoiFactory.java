@@ -1,48 +1,28 @@
 package info.spain.opencatalog.domain;
 
-import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
-import info.spain.opencatalog.domain.poi.QualityCertificate;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
-import info.spain.opencatalog.domain.poi.types.ContactInfo;
-import info.spain.opencatalog.domain.poi.types.HourRange;
-import info.spain.opencatalog.domain.poi.types.TimeTableDay;
-import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
+import info.spain.opencatalog.domain.poi.types.*;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry.WeekDay;
 import info.spain.opencatalog.domain.poi.types.beach.BathCondition;
 import info.spain.opencatalog.domain.poi.types.beach.BeachComposition;
 import info.spain.opencatalog.domain.poi.types.beach.BeachPoiType;
 import info.spain.opencatalog.domain.poi.types.beach.SandType;
-import info.spain.opencatalog.domain.poi.types.culture.ArtisticPeriod;
-import info.spain.opencatalog.domain.poi.types.culture.ConstructionType;
-import info.spain.opencatalog.domain.poi.types.culture.CulturePoiType;
-import info.spain.opencatalog.domain.poi.types.culture.CulturePrice;
-import info.spain.opencatalog.domain.poi.types.culture.Designation;
-import info.spain.opencatalog.domain.poi.types.culture.HistoricalPeriod;
-import info.spain.opencatalog.domain.poi.types.culture.PriceType;
-import info.spain.opencatalog.domain.poi.types.lodging.LodgingFlag;
-import info.spain.opencatalog.domain.poi.types.lodging.LodgingPoiType;
-import info.spain.opencatalog.domain.poi.types.lodging.LodgingPrice;
-import info.spain.opencatalog.domain.poi.types.lodging.LodgingType;
-import info.spain.opencatalog.domain.poi.types.lodging.LodgingTypeFlag;
-import info.spain.opencatalog.domain.poi.types.lodging.Regime;
-import info.spain.opencatalog.domain.poi.types.lodging.Score;
-import info.spain.opencatalog.domain.poi.types.lodging.Season;
+import info.spain.opencatalog.domain.poi.types.culture.*;
+import info.spain.opencatalog.domain.poi.types.lodging.*;
 import info.spain.opencatalog.domain.poi.types.nature.NaturalSpaceFlag;
 import info.spain.opencatalog.domain.poi.types.nature.NaturalSpacePoiType;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.joda.time.DateTimeConstants;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class PoiFactory extends AbstractFactory {
 	
@@ -66,10 +46,10 @@ public class PoiFactory extends AbstractFactory {
 			.setFlags(randomFlags(getRandom().nextInt(4)));
 		}
 	
-	public static LodgingPoiType newLodging(String key, PoiType poiType){
+	public static LodgingPoi newLodging(String key, PoiTypeID poiType){
 		key = key + "-" + getRandom().nextInt();
 		
-		LodgingPoiType result = new LodgingPoiType().setPoiType(poiType);
+		LodgingPoi result = new LodgingPoi().setPoiType(poiType);
 		return result;
 		
 	}
@@ -112,9 +92,9 @@ public class PoiFactory extends AbstractFactory {
 	
 	public static ImmutableSet<BasicPoi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
 	
-	public static LodgingPoiType HOTEL;
-	public static LodgingPoiType CAMPING;
-	public static LodgingPoiType APARTMENT;
+	public static LodgingPoi HOTEL;
+	public static LodgingPoi CAMPING;
+	public static LodgingPoi APARTMENT;
 	public static BeachPoiType BEACH;
 	public static CulturePoiType MUSEUM;
 	public static CulturePoiType MONUMENT;
@@ -124,8 +104,8 @@ public class PoiFactory extends AbstractFactory {
 	
 	static {
 		// Hotel
-		HOTEL = new LodgingPoiType()
-			.setPoiType(PoiType.HOTEL)
+		HOTEL = new LodgingPoi()
+			.setPoiType(PoiTypeID.HOTEL)
 			.setName(new I18nText().setEs("Hotel Puerta del Sol"))				// required
 			.setDescription(new I18nText().setEs("Descripción del hotel..."))	// required	
 			.setLocation(AbstractFactory.GEO_SOL)								// required
@@ -140,31 +120,31 @@ public class PoiFactory extends AbstractFactory {
 				LodgingFlag.CASINO, 
 				LodgingFlag.CREDIT_CARD, 
 				LodgingFlag.EXCHANGE)
-			.setLodgingTypes(
-				LodgingType.HAB1,
-				LodgingType.HAB2)
+			.setRoomTypes(
+                RoomType.HAB1,
+                RoomType.HAB2)
 			.setLodgingPrices(
-				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
-				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
-				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, 20d))
+				new RoomPrice(RoomType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
+				new RoomPrice(RoomType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
+				new RoomPrice(RoomType.HAB1, Season.LOW_SEASON, Regime.AD, 20d))
 			.setLodgingTypeFlags(
-				LodgingTypeFlag.JACUZZI,
-				LodgingTypeFlag.SAFE_BOX)
+				RoomFlag.JACUZZI,
+				RoomFlag.SAFE_BOX)
 			.setDisabledAccessibility(
-				DisabledAccessibility.ADAPTED_ROOMS,
-				DisabledAccessibility.LIFT_ACCESSIBLE,
-				DisabledAccessibility.ADAPTED_VEHICLE_RENT,
-				DisabledAccessibility.PARKING_ACCESSIBLE,
-				DisabledAccessibility.ASSISTANCE_TO_DISABLED,
-				DisabledAccessibility.GUIDE_DOG_ALLOWED
+				AccessibilityFlag.ADAPTED_ROOMS,
+				AccessibilityFlag.LIFT_ACCESSIBLE,
+				AccessibilityFlag.ADAPTED_VEHICLE_RENT,
+				AccessibilityFlag.PARKING_ACCESSIBLE,
+				AccessibilityFlag.ASSISTANCE_TO_DISABLED,
+				AccessibilityFlag.GUIDE_DOG_ALLOWED
 			);
 		
 		HOTEL.validateTypeAllowedValues();
 		
 	
 		// Camping
-		CAMPING = new LodgingPoiType()
-			.setPoiType(PoiType.CAMPING)
+		CAMPING = new LodgingPoi()
+			.setPoiType(PoiTypeID.CAMPING)
 			.setName(new I18nText().setEs("CAMPING Montaña Rajada"))				// required
 			.setDescription(new I18nText().setEs("Descripción del CAMPING..."))	// required	
 			.setLocation(AbstractFactory.GEO_CASA_CAMPO)								// required
@@ -176,20 +156,20 @@ public class PoiFactory extends AbstractFactory {
 				LodgingFlag.CLOACKROOM,
 				LodgingFlag.CREDIT_CARD 
 				)
-			.setLodgingTypes(
-				LodgingType.TENT,
-				LodgingType.TENT_FAM)
+			.setRoomTypes(
+                RoomType.TENT,
+                RoomType.TENT_FAM)
 			.setLodgingPrices(
-				new LodgingPrice(LodgingType.TENT, Season.HIGH_SEASON, Regime.AD, 30d),
-				new LodgingPrice(LodgingType.TENT, Season.MEDIUM_SEASON, Regime.AD, 25d),
-				new LodgingPrice(LodgingType.TENT, Season.LOW_SEASON, Regime.AD, 20d))
+				new RoomPrice(RoomType.TENT, Season.HIGH_SEASON, Regime.AD, 30d),
+				new RoomPrice(RoomType.TENT, Season.MEDIUM_SEASON, Regime.AD, 25d),
+				new RoomPrice(RoomType.TENT, Season.LOW_SEASON, Regime.AD, 20d))
 			.setDisabledAccessibility(
-				DisabledAccessibility.ADAPTED_ROOMS,
-				DisabledAccessibility.LIFT_ACCESSIBLE,
-				DisabledAccessibility.ADAPTED_VEHICLE_RENT,
-				DisabledAccessibility.PARKING_ACCESSIBLE,
-				DisabledAccessibility.ASSISTANCE_TO_DISABLED,
-				DisabledAccessibility.GUIDE_DOG_ALLOWED
+				AccessibilityFlag.ADAPTED_ROOMS,
+				AccessibilityFlag.LIFT_ACCESSIBLE,
+				AccessibilityFlag.ADAPTED_VEHICLE_RENT,
+				AccessibilityFlag.PARKING_ACCESSIBLE,
+				AccessibilityFlag.ASSISTANCE_TO_DISABLED,
+				AccessibilityFlag.GUIDE_DOG_ALLOWED
 			);
 		
 		CAMPING.validateTypeAllowedValues();
@@ -197,8 +177,8 @@ public class PoiFactory extends AbstractFactory {
 		
 
 		// Apartmnent
-		APARTMENT = new LodgingPoiType()
-			.setPoiType(PoiType.APARTMENT)
+		APARTMENT = new LodgingPoi()
+			.setPoiType(PoiTypeID.APARTMENT)
 			.setName(new I18nText().setEs("Apartamentos Bahía azul"))				// required
 			.setDescription(new I18nText().setEs("Descripción del apartamento..."))	// required	
 			.setLocation(randomLocation())											// required
@@ -206,19 +186,19 @@ public class PoiFactory extends AbstractFactory {
 			.setLodgingFlags(
 				LodgingFlag.CREDIT_CARD 
 				)
-			.setLodgingTypes(
-				LodgingType.HAB1,
-				LodgingType.HAB2)
+			.setRoomTypes(
+                RoomType.HAB1,
+                RoomType.HAB2)
 			.setLodgingPrices(
-				new LodgingPrice(LodgingType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
-				new LodgingPrice(LodgingType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
-				new LodgingPrice(LodgingType.HAB1, Season.LOW_SEASON, Regime.AD, 20d),
-				new LodgingPrice(LodgingType.HAB2, Season.HIGH_SEASON, Regime.AD, 60d),
-				new LodgingPrice(LodgingType.HAB2, Season.MEDIUM_SEASON, Regime.AD, 50d),
-				new LodgingPrice(LodgingType.HAB2, Season.LOW_SEASON, Regime.AD, 40d))
+				new RoomPrice(RoomType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
+				new RoomPrice(RoomType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
+				new RoomPrice(RoomType.HAB1, Season.LOW_SEASON, Regime.AD, 20d),
+				new RoomPrice(RoomType.HAB2, Season.HIGH_SEASON, Regime.AD, 60d),
+				new RoomPrice(RoomType.HAB2, Season.MEDIUM_SEASON, Regime.AD, 50d),
+				new RoomPrice(RoomType.HAB2, Season.LOW_SEASON, Regime.AD, 40d))
 			.setDisabledAccessibility(
-				DisabledAccessibility.ADAPTED_ROOMS,
-				DisabledAccessibility.LIFT_ACCESSIBLE
+				AccessibilityFlag.ADAPTED_ROOMS,
+				AccessibilityFlag.LIFT_ACCESSIBLE
 			);
 		
 		APARTMENT.validateTypeAllowedValues();
@@ -232,8 +212,8 @@ public class PoiFactory extends AbstractFactory {
 			.setLocation(AbstractFactory.GEO_PLAYA_TERESITAS)					// required
 			.setAddress(new Address().setRoute("Las teresitas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
 			.setQualityCertificates(
-					QualityCertificate.BANDERA_AZUL,
-					QualityCertificate.NATURISTA)
+					QualityCertificateFlag.BANDERA_AZUL,
+					QualityCertificateFlag.NATURISTA)
 			.setLarge(100d)
 			.setWidth(20d)
 			.setAnchorZone(Boolean.TRUE)
@@ -241,9 +221,9 @@ public class PoiFactory extends AbstractFactory {
 			.setComposition(BeachComposition.VOLCANIC_BLACK_SAND)
 			.setSandType(SandType.DARK)
 			.setDisabledAccessibility(
-					DisabledAccessibility.PARKING_ACCESSIBLE,
-					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
-					DisabledAccessibility.GUIDE_DOG_ALLOWED
+					AccessibilityFlag.PARKING_ACCESSIBLE,
+					AccessibilityFlag.ASSISTANCE_TO_DISABLED,
+					AccessibilityFlag.GUIDE_DOG_ALLOWED
 			);
 		
 		BEACH.validateTypeAllowedValues();
@@ -251,7 +231,7 @@ public class PoiFactory extends AbstractFactory {
 
 		// Museum
 		MUSEUM = new CulturePoiType()
-			.setPoiType(PoiType.MUSEUM)
+			.setPoiType(PoiTypeID.MUSEUM)
 			.setName(new I18nText().setEs("Museo del Prado"))					// required
 			.setDescription(new I18nText().setEs("Descripción del museo"))		// required	
 			.setLocation(randomLocation())					// required
@@ -263,9 +243,9 @@ public class PoiFactory extends AbstractFactory {
 			.setDesignation(Designation.NATIONAL_MUSEUM)
 			.setFlags(Flag.GUIDED_TOUR)
 			.setDisabledAccessibility(
-					DisabledAccessibility.PARKING_ACCESSIBLE,
-					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
-					DisabledAccessibility.GUIDE_DOG_ALLOWED
+					AccessibilityFlag.PARKING_ACCESSIBLE,
+					AccessibilityFlag.ASSISTANCE_TO_DISABLED,
+					AccessibilityFlag.GUIDE_DOG_ALLOWED
 			)
 			.setTimetable(
 				new TimeTableEntry()
@@ -317,25 +297,25 @@ public class PoiFactory extends AbstractFactory {
 
 		// MONUMENTO
 		MONUMENT = new CulturePoiType()
-			.setPoiType(PoiType.MONUMENT)
+			.setPoiType(PoiTypeID.MONUMENT)
 			.setName(new I18nText().setEs("La Alhambra"))						// required
 			.setDescription(new I18nText().setEs("Descripción del monumento"))	// required	
 			.setLocation(randomLocation())										// required
-			.setContactInfo( new ContactInfo()
-				.setEmail("info@lahalambra.com")	
-				.setUrl("http://www.lahalambra.com")
-				.setPhone("+34 000000000")
-			)
+			.setContactInfo(new ContactInfo()
+                .setEmail("info@lahalambra.com")
+                .setUrl("http://www.lahalambra.com")
+                .setPhone("+34 000000000")
+            )
 			.setConstructionType(ConstructionType.PALACE)
 			.setArtisticPeriod( ArtisticPeriod.ARABIC)
 			.setHistoricalPeriod( HistoricalPeriod.CENTURY_14)
 			.setEnviroment(new I18nText().setEs("El Generalife").setEn("The Generalife"))
-			.setQualityCertificates( QualityCertificate.PATRIMONIO_HUMANIDAD )
+			.setQualityCertificates( QualityCertificateFlag.PATRIMONIO_HUMANIDAD )
 			.setFlags(Flag.GUIDED_TOUR)
 			.setDisabledAccessibility(
-					DisabledAccessibility.PARKING_ACCESSIBLE,
-					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
-					DisabledAccessibility.GUIDE_DOG_ALLOWED
+					AccessibilityFlag.PARKING_ACCESSIBLE,
+					AccessibilityFlag.ASSISTANCE_TO_DISABLED,
+					AccessibilityFlag.GUIDE_DOG_ALLOWED
 			)
 			.setTimetable(
 				new TimeTableEntry()
@@ -392,11 +372,11 @@ public class PoiFactory extends AbstractFactory {
 			.setLocation(AbstractFactory.GEO_TEIDE)								// required
 			.setAddress(new Address().setRoute("Las cañadas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
 			.setQualityCertificates(
-					QualityCertificate.PATRIMONIO_HUMANIDAD)
+					QualityCertificateFlag.PATRIMONIO_HUMANIDAD)
 			.setDisabledAccessibility(
-					DisabledAccessibility.PARKING_ACCESSIBLE,
-					DisabledAccessibility.ASSISTANCE_TO_DISABLED,
-					DisabledAccessibility.GUIDE_DOG_ALLOWED)
+					AccessibilityFlag.PARKING_ACCESSIBLE,
+					AccessibilityFlag.ASSISTANCE_TO_DISABLED,
+					AccessibilityFlag.GUIDE_DOG_ALLOWED)
 			.setNaturalSpaceFlags(
 					NaturalSpaceFlag.BIOSPHERE_RESERVE,
 					NaturalSpaceFlag.NATIONAL_PARK

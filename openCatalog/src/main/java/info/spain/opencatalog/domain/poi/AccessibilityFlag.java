@@ -3,7 +3,7 @@ package info.spain.opencatalog.domain.poi;
 /**
  * Facilidades para personas con discapacidad
  */
-public enum DisabledAccessibility {
+public enum AccessibilityFlag {
 	DISABLED_ACCESS,
 	GUIDE_DOG_ALLOWED,
 	ADAPTED_VEHICLE_RENT,

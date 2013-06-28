@@ -8,7 +8,7 @@ package info.spain.opencatalog.domain.poi;
  * @author ehdez
  *
  */
-public enum QualityCertificate {
+public enum QualityCertificateFlag {
 	
 	ACCESIBILIDAD,
 	BALNEARIOS,

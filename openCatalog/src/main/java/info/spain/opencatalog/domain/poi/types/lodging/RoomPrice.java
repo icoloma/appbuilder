@@ -9,27 +9,27 @@ import com.google.common.base.Objects;
  * Ej.: hab-doble, temporada alta, media pensión, 100
  *
  */
-public class LodgingPrice {
+public class RoomPrice {
 	
-	private LodgingType lodgingType;  // tipo de alojamiento ( hotel:suite|hab-doble|... ; camping : Autocaravana|Tienda|...   
+	private RoomType roomType;  // tipo de alojamiento ( hotel:suite|hab-doble|... ; camping : Autocaravana|Tienda|...
 	private Season season;
 	private Regime regime;
 	private Double price;
 
-	public LodgingPrice(LodgingType lodgingType, Season season, Regime regime,Double price) {
+	public RoomPrice(RoomType roomType, Season season, Regime regime, Double price) {
 		super();
-		this.lodgingType = lodgingType;
+		this.roomType = roomType;
 		this.season = season;
 		this.regime = regime;
 		this.price = price;
 	}
 
-	public LodgingType getLodgingType() {
-		return lodgingType;
+	public RoomType getRoomType() {
+		return roomType;
 	}
 
-	public void setLodgingType(LodgingType lodgingType) {
-		this.lodgingType = lodgingType;
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
 	}
 
 	public Double getPrice() {
@@ -59,7 +59,7 @@ public class LodgingPrice {
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(getClass())
-			.add("lodgingType", lodgingType)
+			.add("lodgingType", roomType)
 			.add("season", season)
 			.add("regime", regime)
 			.add("price", price)

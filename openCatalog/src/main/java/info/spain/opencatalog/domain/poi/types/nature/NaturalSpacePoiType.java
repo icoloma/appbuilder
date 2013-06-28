@@ -1,22 +1,20 @@
 package info.spain.opencatalog.domain.poi.types.nature;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Sets;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
-import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
-
-import java.util.Set;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
+import java.util.Set;
 
 /**
  * 
@@ -31,7 +29,7 @@ public class NaturalSpacePoiType extends BasicPoi {
 	
 	public NaturalSpacePoiType() {
 		super();
-		setPoiType(PoiType.NATURAL_SPACE);
+		setPoiType(PoiTypeID.NATURAL_SPACE);
 	}
     
   
@@ -60,7 +58,7 @@ public class NaturalSpacePoiType extends BasicPoi {
 	}
 
 	@Override
-	public NaturalSpacePoiType setPoiType(PoiType poiType) {
+	public NaturalSpacePoiType setPoiType(PoiTypeID poiType) {
 		return (NaturalSpacePoiType) super.setPoiType(poiType);
 	}
 
@@ -70,16 +68,16 @@ public class NaturalSpacePoiType extends BasicPoi {
     }
     
     @Override
-	public NaturalSpacePoiType setQualityCertificates( QualityCertificate... qualityCertificates) {
-		return (NaturalSpacePoiType) super.setQualityCertificates(qualityCertificates);
+	public NaturalSpacePoiType setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
+		return (NaturalSpacePoiType) super.setQualityCertificates(qualityCertificateFlags);
 	}
 
     @Override
-	public NaturalSpacePoiType setDisabledAccessibility(Set<DisabledAccessibility> disabledAccessibility) {
-		return (NaturalSpacePoiType) super.setDisabledAccessibility(disabledAccessibility);
+	public NaturalSpacePoiType setAccessibilityFlags(Set<AccessibilityFlag> disabledAccessibility) {
+		return (NaturalSpacePoiType) super.setAccessibilityFlags(disabledAccessibility);
 	}
 	@Override
-	public NaturalSpacePoiType setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
+	public NaturalSpacePoiType setDisabledAccessibility(AccessibilityFlag... disabledAccessibility) {
 		return (NaturalSpacePoiType) super.setDisabledAccessibility(disabledAccessibility);
 	}
 	

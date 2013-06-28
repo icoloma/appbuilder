@@ -1,22 +1,20 @@
 package info.spain.opencatalog.domain.poi.types.culture;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Sets;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
-import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
-
-import java.util.Set;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
+import java.util.Set;
 
 /**
  * Tipo de POI que representa lugares relacionados con Arte y Cultura:  Museos, Monumentos, Parques y Jardines  
@@ -82,7 +80,7 @@ public class CulturePoiType extends BasicPoi {
 	}
 
 	@Override
-	public CulturePoiType setPoiType(PoiType poiType) {
+	public CulturePoiType setPoiType(PoiTypeID poiType) {
 		return (CulturePoiType) super.setPoiType(poiType);
 	}
 
@@ -92,16 +90,16 @@ public class CulturePoiType extends BasicPoi {
     }
     
     @Override
-	public CulturePoiType setQualityCertificates( QualityCertificate... qualityCertificates) {
-		return (CulturePoiType) super.setQualityCertificates(qualityCertificates);
+	public CulturePoiType setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
+		return (CulturePoiType) super.setQualityCertificates(qualityCertificateFlags);
 	}
 
     @Override
-	public CulturePoiType setDisabledAccessibility(Set<DisabledAccessibility> disabledAccessibility) {
-		return (CulturePoiType) super.setDisabledAccessibility(disabledAccessibility);
+	public CulturePoiType setAccessibilityFlags(Set<AccessibilityFlag> disabledAccessibility) {
+		return (CulturePoiType) super.setAccessibilityFlags(disabledAccessibility);
 	}
 	@Override
-	public CulturePoiType setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
+	public CulturePoiType setDisabledAccessibility(AccessibilityFlag... disabledAccessibility) {
 		return (CulturePoiType) super.setDisabledAccessibility(disabledAccessibility);
 	}
 	

@@ -5,7 +5,8 @@ package info.spain.opencatalog.domain.poi.types.lodging;
  *  Habitación doble (Hotel), 
  *  Caravana (Camping) 
  */
-public enum LodgingType {
+public enum RoomType {
+
 	SUITE,		// Suite
 	HAB4,		// Habitación cuádruple
 	HAB3,		// Habitación triple
@@ -21,8 +22,5 @@ public enum LodgingType {
 	MOTORHOME,	// Caravana
 	CAR,		// Coche
 	MOTORBIKE,	// Moto
-	
-	
-	
-	
+
 }

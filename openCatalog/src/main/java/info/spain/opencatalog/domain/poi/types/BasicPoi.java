@@ -1,19 +1,14 @@
 package info.spain.opencatalog.domain.poi.types;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Sets;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiTypeRepository;
-import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
-import info.spain.opencatalog.domain.poi.QualityCertificate;
-import info.spain.opencatalog.validator.ValidI18nText;
-
-import java.util.Set;
-
-import javax.validation.constraints.NotNull;
-
+import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
+import info.spain.opencatalog.domain.poi.types.lodging.Score;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -21,10 +16,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.util.Assert;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * Clase base para cualquier POI
@@ -37,14 +31,12 @@ public class BasicPoi {
 
 	/** Tipo de POI específico: Hotel, Monumento, Playa, ... */
 	@NotNull
-	private PoiType poiType;
+	private PoiType type;
 	
-	@ValidI18nText(message="poi.name.validation.message")   
 	@Indexed
 	private I18nText name;
 
-	@ValidI18nText(message="poi.description.validation.message") 
-	private I18nText description; 
+	private I18nText description;
 	
 	private Address address;
 	
@@ -56,11 +48,14 @@ public class BasicPoi {
     /** características que un PoiType puede tener o no: visitas guiadas, tiendas, etc.. */
     private Set<Flag> flags;
 
-    /** certificados que pueden asignarse a este poi */
-    private Set<QualityCertificate> qualityCertificates;
+    /** valoración oficial (no de los usuarios): 3 Estrellas, 2 tenedores, etc */
+    private Score score;
+
+    /** certificados otorgados a este poi: ISO9001, Patrimonio de la humanidad... */
+    private Set<QualityCertificateFlag> qualityCertificateFlags;
 
     /** Accesibilidad para personas con discapacidad */
-	private Set<DisabledAccessibility> disabledAccessibility;     
+	private Set<AccessibilityFlag> accessibilityFlags;
 
 	/** horarios de apertura/cierre */
 	private Set<TimeTableEntry> timetable;
@@ -72,38 +67,17 @@ public class BasicPoi {
 	private DateTime createdDate;
 	
 	@LastModifiedDate
-	private DateTime lastModifiedDate;
+	private DateTime lastModified;
 	
-	public BasicPoi(){
-		this.poiType = PoiType.POI;
-        this.createdDate = new DateTime();
-        this.lastModifiedDate = new DateTime();
+	public BasicPoi(PoiType type){
+		this.type = type;
+        //this.createdDate = new DateTime();
+        //this.lastModified = new DateTime();
     }
-	public BasicPoi(BasicPoi other){
-		this.poiType = PoiType.POI;
-	    copyData(other);
-	}
-	
+
 	/** Permite definir las validaciones en función del tipo */
-	public void validateTypeAllowedValues(){
-		Assert.notNull(getPoiType());
-		BasicPoi type = PoiTypeRepository.getPoiType(getPoiType());
-		validateFlags(type.getFlags(), getFlags());
-		validateFlags(type.getDisabledAccessibility(), getDisabledAccessibility());
-		validateFlags(type.getQualityCertificates(), getQualityCertificates());
-	}
-	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void validateFlags(Set allowed, Set current){
-		if (allowed == null || allowed.size() == 0 ||
-			current == null || current.size() == 0){
-			return;
-		}
-		
-		if (!allowed.containsAll(current)) {
-			throw new IllegalArgumentException("Asignación de flag no permitida. Flags permitidos : " + allowed + ", Flags asignados :" + current);
-		}
+	public void validate(){
+        type.validate(this);
 	}
 	
 	public void copyData(BasicPoi source){
@@ -113,9 +87,9 @@ public class BasicPoi {
         this.address = source.address;
         this.location = source.location;
         this.contactInfo = source.contactInfo;
-        this.disabledAccessibility = source.disabledAccessibility;
+        this.accessibilityFlags = source.accessibilityFlags;
         this.flags = source.flags;
-        this.qualityCertificates = source.qualityCertificates;
+        this.qualityCertificateFlags = source.qualityCertificateFlags;
         this.timetable = source.timetable;
     }	
 	
@@ -132,18 +106,13 @@ public class BasicPoi {
 		return setTimetable(Sets.newHashSet(timetable));
 	}
 
-
-	public Set<DisabledAccessibility> getDisabledAccessibility() {
-		return disabledAccessibility;
+	public Set<AccessibilityFlag> getAccessibilityFlags() {
+		return accessibilityFlags;
 	}
 
-
-	public BasicPoi setDisabledAccessibility(Set<DisabledAccessibility> disabledAccessibility) {
-		this.disabledAccessibility = disabledAccessibility;
-		return this;
-	}
-	public BasicPoi setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
-		return setDisabledAccessibility(Sets.newHashSet(disabledAccessibility));
+	public BasicPoi setAccessibilityFlags(AccessibilityFlag... disabledAccessibility) {
+		this.accessibilityFlags = Sets.newHashSet(disabledAccessibility);
+        return this;
 	}
 	
     public BasicPoi setFlags(Flag... flags) {
@@ -155,30 +124,21 @@ public class BasicPoi {
         return this;
     }
 
-	public BasicPoi setQualityCertificates(Set<QualityCertificate> qualityCertificates) {
-		this.qualityCertificates = qualityCertificates;
+	public BasicPoi setQualityCertificateFlags(Set<QualityCertificateFlag> qualityCertificateFlags) {
+		this.qualityCertificateFlags = qualityCertificateFlags;
 		return this;
 	}
 	
-	public BasicPoi setQualityCertificates(QualityCertificate... qualityCertificates) {
-		return setQualityCertificates(Sets.newHashSet(qualityCertificates));
+	public BasicPoi setQualityCertificates(QualityCertificateFlag... qualityCertificateFlags) {
+		return setQualityCertificateFlags(Sets.newHashSet(qualityCertificateFlags));
 	}
 
 	public Set<Flag> getFlags() {
 		return flags;
 	}
 
-	public Set<QualityCertificate> getQualityCertificates() {
-		return qualityCertificates;
-	}
-	
-	public PoiType getPoiType() {
-		return poiType;
-	}
-
-	public BasicPoi setPoiType(PoiType poiType) {
-		this.poiType = poiType;
-		return this;
+	public Set<QualityCertificateFlag> getQualityCertificateFlags() {
+		return qualityCertificateFlags;
 	}
 
 	public String getId() {
@@ -243,11 +203,19 @@ public class BasicPoi {
 	public DateTime getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	
-	@Override
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
+
+    @Override
 	public String toString() {
 		return Objects.toStringHelper(getClass())
-			.add("poiType", poiType)
+			.add("type", type)
 			.add("id", id)
 			.add("name", name)
 			.add("description", description)

@@ -143,11 +143,11 @@ public class PoiControllerTest {
 				assertTrue( actual.getFlags().contains(flag));
 			}
 		}
-		if (expected.getDisabledAccessibility()!= null ) {
-			assertEquals(expected.getDisabledAccessibility().size(), actual.getDisabledAccessibility().size());
+		if (expected.getAccessibilityFlags()!= null ) {
+			assertEquals(expected.getAccessibilityFlags().size(), actual.getAccessibilityFlags().size());
 		}
-		if (expected.getQualityCertificates() != null ) {
-			assertEquals(expected.getQualityCertificates().size(), actual.getQualityCertificates().size());
+		if (expected.getQualityCertificateFlags() != null ) {
+			assertEquals(expected.getQualityCertificateFlags().size(), actual.getQualityCertificateFlags().size());
 		}
 		if (expected.getTimetable()!= null ) {
 			assertEquals(expected.getTimetable().size(), actual.getTimetable().size());

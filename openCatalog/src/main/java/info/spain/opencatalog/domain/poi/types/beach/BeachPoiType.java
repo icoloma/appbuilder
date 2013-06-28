@@ -1,21 +1,19 @@
 package info.spain.opencatalog.domain.poi.types.beach;
 
+import com.google.common.base.Objects;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiTypeRepository.PoiType;
-import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.ContactInfo;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
-
-import java.util.Set;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.Objects;
+import java.util.Set;
 
 /**
  * Playas 
@@ -41,7 +39,7 @@ public class BeachPoiType extends BasicPoi {
 	
 	public BeachPoiType() {
 		super();
-		setPoiType(PoiType.BEACH);
+		setPoiType(PoiTypeID.BEACH);
 	}
     
   
@@ -72,7 +70,7 @@ public class BeachPoiType extends BasicPoi {
 	}
 
 	@Override
-	public BeachPoiType setPoiType(PoiType poiType) {
+	public BeachPoiType setPoiType(PoiTypeID poiType) {
 		return (BeachPoiType) super.setPoiType(poiType);
 	}
 
@@ -82,24 +80,18 @@ public class BeachPoiType extends BasicPoi {
     }
     
     @Override
-	public BeachPoiType setQualityCertificates( QualityCertificate... qualityCertificates) {
-		return (BeachPoiType) super.setQualityCertificates(qualityCertificates);
+	public BeachPoiType setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
+		return (BeachPoiType) super.setQualityCertificates(qualityCertificateFlags);
 	}
 
     @Override
-	public BeachPoiType setDisabledAccessibility(Set<DisabledAccessibility> disabledAccessibility) {
-		return (BeachPoiType) super.setDisabledAccessibility(disabledAccessibility);
+	public BeachPoiType setAccessibilityFlags(Set<AccessibilityFlag> disabledAccessibility) {
+		return (BeachPoiType) super.setAccessibilityFlags(disabledAccessibility);
 	}
 	@Override
-	public BeachPoiType setDisabledAccessibility(DisabledAccessibility... disabledAccessibility) {
+	public BeachPoiType setDisabledAccessibility(AccessibilityFlag... disabledAccessibility) {
 		return (BeachPoiType) super.setDisabledAccessibility(disabledAccessibility);
 	}
-	
-	@Override
-	public BeachPoiType setTimetable(Set<TimeTableEntry> timetable) {
-		return (BeachPoiType) super.setTimetable(timetable);
-	}
-
 	@Override
 	public BeachPoiType setTimetable(TimeTableEntry... timetable) {
 		return (BeachPoiType) super.setTimetable(timetable);

@@ -5,7 +5,7 @@ package info.spain.opencatalog.domain.poi.types.lodging;
  * Nevera, Jacuzzi, Internet, ...
  * 
  */
-public enum LodgingTypeFlag {
+public enum RoomFlag {
 	
 	NONE,				// No existe ninguna característica
 	

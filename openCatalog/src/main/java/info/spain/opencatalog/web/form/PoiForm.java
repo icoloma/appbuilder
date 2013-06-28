@@ -1,8 +1,8 @@
 package info.spain.opencatalog.web.form;
 
-import info.spain.opencatalog.domain.poi.DisabledAccessibility;
+import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.QualityCertificate;
+import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
@@ -105,11 +105,11 @@ public class PoiForm extends BasicPoi {
 		if (getFlags() == null){
 			setFlags(new HashSet<Flag>());
 		}
-		if (getDisabledAccessibility() == null){
-			setDisabledAccessibility(new HashSet<DisabledAccessibility>());
+		if (getAccessibilityFlags() == null){
+			setAccessibilityFlags(new HashSet<AccessibilityFlag>());
 		}
-		if (getQualityCertificates() == null){
-			setQualityCertificates(new HashSet<QualityCertificate>());
+		if (getQualityCertificateFlags() == null){
+			setQualityCertificateFlags(new HashSet<QualityCertificateFlag>());
 		}
 		if (getTimetable() == null) {
 			setTimetable(new HashSet<TimeTableEntry>());
