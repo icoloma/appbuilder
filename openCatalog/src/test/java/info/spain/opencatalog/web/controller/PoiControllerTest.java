@@ -10,10 +10,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.PoiFactory;
+import info.spain.opencatalog.domain.DummyPoiFactory;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.repository.PoiRepository;
+import info.spain.opencatalog.web.form.PoiForm;
 
 import static junit.framework.Assert.*;
 
@@ -57,7 +58,7 @@ public class PoiControllerTest {
 	@Test
 	public void test_POST_GET_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
-		BasicPoi poi = PoiFactory.newPoi("poiTest");
+		AbstractPoi poi = DummyPoiFactory.newPoi("poiTest");
 		poi.setFlags( Flag.SHOP, Flag.GUIDED_TOUR);
 		
 		// Test POST
@@ -80,7 +81,7 @@ public class PoiControllerTest {
 		assertTrue( location.contains("message.item.created"));
 		String id = location.substring("/admin/poi/".length(), location.indexOf('?'));
 		
-		BasicPoi repoPoi = repo.findOne(id);
+		AbstractPoi repoPoi = repo.findOne(id);
 		testEquals(poi, repoPoi);
 		
 		// Test GET
@@ -90,7 +91,7 @@ public class PoiControllerTest {
 				.andReturn();
 		
 		// Test UPDATE 
-		BasicPoi update = new BasicPoi();
+		PoiForm update = new PoiForm();
 		update.setName(new I18nText().setEs("xxx"));
 		update.setDescription(new I18nText().setEs("xxx"));
 		update.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"));
@@ -128,7 +129,7 @@ public class PoiControllerTest {
 		
     }
 	
-	private void testEquals(BasicPoi expected, BasicPoi actual){
+	private void testEquals(AbstractPoi expected, AbstractPoi actual){
 		assertEquals(expected.getName().getEs(), actual.getName().getEs());
 		assertEquals(expected.getDescription().getEs(), actual.getDescription().getEs());
 		assertEquals(expected.getAddress().getRoute(), actual.getAddress().getRoute());

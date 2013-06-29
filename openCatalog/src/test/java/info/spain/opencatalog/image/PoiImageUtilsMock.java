@@ -1,6 +1,6 @@
 package info.spain.opencatalog.image;
 
-import info.spain.opencatalog.domain.PoiFactory;
+import info.spain.opencatalog.domain.DummyPoiFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ public class PoiImageUtilsMock implements PoiImageUtils {
 	@Override
 	public ImageResource getPoiImageResource(String idPoi) {
 		try {
-			Resource img = PoiFactory.randomImage();
+			Resource img = DummyPoiFactory.randomImage();
 			int contentLength = (int) img.contentLength();
 			return new ImageResource(img.getInputStream(), MediaType.IMAGE_JPEG.toString(), contentLength, getPoiImageFilename(idPoi));
 		} catch (IOException e) {

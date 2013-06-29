@@ -10,11 +10,11 @@ public class ZoneTest {
 	@Test
 	public void testPointInsideZone(){
 		Zone madrid = ZoneFactory.ZONE_MADRID_CENTRO;
-		Assert.assertTrue(madrid.contains(PoiFactory.GEO_RETIRO));
-		Assert.assertTrue(madrid.contains(PoiFactory.GEO_SOL));
-		Assert.assertTrue(madrid.contains(PoiFactory.GEO_CASA_CAMPO));
-		Assert.assertFalse(madrid.contains(PoiFactory.GEO_TEIDE));
-		Assert.assertFalse(madrid.contains(PoiFactory.GEO_ALASKA));
+		Assert.assertTrue(madrid.contains(DummyPoiFactory.GEO_RETIRO));
+		Assert.assertTrue(madrid.contains(DummyPoiFactory.GEO_SOL));
+		Assert.assertTrue(madrid.contains(DummyPoiFactory.GEO_CASA_CAMPO));
+		Assert.assertFalse(madrid.contains(DummyPoiFactory.GEO_TEIDE));
+		Assert.assertFalse(madrid.contains(DummyPoiFactory.GEO_ALASKA));
 	}
 
 	@Test
@@ -26,12 +26,12 @@ public class ZoneTest {
 		
 		Zone zone= ZoneFactory.ZONE_COMPLEX;
 		
-		Assert.assertTrue(zone.contains(PoiFactory.GEO_SOL));
+		Assert.assertTrue(zone.contains(DummyPoiFactory.GEO_SOL));
 		
-		Assert.assertFalse(zone.contains(PoiFactory.GEO_RETIRO));
-		Assert.assertFalse(zone.contains(PoiFactory.GEO_CASA_CAMPO));
-		Assert.assertFalse(zone.contains(PoiFactory.GEO_TEIDE));
-		Assert.assertFalse(zone.contains(PoiFactory.GEO_ALASKA));
+		Assert.assertFalse(zone.contains(DummyPoiFactory.GEO_RETIRO));
+		Assert.assertFalse(zone.contains(DummyPoiFactory.GEO_CASA_CAMPO));
+		Assert.assertFalse(zone.contains(DummyPoiFactory.GEO_TEIDE));
+		Assert.assertFalse(zone.contains(DummyPoiFactory.GEO_ALASKA));
 	}
 	
 	

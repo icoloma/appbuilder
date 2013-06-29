@@ -2,11 +2,11 @@ package info.spain.opencatalog.exporter;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import info.spain.opencatalog.domain.PoiFactory;
+import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsMock;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -50,14 +50,14 @@ public class CatalogExporterTest {
 	private MongoOperations mongoTemplate;
 	
 	private List<Zone> zones;
-	private List<BasicPoi> pois;
+	private List<AbstractPoi> pois;
 	private PoiImageUtils poiImageUtils = new PoiImageUtilsMock();
 	
 	@Before
 	public void init(){
 		// Como no se almacenan en la base de datos, asignamos id manualmente
-		pois = PoiFactory.generatePois(NUM_POIS);
-		for (BasicPoi poi : pois) {
+		pois = DummyPoiFactory.generatePois(NUM_POIS);
+		for (AbstractPoi poi : pois) {
 			poi.setId(UUID.randomUUID().toString());
 		}
 		

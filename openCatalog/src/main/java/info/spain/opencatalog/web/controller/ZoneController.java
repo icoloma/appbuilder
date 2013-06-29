@@ -2,7 +2,7 @@ package info.spain.opencatalog.web.controller;
 
 
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.repository.ZoneRepository;
@@ -124,7 +124,7 @@ public class ZoneController extends AbstractUIController {
 	@RequestMapping( value="/{id}/poi")
 	public String showPois(@PathVariable("id") String id, Model model){
 		show(id,model);
-		List<BasicPoi> poiList = poiRepository.findWithInZone(id);
+		List<AbstractPoi> poiList = poiRepository.findWithInZone(id);
 		model.addAttribute("poiList", poiList);
 		return "admin/zone/zonePoi";
 	}

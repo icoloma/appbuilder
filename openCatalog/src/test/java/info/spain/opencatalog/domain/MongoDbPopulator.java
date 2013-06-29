@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain;
 
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsImpl;
 import info.spain.opencatalog.repository.StorageService;
@@ -48,7 +48,7 @@ public class MongoDbPopulator {
 	}
 	
 	public void clearAll(){
-		mongoTemplate.dropCollection(BasicPoi.class);
+		mongoTemplate.dropCollection(AbstractPoi.class);
 		mongoTemplate.dropCollection(Zone.class);
 		mongoTemplate.dropCollection(User.class);
 		gridFsTemplate.delete(new Query());
@@ -78,29 +78,30 @@ public class MongoDbPopulator {
 
 	private void populatePois()	{
 		// well known
-		//insertAllPoi(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
-		//mongoTemplate.insertAll(ImmutableSet.copyOf(PoiFactory.WELL_KNOWN_POIS));
+		//insertAllPoi(ImmutableSet.copyOf(DummyPoiFactory.WELL_KNOWN_POIS));
+		//mongoTemplate.insertAll(ImmutableSet.copyOf(DummyPoiFactory.WELL_KNOWN_POIS));
 		// random pois
-		//insertAllPoi(PoiFactory.generatePois(NUM_RANDOM_POIS));
-		//mongoTemplate.insertAll(PoiFactory.generatePois(NUM_RANDOM_POIS));
+		//insertAllPoi(DummyPoiFactory.generatePois(NUM_RANDOM_POIS));
+		//mongoTemplate.insertAll(DummyPoiFactory.generatePois(NUM_RANDOM_POIS));
 		
-//		mongoTemplate.insert(PoiFactory.HOTEL);
-//		mongoTemplate.insert(PoiFactory.CAMPING);
-//		mongoTemplate.insert(PoiFactory.APARTMENT);
+//		mongoTemplate.insert(DummyPoiFactory.HOTEL);
+//		mongoTemplate.insert(DummyPoiFactory.CAMPING);
+//		mongoTemplate.insert(DummyPoiFactory.APARTMENT);
 //
-//		mongoTemplate.insert(PoiFactory.MUSEUM);
-//		mongoTemplate.insert(PoiFactory.MONUMENT);
+//		mongoTemplate.insert(DummyPoiFactory.MUSEUM);
+//		mongoTemplate.insert(DummyPoiFactory.MONUMENT);
+		mongoTemplate.insert(DummyPoiFactory.GARDEN);
 //		
-//		mongoTemplate.insert(PoiFactory.BEACH);
-		mongoTemplate.insert(PoiFactory.NATURAL_PARK);
+//		mongoTemplate.insert(DummyPoiFactory.BEACH);
+//		mongoTemplate.insert(DummyPoiFactory.NATURAL_PARK);
 		
 		
 	}
 	
-	private void insertAllPoi(Collection<BasicPoi> pois){
-		for (BasicPoi poi : pois) {
+	private void insertAllPoi(Collection<AbstractPoi> pois){
+		for (AbstractPoi poi : pois) {
 			mongoTemplate.save(poi);
-			Resource image = PoiFactory.randomImage();
+			Resource image = DummyPoiFactory.randomImage();
 			try { 
 				poiImageUtils.saveImage(poi.getId(), new FileInputStream(image.getFile()), MediaType.IMAGE_JPEG_VALUE);
 			} catch (Exception e) {

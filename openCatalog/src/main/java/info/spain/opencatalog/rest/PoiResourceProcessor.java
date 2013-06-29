@@ -1,6 +1,6 @@
 package info.spain.opencatalog.rest;
 
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class PoiResourceProcessor implements ResourceProcessor<Resource<BasicPoi>> {
+public class PoiResourceProcessor implements ResourceProcessor<Resource<AbstractPoi>> {
 	
 	@Override
-	public Resource<BasicPoi> process(Resource<BasicPoi> resource) {
-		BasicPoi poi = resource.getContent();
+	public Resource<AbstractPoi> process(Resource<AbstractPoi> resource) {
+		AbstractPoi poi = resource.getContent();
 		resource.add(new Link("poi/" + poi.getId() + "/image", "image"));
 		return resource;
 	}

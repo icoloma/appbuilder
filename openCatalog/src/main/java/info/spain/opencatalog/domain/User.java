@@ -22,7 +22,7 @@ public class User {
 	private String apiKey;
 	
 	@CreatedDate
-	private DateTime createdDate;
+	private DateTime created;
 	
 	@LastModifiedDate
 	private DateTime lastModifiedDate;
@@ -41,10 +41,10 @@ public class User {
 		target.password = source.password;
 	}
 	
-	public DateTime getCreatedDate() {
-		return createdDate;
+	public DateTime getCreated() {
+		return created;
 	}
-	public DateTime getLastModifiedDate() {
+	public DateTime getLastModified() {
 		return lastModifiedDate;
 	}
 	public String getName() {

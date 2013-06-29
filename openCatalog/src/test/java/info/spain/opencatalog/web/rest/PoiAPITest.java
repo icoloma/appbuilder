@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static junit.framework.Assert.*;
 
 import info.spain.opencatalog.domain.GeoLocation;
-import info.spain.opencatalog.domain.PoiFactory;
+import info.spain.opencatalog.domain.DummyPoiFactory;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
@@ -63,8 +63,8 @@ public class PoiAPITest {
 	@Test
     public void testDiscoverAndGET() throws Exception {
 		repo.deleteAll();
-		BasicPoi poi= PoiFactory.newPoi("getPoi");
-		BasicPoi saved = repo.save(poi);
+		AbstractPoi poi= DummyPoiFactory.newPoi("getPoi");
+		AbstractPoi saved = repo.save(poi);
 		
 		// test poi
 	    MvcResult result = this.mockMvc.perform(get("/poi/" + saved.getId())
@@ -133,8 +133,8 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByName() throws Exception {
 		repo.deleteAll();
-		BasicPoi poi = PoiFactory.newPoi("tesFindByName");
-		BasicPoi saved = repo.save(poi);
+		AbstractPoi poi = DummyPoiFactory.newPoi("tesFindByName");
+		AbstractPoi saved = repo.save(poi);
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byName").param("name", poi.getName().getEs()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType("application/json"))
@@ -148,9 +148,9 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
-		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
-		BasicPoi poi = PoiFactory.POI_TEIDE;
-		BasicPoi saved = repo.save(poi); 
+		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
+		AbstractPoi poi = DummyPoiFactory.POI_TEIDE;
+		AbstractPoi saved = repo.save(poi); 
 		
 		MvcResult result = this.mockMvc.perform(get("/poi/search/locationWithin")
 				.param("lat", poi.getLocation().getLat().toString())
@@ -178,9 +178,9 @@ public class PoiAPITest {
 	@Test
 	public void tesFindByLocationNear() throws Exception {
 		repo.deleteAll();
-		BasicPoi poi = PoiFactory.POI_TEIDE;
-		GeoLocation alaska = PoiFactory.POI_ALASKA.getLocation();
-		BasicPoi saved = repo.save(poi); 
+		AbstractPoi poi = DummyPoiFactory.POI_TEIDE;
+		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
+		AbstractPoi saved = repo.save(poi); 
 		
 		// Test found
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byLocationNear")

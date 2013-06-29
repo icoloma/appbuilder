@@ -1,14 +1,11 @@
 package info.spain.opencatalog.web.form;
 
-import info.spain.opencatalog.domain.poi.AccessibilityFlag;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
-import info.spain.opencatalog.domain.poi.types.TimeTableEntry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,8 +18,6 @@ public class PoiForm extends BasicPoi {
 	private MultipartFile file; // for file uploads
 	private Map<String,String> flag = new HashMap<String,String>(); // Used for tag
 	private List<FlagInfo> flagsInfo = new ArrayList<FlagInfo>(); // Used for rendering
-	
-	
 	
 	public boolean isDeleteImage() {
 		return deleteImage;
@@ -61,19 +56,18 @@ public class PoiForm extends BasicPoi {
 	 * añadimos los Flags correspondientes
 	 * @return
 	 */
-	public BasicPoi getPoi(){
-		BasicPoi result = new BasicPoi(this);
+	public AbstractPoi getPoi(){
 		for (String key: flag.keySet()) {
 			int indx = key.indexOf("-a");
 			if (indx > 0){
 				String  id = key.substring(0, indx);
 				Flag flag = Flag.valueOf(id);
- 				if (! result.getFlags().contains(flag))
-					result.getFlags().add(flag);
+ 				if (! this.getFlags().contains(flag))
+					this.setFlags(flag);
 			}
 			
 		}
-		return result;
+		return this;
 	}
 	
 	
@@ -88,8 +82,9 @@ public class PoiForm extends BasicPoi {
 	 * Creamos PoiForm con la información del Poi y un genermamos un List< {id,key} > para los flags
 	 * 
 	 */
-	public PoiForm(BasicPoi poi){
-		super(poi);
+		
+	public PoiForm(AbstractPoi poi){
+		super();
 		initEmptySets();
 		
 		for( Flag theFlag : poi.getFlags()){
@@ -102,18 +97,18 @@ public class PoiForm extends BasicPoi {
 	 * valores desde la Request
 	 */
 	private void initEmptySets(){
-		if (getFlags() == null){
-			setFlags(new HashSet<Flag>());
-		}
-		if (getAccessibilityFlags() == null){
-			setAccessibilityFlags(new HashSet<AccessibilityFlag>());
-		}
-		if (getQualityCertificateFlags() == null){
-			setQualityCertificateFlags(new HashSet<QualityCertificateFlag>());
-		}
-		if (getTimetable() == null) {
-			setTimetable(new HashSet<TimeTableEntry>());
-		}
+//		if (getFlags() == null){
+//			setFlags(new HashSet<Flag>());
+//		}
+//		if (getAccessibilityFlags() == null){
+//			setAccessibilityFlags(new HashSet<AccessibilityFlag>());
+//		}
+//		if (getQualityCertificateFlags() == null){
+//			setQualityCertificateFlags(new HashSet<QualityCertificateFlag>());
+//		}
+//		if (getTimetable() == null) {
+//			setTimetable(new HashSet<TimeTableEntry>());
+//		}
 		
 	}
 	

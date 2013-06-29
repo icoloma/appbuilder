@@ -1,8 +1,8 @@
 package info.spain.opencatalog.web.controller;
 
 
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
@@ -50,7 +50,7 @@ public class PoiController extends AbstractUIController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String search(Model model, @PageableDefaults(sort="name.es") Pageable pageable, @RequestParam(value="q",required=false) String q) {
 		String query = q == null ? "" : q; 
-		Page<BasicPoi>page  = poiRepository.findByNameEsLikeIgnoreCase(query, pageable);
+		Page<AbstractPoi>page  = poiRepository.findByNameEsLikeIgnoreCase(query, pageable);
 		model.addAttribute("page", page);
 		model.addAttribute("q", query);
 		return "admin/poi/poiList";
@@ -62,7 +62,7 @@ public class PoiController extends AbstractUIController {
 	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public String show( @PathVariable("id") String id, Model model) {
-		BasicPoi poi  = poiRepository.findOne(id);
+		AbstractPoi poi  = poiRepository.findOne(id);
 		if (poi == null){
 			throw new NotFoundException("poi", id);
 		}
@@ -81,7 +81,7 @@ public class PoiController extends AbstractUIController {
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
-		BasicPoi poi = poiRepository.save(poiForm.getPoi());
+		AbstractPoi poi = poiRepository.save(poiForm.getPoi());
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
 		if (poiForm.getFile() != null) {
@@ -114,9 +114,9 @@ public class PoiController extends AbstractUIController {
 			return "admin/poi/poi";
 		}
 		
-		BasicPoi poi = poiForm.getPoi();
+		AbstractPoi poi = poiForm.getPoi();
 		poi.setId(id);
-		BasicPoi dbPoi = poiRepository.findOne(id);
+		AbstractPoi dbPoi = poiRepository.findOne(id);
 
 		dbPoi.copyData(poi);
 		

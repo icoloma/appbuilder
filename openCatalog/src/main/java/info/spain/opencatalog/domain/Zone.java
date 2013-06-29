@@ -57,17 +57,17 @@ public class Zone implements Serializable {
 	private List<GeoLocation> path = new ArrayList<GeoLocation>(); 	
 	
 	@CreatedDate
-	private DateTime createdDate;
+	private DateTime created;
 	
 	@LastModifiedDate
 	private DateTime lastModifiedDate;
 	
 	
-	public DateTime getCreatedDate() {
-		return createdDate;
+	public DateTime getCreated() {
+		return created;
 	}
 
-	public DateTime getLastModifiedDate() {
+	public DateTime getLastModified() {
 		return lastModifiedDate;
 	}
 

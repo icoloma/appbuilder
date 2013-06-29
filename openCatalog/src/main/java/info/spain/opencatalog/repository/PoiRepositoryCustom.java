@@ -1,6 +1,6 @@
 package info.spain.opencatalog.repository;
 
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import org.springframework.data.rest.repository.annotation.RestResource;
 public interface PoiRepositoryCustom {
 	
 	@RestResource(path = "locationWithin", rel="locationWithin")
-	public List<BasicPoi> findWithIn(@Param("lat") double lat, @Param("lng") double lng, @Param("radius") double radius);
+	public List<AbstractPoi> findWithIn(@Param("lat") double lat, @Param("lng") double lng, @Param("radius") double radius);
 	
 	@RestResource(path = "inZone", rel="inZone")
-	public List<BasicPoi> findWithInZone(@Param("zoneId") String zoneId);
+	public List<AbstractPoi> findWithInZone(@Param("zoneId") String zoneId);
 	
 
 	public List<String> findAdminArea1ByName(String name);

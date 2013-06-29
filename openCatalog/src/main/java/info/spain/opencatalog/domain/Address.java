@@ -1,5 +1,7 @@
 package info.spain.opencatalog.domain;
 
+import com.google.common.base.Objects;
+
 public class Address {
 	
 	public static final String DEFAULT_ROUTE = "Plaza Puerta del Sol";
@@ -44,11 +46,12 @@ public class Address {
 		return this;
 	}
 	public String toString(){
-		return "[route=" + route +
-			   ", adminArea1=" + adminArea1+
-			   ", adminArea2=" + adminArea2+
-			   ", zipCode=" + zipCode +
-			   "]";
+		return Objects.toStringHelper(getClass())
+			.add("route", route)
+			.add("adminArea1",adminArea1)
+			.add("adminArea2",adminArea2)
+			.add("zipCode",zipCode)
+			.toString();
 	}
 	
 

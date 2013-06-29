@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
+import com.google.common.base.Objects;
+
 /**
  * Geospatial coordinates
  * 
@@ -58,7 +60,12 @@ public class GeoLocation implements Serializable{
 	}
 
 	public String toString(){
-		return "[ lng: " + getLng() + ", lat: " + getLat()+ "]";
+		return Objects.toStringHelper(getClass())
+			.add("lng", getLng())
+			.add("lat", getLat())
+			.toString()
+		;
+		//return "[ lng: " + getLng() + ", lat: " + getLat()+ "]";
 	}
 
 }

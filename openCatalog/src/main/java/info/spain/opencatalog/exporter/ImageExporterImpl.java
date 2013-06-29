@@ -1,6 +1,6 @@
 package info.spain.opencatalog.exporter;
 
-import info.spain.opencatalog.domain.poi.types.BasicPoi;
+import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 
@@ -28,7 +28,7 @@ public class ImageExporterImpl implements ImageExporter {
 		this.poiImageUtils = poiImageUtils;
 	}
 
-	public  List<String> exportImages(BasicPoi poi, File dir){
+	public  List<String> exportImages(AbstractPoi poi, File dir){
 		File outputDir = checkOutputDir(dir);
 		List<String> filenames = new ArrayList<String>();
 		ImageResource image = poiImageUtils.getPoiImageResource(poi.getId());
