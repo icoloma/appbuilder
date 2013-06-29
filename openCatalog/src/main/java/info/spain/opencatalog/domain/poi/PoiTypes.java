@@ -1,5 +1,6 @@
 package info.spain.opencatalog.domain.poi;
 
+import info.spain.opencatalog.domain.poi.lodging.BusinessServiceFlag;
 import info.spain.opencatalog.domain.poi.lodging.LodgingType;
 import info.spain.opencatalog.domain.poi.lodging.RoomFlag;
 import info.spain.opencatalog.domain.poi.lodging.RoomType;
@@ -86,6 +87,8 @@ public class PoiTypes {
     	.setAllowedQualityCertificateFlags(
     		QualityCertificateFlag.CAMPSA,
     		QualityCertificateFlag.Q_CALIDAD)
+    		
+    	.setAllowedBusinessServiceFlags(BusinessServiceFlag.values())
     		
 		.setAllowedAccessibilityFlags(AccessibilityFlag.values())
 		.setAllowedFlags(Flag.values())

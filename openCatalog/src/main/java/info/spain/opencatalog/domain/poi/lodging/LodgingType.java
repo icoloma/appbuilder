@@ -20,6 +20,7 @@ public class LodgingType extends PoiType {
 
 	private Set<RoomFlag> allowedRoomFlags;
 	private Set<RoomType> allowedRoomTypes;
+	private Set<BusinessServiceFlag> allowedBusinessServiceFlags;
    
 	public LodgingType(PoiTypeID id) {
 		super(id);
@@ -40,8 +41,8 @@ public class LodgingType extends PoiType {
 		return allowedRoomFlags;
 	}
 
-	public LodgingType setAllowedRoomFlags(RoomFlag roomFlag, RoomFlag... others) {
-		this.allowedRoomFlags = Sets.immutableEnumSet(roomFlag, others);
+	public LodgingType setAllowedRoomFlags(RoomFlag... roomFlags) {
+		this.allowedRoomFlags = Sets.immutableEnumSet(Sets.newHashSet(roomFlags));
 		return this;
 	}
 
@@ -49,8 +50,17 @@ public class LodgingType extends PoiType {
 		return allowedRoomTypes;
 	}
 
-	public LodgingType setAllowedRoomTypes(RoomType rType, RoomType... others) {
-		this.allowedRoomTypes = Sets.immutableEnumSet(rType, others);
+	public LodgingType setAllowedRoomTypes(RoomType... rType) {
+		this.allowedRoomTypes = Sets.immutableEnumSet(Sets.newHashSet(rType));
+		return this;
+	}
+	
+	public Set<BusinessServiceFlag> getAllowedBusinessServiceFlags() {
+		return allowedBusinessServiceFlags;
+	}
+
+	public LodgingType setAllowedBusinessServiceFlags(BusinessServiceFlag... flags) {
+		this.allowedBusinessServiceFlags = Sets.immutableEnumSet(Sets.newHashSet(flags));
 		return this;
 	}
 

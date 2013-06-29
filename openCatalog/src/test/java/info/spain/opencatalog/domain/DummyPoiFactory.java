@@ -21,6 +21,7 @@ import info.spain.opencatalog.domain.poi.culture.Culture;
 import info.spain.opencatalog.domain.poi.culture.Designation;
 import info.spain.opencatalog.domain.poi.culture.HistoricalPeriod;
 import info.spain.opencatalog.domain.poi.culture.PriceType;
+import info.spain.opencatalog.domain.poi.lodging.BusinessServiceFlag;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.Regime;
 import info.spain.opencatalog.domain.poi.lodging.RoomFlag;
@@ -132,6 +133,10 @@ public class DummyPoiFactory extends AbstractFactory {
 				Flag.CASINO, 
 				Flag.CREDIT_CARD, 
 				Flag.EXCHANGE)
+			.setBusinessServiceFlags(
+				BusinessServiceFlag.AUDIOVISUAL_RENT,
+				BusinessServiceFlag.CONVENTION_ROOM
+					)
 			.setRoomTypes(
                 RoomType.HAB1,
                 RoomType.HAB2)

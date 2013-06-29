@@ -29,12 +29,14 @@ import com.google.common.collect.Sets;
 @Document(collection="poi")
 public class Lodging extends AbstractPoi {
 	
+    /** servicios de negocios: sala de conferencias, alquiler de audiovisuales, etc*/
+    private Set<BusinessServiceFlag> businessServiceFlags;
+
     /** tipos de alojamiento: habitación doble, individual, etc */
     private Set<RoomType> roomTypes;
 
     /** servicios que se ofrece en el tipo de alojamiento: Jacuzzi, Caja fuerte, Wifi */
     private Set<RoomFlag> roomFlags;
-
 
     /** precios del alojamiento: hab-doble en temporada alta con pensión completa */
     private Set<RoomPrice> roomPrices;
@@ -98,6 +100,15 @@ public class Lodging extends AbstractPoi {
  	public Lodging setContactInfo(ContactInfo contactInfo) {
 		return (Lodging) super.setContactInfo(contactInfo);
 	}
+ 	
+ 	public Set<BusinessServiceFlag> getBusinessServiceFlags() {
+		return businessServiceFlags;
+	}
+
+	public Lodging setBusinessServiceFlags(BusinessServiceFlag... businessServiceFlags ) {
+		this.businessServiceFlags = Sets.newHashSet(businessServiceFlags);
+		return this;
+	}
 
 	public Set<RoomPrice> getRoomPrices() {
     	return roomPrices;
@@ -135,6 +146,7 @@ public class Lodging extends AbstractPoi {
 			.add("roomTypes", roomTypes)
 			.add("roomFlags", roomFlags)
 			.add("roomPrices", roomPrices)
+			.add("businessServiceFlags", businessServiceFlags)
 		;
 	}
 
