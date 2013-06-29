@@ -17,8 +17,9 @@ public class PoiType {
 	private PoiTypeID id;
     
 	private Set<Flag> allowedFlags;
-    private Set<AccessibilityFlag> allowedAccessibilityFlags;
     private Set<Score> allowedScores;
+    private Set<FamilyServiceFlag> allowedFamilyServiceFlags;
+    private Set<AccessibilityFlag> allowedAccessibilityFlags;
     private Set<QualityCertificateFlag> allowedQualityCertificateFlags;
 
     public PoiType(PoiTypeID id) {
@@ -49,6 +50,15 @@ public class PoiType {
 
     public Set<Flag> getAllowedFlags() {
         return allowedFlags;
+    }
+
+    public PoiType setAllowedFamilyServiceFlag(FamilyServiceFlag... flags) {
+        this.allowedFamilyServiceFlags = Sets.immutableEnumSet(Sets.newHashSet(flags));
+        return this;
+    }
+    
+    public Set<FamilyServiceFlag> getAllowedFamilyServiceFlags() {
+        return allowedFamilyServiceFlags;
     }
 
     public PoiType setAllowedFlags(Flag... flags) {

@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
 import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
+import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
@@ -84,6 +85,12 @@ public class Beach extends AbstractPoi {
 	public Beach setPrices(AccessPrice... prices) {
 		return (Beach) super.setPrices(prices);
 	}
+	
+ 	@Override
+	public Beach setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
+		return (Beach) super.setFamilyServiceFlags(familyServiceFlags);
+	}
+
 	
 	public Double getLongitude() {
 		return longitude;

@@ -55,9 +55,12 @@ public abstract class AbstractPoi {
     private Set<QualityCertificateFlag> qualityCertificateFlags;
 
     /** Accesibilidad para personas con discapacidad */
-	private Set<AccessibilityFlag> accessibilityFlags;
+   	private Set<AccessibilityFlag> accessibilityFlags;
 
-	/** horarios de apertura/cierre */
+    /** Servicios para las familias: Guardería, parque infantil, ... */
+   	private Set<FamilyServiceFlag> familyServiceFlags;
+
+   	/** horarios de apertura/cierre */
 	private Set<TimeTableEntry> timetable;
 	
 	/** precios de acceso */
@@ -89,10 +92,11 @@ public abstract class AbstractPoi {
         this.address = source.address;
         this.location = source.location;
         this.contactInfo = source.contactInfo;
-        this.accessibilityFlags = source.accessibilityFlags;
         this.flags = source.flags;
-        this.qualityCertificateFlags = source.qualityCertificateFlags;
         this.timetable = source.timetable;
+        this.accessibilityFlags = source.accessibilityFlags;
+        this.qualityCertificateFlags = source.qualityCertificateFlags;
+        this.familyServiceFlags = source.familyServiceFlags;
     }	
 	
 	public Set<TimeTableEntry> getTimetable() {
@@ -217,6 +221,15 @@ public abstract class AbstractPoi {
 		return this;
 	}
 	
+	public Set<FamilyServiceFlag> getFamilyServiceFlags() {
+		return familyServiceFlags;
+	}
+
+	public AbstractPoi setFamilyServiceFlags(FamilyServiceFlag... familyServiceFlags) {
+		this.familyServiceFlags = Sets.newHashSet(familyServiceFlags);
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return toStringHelper().toString();
@@ -229,10 +242,13 @@ public abstract class AbstractPoi {
 				.add("name", name)
 				.add("description", description)
 				.add("location", location)
-				.add("timeTable", timetable)
 				.add("contactInfo", contactInfo)
+				.add("timeTable", timetable)
 				.add("flags", flags)
 				.add("prices", prices)
+				.add("accessibilityFlags",accessibilityFlags)
+				.add("qualityCertificateFlags", qualityCertificateFlags)
+				.add("familyServiceFlags",familyServiceFlags)
 				.add("created", created)
 				.add("lastModified", lastModified);
 	}

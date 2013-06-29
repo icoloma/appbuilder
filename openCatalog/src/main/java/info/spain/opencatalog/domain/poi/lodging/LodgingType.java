@@ -2,6 +2,7 @@ package info.spain.opencatalog.domain.poi.lodging;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessibilityFlag;
+import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.PoiTypeID;
@@ -62,6 +63,12 @@ public class LodgingType extends PoiType {
 	public LodgingType setAllowedBusinessServiceFlags(BusinessServiceFlag... flags) {
 		this.allowedBusinessServiceFlags = Sets.immutableEnumSet(Sets.newHashSet(flags));
 		return this;
+	}
+	
+	
+	@Override
+	public LodgingType setAllowedFamilyServiceFlag(FamilyServiceFlag... flags) {
+		return (LodgingType) super.setAllowedFamilyServiceFlag(flags);
 	}
 
 	@Override

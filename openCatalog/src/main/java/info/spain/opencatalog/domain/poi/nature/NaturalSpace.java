@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
 import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
+import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
@@ -84,6 +85,12 @@ public class NaturalSpace extends AbstractPoi {
 		return (NaturalSpace) super.setContactInfo(contactInfo);
 	}
 
+ 	@Override
+	public NaturalSpace setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
+		return (NaturalSpace) super.setFamilyServiceFlags(familyServiceFlags);
+	}
+
+	
 	public NaturalSpace setNaturalSpaceFlags(NaturalSpaceFlag... type) {
 		this.naturalSpaceFlags = Sets.newHashSet(type);
 		return this;

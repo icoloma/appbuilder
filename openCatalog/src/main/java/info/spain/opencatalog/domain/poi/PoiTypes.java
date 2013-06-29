@@ -28,6 +28,7 @@ public class PoiTypes {
    public static final LodgingType APARTMENT = apartmentType();
   
    public static final PoiType BEACH = beachType();
+   
    public static final PoiType NATURAL_SPACE = naturalSpaceType();
    
    public static final PoiType MUSEUM = museumType();
@@ -89,7 +90,7 @@ public class PoiTypes {
     		QualityCertificateFlag.Q_CALIDAD)
     		
     	.setAllowedBusinessServiceFlags(BusinessServiceFlag.values())
-    		
+    	.setAllowedFamilyServiceFlag(FamilyServiceFlag.values())
 		.setAllowedAccessibilityFlags(AccessibilityFlag.values())
 		.setAllowedFlags(Flag.values())
 		
@@ -117,6 +118,7 @@ public class PoiTypes {
             RoomType.MOTORBIKE)		// Moto
         .setAllowedAccessibilityFlags(AccessibilityFlag.values())
 		.setAllowedFlags(Flag.values())
+		.setAllowedFamilyServiceFlag(FamilyServiceFlag.values())
 		
 	    ;
     }
@@ -137,6 +139,7 @@ public class PoiTypes {
             RoomType.HAB3)
         .setAllowedAccessibilityFlags(AccessibilityFlag.values())
 		.setAllowedFlags(Flag.values())
+		.setAllowedFamilyServiceFlag(FamilyServiceFlag.values())
 		;
     }
     
@@ -167,6 +170,9 @@ public class PoiTypes {
     	return new PoiType(PoiTypeID.MUSEUM)
 	    	.setAllowedAccessibilityFlags(AccessibilityFlag.values())
 			.setAllowedFlags(Flag.values())
+			.setAllowedFamilyServiceFlag(
+				FamilyServiceFlag.KIDS_ENTERTAINMENT
+			)
 			.setAllowedQualityCertificateFlags(
     			QualityCertificateFlag.ACCESIBILIDAD,
     			QualityCertificateFlag.MICHELIN,

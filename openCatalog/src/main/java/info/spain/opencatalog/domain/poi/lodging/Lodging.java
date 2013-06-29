@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
 import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
+import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.PoiTypeID;
@@ -101,7 +102,12 @@ public class Lodging extends AbstractPoi {
 		return (Lodging) super.setContactInfo(contactInfo);
 	}
  	
- 	public Set<BusinessServiceFlag> getBusinessServiceFlags() {
+ 	@Override
+	public Lodging setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
+		return (Lodging) super.setFamilyServiceFlags(familyServiceFlags);
+	}
+
+	public Set<BusinessServiceFlag> getBusinessServiceFlags() {
 		return businessServiceFlags;
 	}
 

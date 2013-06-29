@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
 import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
+import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.PoiTypeID;
@@ -98,6 +99,11 @@ public class Culture extends AbstractPoi {
 	@Override
  	public Culture setContactInfo(ContactInfo contactInfo) {
 		return (Culture) super.setContactInfo(contactInfo);
+	}
+
+ 	@Override
+	public Culture setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
+		return (Culture) super.setFamilyServiceFlags(familyServiceFlags);
 	}
 
     public String getReservation() {
