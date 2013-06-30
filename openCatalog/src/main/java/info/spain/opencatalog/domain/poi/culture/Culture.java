@@ -9,10 +9,10 @@ import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiType;
-import info.spain.opencatalog.domain.poi.PoiTypeID;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.types.BasicPoiType;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -45,7 +45,7 @@ public class Culture extends AbstractPoi {
     private Designation designation;
     
 	
-    public Culture(PoiType type) {
+    public Culture(BasicPoiType type) {
     	super(type);
     	 Preconditions.checkArgument(PoiTypeID.CULTURE_TYPES.contains(type.getId()));
     }
@@ -87,13 +87,13 @@ public class Culture extends AbstractPoi {
     }
     
     @Override
-	public Culture setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
-		return (Culture) super.setQualityCertificates(qualityCertificateFlags);
+	public Culture setQualityCertificates( QualityCertificateFlag... flags) {
+		return (Culture) super.setQualityCertificates(flags);
 	}
 
 	@Override
-	public Culture setAccessibilityFlags(AccessibilityFlag... disabledAccessibility) {
-		return (Culture) super.setAccessibilityFlags(disabledAccessibility);
+	public Culture setAccessibilityFlags(AccessibilityFlag... flags) {
+		return (Culture) super.setAccessibilityFlags(flags);
 	}
 	
 	@Override
@@ -102,8 +102,8 @@ public class Culture extends AbstractPoi {
 	}
 
  	@Override
-	public Culture setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
-		return (Culture) super.setFamilyServiceFlags(familyServiceFlags);
+	public Culture setFamilyServiceFlags( FamilyServiceFlag... flags) {
+		return (Culture) super.setFamilyServiceFlags(flags);
 	}
 
     public String getReservation() {

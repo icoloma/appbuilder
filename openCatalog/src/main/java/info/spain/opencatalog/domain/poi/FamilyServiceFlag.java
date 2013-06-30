@@ -3,6 +3,9 @@ package info.spain.opencatalog.domain.poi;
 /** 
  * Servicios que ofrecen a las familias 
  * Animación infantil, guardería, ...
+ * 
+ * TODO: Estudiar si se puede unificar en Flag
+ * 
  * */
 public enum FamilyServiceFlag {
 	

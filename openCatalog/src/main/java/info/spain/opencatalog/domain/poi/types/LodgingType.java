@@ -1,12 +1,16 @@
-package info.spain.opencatalog.domain.poi.lodging;
+package info.spain.opencatalog.domain.poi.types;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiType;
-import info.spain.opencatalog.domain.poi.PoiTypeID;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
+import info.spain.opencatalog.domain.poi.business.BusinessServiceFlag;
+import info.spain.opencatalog.domain.poi.lodging.Lodging;
+import info.spain.opencatalog.domain.poi.lodging.RoomFlag;
+import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
+import info.spain.opencatalog.domain.poi.lodging.RoomType;
+import info.spain.opencatalog.domain.poi.lodging.Score;
 
 import java.util.Set;
 
@@ -16,9 +20,8 @@ import com.google.common.collect.Sets;
  * Tipos de alojamiento
  * 
  */
-public class LodgingType extends PoiType {
+public class LodgingType extends BasicPoiType {
 	
-
 	private Set<RoomFlag> allowedRoomFlags;
 	private Set<RoomType> allowedRoomTypes;
 	private Set<BusinessServiceFlag> allowedBusinessServiceFlags;
@@ -31,6 +34,7 @@ public class LodgingType extends PoiType {
     public void validate(AbstractPoi poi) {
         super.validate(poi);
         Lodging lp = (Lodging) poi;
+        validateSet("business flag", allowedBusinessServiceFlags, lp.getBusinessServiceFlags());
         validateSet("room flag", allowedRoomFlags, lp.getRoomFlags());
         validateSet("room type", allowedRoomTypes, lp.getRoomTypes());
         for (RoomPrice price : lp.getRoomPrices()) {

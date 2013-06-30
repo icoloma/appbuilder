@@ -1,18 +1,21 @@
-package info.spain.opencatalog.domain.poi;
+package info.spain.opencatalog.domain.poi.types;
 
 /**
  *
  */
 
+import java.util.Set;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import java.util.Set;
 
 /** Tipos de POI permitidos */
 public enum PoiTypeID {
 	
 	BASIC,
+
+	// Beach
+	BEACH,
 	
 	// Lodging
     HOTEL,
@@ -25,14 +28,21 @@ public enum PoiTypeID {
     PARK_GARDEN,
 
     // Nature
-    BEACH,
-    NATURAL_SPACE
+    NATURAL_SPACE,
+
+    // BUSINESS
+    ECO_TOURISM,
+    GOLF,
+    NAUTICAL_STATION;
     
-    ;
 
 
     public static final Set<PoiTypeID> LODGING_TYPES = ImmutableSet.of(HOTEL, CAMPING, APARTMENT);
     public static final Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(PoiTypeID.MUSEUM, PoiTypeID.MONUMENT, PoiTypeID.PARK_GARDEN);
+    public static final Set<PoiTypeID> NATURE_TYPES  = Sets.immutableEnumSet(PoiTypeID.NATURAL_SPACE, PoiTypeID.ECO_TOURISM);
+    
    
-
+  
+   
 }
+

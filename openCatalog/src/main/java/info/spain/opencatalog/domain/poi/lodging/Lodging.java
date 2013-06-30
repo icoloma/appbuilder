@@ -9,10 +9,11 @@ import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiType;
-import info.spain.opencatalog.domain.poi.PoiTypeID;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.business.BusinessServiceFlag;
+import info.spain.opencatalog.domain.poi.types.BasicPoiType;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
 import java.util.Set;
 
@@ -42,7 +43,7 @@ public class Lodging extends AbstractPoi {
     /** precios del alojamiento: hab-doble en temporada alta con pensión completa */
     private Set<RoomPrice> roomPrices;
 
-    public Lodging(PoiType type) {
+    public Lodging(BasicPoiType type) {
         super(type);
         Preconditions.checkArgument(PoiTypeID.LODGING_TYPES.contains(type.getId()));
     }
@@ -88,13 +89,13 @@ public class Lodging extends AbstractPoi {
 	}
 
 	@Override
-	public Lodging setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
-		return (Lodging) super.setQualityCertificates(qualityCertificateFlags);
+	public Lodging setQualityCertificates( QualityCertificateFlag... flags) {
+		return (Lodging) super.setQualityCertificates(flags);
 	}
     
   	@Override
- 	public Lodging setAccessibilityFlags(AccessibilityFlag... disabledAccessibility) {
- 		return (Lodging) super.setAccessibilityFlags(disabledAccessibility);
+ 	public Lodging setAccessibilityFlags(AccessibilityFlag... flags) {
+ 		return (Lodging) super.setAccessibilityFlags(flags);
  	}
  
  	@Override
@@ -103,16 +104,16 @@ public class Lodging extends AbstractPoi {
 	}
  	
  	@Override
-	public Lodging setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
-		return (Lodging) super.setFamilyServiceFlags(familyServiceFlags);
+	public Lodging setFamilyServiceFlags( FamilyServiceFlag... flags) {
+		return (Lodging) super.setFamilyServiceFlags(flags);
 	}
 
 	public Set<BusinessServiceFlag> getBusinessServiceFlags() {
 		return businessServiceFlags;
 	}
 
-	public Lodging setBusinessServiceFlags(BusinessServiceFlag... businessServiceFlags ) {
-		this.businessServiceFlags = Sets.newHashSet(businessServiceFlags);
+	public Lodging setBusinessServiceFlags(BusinessServiceFlag... flags ) {
+		this.businessServiceFlags = Sets.newHashSet(flags);
 		return this;
 	}
 
@@ -130,8 +131,8 @@ public class Lodging extends AbstractPoi {
     	return this;
     }
     
-    public Lodging setRoomFlags(RoomFlag... roomFlags) {
-		this.roomFlags = Sets.newHashSet(roomFlags);
+    public Lodging setRoomFlags(RoomFlag... flags) {
+		this.roomFlags = Sets.newHashSet(flags);
 		return this;
 	}
 

@@ -3,6 +3,8 @@ package info.spain.opencatalog.web.form;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +74,7 @@ public class PoiForm extends BasicPoi {
 	
 	
 	public PoiForm(){
-		super();
+		super(PoiTypeRepository.getType(PoiTypeID.BASIC));
 		initEmptySets();  
 	}
 	
@@ -84,7 +86,7 @@ public class PoiForm extends BasicPoi {
 	 */
 		
 	public PoiForm(AbstractPoi poi){
-		super();
+		super(PoiTypeRepository.getType(PoiTypeID.BASIC));
 		initEmptySets();
 		
 		for( Flag theFlag : poi.getFlags()){

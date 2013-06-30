@@ -6,7 +6,7 @@ import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.HourRange;
-import info.spain.opencatalog.domain.poi.PoiTypes;
+import info.spain.opencatalog.domain.poi.LanguageFlag;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableDay;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
@@ -15,13 +15,16 @@ import info.spain.opencatalog.domain.poi.beach.BathCondition;
 import info.spain.opencatalog.domain.poi.beach.Beach;
 import info.spain.opencatalog.domain.poi.beach.BeachComposition;
 import info.spain.opencatalog.domain.poi.beach.SandType;
+import info.spain.opencatalog.domain.poi.business.Business;
+import info.spain.opencatalog.domain.poi.business.BusinessServiceFlag;
+import info.spain.opencatalog.domain.poi.business.BusinessTypeFlag;
+import info.spain.opencatalog.domain.poi.business.BusinessActiviyFlag;
 import info.spain.opencatalog.domain.poi.culture.ArtisticPeriod;
 import info.spain.opencatalog.domain.poi.culture.ConstructionType;
 import info.spain.opencatalog.domain.poi.culture.Culture;
 import info.spain.opencatalog.domain.poi.culture.Designation;
 import info.spain.opencatalog.domain.poi.culture.HistoricalPeriod;
 import info.spain.opencatalog.domain.poi.culture.PriceType;
-import info.spain.opencatalog.domain.poi.lodging.BusinessServiceFlag;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.Regime;
 import info.spain.opencatalog.domain.poi.lodging.RoomFlag;
@@ -31,6 +34,8 @@ import info.spain.opencatalog.domain.poi.lodging.Score;
 import info.spain.opencatalog.domain.poi.lodging.Season;
 import info.spain.opencatalog.domain.poi.nature.NaturalSpace;
 import info.spain.opencatalog.domain.poi.nature.NaturalSpaceFlag;
+import info.spain.opencatalog.domain.poi.types.PoiFactory;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +53,7 @@ public class DummyPoiFactory extends AbstractFactory {
 	
 	public static AbstractPoi newPoi(String key){
 		key = key + "-" + getRandom().nextInt();
-		return  new Lodging(PoiTypes.HOTEL)
+		return  PoiFactory.newInstance(PoiTypeID.HOTEL)
 			.setName( new I18nText()
 				.setEs("es-"+key+"-name")
 				.setEn("en-"+key+"-name")
@@ -114,14 +119,17 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static Culture MONUMENT;
 	public static Culture GARDEN;
 	
+	public static Business ECO_TOURISM;
+	public static Business GOLF;
+	public static Business NAUTICAL_STATION;
 
 	
 	static {
 		// Hotel
-		HOTEL = new Lodging(PoiTypes.HOTEL)
+		HOTEL = ((Lodging)PoiFactory.newInstance( PoiTypeID.HOTEL))
 			.setName(new I18nText().setEs("Hotel Puerta del Sol"))				// required
-			.setDescription(new I18nText().setEs("Descripción del hotel..."))	// required	
 			.setLocation(AbstractFactory.GEO_SOL)								// required
+			.setDescription(new I18nText().setEs("Descripción del hotel..."))	
 			.setAddress(new Address().setRoute("Puerta del Sol").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
 			.setScore(Score.STAR_3)
 			.setContactInfo( new ContactInfo()
@@ -160,16 +168,16 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 	
 		// Camping
-		CAMPING = new Lodging(PoiTypes.CAMPING)
+		CAMPING = ((Lodging) PoiFactory.newInstance(PoiTypeID.CAMPING))
 			.setName(new I18nText().setEs("CAMPING Montaña Rajada"))				// required
-			.setDescription(new I18nText().setEs("Descripción del CAMPING..."))	// required	
 			.setLocation(AbstractFactory.GEO_CASA_CAMPO)								// required
+			.setDescription(new I18nText().setEs("Descripción del CAMPING..."))		
 			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
 			.setScore(Score.CAT_1)
 			.setFlags(
 				Flag.BBQ,
 				Flag.BIKE_RENT,
-				Flag.CLOACKROOM,
+				Flag.LOCKER,
 				Flag.CREDIT_CARD 
 				)
 			.setRoomTypes(
@@ -193,10 +201,10 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 
 		// Apartmnent
-		APARTMENT = new Lodging(PoiTypes.APARTMENT)
+		APARTMENT = ((Lodging) PoiFactory.newInstance(PoiTypeID.APARTMENT))
 			.setName(new I18nText().setEs("Apartamentos Bahía azul"))				// required
-			.setDescription(new I18nText().setEs("Descripción del apartamento..."))	// required	
 			.setLocation(randomLocation())											// required
+			.setDescription(new I18nText().setEs("Descripción del apartamento..."))	
 			.setScore(Score.KEY_1)
 			.setFlags(
 				Flag.CREDIT_CARD 
@@ -221,10 +229,10 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 		
 		// Beach
-		BEACH = new Beach(PoiTypes.BEACH)
+		BEACH = ((Beach) PoiFactory.newInstance(PoiTypeID.BEACH))
 			.setName(new I18nText().setEs("Playa de las teresitas"))			// required
-			.setDescription(new I18nText().setEs("Descripción de la playa..."))	// required	
 			.setLocation(AbstractFactory.GEO_PLAYA_TERESITAS)					// required
+			.setDescription(new I18nText().setEs("Descripción de la playa..."))		
 			.setAddress(new Address().setRoute("Las teresitas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
 			.setQualityCertificates(
 				QualityCertificateFlag.BANDERA_AZUL,
@@ -245,10 +253,10 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 
 		// Museum 
-		MUSEUM = new Culture(PoiTypes.MUSEUM)
+		MUSEUM = ((Culture) PoiFactory.newInstance(PoiTypeID.MUSEUM))
 			.setName(new I18nText().setEs("Museo del Prado"))					// required
-			.setDescription(new I18nText().setEs("Descripción del museo"))		// required	
 			.setLocation(randomLocation())					// required
+			.setDescription(new I18nText().setEs("Descripción del museo"))			
 			.setContactInfo( new ContactInfo()
 				.setEmail("info@mueseodelprado.com")	
 				.setUrl("http://www.museodelprado.com")
@@ -310,10 +318,10 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 
 		// MONUMENTO
-		MONUMENT = new Culture(PoiTypes.MONUMENT)
+		MONUMENT = ((Culture)PoiFactory.newInstance(PoiTypeID.MONUMENT))
 			.setName(new I18nText().setEs("La Alhambra"))						// required
-			.setDescription(new I18nText().setEs("Descripción del monumento"))	// required	
 			.setLocation(randomLocation())										// required
+			.setDescription(new I18nText().setEs("Descripción del monumento"))		
 			.setContactInfo(new ContactInfo()
                 .setEmail("info@lahalambra.com")
                 .setUrl("http://www.lahalambra.com")
@@ -378,10 +386,10 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 	
 		// GARDEN 
-		GARDEN = new Culture(PoiTypes.PARK_GARDEN)
+		GARDEN = ((Culture)PoiFactory.newInstance(PoiTypeID.PARK_GARDEN))
 			.setName(new I18nText().setEs("Parque andalusí"))			// required
-			.setDescription(new I18nText().setEs("Descripción del parque"))		// required	
 			.setLocation(AbstractFactory.GEO_TEIDE)								// required
+			.setDescription(new I18nText().setEs("Descripción del parque"))			
 			.setQualityCertificates(
 				QualityCertificateFlag.PATRIMONIO_HUMANIDAD)
 			.setAccessibilityFlags(
@@ -392,11 +400,12 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 		GARDEN.validate();
 		
+		
 		// Natural Park
-		NATURAL_PARK = new NaturalSpace(PoiTypes.NATURAL_SPACE)
+		NATURAL_PARK = ((NaturalSpace) PoiFactory.newInstance(PoiTypeID.NATURAL_SPACE))
 			.setName(new I18nText().setEs("Parque nacional del Timanfaya")) 	// required
-			.setDescription(new I18nText().setEs("Descripción del parque"))		// required	
 			.setLocation(AbstractFactory.GEO_TEIDE)								// required
+			.setDescription(new I18nText().setEs("Descripción del parque"))			
 			.setAddress(new Address()
 				.setRoute("Timanfaya")
 				.setAdminArea1("Canarias")
@@ -422,7 +431,59 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 		NATURAL_PARK.validate();
 		
-	
+		// Ecoturismo 
+		ECO_TOURISM = ((Business) PoiFactory.newInstance(PoiTypeID.ECO_TOURISM))
+			.setName(new I18nText().setEs("Ecoturismo")) 	// required
+			.setLocation(randomLocation())					// required
+			.setEquipment(new I18nText()
+				.setEs("Piraguas")
+				.setEn("Kayak"))
+			.setActivities(
+				BusinessActiviyFlag.GUIDE_TOUR,
+				BusinessActiviyFlag.EDUCATIONAL_ACTIVITIES)
+			.setLanguages(
+				LanguageFlag.ENGLISH,
+				LanguageFlag.SPANISH);
+		ECO_TOURISM.validate();
+			
+		
+		// Golf
+		GOLF = ((Business) PoiFactory.newInstance(PoiTypeID.GOLF))
+			.setName(new I18nText().setEs("Campo de golf")) 	// required
+			.setLocation(randomLocation())					// required
+			.setBusinessType(BusinessTypeFlag.MIXED_GOLF)
+			.setEquipment(new I18nText()
+				.setEs("Piraguas")
+				.setEn("Kayak"))
+			.setBusinessServices(
+				BusinessServiceFlag.CADDY,
+				BusinessServiceFlag.CLUB,
+				BusinessServiceFlag.BUNKER,
+				BusinessServiceFlag.COVERED_DRIVING_RANGE
+				)
+			.setActivities(
+				BusinessActiviyFlag.LESSONS
+				)
+			.setLanguages(
+				LanguageFlag.SPANISH);
+		
+		GOLF.validate();
+		
+		// Estación náutica
+		NAUTICAL_STATION = ((Business) PoiFactory.newInstance(PoiTypeID.NAUTICAL_STATION))
+			.setName(new I18nText().setEs("Estación náutica")) 	// required
+			.setLocation(randomLocation())					// required
+			.setEquipment(new I18nText()
+				.setEs("Piraguas")
+				.setEn("Kayak"))
+			.setBusinessServices(
+				BusinessServiceFlag.CATAMARAN,
+				BusinessServiceFlag.DIVING,
+				BusinessServiceFlag.WHALE_WATCHING)
+			.setLanguages(
+				LanguageFlag.SPANISH);
+		
+		NAUTICAL_STATION.validate();
 		
 	}
 	

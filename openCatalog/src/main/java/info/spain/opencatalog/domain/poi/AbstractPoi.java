@@ -4,6 +4,7 @@ import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.lodging.Score;
+import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public abstract class AbstractPoi {
 
 	/** Tipo de POI específico: Hotel, Monumento, Playa, ... */
 	@NotNull
-	private PoiType type;
+	private BasicPoiType type;
 	
 	@Indexed
 	private I18nText name;
@@ -45,7 +46,7 @@ public abstract class AbstractPoi {
 	@GeoSpatialIndexed
 	private GeoLocation location; 	
 	
-    /** características que un PoiType puede tener o no: visitas guiadas, tiendas, etc.. */
+    /** características que un BasicPoiType puede tener o no: visitas guiadas, tiendas, etc.. */
     private Set<Flag> flags;
 
     /** valoración oficial (no de los usuarios): 3 Estrellas, 2 tenedores, etc */
@@ -76,7 +77,7 @@ public abstract class AbstractPoi {
 	@LastModifiedDate
 	private DateTime lastModified;
 	
-	public AbstractPoi(PoiType type){
+	public AbstractPoi(BasicPoiType type){
 		this.type = type;
     }
 
@@ -112,8 +113,8 @@ public abstract class AbstractPoi {
 		return accessibilityFlags;
 	}
 
-	public AbstractPoi setAccessibilityFlags(AccessibilityFlag... disabledAccessibility) {
-		this.accessibilityFlags = Sets.newHashSet(disabledAccessibility);
+	public AbstractPoi setAccessibilityFlags(AccessibilityFlag... flags) {
+		this.accessibilityFlags = Sets.newHashSet(flags);
         return this;
 	}
 	
@@ -122,8 +123,8 @@ public abstract class AbstractPoi {
         return this;
     }
 
-	public AbstractPoi setQualityCertificates(QualityCertificateFlag... qualityCertificateFlags) {
-		this.qualityCertificateFlags =  Sets.newHashSet(qualityCertificateFlags);
+	public AbstractPoi setQualityCertificates(QualityCertificateFlag... flags) {
+		this.qualityCertificateFlags =  Sets.newHashSet(flags);
 		return this;
 	}
 
@@ -208,7 +209,7 @@ public abstract class AbstractPoi {
 	}
 
 	
-	public PoiType getType() {
+	public BasicPoiType getType() {
 		return type;
 	}
 
@@ -225,8 +226,8 @@ public abstract class AbstractPoi {
 		return familyServiceFlags;
 	}
 
-	public AbstractPoi setFamilyServiceFlags(FamilyServiceFlag... familyServiceFlags) {
-		this.familyServiceFlags = Sets.newHashSet(familyServiceFlags);
+	public AbstractPoi setFamilyServiceFlags(FamilyServiceFlag... flags) {
+		this.familyServiceFlags = Sets.newHashSet(flags);
 		return this;
 	}
 

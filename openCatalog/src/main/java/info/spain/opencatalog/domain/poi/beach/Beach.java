@@ -9,9 +9,9 @@ import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -32,7 +32,7 @@ public class Beach extends AbstractPoi {
 	private Boolean	promenade = Boolean.FALSE;	 // paseo marítimo
 
 	
-	public Beach(PoiType type) {
+	public Beach(BasicPoiType type) {
 		super(type);
 	}
     
@@ -63,13 +63,13 @@ public class Beach extends AbstractPoi {
     }
     
     @Override
-	public Beach setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
-		return (Beach) super.setQualityCertificates(qualityCertificateFlags);
+	public Beach setQualityCertificates( QualityCertificateFlag... flags) {
+		return (Beach) super.setQualityCertificates(flags);
 	}
 
    	@Override
-	public Beach setAccessibilityFlags(AccessibilityFlag... disabledAccessibility) {
-		return (Beach) super.setAccessibilityFlags(disabledAccessibility);
+	public Beach setAccessibilityFlags(AccessibilityFlag... flags) {
+		return (Beach) super.setAccessibilityFlags(flags);
 	}
 	@Override
 	public Beach setTimetable(TimeTableEntry... timetable) {
@@ -87,8 +87,8 @@ public class Beach extends AbstractPoi {
 	}
 	
  	@Override
-	public Beach setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
-		return (Beach) super.setFamilyServiceFlags(familyServiceFlags);
+	public Beach setFamilyServiceFlags( FamilyServiceFlag... flags) {
+		return (Beach) super.setFamilyServiceFlags(flags);
 	}
 
 	

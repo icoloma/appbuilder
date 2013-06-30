@@ -96,7 +96,7 @@ public class PoiControllerTest {
 		update.setDescription(new I18nText().setEs("xxx"));
 		update.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"));
 		update.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
-		update.setFlags(Flag.WC, Flag.DISABLED);
+		update.setFlags(Flag.WC, Flag.HANDICAPPED);
 				
 
 		result = this.mockMvc.perform(post("/admin/poi/" + id)
@@ -109,7 +109,7 @@ public class PoiControllerTest {
 				.param("location.lat", update.getLocation().getLat().toString())
 				.param("location.lng", update.getLocation().getLng().toString())
 			    .param("flag[" + Flag.WC + "-a]", "whatever")
-			    .param("flag[" + Flag.DISABLED + "-a]", "whatever")
+			    .param("flag[" + Flag.HANDICAPPED + "-a]", "whatever")
 			    )
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();

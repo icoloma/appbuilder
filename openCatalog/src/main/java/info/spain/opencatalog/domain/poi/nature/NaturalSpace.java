@@ -9,9 +9,9 @@ import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.PoiType;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
 import java.util.Set;
 
@@ -31,7 +31,7 @@ public class NaturalSpace extends AbstractPoi {
 	/** Tipos de espacio natural: Parque natural, Parque nacional, ... */
 	private Set<NaturalSpaceFlag> naturalSpaceFlags;
 	
-	public NaturalSpace(PoiType type) {
+	public NaturalSpace(BasicPoiType type) {
 		super(type);
 	}
 
@@ -66,36 +66,36 @@ public class NaturalSpace extends AbstractPoi {
     }
     
     @Override
-	public NaturalSpace setQualityCertificates( QualityCertificateFlag... qualityCertificateFlags) {
-		return (NaturalSpace) super.setQualityCertificates(qualityCertificateFlags);
+	public NaturalSpace setQualityCertificates( QualityCertificateFlag... flags) {
+		return (NaturalSpace) super.setQualityCertificates(flags);
 	}
 
 	@Override
-	public NaturalSpace setAccessibilityFlags(AccessibilityFlag... disabledAccessibility) {
-		return (NaturalSpace) super.setAccessibilityFlags(disabledAccessibility);
+	public NaturalSpace setAccessibilityFlags(AccessibilityFlag... flags) {
+		return (NaturalSpace) super.setAccessibilityFlags(flags);
 	}
 	
+ 	@Override
+	public NaturalSpace setFamilyServiceFlags( FamilyServiceFlag... flags) {
+		return (NaturalSpace) super.setFamilyServiceFlags(flags);
+	}
+
+	
+	public NaturalSpace setNaturalSpaceFlags(NaturalSpaceFlag... flags) {
+		this.naturalSpaceFlags = Sets.newHashSet(flags);
+		return this;
+	}
+
 	@Override
 	public NaturalSpace setTimetable(TimeTableEntry... timetable) {
 		return (NaturalSpace) super.setTimetable(timetable);
 	}
-	
+		
 	@Override
- 	public NaturalSpace setContactInfo(ContactInfo contactInfo) {
+	public NaturalSpace setContactInfo(ContactInfo contactInfo) {
 		return (NaturalSpace) super.setContactInfo(contactInfo);
 	}
 
- 	@Override
-	public NaturalSpace setFamilyServiceFlags( FamilyServiceFlag... familyServiceFlags) {
-		return (NaturalSpace) super.setFamilyServiceFlags(familyServiceFlags);
-	}
-
-	
-	public NaturalSpace setNaturalSpaceFlags(NaturalSpaceFlag... type) {
-		this.naturalSpaceFlags = Sets.newHashSet(type);
-		return this;
-	}
-		
 	@Override
 	protected ToStringHelper toStringHelper() {
 		return super.toStringHelper()

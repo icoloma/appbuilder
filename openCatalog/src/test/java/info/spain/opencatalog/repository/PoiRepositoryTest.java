@@ -9,9 +9,11 @@ import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.ZoneFactory;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
-import info.spain.opencatalog.domain.poi.PoiTypes;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.RoomFlag;
+import info.spain.opencatalog.domain.poi.types.PoiFactory;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testCreate() {
-		Lodging poi = new Lodging(PoiTypes.HOTEL).setName(new I18nText().setEs("My hotel")).setLocation(DummyPoiFactory.randomLocation());
+		Lodging poi = ((Lodging) PoiFactory.newInstance(PoiTypeID.HOTEL)).setName(new I18nText().setEs("My hotel")).setLocation(DummyPoiFactory.randomLocation());
 		poi.setRoomFlags(RoomFlag.AIR_CONDITIONED);
 		AbstractPoi result = poiRepository.save(poi);
 		String id = result.getId();
