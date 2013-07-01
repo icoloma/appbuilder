@@ -10,7 +10,6 @@ define(['globals'], function() {
     desc_it: 'TEXT', //i18n
     desc_fr: 'TEXT', //i18n
     desc_de: 'TEXT', //i18n
-    description: 'TEXT', //i18n
     thumb: 'TEXT',
     imgs: 'JSON',
     created: 'DATE',

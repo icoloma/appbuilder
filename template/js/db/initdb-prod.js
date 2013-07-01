@@ -5,14 +5,14 @@ define(
   ],
   function(Globals, Db) {
 
-    openDatabase({ name: 'openCatalog' });
-    // BDD y schemas
-    persistence.store.websql
-      .config(persistence, 'openCatalog', 'Our own very DB', 5 * 1024 * 1024);
-
-    persistence.schemaSync();
 
     return function(cb) {
+      openDatabase({ name: 'openCatalog' });
+      // BDD y schemas
+      persistence.store.websql
+        .config(persistence, 'openCatalog', 'Our own very DB', 5 * 1024 * 1024);
+
+      persistence.schemaSync();
       cb();
     };
 

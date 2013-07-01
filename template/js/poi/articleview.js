@@ -7,7 +7,7 @@ define(
 
       tmpl: _.template(
         '<img class="poi-img" src="{{appConfig.assets+thumb}}">' + 
-        '<p class="description">{{description}}</p>' +
+        '<p class="description">{{desc}}</p>' +
         '<p>Located in {{lat}}, {{lon}}.</p>'
       ),
 

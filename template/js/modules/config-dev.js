@@ -45,7 +45,7 @@ define(['globals'], function() {
     console.log('Waiting for deviceready...'); //DEBUG
     document.addEventListener('deviceready', function () {
       // Reemplazar el API WebSQL del WebView por el API nativa de SQLitePlugin en un dispositivo
-      window.openDatabase = window.sqlitePlugin.openDatabase.bind(window.sqlitePlugin);
+      window.openDatabase = window.sqlitePlugin.openDatabase.bind(window);
       // Obtener la plataforma y el locale
       window.appConfig.platform = device.platform;
 
