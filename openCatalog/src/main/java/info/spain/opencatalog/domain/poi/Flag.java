@@ -35,6 +35,16 @@ public enum Flag {
     LIBRARY,			// Biblioteca
     LIFT,				// Ascensor
     ROOF_TERRACE,		// Azotea
-    SATELLITE			// Antena parabólica
+    SATELLITE,			// Antena parabólica
+    
+    
+    // Específicas de parque natural
+	NATURAL_MONUMENT,	// Monumento Natural
+	NATIONAL_PARK,		// Parque Nacional
+	NATURAL_PARK,		// Parque Natural
+	REGIONAL_PARK,		// Parque Regional
+	BIOSPHERE_RESERVE,	// Reserva Biosfera
+	NATURAL_RESERVE		// Reserva Natural
+    
 
 }

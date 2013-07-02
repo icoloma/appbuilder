@@ -95,6 +95,11 @@ public class BusinessType extends BasicPoiType {
 	public BusinessType setAllowedQualityCertificateFlags( QualityCertificateFlag... flags) {
 		return (BusinessType) super.setAllowedQualityCertificateFlags(flags);
 	}
+
+	@Override
+	public BusinessType setAllowedDataValidator(String key, DataValidator dataValidator) {
+		return (BusinessType) super.setAllowedDataValidator(key, dataValidator);
+	}
 	
 	
 	

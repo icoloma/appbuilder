@@ -47,7 +47,7 @@ public class Culture extends AbstractPoi {
 	
     public Culture(BasicPoiType type) {
     	super(type);
-    	 Preconditions.checkArgument(PoiTypeID.CULTURE_TYPES.contains(type.getId()));
+    	Preconditions.checkArgument(PoiTypeID.CULTURE_TYPES.contains(type.getId()));
     }
 
 	@Override
@@ -161,7 +161,11 @@ public class Culture extends AbstractPoi {
 		return this;
 	}
 	
-	
+	@Override
+	public Culture validate() {
+		return (Culture) super.validate();
+	}
+
 	@Override
 	protected ToStringHelper toStringHelper() {
 		return super.toStringHelper()

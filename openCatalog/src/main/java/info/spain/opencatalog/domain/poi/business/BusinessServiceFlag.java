@@ -7,6 +7,11 @@ package info.spain.opencatalog.domain.poi.business;
  */
 public enum BusinessServiceFlag {
 	
+	// Common
+	SOS_SERVICE,
+	MEDICAL_SERVICE,
+	
+	
 	
 	// EcoTourism
 	GUIDE_TOUR,				// Visitas guiadas en el espacio protegido y su entorno|
@@ -59,6 +64,10 @@ public enum BusinessServiceFlag {
 	SAILING,				// Vela
 	WAKEBOARD,				// Wakeboard
 	WINDSURF_SURF,			// Windsurf/Surf
+	
+	//Estación de esquí
+	SKI_RENTALS,			// Alquileres de material de esquí
+	SKI_SCHOOL,				
 
 	// Instalaciones para deportes varios
 	FOOTBALL,
@@ -71,9 +80,7 @@ public enum BusinessServiceFlag {
 	POOL,
 	SAUNA,
 	SHOWERS,				
-	TENIS,
+	TENIS
 	
 	
-	
-
 }

@@ -83,22 +83,27 @@ public class MongoDbPopulator {
 		// random pois
 		//insertAllPoi(DummyPoiFactory.generatePois(NUM_RANDOM_POIS));
 		//mongoTemplate.insertAll(DummyPoiFactory.generatePois(NUM_RANDOM_POIS));
+
+		// Basic
+		mongoTemplate.insert(DummyPoiFactory.NATURAL_PARK);
+		mongoTemplate.insert(DummyPoiFactory.BEACH);
+
+		// Lodging
+		mongoTemplate.insert(DummyPoiFactory.HOTEL);
+		mongoTemplate.insert(DummyPoiFactory.CAMPING);
+		mongoTemplate.insert(DummyPoiFactory.APARTMENT);
+
+		// Culture
+		mongoTemplate.insert(DummyPoiFactory.MUSEUM);
+		mongoTemplate.insert(DummyPoiFactory.MONUMENT);
+		mongoTemplate.insert(DummyPoiFactory.GARDEN);
 		
-//		mongoTemplate.insert(DummyPoiFactory.HOTEL);
-//		mongoTemplate.insert(DummyPoiFactory.CAMPING);
-//		mongoTemplate.insert(DummyPoiFactory.APARTMENT);
-//
-//		mongoTemplate.insert(DummyPoiFactory.MUSEUM);
-//		mongoTemplate.insert(DummyPoiFactory.MONUMENT);
-//		mongoTemplate.insert(DummyPoiFactory.GARDEN);
-//		
-//		mongoTemplate.insert(DummyPoiFactory.BEACH);
-//		mongoTemplate.insert(DummyPoiFactory.NATURAL_PARK);
-//
-//		mongoTemplate.insert(DummyPoiFactory.ECO_TOURISM);
+
+		// Business
+		mongoTemplate.insert(DummyPoiFactory.ECO_TOURISM);
 		mongoTemplate.insert(DummyPoiFactory.GOLF);
 		mongoTemplate.insert(DummyPoiFactory.NAUTICAL_STATION);
-		
+		mongoTemplate.insert(DummyPoiFactory.SKI_STATION);
 		
 	}
 	

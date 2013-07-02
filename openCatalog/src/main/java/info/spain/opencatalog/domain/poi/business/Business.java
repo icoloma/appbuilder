@@ -13,10 +13,11 @@ import info.spain.opencatalog.domain.poi.LanguageFlag;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
-import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.collect.Sets;
 
@@ -37,15 +38,9 @@ public class Business extends AbstractPoi {
     /** tipo de negocio */
     private BusinessTypeFlag businessType;
     
-    /** 
-     * 	Datos específicos del negocio 
-     *  Golf: Año de inauguración: , Diseñador, Número de hoyos, Par del campo, ...
-     *  Estación de equí: nº pistas, nº kilómetros esquiables, ... 
-     */
-    private Map<String,String> data;
-    
     public Business(BasicPoiType type) {
 		super(type);
+		Preconditions.checkArgument(PoiTypeID.BUSINESS_TYPES.contains(type.getId()));
 	}
 
 	@Override
@@ -102,6 +97,11 @@ public class Business extends AbstractPoi {
 	public Business setFamilyServiceFlags( FamilyServiceFlag... flags) {
 		return (Business) super.setFamilyServiceFlags(flags);
 	}
+ 	
+ 		@Override
+	public Business setData(String key, String data) {
+		return (Business) super.setData(key, data);
+	}
 
 	public Set<BusinessActiviyFlag> getActivities() {
 		return activities;
@@ -137,6 +137,11 @@ public class Business extends AbstractPoi {
 	public Business setBusinessType(BusinessTypeFlag businessType) {
 		this.businessType = businessType;
 		return this;
+	}
+	
+	@Override
+	public Business validate() {
+		return (Business) super.validate();
 	}
 
 	@Override

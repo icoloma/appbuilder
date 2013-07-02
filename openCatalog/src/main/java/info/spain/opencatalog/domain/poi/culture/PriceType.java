@@ -15,5 +15,5 @@ public enum PriceType {
 	RETIRED,		// Jubilados
 	UE_MEMBER,		// Miembros de la UE
 	ICOM_MEMBER,	// Miembros del ICOM y asociaciones 
-	DISABLED		//Personas con discapacidad
+	HANDICAPPED		//Personas con discapacidad
 }

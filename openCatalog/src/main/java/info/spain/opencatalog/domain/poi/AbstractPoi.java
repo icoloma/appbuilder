@@ -6,6 +6,8 @@ import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.lodging.Score;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
@@ -51,6 +53,9 @@ public abstract class AbstractPoi {
 
     /** valoración oficial (no de los usuarios): 3 Estrellas, 2 tenedores, etc */
     private Score score;
+    
+    /** Datos específicos del poi: longitud(playa), nº pistas verdes(estación esquí) ... */
+    private Map<String,String> data;
 
     /** certificados otorgados a este poi: ISO9001, Patrimonio de la humanidad... */
     private Set<QualityCertificateFlag> qualityCertificateFlags;
@@ -67,7 +72,6 @@ public abstract class AbstractPoi {
 	/** precios de acceso */
     private Set<AccessPrice> prices;
    
-	
 	/** Información de contacto */
     private ContactInfo contactInfo;
     
@@ -82,8 +86,9 @@ public abstract class AbstractPoi {
     }
 
 	/** Permite definir las validaciones en función del tipo */
-	public void validate(){
+	public AbstractPoi validate(){
         type.validate(this);
+        return this;
 	}
 	
 	public void copyData(AbstractPoi source){
@@ -230,6 +235,19 @@ public abstract class AbstractPoi {
 		this.familyServiceFlags = Sets.newHashSet(flags);
 		return this;
 	}
+	
+
+	public Map<String, String> getData() {
+		return data;
+	}
+
+	public AbstractPoi setData(String key, String data) {
+		if (this.data == null){
+			this.data = new HashMap<String, String>();
+		}
+		this.data.put(key,data);
+		return this;
+	}
 
 	@Override
 	public String toString() {
@@ -243,6 +261,7 @@ public abstract class AbstractPoi {
 				.add("name", name)
 				.add("description", description)
 				.add("location", location)
+				.add("data,", "data")
 				.add("contactInfo", contactInfo)
 				.add("timeTable", timetable)
 				.add("flags", flags)

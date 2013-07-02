@@ -12,10 +12,10 @@ import com.google.common.collect.Sets;
 /** Tipos de POI permitidos */
 public enum PoiTypeID {
 	
+	// Basic
 	BASIC,
-
-	// Beach
 	BEACH,
+    NATURAL_SPACE,
 	
 	// Lodging
     HOTEL,
@@ -27,19 +27,30 @@ public enum PoiTypeID {
     MONUMENT,
     PARK_GARDEN,
 
-    // Nature
-    NATURAL_SPACE,
-
-    // BUSINESS
+    // Business
     ECO_TOURISM,
     GOLF,
-    NAUTICAL_STATION;
+    NAUTICAL_STATION,
+	SKI_STATION;
     
 
-
-    public static final Set<PoiTypeID> LODGING_TYPES = ImmutableSet.of(HOTEL, CAMPING, APARTMENT);
-    public static final Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(PoiTypeID.MUSEUM, PoiTypeID.MONUMENT, PoiTypeID.PARK_GARDEN);
-    public static final Set<PoiTypeID> NATURE_TYPES  = Sets.immutableEnumSet(PoiTypeID.NATURAL_SPACE, PoiTypeID.ECO_TOURISM);
+    public static final Set<PoiTypeID> BASIC_TYPES = ImmutableSet.of(
+    		BASIC, 
+    		BEACH, 
+    		NATURAL_SPACE);
+    public static final Set<PoiTypeID> LODGING_TYPES = ImmutableSet.of(
+    		HOTEL, 
+    		CAMPING, 
+    		APARTMENT);
+    public static final Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(
+    		PoiTypeID.MUSEUM, 
+    		PoiTypeID.MONUMENT, 
+    		PoiTypeID.PARK_GARDEN);
+    public static final Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
+    		PoiTypeID.ECO_TOURISM, 
+    		PoiTypeID.GOLF, 
+    		PoiTypeID.NAUTICAL_STATION, 
+    		PoiTypeID.SKI_STATION);
     
    
   

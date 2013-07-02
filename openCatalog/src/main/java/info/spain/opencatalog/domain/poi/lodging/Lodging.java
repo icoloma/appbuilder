@@ -145,7 +145,10 @@ public class Lodging extends AbstractPoi {
 	}
 	
 	
-	
+	@Override
+	public Lodging validate() {
+		return (Lodging) super.validate();
+	}
 
 		@Override
 	protected ToStringHelper toStringHelper() {

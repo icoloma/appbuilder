@@ -4,6 +4,9 @@ import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
+import info.spain.opencatalog.domain.poi.beach.BathCondition;
+import info.spain.opencatalog.domain.poi.beach.BeachComposition;
+import info.spain.opencatalog.domain.poi.beach.SandType;
 import info.spain.opencatalog.domain.poi.business.BusinessActiviyFlag;
 import info.spain.opencatalog.domain.poi.business.BusinessServiceFlag;
 import info.spain.opencatalog.domain.poi.business.BusinessTypeFlag;
@@ -14,6 +17,7 @@ import info.spain.opencatalog.domain.poi.lodging.Score;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * <pre>
@@ -22,6 +26,8 @@ import com.google.common.collect.Maps;
  * </pre>
  */
 public class PoiTypeRepository {
+	
+	
 	
 	/** Mantiene indexado los diferntes tipos de Poi en función de su Id */
    private static Map<PoiTypeID, BasicPoiType> types;
@@ -41,16 +47,14 @@ public class PoiTypeRepository {
 	    
 	    //Basic
 	    types.put(PoiTypeID.BASIC, new BasicPoiType(PoiTypeID.BASIC));
+	    types.put(PoiTypeID.BEACH, beachType());
+	    types.put(PoiTypeID.NATURAL_SPACE, naturalSpaceType());
 	  
         // Lodging
         types.put(PoiTypeID.HOTEL, hotelType() );
-        
         types.put(PoiTypeID.CAMPING, campingType());
         types.put(PoiTypeID.APARTMENT, apartmentType());
 
-        // Nature 
-        types.put(PoiTypeID.BEACH, beachType());
-        types.put(PoiTypeID.NATURAL_SPACE, naturalSpaceType());
         
         // Culture
         types.put(PoiTypeID.MUSEUM, museumType());
@@ -61,6 +65,8 @@ public class PoiTypeRepository {
         types.put(PoiTypeID.ECO_TOURISM, ecoTourismType());
         types.put(PoiTypeID.GOLF, golfType());
         types.put(PoiTypeID.NAUTICAL_STATION, nauticalStationType());
+        types.put(PoiTypeID.SKI_STATION, skiStationType());
+        
         
     }
    
@@ -163,17 +169,31 @@ public class PoiTypeRepository {
     	return new BasicPoiType(PoiTypeID.BEACH)
     	.setAllowedAccessibilityFlags(AccessibilityFlag.values())
 		.setAllowedFlags(Flag.values())
+		.setAllowedDataValidator("longitude", DataValidator.DOUBLE_VALIDATOR)
+		.setAllowedDataValidator("width", DataValidator.DOUBLE_VALIDATOR)
+		.setAllowedDataValidator("sandType", new DataValidator().setValidValues(Sets.newHashSet(SandType.values())))
+		.setAllowedDataValidator("bathCondition", new DataValidator().setValidValues(Sets.newHashSet(BathCondition.values())))
+		.setAllowedDataValidator("composition", new DataValidator().setValidValues(Sets.newHashSet(BeachComposition.values())))
+		.setAllowedDataValidator("promenade", DataValidator.BOOLEAN_VALIDATOR)
+		.setAllowedDataValidator("anchorZone", DataValidator.BOOLEAN_VALIDATOR)
 		.setAllowedQualityCertificateFlags(
-    			QualityCertificateFlag.BANDERA_AZUL,
-    			QualityCertificateFlag.ACCESIBILIDAD,
-    			QualityCertificateFlag.NATURISTA);
+			QualityCertificateFlag.BANDERA_AZUL,
+			QualityCertificateFlag.ACCESIBILIDAD,
+			QualityCertificateFlag.NATURISTA);
     }
     
     /** espacio natural*/
     private static BasicPoiType naturalSpaceType(){
     	return new BasicPoiType(PoiTypeID.NATURAL_SPACE)
     	.setAllowedAccessibilityFlags(AccessibilityFlag.values())
-		.setAllowedFlags(Flag.values())
+		.setAllowedFlags(
+				Flag.NATURAL_MONUMENT,	// Monumento Natural
+				Flag.NATIONAL_PARK,		// Parque Nacional
+				Flag.NATURAL_PARK,		// Parque Natural
+				Flag.REGIONAL_PARK,		// Parque Regional
+				Flag.BIOSPHERE_RESERVE,	// Reserva Biosfera
+				Flag.NATURAL_RESERVE		// Reserva Natural
+				)
 		.setAllowedQualityCertificateFlags(
     			QualityCertificateFlag.ECOTURISMO,
     			QualityCertificateFlag.ACCESIBILIDAD,
@@ -311,7 +331,47 @@ public class PoiTypeRepository {
 				BusinessServiceFlag.WINDSURF_SURF			// Windsurf/Surf
 				);		
     }
-  
+    
+    /** Estación de esquí */
+    private static BusinessType skiStationType(){
+    	return new BusinessType(PoiTypeID.SKI_STATION)
+			.setAllowedAccessibilityFlags(AccessibilityFlag.values())
+			.setAllowedBusinessServiceFlags(
+				BusinessServiceFlag.SOS_SERVICE,
+				BusinessServiceFlag.MEDICAL_SERVICE,
+				BusinessServiceFlag.SKI_RENTALS,
+				BusinessServiceFlag.SKI_SCHOOL)
+			.setAllowedDataValidator("total-km-esquiables", DataValidator.DOUBLE_VALIDATOR)
+			.setAllowedDataValidator("cota-maxima", DataValidator.DOUBLE_VALIDATOR)
+			.setAllowedDataValidator("cota-minima", DataValidator.DOUBLE_VALIDATOR)
+    		.setAllowedDataValidator("pistas:alpino:numero-pistas-verdes", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:alpino:numero-pistas-rojas", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:alpino:numero-pistas-azules", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:alpino:numero-pistas-negras", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:alpino:total-pistas", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:alpino:total-kms", DataValidator.DOUBLE_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-pistas:fondo", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:km-esqui-fondo", DataValidator.DOUBLE_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-pistas:trineos", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-pistas:raquetas", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-show-park", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-trampolines", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-estadios-competicion", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-pista-iluminada", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-pistas:travesia", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-halfpipe", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:numero-snowboard", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("pistas:otros:otros", DataValidator.ANY_VALUE)  // Cualquier texto
+    		.setAllowedDataValidator("nieve:numero-caniones", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("nieve:total-km-innovadps", DataValidator.DOUBLE_VALIDATOR)
+    		.setAllowedDataValidator("nieve:total-pistas-inhibidas", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("nieve:otros", DataValidator.ANY_VALUE)  // Cualquier texto
+    		.setAllowedDataValidator("servicios:numero-escuelas", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("servicios:numero-profesores", DataValidator.INTEGER_VALIDATOR)
+    		.setAllowedDataValidator("servicios:estacion", DataValidator.ANY_VALUE)
+    		.setAllowedDataValidator("servicios:area-influencia", DataValidator.ANY_VALUE)
+    		;
+    }
    
 
 
