@@ -5,11 +5,8 @@ import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
-import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
-import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
@@ -86,24 +83,9 @@ public class Culture extends AbstractPoi {
         return (Culture) super.setFlags(flags);
     }
     
-    @Override
-	public Culture setQualityCertificates( QualityCertificateFlag... flags) {
-		return (Culture) super.setQualityCertificates(flags);
-	}
-
-	@Override
-	public Culture setAccessibilityFlags(AccessibilityFlag... flags) {
-		return (Culture) super.setAccessibilityFlags(flags);
-	}
-	
 	@Override
  	public Culture setContactInfo(ContactInfo contactInfo) {
 		return (Culture) super.setContactInfo(contactInfo);
-	}
-
- 	@Override
-	public Culture setFamilyServiceFlags( FamilyServiceFlag... flags) {
-		return (Culture) super.setFamilyServiceFlags(flags);
 	}
 
     public String getReservation() {

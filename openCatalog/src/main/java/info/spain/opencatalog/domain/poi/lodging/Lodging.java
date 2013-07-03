@@ -5,13 +5,9 @@ import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
-import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.ContactInfo;
-import info.spain.opencatalog.domain.poi.FamilyServiceFlag;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
-import info.spain.opencatalog.domain.poi.business.BusinessServiceFlag;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
@@ -31,14 +27,8 @@ import com.google.common.collect.Sets;
 @Document(collection="poi")
 public class Lodging extends AbstractPoi {
 	
-    /** servicios de negocios: sala de conferencias, alquiler de audiovisuales, etc*/
-    private Set<BusinessServiceFlag> businessServiceFlags;
-
     /** tipos de alojamiento: habitación doble, individual, etc */
     private Set<RoomType> roomTypes;
-
-    /** servicios que se ofrece en el tipo de alojamiento: Jacuzzi, Caja fuerte, Wifi */
-    private Set<RoomFlag> roomFlags;
 
     /** precios del alojamiento: hab-doble en temporada alta con pensión completa */
     private Set<RoomPrice> roomPrices;
@@ -89,34 +79,10 @@ public class Lodging extends AbstractPoi {
 	}
 
 	@Override
-	public Lodging setQualityCertificates( QualityCertificateFlag... flags) {
-		return (Lodging) super.setQualityCertificates(flags);
-	}
-    
-  	@Override
- 	public Lodging setAccessibilityFlags(AccessibilityFlag... flags) {
- 		return (Lodging) super.setAccessibilityFlags(flags);
- 	}
- 
- 	@Override
  	public Lodging setContactInfo(ContactInfo contactInfo) {
 		return (Lodging) super.setContactInfo(contactInfo);
 	}
  	
- 	@Override
-	public Lodging setFamilyServiceFlags( FamilyServiceFlag... flags) {
-		return (Lodging) super.setFamilyServiceFlags(flags);
-	}
-
-	public Set<BusinessServiceFlag> getBusinessServiceFlags() {
-		return businessServiceFlags;
-	}
-
-	public Lodging setBusinessServiceFlags(BusinessServiceFlag... flags ) {
-		this.businessServiceFlags = Sets.newHashSet(flags);
-		return this;
-	}
-
 	public Set<RoomPrice> getRoomPrices() {
     	return roomPrices;
     }
@@ -131,20 +97,10 @@ public class Lodging extends AbstractPoi {
     	return this;
     }
     
-    public Lodging setRoomFlags(RoomFlag... flags) {
-		this.roomFlags = Sets.newHashSet(flags);
-		return this;
-	}
-
-	public Set<RoomType> getRoomTypes() {
+   public Set<RoomType> getRoomTypes() {
 		return roomTypes;
 	}
 
-	public Set<RoomFlag> getRoomFlags() {
-		return roomFlags;
-	}
-	
-	
 	@Override
 	public Lodging validate() {
 		return (Lodging) super.validate();
@@ -154,9 +110,7 @@ public class Lodging extends AbstractPoi {
 	protected ToStringHelper toStringHelper() {
 		return super.toStringHelper()
 			.add("roomTypes", roomTypes)
-			.add("roomFlags", roomFlags)
 			.add("roomPrices", roomPrices)
-			.add("businessServiceFlags", businessServiceFlags)
 		;
 	}
 

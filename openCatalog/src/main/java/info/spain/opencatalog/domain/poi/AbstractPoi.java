@@ -57,15 +57,6 @@ public abstract class AbstractPoi {
     /** Datos específicos del poi: longitud(playa), nº pistas verdes(estación esquí) ... */
     private Map<String,String> data;
 
-    /** certificados otorgados a este poi: ISO9001, Patrimonio de la humanidad... */
-    private Set<QualityCertificateFlag> qualityCertificateFlags;
-
-    /** Accesibilidad para personas con discapacidad */
-   	private Set<AccessibilityFlag> accessibilityFlags;
-
-    /** Servicios para las familias: Guardería, parque infantil, ... */
-   	private Set<FamilyServiceFlag> familyServiceFlags;
-
    	/** horarios de apertura/cierre */
 	private Set<TimeTableEntry> timetable;
 	
@@ -74,6 +65,10 @@ public abstract class AbstractPoi {
    
 	/** Información de contacto */
     private ContactInfo contactInfo;
+    
+	/** Idiomas soportados */
+	private Set<LanguageFlag> languages;
+	
     
     @CreatedDate
 	private DateTime created;
@@ -100,9 +95,6 @@ public abstract class AbstractPoi {
         this.contactInfo = source.contactInfo;
         this.flags = source.flags;
         this.timetable = source.timetable;
-        this.accessibilityFlags = source.accessibilityFlags;
-        this.qualityCertificateFlags = source.qualityCertificateFlags;
-        this.familyServiceFlags = source.familyServiceFlags;
     }	
 	
 	public Set<TimeTableEntry> getTimetable() {
@@ -114,31 +106,14 @@ public abstract class AbstractPoi {
 		return this;
 	}
 
-	public Set<AccessibilityFlag> getAccessibilityFlags() {
-		return accessibilityFlags;
-	}
-
-	public AbstractPoi setAccessibilityFlags(AccessibilityFlag... flags) {
-		this.accessibilityFlags = Sets.newHashSet(flags);
-        return this;
-	}
 	
     public AbstractPoi setFlags(Flag... flags) {
         this.flags = Sets.newHashSet(flags);
         return this;
     }
 
-	public AbstractPoi setQualityCertificates(QualityCertificateFlag... flags) {
-		this.qualityCertificateFlags =  Sets.newHashSet(flags);
-		return this;
-	}
-
 	public Set<Flag> getFlags() {
 		return flags;
-	}
-
-	public Set<QualityCertificateFlag> getQualityCertificateFlags() {
-		return qualityCertificateFlags;
 	}
 
 	public String getId() {
@@ -227,16 +202,6 @@ public abstract class AbstractPoi {
 		return this;
 	}
 	
-	public Set<FamilyServiceFlag> getFamilyServiceFlags() {
-		return familyServiceFlags;
-	}
-
-	public AbstractPoi setFamilyServiceFlags(FamilyServiceFlag... flags) {
-		this.familyServiceFlags = Sets.newHashSet(flags);
-		return this;
-	}
-	
-
 	public Map<String, String> getData() {
 		return data;
 	}
@@ -246,6 +211,15 @@ public abstract class AbstractPoi {
 			this.data = new HashMap<String, String>();
 		}
 		this.data.put(key,data);
+		return this;
+	}
+	
+	public Set<LanguageFlag> getLanguages() {
+		return languages;
+	}
+
+	public AbstractPoi setLanguages(LanguageFlag... languages) {
+		this.languages = Sets.newHashSet(languages);
 		return this;
 	}
 
@@ -266,9 +240,7 @@ public abstract class AbstractPoi {
 				.add("timeTable", timetable)
 				.add("flags", flags)
 				.add("prices", prices)
-				.add("accessibilityFlags",accessibilityFlags)
-				.add("qualityCertificateFlags", qualityCertificateFlags)
-				.add("familyServiceFlags",familyServiceFlags)
+				.add("languages", languages)
 				.add("created", created)
 				.add("lastModified", lastModified);
 	}

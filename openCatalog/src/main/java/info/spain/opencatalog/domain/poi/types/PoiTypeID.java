@@ -37,23 +37,24 @@ public enum PoiTypeID {
     public static final Set<PoiTypeID> BASIC_TYPES = ImmutableSet.of(
     		BASIC, 
     		BEACH, 
-    		NATURAL_SPACE);
+    		NATURAL_SPACE
+    		);
+    
     public static final Set<PoiTypeID> LODGING_TYPES = ImmutableSet.of(
     		HOTEL, 
     		CAMPING, 
     		APARTMENT);
+
     public static final Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(
-    		PoiTypeID.MUSEUM, 
-    		PoiTypeID.MONUMENT, 
-    		PoiTypeID.PARK_GARDEN);
-    public static final Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
-    		PoiTypeID.ECO_TOURISM, 
-    		PoiTypeID.GOLF, 
-    		PoiTypeID.NAUTICAL_STATION, 
-    		PoiTypeID.SKI_STATION);
+    		MUSEUM, 
+    		MONUMENT, 
+    		PARK_GARDEN);
     
-   
-  
+    public static final Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
+    		ECO_TOURISM, 
+    		GOLF, 
+    		NAUTICAL_STATION, 
+    		SKI_STATION);		   
    
 }
 

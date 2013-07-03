@@ -2,7 +2,6 @@ package info.spain.opencatalog.domain.poi.types;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.BasicPoi;
-import info.spain.opencatalog.domain.poi.business.Business;
 import info.spain.opencatalog.domain.poi.culture.Culture;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 
@@ -16,7 +15,8 @@ public class PoiFactory {
 	public static AbstractPoi newInstance(PoiTypeID id ) {
 		
 		// Basic
-		if (PoiTypeID.BASIC_TYPES.contains(id)) {
+		if (PoiTypeID.BASIC_TYPES.contains(id) ||
+			PoiTypeID.BUSINESS_TYPES.contains(id)) {
 			return new BasicPoi(PoiTypeRepository.getType(id));
 		}
 		// Lodging
@@ -27,10 +27,7 @@ public class PoiFactory {
 		if (PoiTypeID.CULTURE_TYPES.contains(id)) {
 			return new Culture(PoiTypeRepository.getType(id));
 		}
-		// Business
-		if (PoiTypeID.BUSINESS_TYPES.contains(id)) {
-			return new Business(PoiTypeRepository.getType(id));
-		}
+	
 		throw new IllegalArgumentException("id Poi Type " + id + " + is not assigned to any class" );
 	
 

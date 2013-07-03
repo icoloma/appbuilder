@@ -1,119 +1,68 @@
 package info.spain.opencatalog.domain.poi;
 
-import java.util.Set;
+import java.util.regex.Pattern;
+
+import org.springframework.data.annotation.Transient;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
 
 
 
 /**
 * <pre> 
 *    Horario de un establecimiento (museo, restaurante, etc)
+*    
+*   (intervalo_validez)?(dia,?)+=(hora,?)*
+*    
+*   intervalo_validez: 	\[fecha-fecha\] 					Fecha de inicio y fecha de fin de validez.
+*	dia:				Mon|Tue|Wed|Thu|Fri|Sat|Sun|fecha 	Un día de la semana (lunes a domingo) o una fecha específica.
+*	fecha:				\d\d\d\d 							Una fecha específica en formato ddMM, dos dígitos para el día (01-31) seguidos de dos dígitos para el mes (01-12)
+*	hora:				\d\d:\d\d							Hora de apertura en formato HH:mm, dos dígitos para la hora (00-23) seguidos de dos puntos y dos dígitos para los minutos (00-59)
 *
-*	Permite especificar d&iacute;as concretos de la semana y/o del mes as&iacute; como
-*	los días de cierre. 
-*		
-*		Lunes, Mi&eacute;rcoles y Viernes
-*			De 10:00 a 20:00 
-*			De 10:00 a 19:00 
-*	
-*		06 ene De 10:00 a 14:00 
-*		24 dic De 10:00 a 14:00 
-*		31 dic De 10:00 a 14:00 
-*
-*	Cerrado: 
-*		1 de enero, 
-*		1 de mayo, 
-*		25 de diciembre.
-*	
+*	Ejemplos:
+*	De Lunes a Viernes de 9 a 2: Mon,Tue,Wed,Thu,Fri=09:00-14:00
+*	Domingos cerrado: Sun=
+*	Cerrado el 24 de Diciembre y 6 de Enero: 2412,0601=
+*	De Enero a Julio, Lunes a Viernes de 9 a 1 y de 5 a 7: [0101-0107]Mon,Tue,Wed,Thu,Fri=09:00-13:00,15:00-19:00
 * </pre>
 */
 public class TimeTableEntry {
-	  
-	public static enum WeekDay {MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY}
-	
-	
-	/** Días de la semana en concreto: Lunes,Miércoles,Viernes */
-	private Set<WeekDay> weekDays;
-	
-	/** Días concretos (no tiene en cuenta el año):  6 enero, 24 diciembre, 25 diciembre */
-	private Set<TimeTableDay> days;
-	
-	/** Días que permanece cerrrado (no tiene en cuenta el año)*/
-	private Set<TimeTableDay> closedDays;
-	
-	/** Permite especificar restricciones, por ejemplo rango de horas: 08:00-1:00 y 14:00-20:00 */
-	// TODO: Modificar para especificar rango de horas
-    private Set<HourRange> hourRange;
-    
-    
-    public Set<HourRange> getHourRange() {
-		return hourRange;
-	}
 
-	public TimeTableEntry setHourRange(Set<HourRange> hourRange) {
-		this.hourRange = hourRange;
-		return this;
-	}
-	public TimeTableEntry setHourRange(HourRange... hourRange) {
-		return setHourRange(Sets.newHashSet(hourRange));
-	}
-
-	public Set<TimeTableDay> getDays() {
-		return days;
-	}
-
-    public TimeTableEntry setDays(Set<TimeTableDay> days) {
-		this.days = days;
-		return this;
-	}
-    public TimeTableEntry setDays(TimeTableDay... days) {
-		return setDays(Sets.newHashSet(days));
-	}
-
-	public Set<TimeTableDay> getClosedDays() {
-		return closedDays;
-	}
-
+	static final String HOUR= "([01][0-9]|2[0-3]):[0-5][0-9]"; 				// hh:mm
+	static final String HOUR_RANGE = "(" + HOUR + "-" + HOUR + ")";			// hh:mm-hh:mm
+	static final String DAYMONTH = "(0[1-9]|[12][0-9]|3[01])";  			// dd
+	static final String MONTH = "(0[1-9]|1[012])";        					// MM
+	static final String DATE = "(" + DAYMONTH + MONTH + ")";				// ddMM
+	static final String DATE_RANGE =  "(\\[" + DATE + "-" + DATE +"\\])"; 	// [ddMM-ddMM]
+	static final String WDAY = "(Mon|Tue|Wed|Thu|Fri|Sat|Sun)";	
+	static final String DAY = "(" + WDAY + "|" + DATE + ")";				// día de semana o día concreto (con mes)
+	static final String DAYS = "(" + DAY + "(," + DAY + ")*)";				// (dia,?) 
 	
-	public TimeTableEntry setClosedDays(Set<TimeTableDay> closedDays) {
-		this.closedDays = closedDays;
-		return this;
+	public static final String PERIOD_REGEX = "(" + DATE_RANGE + "|" + DAYS + "|" + DATE_RANGE + DAYS +")=" + "(" + HOUR_RANGE + "(," + HOUR_RANGE + ")*?)?";
+	
+	@Transient
+	private final Pattern pattern = Pattern.compile(TimeTableEntry.PERIOD_REGEX);
+	
+	/** Expresión regular que indica el periodo que aplica */
+	private String period;
+	
+	public String getPeriod() {
+		return period;
 	}
 	
-			
-	public TimeTableEntry setClosedDays(TimeTableDay... closedDays) {
-		return setClosedDays(Sets.newHashSet(closedDays));
-	}
-	
-	public Set<WeekDay> getWeekDays() {
-		return weekDays;
-	}
-
-	public TimeTableEntry setWeekDays(Set<WeekDay> weekDays) {
-		this.weekDays = weekDays;
-		return this;
-	}
-	
-	public TimeTableEntry setWeekDays(WeekDay... weekDays) {
-		return  setWeekDays(Sets.newHashSet(weekDays));
+	public TimeTableEntry(String period) {
+		super();
+		this.period = period;
+		if (!pattern.matcher(period).matches()) {
+			throw new IllegalArgumentException("period expression doesn't match " + PERIOD_REGEX);
+		}
 	}
 
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(getClass())
-			.add("weekDays",weekDays)
-			.add("days",days)
-			.add("closedDays",closedDays)
-			.add("hourRange",hourRange)
+			.add("period",period)
 			.toString();
 	}
-
-	
-	
-	
-	
-	
 
 }

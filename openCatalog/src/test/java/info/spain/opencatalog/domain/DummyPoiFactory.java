@@ -2,23 +2,14 @@ package info.spain.opencatalog.domain;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.AccessPrice;
-import info.spain.opencatalog.domain.poi.AccessibilityFlag;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.HourRange;
 import info.spain.opencatalog.domain.poi.LanguageFlag;
-import info.spain.opencatalog.domain.poi.QualityCertificateFlag;
-import info.spain.opencatalog.domain.poi.TimeTableDay;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
-import info.spain.opencatalog.domain.poi.TimeTableEntry.WeekDay;
 import info.spain.opencatalog.domain.poi.beach.BathCondition;
 import info.spain.opencatalog.domain.poi.beach.BeachComposition;
 import info.spain.opencatalog.domain.poi.beach.SandType;
-import info.spain.opencatalog.domain.poi.business.Business;
-import info.spain.opencatalog.domain.poi.business.BusinessActiviyFlag;
-import info.spain.opencatalog.domain.poi.business.BusinessServiceFlag;
-import info.spain.opencatalog.domain.poi.business.BusinessTypeFlag;
 import info.spain.opencatalog.domain.poi.culture.ArtisticPeriod;
 import info.spain.opencatalog.domain.poi.culture.ConstructionType;
 import info.spain.opencatalog.domain.poi.culture.Culture;
@@ -27,7 +18,6 @@ import info.spain.opencatalog.domain.poi.culture.HistoricalPeriod;
 import info.spain.opencatalog.domain.poi.culture.PriceType;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.Regime;
-import info.spain.opencatalog.domain.poi.lodging.RoomFlag;
 import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
 import info.spain.opencatalog.domain.poi.lodging.RoomType;
 import info.spain.opencatalog.domain.poi.lodging.Score;
@@ -39,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.DateTimeConstants;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -117,10 +106,10 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static Culture MONUMENT = monument();
 	public static Culture GARDEN = garden();
 	
-	public static Business ECO_TOURISM = ecoTourism();
-	public static Business GOLF = golf();
-	public static Business NAUTICAL_STATION = nauticalStation();
-	public static Business SKI_STATION = skiStation();
+	public static BasicPoi ECO_TOURISM = ecoTourism();
+	public static BasicPoi GOLF = golf();
+	public static BasicPoi NAUTICAL_STATION = nauticalStation();
+	public static BasicPoi SKI_STATION = skiStation();
 	
 
 	
@@ -138,30 +127,26 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setPhone("+34 000000000")
 			)
 			.setFlags(
-				Flag.CASINO, 
-				Flag.CREDIT_CARD, 
-				Flag.EXCHANGE)
-			.setBusinessServiceFlags(
-				BusinessServiceFlag.AUDIOVISUAL_RENT,
-				BusinessServiceFlag.CONVENTION_ROOM
+				Flag.COMMON_EXCHANGE,
+				Flag.COMMON_CREDIT_CARD, 
+				Flag.LODGING_CASINO, 
+				Flag.LODGING_ROOM_JACUZZI,
+				Flag.ACCESSIBILITY_ADAPTED_ROOMS,
+				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
+				Flag.ACCESSIBILITY_ADAPTED_VEHICLE_RENT,
+				Flag.ACCESSIBILITY_PARKING_ACCESSIBLE,
+				Flag.ACCESSIBILITY_ASSISTANCE_TO_HANDICAPPED,
+				Flag.ACCESSIBILITY_GUIDE_DOG_ALLOWED,
+				Flag.BUSINESS_SERVICES_LODGING_FAX,
+				Flag.BUSINESS_SERVICES_LODGING_AUDIOVISUAL_RENT,
+				Flag.BUSINESS_SERVICES_LODGING_CONVENTION_ROOM
 					)
 			.setRoomTypes(
                 RoomType.HAB1,
                 RoomType.HAB2)
 			.setRoomPrices(
 				new RoomPrice(RoomType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
-				new RoomPrice(RoomType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
-				new RoomPrice(RoomType.HAB1, Season.LOW_SEASON, Regime.AD, 20d))
-			.setRoomFlags(
-				RoomFlag.JACUZZI,
-				RoomFlag.SAFE_BOX)
-			.setAccessibilityFlags(
-				AccessibilityFlag.ADAPTED_ROOMS,
-				AccessibilityFlag.LIFT_ACCESSIBLE,
-				AccessibilityFlag.ADAPTED_VEHICLE_RENT,
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED)
+				new RoomPrice(RoomType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d))
 			.validate();
 	}	
 	
@@ -174,10 +159,13 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
 			.setScore(Score.CAT_1)
 			.setFlags(
-				Flag.BBQ,
-				Flag.BIKE_RENT,
-				Flag.LOCKER,
-				Flag.CREDIT_CARD 
+				Flag.COMMON_BBQ,
+				Flag.COMMON_BIKE_RENT,
+				Flag.COMMON_LOCKER,
+				Flag.COMMON_CREDIT_CARD ,
+				Flag.ACCESSIBILITY_ADAPTED_ROOMS,
+				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
+				Flag.ACCESSIBILITY_GUIDE_DOG_ALLOWED
 				)
 			.setRoomTypes(
                 RoomType.TENT,
@@ -186,14 +174,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				new RoomPrice(RoomType.TENT, Season.HIGH_SEASON, Regime.AD, 30d),
 				new RoomPrice(RoomType.TENT, Season.MEDIUM_SEASON, Regime.AD, 25d),
 				new RoomPrice(RoomType.TENT, Season.LOW_SEASON, Regime.AD, 20d))
-			.setAccessibilityFlags(
-				AccessibilityFlag.ADAPTED_ROOMS,
-				AccessibilityFlag.LIFT_ACCESSIBLE,
-				AccessibilityFlag.ADAPTED_VEHICLE_RENT,
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED
-			)
+			
 			.validate();
 	}
 
@@ -207,7 +188,13 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setDescription(new I18nText().setEs("Descripción del apartamento..."))	
 			.setScore(Score.KEY_1)
 			.setFlags(
-				Flag.CREDIT_CARD 
+				Flag.COMMON_CREDIT_CARD, 
+				Flag.ACCESSIBILITY_ADAPTED_ROOMS,
+				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
+				Flag.ACCESSIBILITY_ADAPTED_VEHICLE_RENT,
+				Flag.ACCESSIBILITY_PARKING_ACCESSIBLE,
+				Flag.ACCESSIBILITY_ASSISTANCE_TO_HANDICAPPED,
+				Flag.ACCESSIBILITY_GUIDE_DOG_ALLOWED
 				)
 			.setRoomTypes(
                 RoomType.HAB1,
@@ -219,10 +206,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				new RoomPrice(RoomType.HAB2, Season.HIGH_SEASON, Regime.AD, 60d),
 				new RoomPrice(RoomType.HAB2, Season.MEDIUM_SEASON, Regime.AD, 50d),
 				new RoomPrice(RoomType.HAB2, Season.LOW_SEASON, Regime.AD, 40d))
-			.setAccessibilityFlags(
-				AccessibilityFlag.ADAPTED_ROOMS,
-				AccessibilityFlag.LIFT_ACCESSIBLE
-			)
+			
 			.validate();
 	}
 		
@@ -235,20 +219,18 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setLocation(AbstractFactory.GEO_PLAYA_TERESITAS)					// required
 			.setDescription(new I18nText().setEs("Descripción de la playa..."))		
 			.setAddress(new Address().setRoute("Las teresitas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
-			.setQualityCertificates(
-				QualityCertificateFlag.BANDERA_AZUL,
-				QualityCertificateFlag.NATURISTA)
+			.setFlags(
+				Flag.ACCESSIBILITY_ADAPTED_ROOMS,
+				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
+				Flag.ACCESSIBILITY_ADAPTED_VEHICLE_RENT,
+				Flag.QUALITY_BANDERA_AZUL,
+				Flag.QUALITY_NATURISTA)
 			.setData("longitude","100.0")
 			.setData("width", "200")
 			.setData("anchorZone", "true")
 			.setData("bathCondition", BathCondition.MODERATE_WAVES.toString())
 			.setData("composition", BeachComposition.VOLCANIC_BLACK_SAND.toString())
 			.setData("sandType", SandType.DARK.toString())
-			.setAccessibilityFlags(
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED
-			)
 			.validate();
 	}
 		
@@ -265,32 +247,16 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setPhone("+34 000000000")
 			)
 			.setDesignation(Designation.NATIONAL_MUSEUM)
-			.setFlags(Flag.GUIDED_TOUR)
-			.setAccessibilityFlags(
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED
+			.setFlags(Flag.BUSINESS_ACTIVITY_GUIDE_TOUR)
+			.setFlags(
+				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
+				Flag.ACCESSIBILITY_ASSISTANCE_TO_HANDICAPPED,
+				Flag.ACCESSIBILITY_GUIDE_DOG_ALLOWED
 			)
 			.setTimetable(
-				new TimeTableEntry()
-					.setWeekDays(
-						WeekDay.MONDAY, 
-						WeekDay.WEDNESDAY, 
-						WeekDay.FRIDAY)
-					.setHourRange( 
-						new HourRange("09:00", "13:00"),
-						new HourRange("15:00", "20:00")),
-				new TimeTableEntry()
-					.setDays( new TimeTableDay(6,DateTimeConstants.JANUARY))
-					.setDays( new TimeTableDay(24,DateTimeConstants.DECEMBER))
-					.setHourRange(
-						new HourRange("10:00","14:00")),
-				new TimeTableEntry()
-					.setClosedDays( 
-						new TimeTableDay(1,DateTimeConstants.JANUARY),
-						new TimeTableDay(1,DateTimeConstants.MAY),
-						new TimeTableDay(25,DateTimeConstants.DECEMBER)
-					)
+				new TimeTableEntry("Mon,Wed,Fri=09:00-13:00,15:00-20:00"),
+				new TimeTableEntry("0601,2412=10:00-14:00"),
+				new TimeTableEntry("0101,2512=")
 			)
 			.setPrices(
 				new AccessPrice()
@@ -306,12 +272,8 @@ public class DummyPoiFactory extends AbstractFactory {
 					.setPriceTypes(PriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 					.setTimetable(
-						new TimeTableEntry()
-							.setWeekDays(WeekDay.MONDAY,WeekDay.TUESDAY,WeekDay.WEDNESDAY,WeekDay.THURSDAY,WeekDay.FRIDAY)
-							.setHourRange(new HourRange("18:00","20:00")),
-						new TimeTableEntry()
-							.setWeekDays(WeekDay.SATURDAY, WeekDay.SUNDAY)
-							.setHourRange(new HourRange("17:00","19:00"))
+						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"),
+						new TimeTableEntry("Sat,Sun=17:00-19:00")
 					)
 			)
 			.validate();
@@ -335,33 +297,15 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setArtisticPeriod( ArtisticPeriod.ARABIC)
 			.setHistoricalPeriod( HistoricalPeriod.CENTURY_14)
 			.setEnviroment(new I18nText().setEs("El Generalife").setEn("The Generalife"))
-			.setQualityCertificates( QualityCertificateFlag.PATRIMONIO_HUMANIDAD )
-			.setFlags(Flag.GUIDED_TOUR)
-			.setAccessibilityFlags(
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED
+			.setFlags(
+				Flag.COMMON_GUIDED_TOUR,
+				Flag.QUALITY_PATRIMONIO_HUMANIDAD,
+				Flag.ACCESSIBILITY_PARKING_ACCESSIBLE
 			)
 			.setTimetable(
-				new TimeTableEntry()
-					.setWeekDays(
-						WeekDay.MONDAY, 
-						WeekDay.WEDNESDAY, 
-						WeekDay.FRIDAY)
-					.setHourRange( 
-						new HourRange("09:00", "13:00"),
-						new HourRange("15:00", "20:00")),
-				new TimeTableEntry()
-					.setDays( new TimeTableDay(6,DateTimeConstants.JANUARY))
-					.setDays( new TimeTableDay(24,DateTimeConstants.DECEMBER))
-					.setHourRange(
-						new HourRange("10:00","14:00")),
-				new TimeTableEntry()
-					.setClosedDays( 
-						new TimeTableDay(1,DateTimeConstants.JANUARY),
-						new TimeTableDay(1,DateTimeConstants.MAY),
-						new TimeTableDay(25,DateTimeConstants.DECEMBER)
-					)
+					new TimeTableEntry("Mon,Wed,Fri=09:00-13:00,15:00-20:00"),
+					new TimeTableEntry("0601,2412=10:00-12:00"),
+					new TimeTableEntry("0101,2512=")
 			)
 			.setPrices(
 				new AccessPrice()
@@ -377,12 +321,8 @@ public class DummyPoiFactory extends AbstractFactory {
 					.setPriceTypes(PriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 					.setTimetable(
-						new TimeTableEntry()
-							.setWeekDays(WeekDay.MONDAY,WeekDay.TUESDAY,WeekDay.WEDNESDAY,WeekDay.THURSDAY,WeekDay.FRIDAY)
-							.setHourRange(new HourRange("18:00","20:00")),
-						new TimeTableEntry()
-							.setWeekDays(WeekDay.SATURDAY, WeekDay.SUNDAY)
-							.setHourRange(new HourRange("17:00","19:00"))
+						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"),
+						new TimeTableEntry("Sat,Sun=17:00-19:00")
 					)
 			).validate();
 	}
@@ -394,12 +334,9 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setName(new I18nText().setEs("Parque andalusí"))			// required
 			.setLocation(AbstractFactory.GEO_TEIDE)								// required
 			.setDescription(new I18nText().setEs("Descripción del parque"))			
-			.setQualityCertificates(
-				QualityCertificateFlag.PATRIMONIO_HUMANIDAD)
-			.setAccessibilityFlags(
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED)
+			.setFlags(
+					Flag.QUALITY_PATRIMONIO_HUMANIDAD,
+					Flag.ACCESSIBILITY_PARKING_ACCESSIBLE)
 			.setArtisticPeriod(ArtisticPeriod.ANDALUSI)
 			.validate();
 	}
@@ -414,34 +351,30 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setRoute("Timanfaya")
 				.setAdminArea1("Canarias")
 				.setAdminArea2("Lanzarote"))
-			.setQualityCertificates(
-				QualityCertificateFlag.PATRIMONIO_HUMANIDAD)
-			.setAccessibilityFlags(
-				AccessibilityFlag.PARKING_ACCESSIBLE,
-				AccessibilityFlag.ASSISTANCE_TO_HANDICAPPED,
-				AccessibilityFlag.GUIDE_DOG_ALLOWED)
 			.setFlags(
-				Flag.BIOSPHERE_RESERVE,
-				Flag.NATIONAL_PARK)
+				Flag.ACCESSIBILITY_PARKING_ACCESSIBLE,
+			    Flag.QUALITY_PATRIMONIO_HUMANIDAD,
+			    Flag.QUALITY_ECOTURISMO,
+			    Flag.QUALITY_RESERVA_BIOSFERA,
+			    Flag.NATURE_NATIONAL_PARK)
 			.setPrices( 
 				new AccessPrice()
 					.setPrice(25d)
 					.setPriceTypes(PriceType.ADULT)
 					.setTimetable( 
-						new TimeTableEntry()
-							.setHourRange(new HourRange("09:00", "20:00"))
+						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri,Sat,Sun=09:00-20:00")
 					)
 			).validate();
 	}
 		
 	// Ecoturismo 
-	public static Business ecoTourism(){
-		return ((Business) PoiFactory.newInstance(PoiTypeID.ECO_TOURISM))
+	public static BasicPoi ecoTourism(){
+		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.ECO_TOURISM))
 			.setName(new I18nText().setEs("Ecoturismo")) 	// required
 			.setLocation(randomLocation())					// required
-			.setActivities(
-				BusinessActiviyFlag.GUIDE_TOUR,
-				BusinessActiviyFlag.EDUCATIONAL_ACTIVITIES)
+			.setFlags(
+				Flag.BUSINESS_ACTIVITY_GUIDE_TOUR,
+				Flag.BUSINESS_ACTIVITY_EDUCATIONAL_ACTIVITIES)
 			.setLanguages(
 				LanguageFlag.ENGLISH,
 				LanguageFlag.SPANISH)
@@ -450,19 +383,17 @@ public class DummyPoiFactory extends AbstractFactory {
 			
 		
 	// Golf
-	public static Business golf(){
-		return((Business) PoiFactory.newInstance(PoiTypeID.GOLF))
+	public static BasicPoi golf(){
+		return((BasicPoi) PoiFactory.newInstance(PoiTypeID.GOLF))
 			.setName(new I18nText().setEs("Campo de golf")) 	// required
 			.setLocation(randomLocation())					// required
-			.setBusinessType(BusinessTypeFlag.MIXED_GOLF)
-			.setBusinessServices(
-				BusinessServiceFlag.CADDY,
-				BusinessServiceFlag.CLUB,
-				BusinessServiceFlag.BUNKER,
-				BusinessServiceFlag.COVERED_DRIVING_RANGE
-				)
-			.setActivities(
-				BusinessActiviyFlag.LESSONS
+			.setFlags(
+				Flag.BUSINESS_TYPE_GOLF_MIXED,
+				Flag.BUSINESS_ACTIVITY_LESSONS,
+				Flag.BUSINESS_SERVICES_GOLF_CADDY,
+				Flag.BUSINESS_SERVICES_GOLF_CLUB,
+				Flag.BUSINESS_SERVICES_GOLF_BUNKER,
+				Flag.BUSINESS_SERVICES_GOLF_COVERED_DRIVING_RANGE
 				)
 			.setLanguages(
 				LanguageFlag.SPANISH)
@@ -470,27 +401,30 @@ public class DummyPoiFactory extends AbstractFactory {
 	}
 		
 	// Estación náutica
-	public static Business nauticalStation(){
-		return ((Business) PoiFactory.newInstance(PoiTypeID.NAUTICAL_STATION))
+	public static BasicPoi nauticalStation(){
+		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.NAUTICAL_STATION))
 			.setName(new I18nText().setEs("Estación náutica")) 	// required
 			.setLocation(randomLocation())					// required
-			.setBusinessServices(
-				BusinessServiceFlag.CATAMARAN,
-				BusinessServiceFlag.DIVING,
-				BusinessServiceFlag.WHALE_WATCHING)
+			.setFlags(
+					Flag.BUSINESS_SERVICES_NAUTICAL_CATAMARAN,
+					Flag.BUSINESS_SERVICES_NAUTICAL_DIVING,
+					Flag.BUSINESS_SERVICES_NAUTICAL_WHALE_WATCHING)
 			.setLanguages(
 				LanguageFlag.SPANISH)
 			.validate();
 	}
 	
 	// Estación de esqui
-	public static Business skiStation(){
-		return ((Business) PoiFactory.newInstance(PoiTypeID.SKI_STATION))
+	public static BasicPoi skiStation(){
+		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.SKI_STATION))
+			.setTimetable(
+					new TimeTableEntry("[0112-3103]=10:00-17:00")
+			 )
 			.setName(new I18nText().setEs("Estación de esquí")) 	// required
 			.setLocation(randomLocation())							// required
-			.setBusinessServices(
-					BusinessServiceFlag.SKI_RENTALS,
-					BusinessServiceFlag.SOS_SERVICE)
+			.setFlags(
+					Flag.BUSINESS_SERVICES_SKI_RENTALS,
+					Flag.COMMON_SOS_SERVICE)
 			.setData("total-km-esquiables", "124.2")
 			.setData("cota-maxima", "800")
 			.setData("cota-minima", "600")

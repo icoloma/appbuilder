@@ -19,6 +19,11 @@ public class BasicPoi extends AbstractPoi {
 		super(type);
 		Preconditions.checkArgument(PoiTypeID.BASIC_TYPES.contains(type.getId()));
     }
+	
+	@Override
+	public BasicPoi setLanguages(LanguageFlag... languages) {
+		return (BasicPoi) super.setLanguages(languages);
+	}
 
 	@Override
 	public BasicPoi setData(String key, String data) {
@@ -31,18 +36,8 @@ public class BasicPoi extends AbstractPoi {
 	}
 
 	@Override
-	public BasicPoi setAccessibilityFlags(AccessibilityFlag... flags) {
-		return (BasicPoi) super.setAccessibilityFlags(flags);
-	}
-
-	@Override
 	public BasicPoi setFlags(Flag... flags) {
 		return (BasicPoi) super.setFlags(flags);
-	}
-
-	@Override
-	public BasicPoi setQualityCertificates(QualityCertificateFlag... flags) {
-		return (BasicPoi) super.setQualityCertificates(flags);
 	}
 
 	@Override
@@ -83,11 +78,6 @@ public class BasicPoi extends AbstractPoi {
 	@Override
 	public BasicPoi setPrices(AccessPrice... prices) {
 		return (BasicPoi) super.setPrices(prices);
-	}
-
-	@Override
-	public BasicPoi setFamilyServiceFlags(FamilyServiceFlag... flags) {
-		return (BasicPoi) super.setFamilyServiceFlags(flags);
 	}
 
 	@Override

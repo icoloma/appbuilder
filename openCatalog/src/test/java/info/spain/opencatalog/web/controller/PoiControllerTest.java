@@ -1,5 +1,6 @@
 package info.spain.opencatalog.web.controller;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -8,15 +9,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import info.spain.opencatalog.domain.Address;
+import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
-
-import static junit.framework.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +58,7 @@ public class PoiControllerTest {
 	public void test_POST_GET_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
 		AbstractPoi poi = DummyPoiFactory.newPoi("poiTest");
-		poi.setFlags( Flag.SHOP, Flag.GUIDED_TOUR);
+		poi.setFlags( Flag.COMMON_SHOP, Flag.COMMON_GUIDED_TOUR);
 		
 		// Test POST
 		MvcResult result = this.mockMvc.perform(post("/admin/poi")
@@ -71,8 +70,8 @@ public class PoiControllerTest {
 				.param("address.zipCode", poi.getAddress().getZipCode())
 				.param("location.lat", poi.getLocation().getLat().toString())
 				.param("location.lng", poi.getLocation().getLng().toString())
-			    .param("flag[" + Flag.GUIDED_TOUR + "-a]", "whatever")
-			    .param("flag[" + Flag.SHOP + "-a]", "whatever")
+			    .param("flag[" + Flag.COMMON_GUIDED_TOUR + "-a]", "whatever")
+			    .param("flag[" + Flag.COMMON_SHOP + "-a]", "whatever")
 			    )
 	    	.andExpect(status().isMovedTemporarily())
 	    	.andReturn();
@@ -96,7 +95,7 @@ public class PoiControllerTest {
 		update.setDescription(new I18nText().setEs("xxx"));
 		update.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"));
 		update.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
-		update.setFlags(Flag.WC, Flag.HANDICAPPED);
+		update.setFlags(Flag.COMMON_WC, Flag.COMMON_HANDICAPPED);
 				
 
 		result = this.mockMvc.perform(post("/admin/poi/" + id)
@@ -108,8 +107,8 @@ public class PoiControllerTest {
 				.param("address.zipCode", update.getAddress().getZipCode())
 				.param("location.lat", update.getLocation().getLat().toString())
 				.param("location.lng", update.getLocation().getLng().toString())
-			    .param("flag[" + Flag.WC + "-a]", "whatever")
-			    .param("flag[" + Flag.HANDICAPPED + "-a]", "whatever")
+			    .param("flag[" + Flag.COMMON_WC + "-a]", "whatever")
+			    .param("flag[" + Flag.COMMON_HANDICAPPED + "-a]", "whatever")
 			    )
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();
@@ -143,12 +142,6 @@ public class PoiControllerTest {
 			for (Flag flag : expected.getFlags()) {
 				assertTrue( actual.getFlags().contains(flag));
 			}
-		}
-		if (expected.getAccessibilityFlags()!= null ) {
-			assertEquals(expected.getAccessibilityFlags().size(), actual.getAccessibilityFlags().size());
-		}
-		if (expected.getQualityCertificateFlags() != null ) {
-			assertEquals(expected.getQualityCertificateFlags().size(), actual.getQualityCertificateFlags().size());
 		}
 		if (expected.getTimetable()!= null ) {
 			assertEquals(expected.getTimetable().size(), actual.getTimetable().size());

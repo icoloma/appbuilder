@@ -118,7 +118,7 @@ public class PoiAPITest {
 					"'lat':40.45259106740161," +
 					"'lng':-3.7391396261243433" +
 				"}," +
-				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
+				"'flags':['" + Flag.COMMON_GUIDED_TOUR+ "']" +
 				"}";
 		json = json.replaceAll("'", "\"");
 		
