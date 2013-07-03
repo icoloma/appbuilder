@@ -6,7 +6,7 @@ package info.spain.opencatalog.domain.poi.lodging;
  *  - Pensión completa
  *  - Solo alojamiento
  */
-public enum Regime {
+public enum Meal {
 	AL,		// Solo alojamiento
 	AD,   	// Almuerzo y desayuno
     MP,   	// Media pensión

@@ -1,4 +1,4 @@
-package info.spain.opencatalog.domain.poi.culture;
+package info.spain.opencatalog.domain.poi;
 
 /**
  * Tipo de tarifa

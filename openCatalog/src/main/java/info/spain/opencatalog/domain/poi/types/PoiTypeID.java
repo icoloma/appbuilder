@@ -1,13 +1,13 @@
 package info.spain.opencatalog.domain.poi.types;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 /**
  *
  */
 
-import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /** Tipos de POI permitidos */
 public enum PoiTypeID {
@@ -32,29 +32,25 @@ public enum PoiTypeID {
     GOLF,
     NAUTICAL_STATION,
 	SKI_STATION;
-    
 
-    public static final Set<PoiTypeID> BASIC_TYPES = ImmutableSet.of(
-    		BASIC, 
-    		BEACH, 
-    		NATURAL_SPACE
-    		);
-    
-    public static final Set<PoiTypeID> LODGING_TYPES = ImmutableSet.of(
-    		HOTEL, 
-    		CAMPING, 
-    		APARTMENT);
 
-    public static final Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(
-    		MUSEUM, 
-    		MONUMENT, 
-    		PARK_GARDEN);
-    
-    public static final Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
-    		ECO_TOURISM, 
-    		GOLF, 
-    		NAUTICAL_STATION, 
-    		SKI_STATION);		   
+  public static  Set<PoiTypeID> LODGING_TYPES = Sets.immutableEnumSet(
+		HOTEL, 
+		APARTMENT, 
+		CAMPING);
+
+
+   public static  Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(
+		MUSEUM, 
+		MONUMENT, 
+		PARK_GARDEN);
+
+    /** Agrupación lógica de Business */
+    public static  Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
+		ECO_TOURISM, 
+		GOLF, 
+		NAUTICAL_STATION, 
+		SKI_STATION);		  
    
 }
 

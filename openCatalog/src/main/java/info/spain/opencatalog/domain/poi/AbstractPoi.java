@@ -3,7 +3,6 @@ package info.spain.opencatalog.domain.poi;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.lodging.Score;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
 import java.util.HashMap;
@@ -30,44 +29,47 @@ import com.google.common.collect.Sets;
 public abstract class AbstractPoi {
 	
 	@Id
-	private String id;
+	protected String id;
 
 	/** Tipo de POI específico: Hotel, Monumento, Playa, ... */
 	@NotNull
-	private BasicPoiType type;
+	protected BasicPoiType type;
 	
 	@Indexed
-	private I18nText name;
+	protected I18nText name;
 
-	private I18nText description;
+	protected I18nText description;
 	
-	private Address address;
+	protected Address address;
 	
 	/** Geospatial location */
 	@NotNull
 	@GeoSpatialIndexed
-	private GeoLocation location; 	
+	protected GeoLocation location; 	
 	
     /** características que un BasicPoiType puede tener o no: visitas guiadas, tiendas, etc.. */
-    private Set<Flag> flags;
+	protected Set<Flag> flags;
 
     /** valoración oficial (no de los usuarios): 3 Estrellas, 2 tenedores, etc */
-    private Score score;
+    protected Score score;
+    
+    /** Entorno: El generalife, ... */
+    protected I18nText enviroment;
     
     /** Datos específicos del poi: longitud(playa), nº pistas verdes(estación esquí) ... */
-    private Map<String,String> data;
+    protected Map<String,String> data;
 
    	/** horarios de apertura/cierre */
-	private Set<TimeTableEntry> timetable;
+    protected Set<TimeTableEntry> timetable;
 	
 	/** precios de acceso */
-    private Set<AccessPrice> prices;
+    protected Set<Price> prices;
    
 	/** Información de contacto */
-    private ContactInfo contactInfo;
+    protected ContactInfo contactInfo;
     
 	/** Idiomas soportados */
-	private Set<LanguageFlag> languages;
+    protected Set<LanguageFlag> languages;
 	
     
     @CreatedDate
@@ -193,11 +195,11 @@ public abstract class AbstractPoi {
 		return type;
 	}
 
-	public Set<AccessPrice> getPrices() {
+	public Set<Price> getPrices() {
 		return prices;
 	}
 
-	public AbstractPoi setPrices(AccessPrice...prices) {
+	public AbstractPoi setPrices(Price...prices) {
 		this.prices = Sets.newHashSet(prices);
 		return this;
 	}
@@ -223,6 +225,16 @@ public abstract class AbstractPoi {
 		return this;
 	}
 
+	
+	public I18nText getEnviroment() {
+		return enviroment;
+	}
+
+	public AbstractPoi setEnviroment(I18nText enviroment) {
+		this.enviroment = enviroment;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return toStringHelper().toString();
@@ -241,6 +253,7 @@ public abstract class AbstractPoi {
 				.add("flags", flags)
 				.add("prices", prices)
 				.add("languages", languages)
+				.add("enviroment",enviroment)
 				.add("created", created)
 				.add("lastModified", lastModified);
 	}

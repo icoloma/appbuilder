@@ -1,23 +1,21 @@
 package info.spain.opencatalog.domain.poi;
 
-import com.google.common.base.Preconditions;
-
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.lodging.Score;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
-import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
+
+import com.google.common.base.Preconditions;
 
 /** 
  * Clase base para cualquier POI genérico 
  */
 public class BasicPoi extends AbstractPoi {
-
-
+	
 	public BasicPoi(BasicPoiType type){
 		super(type);
-		Preconditions.checkArgument(PoiTypeID.BASIC_TYPES.contains(type.getId()));
+		Preconditions.checkArgument(PoiTypeRepository.BASIC_TYPES.contains(type.getId()));
     }
 	
 	@Override
@@ -76,7 +74,7 @@ public class BasicPoi extends AbstractPoi {
 	}
 
 	@Override
-	public BasicPoi setPrices(AccessPrice... prices) {
+	public BasicPoi setPrices(Price... prices) {
 		return (BasicPoi) super.setPrices(prices);
 	}
 
@@ -84,6 +82,13 @@ public class BasicPoi extends AbstractPoi {
 	public BasicPoi validate() {
 		return (BasicPoi) super.validate();
 	}
+
+	@Override
+	public BasicPoi setEnviroment(I18nText enviroment) {
+		return (BasicPoi) super.setEnviroment(enviroment);
+	}
+	
+	
 	
 
 }

@@ -4,12 +4,13 @@ import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
-import info.spain.opencatalog.domain.poi.AccessPrice;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.Price;
+import info.spain.opencatalog.domain.poi.Score;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
-import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import java.util.Set;
 
@@ -30,16 +31,13 @@ public class Lodging extends AbstractPoi {
     /** tipos de alojamiento: habitación doble, individual, etc */
     private Set<RoomType> roomTypes;
 
-    /** precios del alojamiento: hab-doble en temporada alta con pensión completa */
-    private Set<RoomPrice> roomPrices;
-
     public Lodging(BasicPoiType type) {
         super(type);
-        Preconditions.checkArgument(PoiTypeID.LODGING_TYPES.contains(type.getId()));
+        Preconditions.checkArgument(PoiTypeRepository.LODGING_TYPES.contains(type.getId()));
     }
 
     @Override
-	public Lodging setPrices(AccessPrice...prices) {
+	public Lodging setPrices(Price...prices) {
 		return (Lodging) super.setPrices(prices);
 	}
 	
@@ -83,16 +81,7 @@ public class Lodging extends AbstractPoi {
 		return (Lodging) super.setContactInfo(contactInfo);
 	}
  	
-	public Set<RoomPrice> getRoomPrices() {
-    	return roomPrices;
-    }
-    
-    public Lodging setRoomPrices(RoomPrice... roomPrices) {
-    	this.roomPrices = Sets.newHashSet(roomPrices);
-    	return this;
-    }
-
-    public Lodging setRoomTypes(RoomType... roomTypes) {
+	public Lodging setRoomTypes(RoomType... roomTypes) {
     	this.roomTypes = Sets.newHashSet(roomTypes);
     	return this;
     }
@@ -110,8 +99,7 @@ public class Lodging extends AbstractPoi {
 	protected ToStringHelper toStringHelper() {
 		return super.toStringHelper()
 			.add("roomTypes", roomTypes)
-			.add("roomPrices", roomPrices)
-		;
+	;
 	}
 
 		

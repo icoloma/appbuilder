@@ -1,4 +1,4 @@
-package info.spain.opencatalog.domain.poi.lodging;
+package info.spain.opencatalog.domain.poi;
 
 /** 
  * Valoración del tipo de POI: 3 Estrellas, 2 tenedores, Categoría

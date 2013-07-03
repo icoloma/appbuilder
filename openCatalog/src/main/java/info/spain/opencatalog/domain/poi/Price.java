@@ -1,7 +1,6 @@
 package info.spain.opencatalog.domain.poi;
 
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.culture.PriceType;
 
 import java.util.Set;
 
@@ -16,42 +15,42 @@ import com.google.common.collect.Sets;
  *   - Horarios aplicados a este precio: Lunes-Viernes de 18:00 a 20:00
  *   - Texto adicional: "La Entrada es gratuíta para miembros de ... " 
  */
-public class AccessPrice {
+public class Price {
 	
-	private Double price;
+	protected Double price;
 	
 	/** Tipo de tarifa:  General, Adulto, Niño, Estudiante, ... */
-	private Set<PriceType> priceTypes;
+	protected Set<PriceType> priceTypes;
 	
 	/** Horarios aplicados a este precio: Lunes-Viernes de 18:00 a 20:00 */
-	private Set<TimeTableEntry> timeTable;
+	protected Set<TimeTableEntry> timeTable;
 	
 	/** Texto adicional: "La Entrada es gratuíta para miembros de ... " */
-	private I18nText observations;
+	protected I18nText observations;
 	
 	
 	public Double getPrice() {
 		return price;
 	}
-	public AccessPrice setPrice(Double price) {
+	public Price setPrice(Double price) {
 		this.price = price;
 		return this;
 	}
 	public Set<PriceType> getPriceTypes() {
 		return priceTypes;
 	}
-	public AccessPrice setPriceTypes(Set<PriceType> priceTypes) {
+	public Price setPriceTypes(Set<PriceType> priceTypes) {
 		this.priceTypes = priceTypes;
 		return this;
 	}
-	public AccessPrice setPriceTypes(PriceType... culturePriceTypes) {
+	public Price setPriceTypes(PriceType... culturePriceTypes) {
 		return setPriceTypes(Sets.newHashSet(culturePriceTypes));
 	}
 	public Set<TimeTableEntry> getTimeTable() {
 		return timeTable;
 	}
 	
-	public AccessPrice setTimetable(TimeTableEntry... timeTable) {
+	public Price setTimetable(TimeTableEntry... timeTable) {
 		this.timeTable = Sets.newHashSet(timeTable);
 		return this;
 	}
@@ -59,7 +58,7 @@ public class AccessPrice {
 	public I18nText getObservations() {
 		return observations;
 	}
-	public AccessPrice setObservations(I18nText observations) {
+	public Price setObservations(I18nText observations) {
 		this.observations = observations;
 		return this;
 	}

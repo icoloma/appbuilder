@@ -11,6 +11,9 @@ public class ContactInfo {
 	private String fax;
 	private String email;
 	private String url;
+	
+	/** URL, mail o teléfono para reservas */
+	private String reservation;
 
 	public String getPhone() {
 		return phone;
@@ -40,6 +43,14 @@ public class ContactInfo {
 		this.email = email;
 		return this;
 	}
+	
+	
+	public String getReservation() {
+		return reservation;
+	}
+	public void setReservation(String reservation) {
+		this.reservation = reservation;
+	}
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(getClass())
@@ -47,6 +58,7 @@ public class ContactInfo {
 			.add("fax",fax)
 			.add("email", email)
 			.add("url",url)
+			.add("reservation", reservation)
 			.toString();
 	}
 	

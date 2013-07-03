@@ -1,15 +1,14 @@
 package info.spain.opencatalog.domain.poi.types;
 
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.beach.BathCondition;
-import info.spain.opencatalog.domain.poi.beach.BeachComposition;
-import info.spain.opencatalog.domain.poi.beach.SandType;
+import info.spain.opencatalog.domain.poi.Score;
 import info.spain.opencatalog.domain.poi.lodging.RoomType;
-import info.spain.opencatalog.domain.poi.lodging.Score;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -22,8 +21,15 @@ import com.google.common.collect.Sets;
 public class PoiTypeRepository {
 	
 	
-	
-	/** Mantiene indexado los diferntes tipos de Poi en función de su Id */
+
+	/** ids que deben de ser BasicPoi */ 
+    public static  Set<PoiTypeID> BASIC_TYPES = basicTypes();
+    
+    /** ids que deben de ser Lodging */
+    public static  Set<PoiTypeID> LODGING_TYPES = lodgingTypes();
+    
+  
+ 	/** Mantiene indexado los diferntes tipos de Poi en función de su Id */
    private static Map<PoiTypeID, BasicPoiType> types;
  
    /** Devuelve un BasicPoiType en función del PoiTypeId */ 
@@ -168,6 +174,7 @@ public class PoiTypeRepository {
     	flags.addAll(Flag.ALL_COMMON_FLAGS);
     	flags.addAll(Flag.ALL_FAMILY_FLAGS);
     	flags.addAll(Flag.ALL_ACCESSIBILITY_FLAGS);
+    	flags.addAll(Flag.ALL_BEACH_FLAGS);
     	flags.add(Flag.QUALITY_BANDERA_AZUL);
     	flags.add(Flag.QUALITY_ACCESIBILIDAD);
     	flags.add(Flag.QUALITY_NATURISTA);
@@ -175,9 +182,6 @@ public class PoiTypeRepository {
     	return new BasicPoiType(PoiTypeID.BEACH)
 	 		.setAllowedDataValidator("longitude", DataValidator.DOUBLE_VALIDATOR)
 			.setAllowedDataValidator("width", DataValidator.DOUBLE_VALIDATOR)
-			.setAllowedDataValidator("sandType", new DataValidator().setValidValues(Sets.newHashSet(SandType.values())))
-			.setAllowedDataValidator("bathCondition", new DataValidator().setValidValues(Sets.newHashSet(BathCondition.values())))
-			.setAllowedDataValidator("composition", new DataValidator().setValidValues(Sets.newHashSet(BeachComposition.values())))
 			.setAllowedDataValidator("promenade", DataValidator.BOOLEAN_VALIDATOR)
 			.setAllowedDataValidator("anchorZone", DataValidator.BOOLEAN_VALIDATOR)
 			.setAllowedFlags(flags.toArray(new Flag[]{}));
@@ -206,6 +210,10 @@ public class PoiTypeRepository {
     	flags.addAll(Flag.ALL_COMMON_FLAGS);
     	flags.addAll(Flag.ALL_FAMILY_FLAGS);
     	flags.addAll(Flag.ALL_ACCESSIBILITY_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_DESIGNATION_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_CONSTRUCTION_TYPE_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_ARTISTIC_PERIOD_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_HISTORICAL_PERIOD_FLAGS);
     	flags.add(Flag.QUALITY_MICHELIN);
     	flags.add(Flag.QUALITY_ACCESIBILIDAD);
     	flags.add(Flag.QUALITY_CAMPSA);
@@ -220,6 +228,9 @@ public class PoiTypeRepository {
     	flags.addAll(Flag.ALL_COMMON_FLAGS);
     	flags.addAll(Flag.ALL_FAMILY_FLAGS);
     	flags.addAll(Flag.ALL_ACCESSIBILITY_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_CONSTRUCTION_TYPE_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_ARTISTIC_PERIOD_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_HISTORICAL_PERIOD_FLAGS);
     	flags.add(Flag.QUALITY_PATRIMONIO_HUMANIDAD);
     	flags.add(Flag.QUALITY_MICHELIN);
     	flags.add(Flag.QUALITY_ACCESIBILIDAD);
@@ -236,6 +247,9 @@ public class PoiTypeRepository {
      	HashSet<Flag> flags = Sets.newHashSet();
     	flags.addAll(Flag.ALL_COMMON_FLAGS);
     	flags.addAll(Flag.ALL_FAMILY_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_CONSTRUCTION_TYPE_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_ARTISTIC_PERIOD_FLAGS);
+    	flags.addAll(Flag.ALL_CULTURE_HISTORICAL_PERIOD_FLAGS);
     	flags.addAll(Flag.ALL_ACCESSIBILITY_FLAGS);
     	flags.add(Flag.QUALITY_PATRIMONIO_HUMANIDAD);
     	flags.add(Flag.QUALITY_ACCESIBILIDAD);
@@ -256,8 +270,6 @@ public class PoiTypeRepository {
     	flags.add(Flag.QUALITY_ACCESIBILIDAD);
     	flags.add(Flag.QUALITY_CAMPSA);
     	flags.add(Flag.QUALITY_MICHELIN);
-    	flags.add(Flag.BUSINESS_ACTIVITY_GUIDE_TOUR);
-    	flags.add(Flag.BUSINESS_ACTIVITY_EDUCATIONAL_ACTIVITIES);
     	flags.add(Flag.BUSINESS_ACTIVITY_LOCAL_PRODUCT_SALES);
     	flags.add(Flag.BUSINESS_ACTIVITY_ACTIVE_TOURISM);
     	flags.add(Flag.BUSINESS_ACTIVITY_ACTIVE_TOURISM);
@@ -357,6 +369,31 @@ public class PoiTypeRepository {
     		;
     }
    
+    
+    private static Set<PoiTypeID> lodgingTypes(){
+    	return ImmutableSet.of(
+        		PoiTypeID.HOTEL, 
+        		PoiTypeID.CAMPING, 
+        		PoiTypeID.APARTMENT);
+        
+    }
+    private static Set<PoiTypeID> basicTypes(){
+    	return ImmutableSet.of( 
+        		PoiTypeID.BASIC, 
+        		PoiTypeID.BEACH,
+        		PoiTypeID.NATURAL_SPACE,
+
+            	PoiTypeID.ECO_TOURISM, 
+        		PoiTypeID.GOLF, 
+        		PoiTypeID.NAUTICAL_STATION, 
+        		PoiTypeID.SKI_STATION,
+        		
+        		PoiTypeID.MUSEUM,
+        		PoiTypeID.MONUMENT,
+        		PoiTypeID.NATURAL_SPACE,
+        		PoiTypeID.PARK_GARDEN
+        );
+    }
 
 
 }   

@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.lodging;
 
+import info.spain.opencatalog.domain.I18nText;
+import info.spain.opencatalog.domain.poi.Price;
+
 import com.google.common.base.Objects;
 
 
@@ -9,19 +12,18 @@ import com.google.common.base.Objects;
  * Ej.: hab-doble, temporada alta, media pensión, 100
  *
  */
-public class RoomPrice {
+public class RoomPrice extends Price {
 	
 	private RoomType roomType;  // tipo de alojamiento ( hotel:suite|hab-doble|... ; camping : Autocaravana|Tienda|...
-	private Season season;
-	private Regime regime;
-	private Double price;
+	private Meal meal;
+	
 
-	public RoomPrice(RoomType roomType, Season season, Regime regime, Double price) {
+	public RoomPrice(RoomType roomType,  Meal meal, Double price) {
 		super();
 		this.roomType = roomType;
-		this.season = season;
-		this.regime = regime;
+		this.meal = meal;
 		this.price = price;
+		
 	}
 
 	public RoomType getRoomType() {
@@ -32,36 +34,27 @@ public class RoomPrice {
 		this.roomType = roomType;
 	}
 
-	public Double getPrice() {
-		return price;
+
+
+	public Meal getMeal() {
+		return meal;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setMeal(Meal regime) {
+		this.meal = regime;
 	}
-
-	public Regime getRegime() {
-		return regime;
-	}
-
-	public void setRegime(Regime regime) {
-		this.regime = regime;
-	}
-
-	public Season getSeason() {
-		return season;
-	}
-
-	public void setSeason(Season season) {
-		this.season = season;
+	
+	
+	@Override
+	public RoomPrice setObservations(I18nText observations) {
+		return (RoomPrice) super.setObservations(observations);
 	}
 
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(getClass())
 			.add("lodgingType", roomType)
-			.add("season", season)
-			.add("regime", regime)
+			.add("regime", meal)
 			.add("price", price)
 			.toString();
 	}

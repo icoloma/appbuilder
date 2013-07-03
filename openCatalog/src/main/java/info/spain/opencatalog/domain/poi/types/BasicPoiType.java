@@ -2,7 +2,7 @@ package info.spain.opencatalog.domain.poi.types;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.lodging.Score;
+import info.spain.opencatalog.domain.poi.Score;
 
 import java.util.HashMap;
 import java.util.Map;

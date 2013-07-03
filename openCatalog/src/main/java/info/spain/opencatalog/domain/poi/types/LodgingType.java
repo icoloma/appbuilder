@@ -2,10 +2,11 @@ package info.spain.opencatalog.domain.poi.types;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.Price;
+import info.spain.opencatalog.domain.poi.Score;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
 import info.spain.opencatalog.domain.poi.lodging.RoomType;
-import info.spain.opencatalog.domain.poi.lodging.Score;
 
 import java.util.Set;
 
@@ -28,7 +29,8 @@ public class LodgingType extends BasicPoiType {
         super.validate(poi);
         Lodging lp = (Lodging) poi;
         validateSet("room type", allowedRoomTypes, lp.getRoomTypes());
-        for (RoomPrice price : lp.getRoomPrices()) {
+        for( Price p : lp.getPrices()) {
+        	RoomPrice price = (RoomPrice) p;
             validateSet("room type", allowedRoomTypes, Sets.immutableEnumSet(price.getRoomType()));
         }
     }

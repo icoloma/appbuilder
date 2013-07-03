@@ -1,27 +1,18 @@
 package info.spain.opencatalog.domain;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
-import info.spain.opencatalog.domain.poi.AccessPrice;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.LanguageFlag;
+import info.spain.opencatalog.domain.poi.Price;
+import info.spain.opencatalog.domain.poi.PriceType;
+import info.spain.opencatalog.domain.poi.Score;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
-import info.spain.opencatalog.domain.poi.beach.BathCondition;
-import info.spain.opencatalog.domain.poi.beach.BeachComposition;
-import info.spain.opencatalog.domain.poi.beach.SandType;
-import info.spain.opencatalog.domain.poi.culture.ArtisticPeriod;
-import info.spain.opencatalog.domain.poi.culture.ConstructionType;
-import info.spain.opencatalog.domain.poi.culture.Culture;
-import info.spain.opencatalog.domain.poi.culture.Designation;
-import info.spain.opencatalog.domain.poi.culture.HistoricalPeriod;
-import info.spain.opencatalog.domain.poi.culture.PriceType;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
-import info.spain.opencatalog.domain.poi.lodging.Regime;
+import info.spain.opencatalog.domain.poi.lodging.Meal;
 import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
 import info.spain.opencatalog.domain.poi.lodging.RoomType;
-import info.spain.opencatalog.domain.poi.lodging.Score;
-import info.spain.opencatalog.domain.poi.lodging.Season;
 import info.spain.opencatalog.domain.poi.types.PoiFactory;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
@@ -34,13 +25,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class DummyPoiFactory extends AbstractFactory {
 	
+	
 	public static AbstractPoi newPoi(String key){
 		key = key + "-" + getRandom().nextInt();
-		return  PoiFactory.newInstance(PoiTypeID.HOTEL)
+		return  PoiFactory.newInstance(PoiTypeID.BASIC)
 			.setName( new I18nText()
 				.setEs("es-"+key+"-name")
 				.setEn("en-"+key+"-name")
@@ -55,13 +48,16 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setAdminArea2( "adminArea2-" + getRandom().nextInt(10))
 				.setZipCode(key+"-zipCode"))
 			.setLocation(randomLocation())
-			.setFlags(randomFlags(getRandom().nextInt(Flag.values().length)));
+			.setFlags(randomFlags());
 		}
 	
-	private static Flag[] randomFlags(int numFlags){
+	private static Flag[] randomFlags(){
+		List<Flag> validRandomFlags = Lists.newArrayList(Flag.ALL_COMMON_FLAGS);
+		int size = validRandomFlags.size();
+		int numFlags = getRandom().nextInt(size/2); 
 		Set<Flag> result = Sets.newHashSet();
 		for(int i=0; i< numFlags; i++){
-			Flag flag = Flag.values()[(getRandom().nextInt(Flag.values().length))];
+			Flag flag = validRandomFlags.get((getRandom().nextInt(size)));
 			result.add(flag);
 		}
 		return result.toArray(new Flag[] {});
@@ -102,9 +98,9 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static Lodging CAMPING = camping();
 	public static Lodging APARTMENT = apartment();
 	
-	public static Culture MUSEUM = museum();
-	public static Culture MONUMENT = monument();
-	public static Culture GARDEN = garden();
+	public static BasicPoi MUSEUM = museum();
+	public static BasicPoi MONUMENT = monument();
+	public static BasicPoi GARDEN = garden();
 	
 	public static BasicPoi ECO_TOURISM = ecoTourism();
 	public static BasicPoi GOLF = golf();
@@ -144,9 +140,10 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setRoomTypes(
                 RoomType.HAB1,
                 RoomType.HAB2)
-			.setRoomPrices(
-				new RoomPrice(RoomType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
-				new RoomPrice(RoomType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d))
+			.setPrices(
+				new RoomPrice(RoomType.HAB1, Meal.AD, 30d).setObservations( new I18nText().setEs("Semana santa")),
+				new RoomPrice(RoomType.HAB1, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada alta"))
+			)
 			.validate();
 	}	
 	
@@ -170,10 +167,11 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setRoomTypes(
                 RoomType.TENT,
                 RoomType.TENT_FAM)
-			.setRoomPrices(
-				new RoomPrice(RoomType.TENT, Season.HIGH_SEASON, Regime.AD, 30d),
-				new RoomPrice(RoomType.TENT, Season.MEDIUM_SEASON, Regime.AD, 25d),
-				new RoomPrice(RoomType.TENT, Season.LOW_SEASON, Regime.AD, 20d))
+			.setPrices(
+				new RoomPrice(RoomType.TENT,  Meal.AD, 30d).setObservations( new I18nText().setEs("Temporada alta")),
+				new RoomPrice(RoomType.TENT, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada media")),
+				new RoomPrice(RoomType.TENT, Meal.AD, 20d).setObservations( new I18nText().setEs("Temporada baja"))
+			)
 			
 			.validate();
 	}
@@ -199,14 +197,11 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setRoomTypes(
                 RoomType.HAB1,
                 RoomType.HAB2)
-			.setRoomPrices(
-				new RoomPrice(RoomType.HAB1, Season.HIGH_SEASON, Regime.AD, 30d),
-				new RoomPrice(RoomType.HAB1, Season.MEDIUM_SEASON, Regime.AD, 25d),
-				new RoomPrice(RoomType.HAB1, Season.LOW_SEASON, Regime.AD, 20d),
-				new RoomPrice(RoomType.HAB2, Season.HIGH_SEASON, Regime.AD, 60d),
-				new RoomPrice(RoomType.HAB2, Season.MEDIUM_SEASON, Regime.AD, 50d),
-				new RoomPrice(RoomType.HAB2, Season.LOW_SEASON, Regime.AD, 40d))
-			
+			.setPrices(
+				new RoomPrice(RoomType.HAB1,  Meal.AD, 30d).setObservations( new I18nText().setEs("Temporada alta")),
+				new RoomPrice(RoomType.HAB1, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada media")),
+				new RoomPrice(RoomType.HAB1, Meal.AD, 20d).setObservations( new I18nText().setEs("Temporada baja"))
+			)	
 			.validate();
 	}
 		
@@ -224,20 +219,20 @@ public class DummyPoiFactory extends AbstractFactory {
 				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
 				Flag.ACCESSIBILITY_ADAPTED_VEHICLE_RENT,
 				Flag.QUALITY_BANDERA_AZUL,
-				Flag.QUALITY_NATURISTA)
+				Flag.QUALITY_NATURISTA,
+				Flag.BEACH_BATH_CONDITION_MODERATE_WAVES,
+				Flag.BEACH_COMPOSITION_VOLCANIC_BLACK_SAND,
+				Flag.BEACH_SAND_TYPE_DARK)
 			.setData("longitude","100.0")
 			.setData("width", "200")
 			.setData("anchorZone", "true")
-			.setData("bathCondition", BathCondition.MODERATE_WAVES.toString())
-			.setData("composition", BeachComposition.VOLCANIC_BLACK_SAND.toString())
-			.setData("sandType", SandType.DARK.toString())
 			.validate();
 	}
 		
 
 	// Museum
-	public static Culture museum() {
-		return ((Culture) PoiFactory.newInstance(PoiTypeID.MUSEUM))
+	public static BasicPoi museum() {
+		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.MUSEUM))
 			.setName(new I18nText().setEs("Museo del Prado"))					// required
 			.setLocation(randomLocation())					// required
 			.setDescription(new I18nText().setEs("Descripción del museo"))			
@@ -246,9 +241,9 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setUrl("http://www.museodelprado.com")
 				.setPhone("+34 000000000")
 			)
-			.setDesignation(Designation.NATIONAL_MUSEUM)
-			.setFlags(Flag.BUSINESS_ACTIVITY_GUIDE_TOUR)
 			.setFlags(
+				Flag.COMMON_GUIDED_TOUR,
+				Flag.CULTURE_DESIGNATION_NATIONAL_MUSEUM,
 				Flag.ACCESSIBILITY_LIFT_ACCESSIBLE,
 				Flag.ACCESSIBILITY_ASSISTANCE_TO_HANDICAPPED,
 				Flag.ACCESSIBILITY_GUIDE_DOG_ALLOWED
@@ -259,16 +254,16 @@ public class DummyPoiFactory extends AbstractFactory {
 				new TimeTableEntry("0101,2512=")
 			)
 			.setPrices(
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.GENERAL, PriceType.GROUPS)
 					.setPrice(14d),
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.REDUCED)
 					.setPrice(7d),
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.STUDENT)
 					.setPrice(10d),
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 					.setTimetable(
@@ -283,8 +278,8 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 
 	// MONUMENTO
-	public static Culture monument() {
-		return ((Culture)PoiFactory.newInstance(PoiTypeID.MONUMENT))
+	public static BasicPoi monument() {
+		return ((BasicPoi)PoiFactory.newInstance(PoiTypeID.MONUMENT))
 			.setName(new I18nText().setEs("La Alhambra"))						// required
 			.setLocation(randomLocation())										// required
 			.setDescription(new I18nText().setEs("Descripción del monumento"))		
@@ -293,11 +288,11 @@ public class DummyPoiFactory extends AbstractFactory {
                 .setUrl("http://www.lahalambra.com")
                 .setPhone("+34 000000000")
             )
-			.setConstructionType(ConstructionType.PALACE)
-			.setArtisticPeriod( ArtisticPeriod.ARABIC)
-			.setHistoricalPeriod( HistoricalPeriod.CENTURY_14)
 			.setEnviroment(new I18nText().setEs("El Generalife").setEn("The Generalife"))
 			.setFlags(
+				Flag.CULTURE_CONSTRUCTION_TYPE_PALACE,
+				Flag.CULTURE_ARTISTIC_PERIOD_ARABIC,
+				Flag.CULTURE_HISTORICAL_PERIOD_CENTURY_14,
 				Flag.COMMON_GUIDED_TOUR,
 				Flag.QUALITY_PATRIMONIO_HUMANIDAD,
 				Flag.ACCESSIBILITY_PARKING_ACCESSIBLE
@@ -308,16 +303,16 @@ public class DummyPoiFactory extends AbstractFactory {
 					new TimeTableEntry("0101,2512=")
 			)
 			.setPrices(
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.GENERAL, PriceType.GROUPS)
 					.setPrice(14d),
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.REDUCED)
 					.setPrice(7d),
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.STUDENT)
 					.setPrice(10d),
-				new AccessPrice()
+				new Price()
 					.setPriceTypes(PriceType.FREE)
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 					.setTimetable(
@@ -329,15 +324,15 @@ public class DummyPoiFactory extends AbstractFactory {
 		
 	
 	// GARDEN 
-	public static Culture garden() {
-		return ((Culture)PoiFactory.newInstance(PoiTypeID.PARK_GARDEN))
+	public static BasicPoi garden() {
+		return ((BasicPoi)PoiFactory.newInstance(PoiTypeID.PARK_GARDEN))
 			.setName(new I18nText().setEs("Parque andalusí"))			// required
 			.setLocation(AbstractFactory.GEO_TEIDE)								// required
 			.setDescription(new I18nText().setEs("Descripción del parque"))			
 			.setFlags(
 					Flag.QUALITY_PATRIMONIO_HUMANIDAD,
-					Flag.ACCESSIBILITY_PARKING_ACCESSIBLE)
-			.setArtisticPeriod(ArtisticPeriod.ANDALUSI)
+					Flag.ACCESSIBILITY_PARKING_ACCESSIBLE,
+					Flag.CULTURE_ARTISTIC_PERIOD_ANDALUSI)
 			.validate();
 	}
 		
@@ -358,7 +353,7 @@ public class DummyPoiFactory extends AbstractFactory {
 			    Flag.QUALITY_RESERVA_BIOSFERA,
 			    Flag.NATURE_NATIONAL_PARK)
 			.setPrices( 
-				new AccessPrice()
+				new Price()
 					.setPrice(25d)
 					.setPriceTypes(PriceType.ADULT)
 					.setTimetable( 
@@ -373,8 +368,8 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setName(new I18nText().setEs("Ecoturismo")) 	// required
 			.setLocation(randomLocation())					// required
 			.setFlags(
-				Flag.BUSINESS_ACTIVITY_GUIDE_TOUR,
-				Flag.BUSINESS_ACTIVITY_EDUCATIONAL_ACTIVITIES)
+				Flag.COMMON_GUIDED_TOUR,
+				Flag.COMMON_EDUCATIONAL_ACTIVITIES)
 			.setLanguages(
 				LanguageFlag.ENGLISH,
 				LanguageFlag.SPANISH)
