@@ -80,7 +80,12 @@ public class Lodging extends AbstractPoi {
  	public Lodging setContactInfo(ContactInfo contactInfo) {
 		return (Lodging) super.setContactInfo(contactInfo);
 	}
- 	
+	
+	@Override
+	public Lodging setLanguages(String... languages) {
+		return (Lodging) super.setLanguages(languages);
+	}
+
 	public Lodging setRoomTypes(RoomType... roomTypes) {
     	this.roomTypes = Sets.newHashSet(roomTypes);
     	return this;

@@ -19,7 +19,7 @@ public class BasicPoi extends AbstractPoi {
     }
 	
 	@Override
-	public BasicPoi setLanguages(LanguageFlag... languages) {
+	public BasicPoi setLanguages(String... languages) {
 		return (BasicPoi) super.setLanguages(languages);
 	}
 

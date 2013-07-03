@@ -4,7 +4,6 @@ import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.LanguageFlag;
 import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.PriceType;
 import info.spain.opencatalog.domain.poi.Score;
@@ -370,9 +369,7 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setFlags(
 				Flag.COMMON_GUIDED_TOUR,
 				Flag.COMMON_EDUCATIONAL_ACTIVITIES)
-			.setLanguages(
-				LanguageFlag.ENGLISH,
-				LanguageFlag.SPANISH)
+			.setLanguages( "es", "en")
 			.validate();
 	}
 			
@@ -390,8 +387,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				Flag.BUSINESS_SERVICES_GOLF_BUNKER,
 				Flag.BUSINESS_SERVICES_GOLF_COVERED_DRIVING_RANGE
 				)
-			.setLanguages(
-				LanguageFlag.SPANISH)
+			.setLanguages( "es" )
 			.validate();
 	}
 		
@@ -404,8 +400,7 @@ public class DummyPoiFactory extends AbstractFactory {
 					Flag.BUSINESS_SERVICES_NAUTICAL_CATAMARAN,
 					Flag.BUSINESS_SERVICES_NAUTICAL_DIVING,
 					Flag.BUSINESS_SERVICES_NAUTICAL_WHALE_WATCHING)
-			.setLanguages(
-				LanguageFlag.SPANISH)
+			.setLanguages("es")
 			.validate();
 	}
 	

@@ -68,8 +68,8 @@ public abstract class AbstractPoi {
 	/** Información de contacto */
     protected ContactInfo contactInfo;
     
-	/** Idiomas soportados */
-    protected Set<LanguageFlag> languages;
+	/** Idiomas soportados en formato ISO*/
+    protected Set<String> languages;
 	
     
     @CreatedDate
@@ -216,11 +216,11 @@ public abstract class AbstractPoi {
 		return this;
 	}
 	
-	public Set<LanguageFlag> getLanguages() {
+	public Set<String> getLanguages() {
 		return languages;
 	}
 
-	public AbstractPoi setLanguages(LanguageFlag... languages) {
+	public AbstractPoi setLanguages(String... languages) {
 		this.languages = Sets.newHashSet(languages);
 		return this;
 	}
