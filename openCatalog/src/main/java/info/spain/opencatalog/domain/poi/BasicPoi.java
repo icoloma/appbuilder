@@ -13,6 +13,10 @@ import com.google.common.base.Preconditions;
  */
 public class BasicPoi extends AbstractPoi {
 	
+	public BasicPoi(){
+		super(null);
+	}
+	
 	public BasicPoi(BasicPoiType type){
 		super(type);
 		Preconditions.checkArgument(PoiTypeRepository.BASIC_TYPES.contains(type.getId()));

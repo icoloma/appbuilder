@@ -1,6 +1,8 @@
 package info.spain.opencatalog.rest;
 
 import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
+import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +39,18 @@ public class PoiRestController extends AbstractController {
 	@Autowired
 	PoiImageUtils poiImageUtils;
 	
+	
+	 @RequestMapping(value = "/poi/basic", method = RequestMethod.POST)
+	 public HttpEntity<String> save (@RequestBody BasicPoi poi)  {
+		 poi = poiRepository.save(poi);
+		 
+		
+		 ResponseEntity<String> response = new ResponseEntity<String>(HttpStatus.CREATED);
+		 
+		// response.getHeaders().add("location", "/" + poi.getId());
+		 return response;
+	 }
+
 
 	/**
 	 * GET Poi's Image

@@ -31,6 +31,9 @@ public class Lodging extends AbstractPoi {
     /** tipos de alojamiento: habitación doble, individual, etc */
     private Set<RoomType> roomTypes;
 
+    public Lodging() {
+    	super(null); // default
+    }
     public Lodging(BasicPoiType type) {
         super(type);
         Preconditions.checkArgument(PoiTypeRepository.LODGING_TYPES.contains(type.getId()));
