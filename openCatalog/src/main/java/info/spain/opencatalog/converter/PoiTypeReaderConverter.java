@@ -1,7 +1,6 @@
 package info.spain.opencatalog.converter;
 
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
-import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import org.springframework.core.convert.converter.Converter;
@@ -14,7 +13,7 @@ public class PoiTypeReaderConverter implements Converter< DBObject ,BasicPoiType
 
 	@Override
 	public BasicPoiType convert(DBObject source) {
-		BasicPoiType result = PoiTypeRepository.getType(PoiTypeID.valueOf((String)source.get("id")));
+		BasicPoiType result = PoiTypeRepository.getType((String)source.get("id"));
 		return result;
 	}
 

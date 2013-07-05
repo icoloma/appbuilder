@@ -33,6 +33,10 @@ public class PoiTypeRepository {
    private static Map<PoiTypeID, BasicPoiType> types;
  
    /** Devuelve un BasicPoiType en función del PoiTypeId */ 
+   public static BasicPoiType getType(String typeId){
+	   return getType(PoiTypeID.valueOf(typeId));
+   }
+
    public static BasicPoiType getType(PoiTypeID typeId){
 		BasicPoiType result = types.get(typeId);
 		if (result == null){
@@ -46,7 +50,7 @@ public class PoiTypeRepository {
 	    types = Maps.newHashMap();
 	    
 	    //Basic
-	    types.put(PoiTypeID.BASIC, new BasicPoiType(PoiTypeID.BASIC));
+	    types.put(PoiTypeID.BASIC, basicType());
 	    types.put(PoiTypeID.BEACH, beachType());
 	    types.put(PoiTypeID.NATURAL_SPACE, naturalSpaceType());
 	  
@@ -70,7 +74,16 @@ public class PoiTypeRepository {
         
     }
    
-  
+   /** Basic Type */
+   private static BasicPoiType basicType(){
+		HashSet<Flag> flags = Sets.newHashSet();
+		flags.addAll(Flag.ALL_COMMON_FLAGS);
+		flags.addAll(Flag.ALL_FAMILY_FLAGS);
+		flags.addAll(Flag.ALL_ACCESSIBILITY_FLAGS);
+		return new BasicPoiType(PoiTypeID.BASIC)
+			.setAllowedFlags(flags.toArray(new Flag[]{}));
+    	
+   }
     
    /** Hotel */
    private static LodgingType hotelType(){

@@ -29,9 +29,12 @@ public class LodgingType extends BasicPoiType {
         super.validate(poi);
         Lodging lp = (Lodging) poi;
         validateSet("room type", allowedRoomTypes, lp.getRoomTypes());
-        for( Price p : lp.getPrices()) {
-        	RoomPrice price = (RoomPrice) p;
-            validateSet("room type", allowedRoomTypes, Sets.immutableEnumSet(price.getRoomType()));
+        Set<Price> prices = lp.getPrices();
+        if (prices != null) {
+	        for( Price p : prices) {
+	        	RoomPrice price = (RoomPrice) p;
+	            validateSet("room type", allowedRoomTypes, Sets.immutableEnumSet(price.getRoomType()));
+	        }
         }
     }
 

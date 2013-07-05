@@ -1,7 +1,6 @@
 package info.spain.opencatalog.config;
 
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
-import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import java.io.IOException;
@@ -15,7 +14,7 @@ public class PoiTypeDeserializer extends JsonDeserializer<BasicPoiType>{
 	
 	@Override
 	public BasicPoiType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		return PoiTypeRepository.getType(PoiTypeID.valueOf(jp.getText()));
+		return PoiTypeRepository.getType(jp.getText());
 	}
 	
 }

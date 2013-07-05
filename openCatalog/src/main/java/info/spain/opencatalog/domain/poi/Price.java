@@ -39,12 +39,10 @@ public class Price {
 	public Set<PriceType> getPriceTypes() {
 		return priceTypes;
 	}
-	public Price setPriceTypes(Set<PriceType> priceTypes) {
-		this.priceTypes = priceTypes;
-		return this;
-	}
+	
 	public Price setPriceTypes(PriceType... culturePriceTypes) {
-		return setPriceTypes(Sets.newHashSet(culturePriceTypes));
+		this.priceTypes = Sets.newHashSet(culturePriceTypes);
+		return this;
 	}
 	public Set<TimeTableEntry> getTimeTable() {
 		return timeTable;

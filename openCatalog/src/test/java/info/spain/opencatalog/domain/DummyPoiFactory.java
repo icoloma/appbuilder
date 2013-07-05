@@ -30,9 +30,9 @@ import com.google.common.collect.Sets;
 public class DummyPoiFactory extends AbstractFactory {
 	
 	
-	public static AbstractPoi newPoi(String key){
+	public static AbstractPoi newPoi(String key, PoiTypeID poiType){
 		key = key + "-" + getRandom().nextInt();
-		return  PoiFactory.newInstance(PoiTypeID.BASIC)
+		return  PoiFactory.newInstance(poiType)
 			.setName( new I18nText()
 				.setEs("es-"+key+"-name")
 				.setEn("en-"+key+"-name")
@@ -63,11 +63,11 @@ public class DummyPoiFactory extends AbstractFactory {
 	}
 	
 	
-	public static List<AbstractPoi> generatePois(int numPois){
+	public static List<AbstractPoi> generatePois(int numPois, PoiTypeID type){
 		// random
 		List<AbstractPoi> result = new ArrayList<AbstractPoi>();
 		for (int i = 0; i < numPois; i++) {
-			result.add(newPoi("" + i));
+			result.add(newPoi("" + i, type));
 		}
 		return result;
 	}
@@ -80,15 +80,15 @@ public class DummyPoiFactory extends AbstractFactory {
 	}
 
 	
-	public static AbstractPoi POI_CASA_CAMPO =  newPoi("Casa de Campo").setLocation(GEO_CASA_CAMPO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
-	public static AbstractPoi POI_RETIRO = newPoi("Retiro").setLocation(GEO_RETIRO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
-	public static AbstractPoi POI_SOL = newPoi("Sol").setLocation(GEO_SOL).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
-	public static AbstractPoi POI_TEIDE = newPoi("Teide").setLocation(GEO_TEIDE).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
-	public static AbstractPoi POI_PLAYA_TERESITAS= newPoi("Playa de las Teresitas").setLocation(GEO_PLAYA_TERESITAS).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
-	public static AbstractPoi POI_ROQUE_NUBLO= newPoi("Roque Nublo").setLocation(GEO_ROQUE_NUBLO).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Gran Canaria"));
-	public static AbstractPoi POI_ALASKA = newPoi("Alaska").setLocation(GEO_ALASKA);
+	public static BasicPoi POI_CASA_CAMPO =  (BasicPoi) newPoi("Casa de Campo", PoiTypeID.BASIC).setLocation(GEO_CASA_CAMPO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static BasicPoi POI_RETIRO = (BasicPoi) newPoi("Retiro", PoiTypeID.BASIC).setLocation(GEO_RETIRO).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static BasicPoi POI_SOL = (BasicPoi) newPoi("Sol", PoiTypeID.BASIC).setLocation(GEO_SOL).setAddress(new Address().setAdminArea1("Comunidad de Madrid"));
+	public static BasicPoi POI_TEIDE = (BasicPoi) newPoi("Teide", PoiTypeID.BASIC).setLocation(GEO_TEIDE).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
+	public static BasicPoi POI_PLAYA_TERESITAS= (BasicPoi) newPoi("Playa de las Teresitas", PoiTypeID.BASIC).setLocation(GEO_PLAYA_TERESITAS).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Tenerife"));
+	public static BasicPoi POI_ROQUE_NUBLO= (BasicPoi) newPoi("Roque Nublo", PoiTypeID.BASIC).setLocation(GEO_ROQUE_NUBLO).setAddress(new Address().setAdminArea1("Canarias").setAdminArea2("Gran Canaria"));
+	public static BasicPoi POI_ALASKA = (BasicPoi) newPoi("Alaska", PoiTypeID.BASIC).setLocation(GEO_ALASKA);
 	
-	public static ImmutableSet<AbstractPoi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
+	public static ImmutableSet<BasicPoi> WELL_KNOWN_POIS = ImmutableSet.of(POI_CASA_CAMPO, POI_RETIRO, POI_SOL, POI_TEIDE, POI_ALASKA, POI_PLAYA_TERESITAS, POI_ROQUE_NUBLO);
 	
 	public static BasicPoi BEACH = beach();
 	public static BasicPoi NATURAL_PARK = naturalPark();

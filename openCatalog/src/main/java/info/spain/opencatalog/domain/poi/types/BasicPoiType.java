@@ -35,6 +35,9 @@ public class BasicPoiType {
 	public BasicPoiType(PoiTypeID id) {
 		this.id = id;
 	}
+	public BasicPoiType(String id) {
+		this.id = PoiTypeID.valueOf(id);
+	}
 
 	public void validate(AbstractPoi poi) {
 		Preconditions.checkArgument(poi.getName() != null, "name is required");
@@ -49,12 +52,15 @@ public class BasicPoiType {
 	 * Comprueba que los datos tienen key y valores válidos
 	 */
 	private void validateData(Map<String, String> data) {
-		if (allowedDataValidators == null) {
+		if (data == null) {
 			return;
+		}
+		if (allowedDataValidators == null) {
+			throw new IllegalArgumentException("No 'data' values are allowed for type " + getId());
 		}
 		Set<String> validKeys = allowedDataValidators.keySet();
 		for (String key : data.keySet()) {
-			Preconditions.checkArgument(validKeys.contains(key), key
+			Preconditions.checkArgument(validKeys.contains(key), key 
 					+ " is not a valid data for this type. Allowed data :"
 					+ validKeys);
 			DataValidator validator = allowedDataValidators.get(key);

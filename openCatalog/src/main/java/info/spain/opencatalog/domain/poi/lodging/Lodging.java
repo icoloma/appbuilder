@@ -32,7 +32,7 @@ public class Lodging extends AbstractPoi {
     private Set<RoomType> roomTypes;
 
     public Lodging() {
-    	super(null); // default
+    	super(null); 
     }
     public Lodging(BasicPoiType type) {
         super(type);

@@ -234,6 +234,11 @@ public abstract class AbstractPoi {
 		this.enviroment = enviroment;
 		return this;
 	}
+	
+	public AbstractPoi setType(BasicPoiType poiType){
+		this.type = poiType;
+		return this;
+	}
 
 	@Override
 	public String toString() {

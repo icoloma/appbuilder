@@ -14,6 +14,7 @@ import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
 
@@ -57,7 +58,7 @@ public class PoiControllerTest {
 	@Test
 	public void test_POST_GET_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
-		AbstractPoi poi = DummyPoiFactory.newPoi("poiTest");
+		AbstractPoi poi = DummyPoiFactory.newPoi("poiTest", PoiTypeID.BASIC);
 		poi.setFlags( Flag.COMMON_SHOP, Flag.COMMON_GUIDED_TOUR);
 		
 		// Test POST

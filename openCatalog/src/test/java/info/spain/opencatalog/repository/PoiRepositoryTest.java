@@ -86,7 +86,7 @@ public class PoiRepositoryTest {
 	 */
 	@Test
 	public void testMongoTemplate() {
-		AbstractPoi poi = DummyPoiFactory.newPoi("testMongoTemplate");
+		AbstractPoi poi = DummyPoiFactory.newPoi("testMongoTemplate", PoiTypeID.BASIC);
 		mongoTemplate.save(poi);
 		String id = poi.getId();
 		assertNotNull(id);
@@ -99,7 +99,7 @@ public class PoiRepositoryTest {
 	
 	@Test
 	public void testFindByName(){
-		AbstractPoi poi = DummyPoiFactory.newPoi("findByName");
+		AbstractPoi poi = DummyPoiFactory.newPoi("findByName", PoiTypeID.BASIC);
 		mongoTemplate.save(poi);
 		Pageable pageable = new PageRequest(0, 10);
 		Page<AbstractPoi> result = poiRepository.findByNameEsLikeIgnoreCase(poi.getName().getEs(), pageable);

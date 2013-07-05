@@ -9,11 +9,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -61,10 +62,9 @@ public class PoiAPITest {
 	 * @throws Exception
 	 */
 	@Test
-	@Ignore
     public void testDiscoverAndGET() throws Exception {
 		repo.deleteAll();
-		AbstractPoi poi= DummyPoiFactory.newPoi("getPoi");
+		BasicPoi poi= (BasicPoi) DummyPoiFactory.newPoi("getPoi", PoiTypeID.BASIC);
 		AbstractPoi saved = repo.save(poi);
 		
 		// test poi
@@ -99,7 +99,6 @@ public class PoiAPITest {
 	public void testPOST() throws Exception {
 		repo.deleteAll();
 		String json = "{" +
-				"'type': 'HOTEL'," +
 				"'name':{" +
 					"'es':'es-name'," +
 					"'en':'en-name'," +
@@ -120,24 +119,38 @@ public class PoiAPITest {
 					"'lat':40.45259106740161," +
 					"'lng':-3.7391396261243433" +
 				"}," +
+//				"'data' : { 'width' : 0 }," +	
 				"'flags':['" + Flag.COMMON_GUIDED_TOUR+ "']" +
 				"}";
 		json = json.replaceAll("'", "\"");
 		
 		System.out.println( "POI:" + json);
-	    this.mockMvc.perform(post("/poi/basic")
-	    	.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+		
+		// no type
+		this.mockMvc.perform(post("/poi")
+				.contentType(MediaType.parseMediaType("application/json"))
+				.content(json))
+				.andExpect(status().isBadRequest());
+
+		// BasicPoi
+		this.mockMvc.perform(post("/poi?type=BEACH")
+	    	.contentType(MediaType.parseMediaType("application/json"))
 			.content(json))
 			.andExpect(status().isCreated());
+	    
+	    // Lodging
+	    this.mockMvc.perform(post("/poi?type=HOTEL")
+		    	.contentType(MediaType.parseMediaType("application/json"))
+				.content(json))
+				.andExpect(status().isCreated());
     }
 	
 
 	@Test
-	@Ignore
 	public void tesFindByName() throws Exception {
 		repo.deleteAll();
-		AbstractPoi poi = DummyPoiFactory.newPoi("tesFindByName");
-		AbstractPoi saved = repo.save(poi);
+		BasicPoi poi= (BasicPoi) DummyPoiFactory.newPoi("tesFindByName", PoiTypeID.BASIC);
+		BasicPoi saved = repo.save(poi);
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byName").param("name", poi.getName().getEs()))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType("application/json"))
@@ -149,12 +162,12 @@ public class PoiAPITest {
 	}
 	
 	@Test
-	@Ignore
 	public void tesFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
 		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
-		AbstractPoi poi = DummyPoiFactory.POI_TEIDE;
-		AbstractPoi saved = repo.save(poi); 
+	
+		BasicPoi poi = DummyPoiFactory.POI_TEIDE;
+		BasicPoi saved = repo.save(poi); 
 		
 		MvcResult result = this.mockMvc.perform(get("/poi/search/locationWithin")
 				.param("lat", poi.getLocation().getLat().toString())
@@ -180,12 +193,11 @@ public class PoiAPITest {
 	}
 	
 	@Test
-	@Ignore
 	public void tesFindByLocationNear() throws Exception {
 		repo.deleteAll();
-		AbstractPoi poi = DummyPoiFactory.POI_TEIDE;
+		BasicPoi poi = DummyPoiFactory.POI_TEIDE;
 		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
-		AbstractPoi saved = repo.save(poi); 
+		BasicPoi saved = repo.save(poi); 
 		
 		// Test found
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byLocationNear")
