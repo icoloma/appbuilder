@@ -12,17 +12,15 @@ define(['globals'], function() {
       },
       'tap [data-action]': function(e) {
         var $target = $(e.target)
-        , action = $(e.target).data('action')
+        , action = $target.data('action')
+        , async = $target.data('async')
         ;
-        if (!this.blocked) {
+        if (!this.blocked$El) {
           this.trigger(action);
-          if (action === 'sort' || action === 'filter') {
-            this.block($target);
-          }
+          if (async) this.block($target);
         }
       }
     },
-
 
     tmpl: _.template(
       '<div class="navbar">' +
@@ -32,8 +30,8 @@ define(['globals'], function() {
       '</div>' +
       '<div class="actionbar">' +
         '<% if (starredPois) { %><a href="#/pois?starred=true" class="icon-star bar-button">{{res.Starred}}</a> <% } %>' +
-        '<% if (filter) { %><span data-action="filter" class="filter-button icon-filter bar-button"></span><% } %>' +
-        '<% if (sort) { %><span data-action="sort" class="sort-button icon-sort bar-button"></span><% } %>' +
+        '<% if (filter) { %><span data-action="filter" data-async="true" class="filter-button icon-filter bar-button"></span><% } %>' +
+        '<% if (sort) { %><span data-action="sort" data-async="true" class="sort-button icon-sort bar-button"></span><% } %>' +
         '<% if (notify) { %><span data-action="notify" class="notify-button">Notify</span><% } %>' +
         '<% if (star) { %><span data-action="star" class="star-button bar-button {{isStarred}}"></span><% } %>' +
         '<% if (map) { %><span data-action="map" class="map-button bar-button"><a href="{{map}}" class="icon-map"></a></span><% } %>' +

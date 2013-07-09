@@ -21,15 +21,21 @@ define(['globals'], function() {
     idPoi: 'TEXT'
   })
   , oldJSON = Poi.prototype.toJSON
+  , jsonFields = _.filter(Poi.meta.fields, function(value) {
+    return value === 'JSON';
+  })
   ;
 
   /*
-    persistence.js no permite exportar los campos 'JSON' al hacer toJSON (who knows)
+    persistence.js no permite exportar los campos 'JSON' al hacer toJSON (who knows why)
   */
   Poi.prototype.toJSON = function() {
     var json = oldJSON.apply(this);
-    json.imgs = this.imgs;
+    for (var field in jsonFields) {
+      json[field] = this[field];
+    }
     return json;
   };
+
   return Poi;
 });

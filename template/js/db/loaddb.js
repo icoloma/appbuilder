@@ -1,7 +1,7 @@
 /* 
 
-  Introduce los datos en la BDD en el idoma @locale
-  Se llama al inicio de la aplicación, y cada vez que se cambie el idioma.
+  Introduce los datos en la BDD WebSQL en el idoma @locale
+  Se llama al inicio de la app, depurando en un navegador
 
 */
 define(
@@ -12,9 +12,13 @@ define(
       return function() {
         var json = JSON.parse(this.responseText)
         , i, tagObj, poi, obj
+        // Un hash para llevar la cuenta de las entities 'Tag'
         , tagEntitiesHash = {}
+        // Un hash para encontrar el objeto json de cada tag
         , tagJsonHash = _.object(_.pluck(json.tags, 'tag'), json.tags)
+        // Añade los tags correspondientes a un POI
         , addTags = function(tags, poiEntity) {
+
           var processTag = function(tag) {
             if (tagEntitiesHash[tag]) {
               poiEntity.tags.add(tagEntitiesHash[tag]);
@@ -24,6 +28,7 @@ define(
               tagEntitiesHash[tag] = tagObj;
             }
           };
+
           tags.forEach(processTag);
         }
         ;

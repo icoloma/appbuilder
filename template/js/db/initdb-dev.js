@@ -13,9 +13,10 @@ define(
       console.log('Sincronizando esquemas'); // DEBUG
       persistence.schemaSync();
     };
+
+    // Depuración en un navegador: fallback a WebSQL
     if (location.protocol === 'http:' || location.protocol === 'https:' ) {
 
-      // Depuración en un navegador: fallback a WebSQL
       return function(cb) {
 
         initPersistence();

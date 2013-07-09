@@ -31,7 +31,7 @@ define(['globals'], function() {
       , regex = new RegExp('_' + lang + '$')
       ;
       fields = _.filter(fields, function(field) {
-        return field.match(regex) || ! field.match(/_{a-z}{2}$/);
+        return field.match(regex) || ! field.match(/_[a-z]{2}$/);
       });
       return fields.concat(['id']);
   },
