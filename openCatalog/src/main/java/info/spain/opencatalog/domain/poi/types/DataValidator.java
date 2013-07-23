@@ -10,19 +10,35 @@ import com.google.common.collect.Sets;
 @SuppressWarnings("rawtypes")
 public class DataValidator {
 	
+	public static enum ValidatorType {
+		TEXT, BIGTEXT, NUMBER, BOOLEAN, KEY_VALUE
+	}
+
 	private static final String INTEGER ="\\d+";
 	private static final String DOUBLE="\\d+(\\.\\d+)?";
 	
-	public static final DataValidator ANY_VALUE = new DataValidator();
+	public static final DataValidator TEXT_VALIDATOR = new DataValidator();
+	public static final DataValidator KEY_VALUE_VALIDATOR = keyValueValidator();
+	public static final DataValidator BIGTEXT_VALIDATOR = bigTextValidator();
 	public static final DataValidator BOOLEAN_VALIDATOR = booleanValidator();
 	public static final DataValidator INTEGER_VALIDATOR = integerValidator();
 	public static final DataValidator DOUBLE_VALIDATOR = doubleValidator();
 	
 	
-		
+	
+	private ValidatorType type; // Used form html forms
 	private String regex;
 	private Pattern pattern;
 	private Set<String> validValues;
+	
+	public DataValidator(){
+		this.type=ValidatorType.TEXT; // Default
+	}
+	
+	public DataValidator(ValidatorType type){
+		this.type=type;
+	}
+	
 	
 	public void validate(String data){
 		validateWithValidValues(data);
@@ -68,15 +84,27 @@ public class DataValidator {
 		return this;
 	}
 	
+	
+	public ValidatorType getType() {
+		return type;
+	}
+
 	private static DataValidator booleanValidator(){
-		return new DataValidator().setValidValues(Sets.newHashSet(Boolean.TRUE, Boolean.FALSE));
+		return new DataValidator(ValidatorType.BOOLEAN).setValidValues(Sets.newHashSet(Boolean.TRUE, Boolean.FALSE));
 	}
 	private static DataValidator integerValidator(){
-		return new DataValidator().setRegex(INTEGER);
+		return new DataValidator(ValidatorType.NUMBER).setRegex(INTEGER);
 	}
 	private static DataValidator doubleValidator(){
-		return  new DataValidator().setRegex(DOUBLE);
+		return  new DataValidator(ValidatorType.NUMBER).setRegex(DOUBLE);
 	}
 	
+	private static DataValidator bigTextValidator(){
+		return  new DataValidator(ValidatorType.BIGTEXT);
+	}
+	
+	private static DataValidator keyValueValidator(){
+		return  new DataValidator(ValidatorType.KEY_VALUE);
+	}
 
 }

@@ -4,7 +4,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,8 +30,8 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	 *	query : { 'location' : { $geoWithin : { $polygon : [ [x1,y1],[x2,y2],[x3,y3],... ] } } }
 	 */
 	@Override
-	public List<AbstractPoi> findWithInZone(String zoneId) {
-		List<AbstractPoi> result = new ArrayList<AbstractPoi>();
+	public List<BasicPoi> findWithInZone(String zoneId) {
+		List<BasicPoi> result = new ArrayList<BasicPoi>();
 		Zone zone = mongoTemplate.findOne(query(where("_id").is(zoneId)), Zone.class);
 		if (zone != null){
 			List<GeoLocation> path = zone.getPath();
@@ -43,7 +43,7 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 				others.add(asPoint(path.get(i)));
 			}
 			Shape polygon = new Polygon(p1,p2,p3, others.toArray(new Point[]{}));
-			result = mongoTemplate.find(query(where("location").within(polygon)), AbstractPoi.class);
+			result = mongoTemplate.find(query(where("location").within(polygon)), BasicPoi.class);
 		}
 		return result;
 	}
@@ -53,9 +53,9 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	}
 	
 	@Override
-	public List<AbstractPoi> findWithIn(double lat, double lng, double radius) {
+	public List<BasicPoi> findWithIn(double lat, double lng, double radius) {
 		Circle circle = new Circle(lng, lat, radius);
-		List<AbstractPoi> result = mongoTemplate.find(query(where("location").within(circle)), AbstractPoi.class);
+		List<BasicPoi> result = mongoTemplate.find(query(where("location").within(circle)), BasicPoi.class);
 		return result;
 	}
 	

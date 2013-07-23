@@ -1,5 +1,6 @@
 package info.spain.opencatalog.web.controller;
 
+import java.text.Normalizer;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public abstract class AbstractUIController extends AbstractController {
 			// do nothing, not valid key
 		}
 	}
-
+	
+	/** Normaliza un texto para poder compararlo en las ordenaciones */ 
+	protected String normalizeText(String text){
+		return Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+	}
+	
 }

@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.ZoneFactory;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.image.PoiImageUtilsMock;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -56,8 +57,13 @@ public class CatalogExporterTest {
 	@Before
 	public void init(){
 		// Como no se almacenan en la base de datos, asignamos id manualmente
+<<<<<<< HEAD
+		pois = DummyPoiFactory.generatePois(NUM_POIS, PoiTypeID.BASIC);
+		for (AbstractPoi poi : pois) {
+=======
 		pois = DummyPoiFactory.generatePois(NUM_POIS);
 		for (BasicPoi poi : pois) {
+>>>>>>> Refactor modelo de datos ( Se elimina AbstractPoi --> BasicPoi )
 			poi.setId(UUID.randomUUID().toString());
 		}
 		

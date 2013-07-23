@@ -4,95 +4,274 @@ import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
-import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
-import com.google.common.base.Preconditions;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-/** 
- * Clase base para cualquier POI genérico 
+import javax.validation.constraints.NotNull;
+
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Sets;
+
+/**
+ * Clase base para cualquier POI
  */
-public class BasicPoi extends AbstractPoi {
+@Document(collection="poi")
+public class BasicPoi {
+	
+	@Id
+	protected String id;
+
+	/** Tipo de POI específico: Hotel, Monumento, Playa, ... */
+	@NotNull
+	protected BasicPoiType type;
+	
+	@Indexed
+	protected I18nText name;
+
+	protected I18nText description;
+	
+	protected Address address;
+	
+	/** Geospatial location */
+	@NotNull
+	@GeoSpatialIndexed
+	protected GeoLocation location; 	
+	
+    /** características que un BasicPoiType puede tener o no: visitas guiadas, tiendas, etc.. */
+	protected Set<Flag> flags;
+
+    /** valoración oficial (no de los usuarios): 3 Estrellas, 2 tenedores, etc */
+    protected Score score;
+    
+    /** Entorno: El generalife, ... */
+    protected I18nText enviroment;
+    
+    /** Datos específicos del poi: longitud(playa), nº pistas verdes(estación esquí) ... */
+    protected Map<String,String> data;
+
+   	/** horarios de apertura/cierre */
+    protected Set<TimeTableEntry> timetable;
+	
+	/** precios de acceso */
+    protected Set<Price> prices;
+   
+	/** Información de contacto */
+    protected ContactInfo contactInfo;
+    
+	/** Idiomas soportados en formato ISO*/
+    protected Set<String> languages;
+	
+    
+    @CreatedDate
+	private DateTime created;
+	
+	@LastModifiedDate
+	private DateTime lastModified;
 	
 	public BasicPoi(){
-		super(null);
 	}
-	
 	public BasicPoi(BasicPoiType type){
-		super(type);
-		Preconditions.checkArgument(PoiTypeRepository.BASIC_TYPES.contains(type.getId()));
+		this.type = type;
     }
+
+	/** Permite definir las validaciones en función del tipo */
+	public BasicPoi validate(){
+        type.validate(this);
+        return this;
+	}
 	
-	@Override
-	public BasicPoi setLanguages(String... languages) {
-		return (BasicPoi) super.setLanguages(languages);
+	/** Initialize all Collections */ 
+	protected void initCollections(){
+		this.flags= new HashSet<Flag>();
+		this.data = new HashMap<String,String>();
+		this.timetable = new HashSet<TimeTableEntry>();
+		this.prices = new HashSet<Price>();
+		this.languages=new HashSet<String>();
+		if (this.address == null){
+			setAddress(new Address());
+		}
+	}
+	
+	public void copyData(BasicPoi source){
+        this.id = source.id;
+        this.name = source.name;
+        this.description = source.description;
+        this.address = source.address;
+        this.location = source.location;
+        this.contactInfo = source.contactInfo;
+        this.flags = source.flags;
+        this.timetable = source.timetable;
+        this.data=source.data;
+    }	
+	
+	public Set<TimeTableEntry> getTimetable() {
+		return timetable;
 	}
 
-	@Override
-	public BasicPoi setData(String key, String data) {
-		return (BasicPoi) (BasicPoi) super.setData(key, data);
-	}
-
-	@Override
 	public BasicPoi setTimetable(TimeTableEntry... timetable) {
-		return (BasicPoi) super.setTimetable(timetable);
+		this.timetable = Sets.newHashSet(timetable);
+		return this;
 	}
 
-	@Override
-	public BasicPoi setFlags(Flag... flags) {
-		return (BasicPoi) super.setFlags(flags);
+	
+    public BasicPoi setFlags(Flag... flags) {
+        this.flags = Sets.newHashSet(flags);
+        return this;
+    }
+
+	public Set<Flag> getFlags() {
+		return flags;
 	}
 
-	@Override
+	public String getId() {
+		return id;
+	}
+
 	public BasicPoi setId(String id) {
-		return (BasicPoi) super.setId(id);
+		this.id = id;
+		return this;
 	}
 
-	@Override
+	public I18nText getName() {
+		return name;
+	}
+
 	public BasicPoi setName(I18nText name) {
-		return (BasicPoi) super.setName(name);
+		this.name = name;
+		return this;
 	}
 
-	@Override
+	public I18nText getDescription() {
+		return description;
+	}
+
 	public BasicPoi setDescription(I18nText description) {
-		return (BasicPoi) super.setDescription(description);
+		this.description = description;
+		return this;
 	}
 
-	@Override
+	public Address getAddress() {
+		return address;
+	}
+
 	public BasicPoi setAddress(Address address) {
-		return (BasicPoi) super.setAddress(address);
+		this.address = address;
+		return this;
 	}
 
-	@Override
+	public GeoLocation getLocation() {
+		return location;
+	}
+
 	public BasicPoi setLocation(GeoLocation location) {
-		return (BasicPoi) super.setLocation(location);
+		this.location = location;
+		return this;
+	}
+	
+	public ContactInfo getContactInfo() {
+		return contactInfo;
 	}
 
-	@Override
 	public BasicPoi setContactInfo(ContactInfo contactInfo) {
-		return (BasicPoi) super.setContactInfo(contactInfo);
+		this.contactInfo = contactInfo;
+		return this;
 	}
 
-	@Override
-	public BasicPoi setScore(Score score) {
-		return (BasicPoi) super.setScore(score);
+    public Score getScore() {
+        return score;
+    }
+
+    public BasicPoi setScore(Score score) {
+        this.score = score;
+        return this;
+    }
+
+    
+    public DateTime getCreated() {
+		return created;
 	}
 
-	@Override
-	public BasicPoi setPrices(Price... prices) {
-		return (BasicPoi) super.setPrices(prices);
+	public DateTime getLastModified() {
+		return lastModified;
 	}
 
-	@Override
-	public BasicPoi validate() {
-		return (BasicPoi) super.validate();
+	
+	public BasicPoiType getType() {
+		return type;
 	}
 
-	@Override
+	public Set<Price> getPrices() {
+		return prices;
+	}
+
+	public BasicPoi setPrices(Price...prices) {
+		this.prices = Sets.newHashSet(prices);
+		return this;
+	}
+	
+	public Map<String, String> getData() {
+		return data;
+	}
+
+	public BasicPoi setData(String key, String data) {
+		if (this.data == null){
+			this.data = new HashMap<String, String>();
+		}
+		this.data.put(key,data);
+		return this;
+	}
+	
+	public Set<String> getLanguages() {
+		return languages;
+	}
+
+	public BasicPoi setLanguages(String... languages) {
+		this.languages = Sets.newHashSet(languages);
+		return this;
+	}
+
+	
+	public I18nText getEnviroment() {
+		return enviroment;
+	}
+
 	public BasicPoi setEnviroment(I18nText enviroment) {
-		return (BasicPoi) super.setEnviroment(enviroment);
+		this.enviroment = enviroment;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return toStringHelper().toString();
 	}
 	
-	
-	
-
+	protected com.google.common.base.Objects.ToStringHelper toStringHelper(){
+		return Objects.toStringHelper(getClass())
+				.add("id", id)
+				.add("type", type.getId())
+				.add("name", name)
+				.add("description", description)
+				.add("location", location)
+				.add("data,", "data")
+				.add("contactInfo", contactInfo)
+				.add("timeTable", timetable)
+				.add("flags", flags)
+				.add("prices", prices)
+				.add("languages", languages)
+				.add("enviroment",enviroment)
+				.add("created", created)
+				.add("lastModified", lastModified);
+	}
+    
 }

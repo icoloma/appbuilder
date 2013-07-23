@@ -3,7 +3,7 @@ package info.spain.opencatalog.exporter;
 import info.spain.opencatalog.domain.Tags.Tag;
 import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 	}
 	
 	@Override
-	public void export(List<AbstractPoi> pois, List<Zone> zones, Flag[] flags, File outputDir) {
+	public void export(List<BasicPoi> pois, List<Zone> zones, Flag[] flags, File outputDir) {
 		Writer writer = init(outputDir);
 		exportZones(zones, writer);
 		writer.append(", ");
@@ -74,10 +74,10 @@ public class JSONExporter extends AbstractExporter implements CatalogExporter {
 	 * Exporta un listado de Pois
 	 */
 	
-	private void exportPois(List<AbstractPoi> pois, File outputDir, Writer writer){
+	private void exportPois(List<BasicPoi> pois, File outputDir, Writer writer){
 		writer.append("\"pois\": [\n");
-		for (Iterator<AbstractPoi> iterator = pois.iterator(); iterator.hasNext();) {
-			AbstractPoi poi = iterator.next();
+		for (Iterator<BasicPoi> iterator = pois.iterator(); iterator.hasNext();) {
+			BasicPoi poi = iterator.next();
 			List<String> images = imageExporter.exportImages(poi, outputDir);
 			writer.append("{\n")
 			 .append("  \"id\":" + asQuotedString(poi.getId()) + ",\n")

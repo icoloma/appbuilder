@@ -2,7 +2,6 @@ package info.spain.opencatalog.web.rest;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
@@ -33,7 +32,7 @@ public class PoiJsonDeserializerTest {
 		assertPoi(poi,PoiTypeRepository.getType("HOTEL"));
 	}
 	
-	private void assertPoi(AbstractPoi poi, BasicPoiType type ){
+	private void assertPoi(BasicPoi poi, BasicPoiType type ){
 		assertNotNull(poi);
 		assertNotNull(poi.getType());
 		assertEquals( type.getId() , poi.getType().getId());

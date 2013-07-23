@@ -16,7 +16,6 @@
     <link rel="stylesheet" th:href="@{/resources/css/bootstrap-responsive.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/ui-lightness/jquery-ui-1.9.2.custom.css}" />
-	<link rel="stylesheet" th:href="@{/resources/css/jquery.tagedit.css}" />
 </head>
 
 <body>
@@ -71,6 +70,10 @@
       </div>
   </div> <!-- /container -->
   
+  
+  
+  
+  
 
 <!-- 
   *************
@@ -88,23 +91,6 @@
 	<script th:src="@{/resources/js/vendor/bootstrap.js}"></script>
 	<script th:src="@{/resources/js/main.js}"></script>
 </div>
-
-<!--
-  *************
-    Tags 
-  *************
- -->
-<div th:fragment="tags">
-	<script>
-		$(function(){
-		 	$('input.tag').tagedit({
-		 		allowEdit: false,
-		 		autocompleteURL: '/opencatalog/admin/poi/tags',
-			});
-		});
-	</script>
-</div>
-
 
 </body>
 </html>

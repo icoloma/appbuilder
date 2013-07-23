@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Points of interest</title>
+    <link rel="stylesheet" href="../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../resources/css/jquery.tagedit.css"/>
+    <link rel="stylesheet" href="../../../resources/css/main.css"/>
+</head>
+
+<body>
+
+	<!--  Nav bar -->
+	<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">OpenCatalog</a>
+			</div>
+		</div>
+	</div>
+    
+        
+  <div class="container">
+  
+      
+      <div th:fragment="poiDataTag">
+      
+     	 <div th:each="data: ${poi.type.allowedDataValidators}" 
+     	 	th:with="
+     	 	    normalizedKey=  ${#strings.replace(data.key,':','_')},
+     	 		isBoolean=${data.value.type.toString() == 'BOOLEAN'},  
+	     	 	isBigText=${data.value.type.toString() == 'BIGTEXT'}, 
+	     	 	isKeyValue=${data.value.type.toString() == 'KEY_VALUE'}">
+	     	 	
+	     	 	
+				<label th:text="#{'poi.data.' + ${normalizedKey} }">label</label>
+	     	 	<select th:if="${isBoolean}"  th:field="*{data['__${data.key}__']}" required="required" th:id="${normalizedKey}" data:key="${data.key}">
+					<option value="false">false</option>
+					<option value="true">true</option>
+				</select>
+				
+				<textarea th:if="${isBigText || isKeyValue }" th:field="*{data['__${data.key}__']}" class="input-xxlarge" th:id="${normalizedKey}" data:key="${data.key}" required="required" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut eros in dolor pellentesque porta. Praesent vel egestas ipsum. Vestibulum quam enim, pellentesque ac tempus in, vulputate vel lectus. Donec malesuada elit orci, vel aliquam tortor tristique nec. Ut lobortis elit ut quam d</textarea>
+				
+				<input th:if="${! (isBoolean || isBigText || isKeyValue ) }"  type="text" th:type="${#strings.toLowerCase(data.value.type)}" data:key="${data.key}" th:id="${normalizedKey}" th:field="*{data['__${data.key}__']}" class="span3" required="required" value="Lorem ipsum dolor sit amet"/>
+
+		</div>
+	 </div>
+  </div> <!-- /container -->
+  
+  
+
+</body>
+</html>
+
+
+
+

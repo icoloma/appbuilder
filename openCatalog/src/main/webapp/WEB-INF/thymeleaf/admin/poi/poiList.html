@@ -52,8 +52,8 @@
 			  <tbody>
 			    <tr th:each="poi : ${page.content}" data:link="@{'/admin/poi/' + ${poi.id}}" data-id="1" class="dataLink" data-link="poi.html">
 			      <td th:text="${poi.name.es}">Pico del Teide</td>
-			      <td th:text="${#strings.abbreviate(poi.description.es,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
-			      <td th:text="${poi.address.adminArea1}">Canarias</td>
+			      <td th:text="${poi.description}? ${#strings.abbreviate(poi.description.es,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td th:text="${poi.address}? ${poi.address.adminArea1}">Canarias</td>
 			      <td>[<span th:text="${#numbers.formatDecimal(poi.location.lat,3,4,'POINT')}">28.2716</span>, <span th:text="${#numbers.formatDecimal(poi.location.lng,3,4,'POINT')}">-16.6424</span>]</td>
 			      	
 			    </tr>

@@ -3,21 +3,19 @@ package info.spain.opencatalog.domain.poi.lodging;
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.Score;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
-import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import java.util.Set;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.Objects.ToStringHelper;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 /**
@@ -26,7 +24,7 @@ import com.google.common.collect.Sets;
  * 
  */
 @Document(collection="poi")
-public class Lodging extends AbstractPoi {
+public class Lodging extends BasicPoi {
 	
     /** tipos de alojamiento: habitación doble, individual, etc */
     private Set<RoomType> roomTypes;
@@ -36,7 +34,6 @@ public class Lodging extends AbstractPoi {
     }
     public Lodging(BasicPoiType type) {
         super(type);
-        Preconditions.checkArgument(PoiTypeRepository.LODGING_TYPES.contains(type.getId()));
     }
 
     @Override

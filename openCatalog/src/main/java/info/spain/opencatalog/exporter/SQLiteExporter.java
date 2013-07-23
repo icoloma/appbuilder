@@ -1,7 +1,7 @@
 package info.spain.opencatalog.exporter;
 
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 
 import java.io.File;
@@ -99,9 +99,9 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	 * consultas paginadas
 	 */
 	
-	private void exportPois(List<AbstractPoi> pois, File outputDir, JdbcTemplate jdbcTemplate){
+	private void exportPois(List<BasicPoi> pois, File outputDir, JdbcTemplate jdbcTemplate){
 		int id=0;
-		for (AbstractPoi poi : pois) {
+		for (BasicPoi poi : pois) {
 			List<String> images = imageExporter.exportImages(poi, outputDir);
 			jdbcTemplate.update("INSERT INTO `Poi` (" +
 					" `name_es`, `desc_es`," +
@@ -168,7 +168,7 @@ public class SQLiteExporter extends AbstractExporter implements CatalogExporter 
 	
 	
 	@Override
-	public void export(List<AbstractPoi> pois, List<Zone> zones, Flag[] flags, File outputDir) {
+	public void export(List<BasicPoi> pois, List<Zone> zones, Flag[] flags, File outputDir) {
 		JdbcTemplate jdbcTemplate = init(outputDir);
 		exportZones(zones, jdbcTemplate);
 		exportPois(pois, outputDir, jdbcTemplate);

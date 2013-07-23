@@ -1,6 +1,6 @@
 package info.spain.opencatalog.domain.poi.types;
 
-import info.spain.opencatalog.domain.poi.AbstractPoi;
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.Score;
@@ -25,7 +25,7 @@ public class LodgingType extends BasicPoiType {
 	}
 	
 	@Override
-    public void validate(AbstractPoi poi) {
+    public void validate(BasicPoi poi) {
         super.validate(poi);
         Lodging lp = (Lodging) poi;
         validateSet("room type", allowedRoomTypes, lp.getRoomTypes());

@@ -15,7 +15,12 @@
 	<import resource="mongo-config.xml"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages/messages"/>
+		<property name="basenames">
+			<list>
+				<value>messages/messages</value>
+				<value>messages/messages_flags</value>
+			</list>
+		</property> 
 	</bean>
 	
 	<!-- used by API and UI  -->

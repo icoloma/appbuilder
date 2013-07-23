@@ -1,17 +1,13 @@
 package info.spain.opencatalog.rest;
 
-import info.spain.opencatalog.domain.poi.AbstractPoi;
 import info.spain.opencatalog.domain.poi.BasicPoi;
-import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
-import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.controller.AbstractController;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
     
 */
 @Controller
-@ExposesResourceFor(AbstractPoi.class)
+@ExposesResourceFor(BasicPoi.class)
 public class PoiRestController extends AbstractController {
 
 	@Autowired 
@@ -116,20 +112,20 @@ public class PoiRestController extends AbstractController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/poi", method = RequestMethod.POST, params="type")
 	public void saveBacic(@RequestParam String type, HttpServletRequest req, HttpServletResponse res) throws IOException  {
-		PoiTypeID idType = PoiTypeID.valueOf(type);
-		InputStream body = req.getInputStream();
-		 // Basic or Lodging
-		Class<? extends AbstractPoi> clazz = PoiTypeRepository.BASIC_TYPES.contains(idType)? BasicPoi.class : Lodging.class;
-		AbstractPoi poi = objectMapper.readValue(body, clazz);
-		savePoi(poi,type,req,res);
+//		PoiTypeID idType = PoiTypeID.valueOf(type);
+//		InputStream body = req.getInputStream();
+//		 // Basic or Lodging
+//		Class<? extends BasicPoi> clazz = PoiTypeRepository.BASIC_TYPES.contains(idType)? BasicPoi.class : Lodging.class;
+//		BasicPoi poi = objectMapper.readValue(body, clazz);
+//		savePoi(poi,type,req,res);
 	 }
 	 
 	 
-	 private void savePoi(AbstractPoi poi, String type, HttpServletRequest req, HttpServletResponse res)  {
-		 poi.setType(PoiTypeRepository.getType(type));
-		 poi.validate();
-		 poi = poiRepository.save(poi);
-		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));
+	 private void savePoi(BasicPoi poi, String type, HttpServletRequest req, HttpServletResponse res)  {
+//		 poi.setType(PoiTypeRepository.getType(type));
+//		 poi.validate();
+//		 poi = poiRepository.save(poi);
+//		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));
 	 }	
 
 	 private String getLocationForChildResource(HttpServletRequest request,  Object childIdentifier) {
