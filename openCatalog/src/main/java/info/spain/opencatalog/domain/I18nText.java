@@ -2,6 +2,8 @@ package info.spain.opencatalog.domain;
 
 import javax.validation.constraints.NotNull;
 
+import com.google.common.base.Strings;
+
 /**
  * Mantains a text in differents languages
  * 
@@ -58,6 +60,28 @@ public class I18nText {
 	public String toString() {
 		return "[es=" + es + ", en=" + en + ", fr=" + fr + ", de="
 				+ de + ", it=" + it + "]";
+	}
+	
+	public I18nText copyNotEmpty(I18nText other){
+		if (other != null){
+			if (!Strings.isNullOrEmpty(other.es)){
+				this.es = other.es;
+			}
+			if (!Strings.isNullOrEmpty(other.en)){
+				this.en = other.en;
+			}
+			if (!Strings.isNullOrEmpty(other.fr)){
+				this.fr = other.fr;
+			}
+			if (!Strings.isNullOrEmpty(other.de)){
+				this.de = other.de;
+			}
+			if (!Strings.isNullOrEmpty(other.it)){
+				this.it = other.it;
+			}
+		}	
+		return this;
+		
 	}
 	
 	

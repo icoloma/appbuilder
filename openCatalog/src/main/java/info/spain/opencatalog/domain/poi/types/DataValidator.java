@@ -5,13 +5,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 @SuppressWarnings("rawtypes")
 public class DataValidator {
 	
 	public static enum ValidatorType {
-		TEXT, BIGTEXT, NUMBER, BOOLEAN, KEY_VALUE
+		TEXT, BIGTEXT, INTEGER, DOUBLE, BOOLEAN, KEY_VALUE
 	}
 
 	private static final String INTEGER ="\\d+";
@@ -46,7 +47,7 @@ public class DataValidator {
 	}
 	
 	private void validateWithPattern(String data){
-		if (pattern != null){
+		if (pattern != null && !Strings.isNullOrEmpty(data)){
 			Matcher matcher = pattern.matcher(data);
 			if (!matcher.matches()){
 				throw new IllegalArgumentException( data + " doesn't match " + regex);
@@ -93,10 +94,10 @@ public class DataValidator {
 		return new DataValidator(ValidatorType.BOOLEAN).setValidValues(Sets.newHashSet(Boolean.TRUE, Boolean.FALSE));
 	}
 	private static DataValidator integerValidator(){
-		return new DataValidator(ValidatorType.NUMBER).setRegex(INTEGER);
+		return new DataValidator(ValidatorType.INTEGER).setRegex(INTEGER);
 	}
 	private static DataValidator doubleValidator(){
-		return  new DataValidator(ValidatorType.NUMBER).setRegex(DOUBLE);
+		return  new DataValidator(ValidatorType.DOUBLE).setRegex(DOUBLE);
 	}
 	
 	private static DataValidator bigTextValidator(){

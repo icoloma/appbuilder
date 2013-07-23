@@ -21,6 +21,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
@@ -105,15 +107,31 @@ public class BasicPoi {
 	
 	public void copyData(BasicPoi source){
         this.id = source.id;
-        this.name = source.name;
-        this.description = source.description;
+        this.name = new I18nText().copyNotEmpty(source.name);
+        this.description = new I18nText().copyNotEmpty(source.description);
         this.address = source.address;
         this.location = source.location;
         this.contactInfo = source.contactInfo;
         this.flags = source.flags;
         this.timetable = source.timetable;
-        this.data=source.data;
+        this.data= deleteEmptyEntries(source.data);
     }	
+	
+	/**
+	 * Elimina los elementos vacíos
+	 * @param source
+	 * @return
+	 */
+	private Map<String,String> deleteEmptyEntries(Map<String,String> source){
+		Map<String,String> result = Maps.newLinkedHashMap();
+		for (String key : source.keySet()) {
+			String value = source.get(key);
+			if (!Strings.isNullOrEmpty(value)){
+				result.put(key, value);
+			}
+		}
+		return result;
+	}
 	
 	public Set<TimeTableEntry> getTimetable() {
 		return timetable;
