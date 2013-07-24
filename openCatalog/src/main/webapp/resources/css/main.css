@@ -69,5 +69,8 @@ form.form-search {
 
 #exporterForm [data-provide="typeahead"] {
 	margin-top: 0px;
-	
+}
+
+.well select {
+	margin-bottom: 0px;
 }

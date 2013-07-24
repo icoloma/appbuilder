@@ -44,6 +44,7 @@
 			  <thead>
 			    <tr>
 			      <th th:text="#{poi.rows.head.name}">Name</th>
+			      <th th:text="#{poi.rows.head.type}">Type</th>
 			      <th th:text="#{poi.rows.head.description}">Description</th>
 			      <th th:text="#{poi.rows.head.adminArea1}">Admin Area 1</th>
 			      <th th:text="#{poi.rows.head.coordinates}">Coordinates</th>
@@ -52,6 +53,7 @@
 			  <tbody>
 			    <tr th:each="poi : ${page.content}" data:link="@{'/admin/poi/' + ${poi.id}}" data-id="1" class="dataLink" data-link="poi.html">
 			      <td th:text="${poi.name.es}">Pico del Teide</td>
+			      <td th:text="#{ 'poiType.' + ${poi.type.id}}">Espacio natural</td>
 			      <td th:text="${poi.description}? ${#strings.abbreviate(poi.description.es,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
 			      <td th:text="${poi.address}? ${poi.address.adminArea1}">Canarias</td>
 			      <td>[<span th:text="${#numbers.formatDecimal(poi.location.lat,3,4,'POINT')}">28.2716</span>, <span th:text="${#numbers.formatDecimal(poi.location.lng,3,4,'POINT')}">-16.6424</span>]</td>
@@ -78,7 +80,10 @@
 			</ul>
 			
 			<div class="well">
-		    	<a class="btn btn-primary" href="#" th:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</a>
+				<select id="target" >
+					<option th:each="type: ${T(info.spain.opencatalog.domain.poi.types.PoiTypeID).values()}" value="BEACH" th:value="${type.toString()}" th:text="#{ 'poiType.' + ${type.toString()}}">Playa</option>
+				</select>
+		    	<button class="btn btn-primary"  data:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</button>
 		    </div>
 			
 	    </div>
@@ -101,6 +106,17 @@
 	    <script src="../../../../resources/js/main.js"></script>
 	</div>
 	
+			
+	<script>
+		$(function(){
+			var button = $('.well button');
+			button.bind('click', function(){
+				var target = $('#target').val();
+				window.location = $(this).data('href') + '/' + target;
+			});
+			
+		});
+	</script>
     
 </body>
 </html>

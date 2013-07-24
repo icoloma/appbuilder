@@ -24,7 +24,7 @@
   <div class="container">
       
       <div th:fragment="poiDataTag">
-      
+         <legend th:if="${poi.type.allowedDataValidators}" th:text="#{poi.data}">Data</legend>
      	 <div th:each="data: ${poi.type.allowedDataValidators}" 
      	 	th:with="
      	 	    isBoolean=${data.value.type.toString() == 'BOOLEAN'},  
@@ -39,8 +39,8 @@
 				<label th:text="#{'poi.data.' + ${normalizedKey} }">label</label>
 	     	 	
 	     	 	<select th:if="${isBoolean}"  th:field="*{data['__${data.key}__']}" th:id="${normalizedKey}" data:key="${data.key}">
-					<option value="false">false</option>
-					<option value="true">true</option>
+					<option value="false" th:text="#{boolean.true}">No</option>
+					<option value="true" th:text="#{boolean.false}">Yes</option>
 				</select>
 				
 				<textarea th:if="${isBigText || isKeyValue }" th:field="*{data['__${data.key}__']}" class="input-xxlarge" th:id="${normalizedKey}" data:key="${data.key}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut eros in dolor pellentesque porta. Praesent vel egestas ipsum. Vestibulum quam enim, pellentesque ac tempus in, vulputate vel lectus. Donec malesuada elit orci, vel aliquam tortor tristique nec. Ut lobortis elit ut quam d</textarea>

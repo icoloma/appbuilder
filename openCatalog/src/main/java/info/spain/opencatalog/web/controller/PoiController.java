@@ -116,18 +116,15 @@ public class PoiController extends AbstractUIController {
 	/**
 	 * CREATE 
 	 */
-	@RequestMapping(method = RequestMethod.POST)
-	public String create(@Valid @ModelAttribute("poi") PoiForm poiForm ,BindingResult errors,  Model model) {
+	@RequestMapping(value="/new/{type}", method = RequestMethod.POST)
+	public String create(@Valid @ModelAttribute("poi") PoiForm poiForm, @PathVariable("type") String type, BindingResult errors,  Model model,  @RequestParam(value="flags", required=false) String[] strFlags) {
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
-		BasicPoi poi = poiRepository.save(poiForm.getPoi());
-		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
+		poiForm.setFlags(convertFlags(strFlags));
 		
-		if (poiForm.getFile() != null) {
-			poiForm.setId(poi.getId());
-			processImage(poiForm, errors);
-		}
+		BasicPoi poi = poiRepository.save( new BasicPoi(PoiTypeRepository.getType(type)).copyData(poiForm));
+		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
 		return "redirect:/admin/poi/" + poi.getId();
 	}
@@ -144,13 +141,14 @@ public class PoiController extends AbstractUIController {
 	}
 
 	
+	
 	/**
 	 * UPDATE
 	 * 
 	 * FIXME: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
 	 */
 	@RequestMapping( value="/{id}", method=RequestMethod.POST)
-	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,  Model model, @PathVariable("id") String id,  @RequestParam("flags") String[] strFlags) {
+	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,  Model model, @PathVariable("id") String id,  @RequestParam(value="flags", required=false) String[] strFlags) {
 		
 		poiForm.setFlags(convertFlags(strFlags));
 		
@@ -175,8 +173,10 @@ public class PoiController extends AbstractUIController {
 	
 	private Flag[] convertFlags(String[] strFlags){
 		List<Flag> flags = Lists.newArrayList();
-		for (String flag : strFlags) {
-			flags.add(Flag.valueOf(flag));
+		if (strFlags != null){
+			for (String flag : strFlags) {
+				flags.add(Flag.valueOf(flag));
+			}
 		}
 		return flags.toArray(new Flag[]{});
 	}

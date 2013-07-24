@@ -105,7 +105,7 @@ public class BasicPoi {
 		}
 	}
 	
-	public void copyData(BasicPoi source){
+	public BasicPoi copyData(BasicPoi source){
         this.id = source.id;
         this.name = new I18nText().copyNotEmpty(source.name);
         this.description = new I18nText().copyNotEmpty(source.description);
@@ -115,6 +115,7 @@ public class BasicPoi {
         this.flags = source.flags;
         this.timetable = source.timetable;
         this.data= deleteEmptyEntries(source.data);
+        return this;
     }	
 	
 	/**
@@ -124,10 +125,12 @@ public class BasicPoi {
 	 */
 	private Map<String,String> deleteEmptyEntries(Map<String,String> source){
 		Map<String,String> result = Maps.newLinkedHashMap();
-		for (String key : source.keySet()) {
-			String value = source.get(key);
-			if (!Strings.isNullOrEmpty(value)){
-				result.put(key, value);
+		if (source != null) {
+			for (String key : source.keySet()) {
+				String value = source.get(key);
+				if (!Strings.isNullOrEmpty(value)){
+					result.put(key, value);
+				}
 			}
 		}
 		return result;

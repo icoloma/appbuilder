@@ -26,12 +26,11 @@
 	
 		<div th:substituteby="fragments/template :: alert" />
 			
-		<h1 th:text="#{poi.header}" >Point of Interest</h1>
+		<h1 th:text="#{'poiType.' + ${poi.type.id}}">Genérico</h1>
 		
-		<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?:''}}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
+		<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.type.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
 		 	
-		 		<input type="text" name="type" id="type" th:value="${poi.type.id}" disabled="disabled"/>
-				<ul class="nav nav-tabs">
+		 		<ul class="nav nav-tabs">
 					<li class="active"><a href="#es" data-toggle="tab" th:text="#{lang.es}">Spanish</a></li>
 					<li><a href="#en" data-toggle="tab" th:text="#{lang.en}">English</a></li>
 					<li><a href="#fr" data-toggle="tab" th:text="#{lang.fr}">French</a></li>
@@ -56,7 +55,7 @@
 							  <li th:each="err : ${#fields.errors('description')}" th:text="#{${err}}">Input is incorrect</li>
 							</ul>
 				  		</div>
-			  			<textarea name="description.es" class="input-xxlarge" th:field="*{description.es}" placeholder="Enter poi description (spanish)" th:placeholder="#{poi.description.es.placeholder}" required="required" >La Puerta del Sol es una plaza de Madrid (España). 
+			  			<textarea name="description.es" class="input-xxlarge" th:field="*{description.es}" placeholder="Enter poi description (spanish)" th:placeholder="#{poi.description.es.placeholder}"  >La Puerta del Sol es una plaza de Madrid (España). 
 Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras radiales españolas. El edificio más antiguo de la Puerta del Sol es la Casa de Correos y en ella destaca el reloj de torre que fue construido y donado en el siglo XIX por José Rodríguez de Losada, y cuyas campanadas de las 12 de la noche del 31 de diciembre marcan la tradicional toma de las doce uvas a la gran mayoría de los españoles. Dichas campanadas se empezaron a televisar el 31 de diciembre de 1962 en La 1 de TVE, a partir de ese año no se ha dejado de retransmitir por diversos canales de televisión de España. La Puerta del Sol es un lugar de cita, un lugar de paso entre diversas partes de Madrid. Es visita turística obligada de aquellos que se acercan a Madrid.
 			  			</textarea>
 			  		</div>
@@ -159,9 +158,9 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 				</div>
 				
 				
-				<legend th:text="#{poi.data}">Data</legend>
 
 				<div th:substituteby="fragments/poiData :: poiDataTag" >
+					<legend>Data</legend>
 					<label>label</label>
 					<input type="text"/>
 				</div>
@@ -232,27 +231,6 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
 	</div>
 	
-	<div th:substituteby="fragments/template :: tags">
-		<script>
-			$(function(){
-				
-				var tags = [{"id":"lodging", 			"label":"Lodging", 				"value":"Lodging"},
-				            {"id":"lodging.apartment", 	"label":"Lodging/Apartment", 	"value":"Lodging/Apartment"},
-				            {"id":"lodging.camping", 	"label":"Lodging/Camping", 		"value":"Lodging/Camping"},
-				            {"id":"lodging.hotel", 		"label":"Lodging/Hotel", 		"value":"Lodging/Hotel"},
-				           ];
-				
-			 	$('input.tag').tagedit({
-			 		allowEdit: false,
-			 		autocompleteOptions: {
-						source: tags
-					}
-				});
-			 	
-			});
-		</script>
-	</div>
-			
 	<script>
 	
 	$(function(){
