@@ -17,7 +17,6 @@ define(
         this.collectionView = new ListView({
           className: 'poicollectionview',
           collection: this.collection,
-          url: '#/pois/',
           trView: TrView
         });
       },
