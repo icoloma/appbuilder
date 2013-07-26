@@ -10,7 +10,8 @@ var require = {
   paths: {
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
-    'db/initdb': 'db/initdb-dev'
+    'db/initdb': 'db/initdb-dev',
+    'menu': '../test/data/menu'
   },
   shim: {
     'lib/backbone': {
@@ -45,7 +46,8 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
       paths: {
         globals: 'lib/globals',
         'modules/config': 'modules/config-prod',
-        'db/initdb': 'db/initdb-prod'
+        'db/initdb': 'db/initdb-prod',
+        'menu': 'data/menu'
       },
     }
   };

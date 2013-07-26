@@ -3,16 +3,18 @@
 */
 define(
   [ 
-    'globals', 'db/utils',
+    'globals', 'menu', 'db/utils',
     'page/pages', 'schemas/schemas', 'ui/basedialogview',
     'poi/poi', 'poi/collection'
   ],
-  function(Globals, DbUtils, Page, Db, DialogView, Poi) {
+  function(Globals, Menu, DbUtils, Page, Db, DialogView, Poi) {
     return B.Router.extend({
 
       routes: {
-        '': 'renderHome',
-        // 'category/:category': 'renderCategory',
+        '': function() {
+          this.renderMenu(Menu.root);
+        },
+        'menu/:menuId': 'renderMenu',
         'pois(?:query)': 'renderPois',
         'pois/:poiId': 'renderPoi'
       },
@@ -31,36 +33,20 @@ define(
         this.$el.prepend(dialogView.render().$el);
       },
 
-      renderHome: function() {
-        var self = this;
-        Db.Tag.all().asCollection(Db.Tag, function(tags) {
-          self.setView(Page.TagsView, {
-            collection: tags,
-            title: window.appConfig.zone,
-          });
+      renderMenu: function(menuId) {
+        var menu = Menu.menus[menuId]
+        , collection = new B.Collection(
+          menu.entries.map(function(entry) {
+            return new B.Model(entry);
+          })
+        )
+        ;
+
+        this.setView(Page.MenuView, {
+          title: menu.title,
+          collection: collection
         });
       },
-
-      // renderCategory: function(category) {
-      //   var self = this;
-      //   async.parallel({
-      //     subcategories: function(cb) {
-      //       Db.SubCategory.all().filter('category', '=', category).asCollection(function(subcats) {
-      //         cb(null, subcats);
-      //       });
-      //     },
-      //     category: function(cb) {
-      //       Db.Category.findBy('id', category, function(cat) {
-      //         cb(null, cat);
-      //       });
-      //     }
-      //   }, function(err, results) {
-      //     self.setView(Page.categoryView, {
-      //       collection: results.subcategories,
-      //       title: results.category.name
-      //     });
-      //   });
-      // },
 
       renderPois: function(query) {
         var self = this

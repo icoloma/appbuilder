@@ -1,10 +1,9 @@
 define(
-  ['page/poiview', 'page/tagsview', 'page/poisview'],
-  function(PoiView, TagsView, PoisView) {
+  ['page/poiview', 'page/menuview', 'page/poisview'],
+  function(PoiView, MenuView, PoisView) {
     return {
-      // homeView: HomeView,
       PoiView: PoiView,
-      TagsView: TagsView,
+      MenuView: MenuView,
       PoisView: PoisView
     };
   }

@@ -3,12 +3,11 @@ define(
   function(ListView, TrView, TopbarView) {
 
     return B.View.extend({
-      className: 'tagsview',
+      className: 'menuview',
 
       initialize: function() {
         this.collectionView = new ListView({
           collection: this.collection,
-          url: '#/pois?tag=',
           trView: TrView
         });
         this.topbarView = new TopbarView();
