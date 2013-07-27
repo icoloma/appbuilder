@@ -4,6 +4,8 @@
     * También actúa como configuración al depurar en un navegador 
 */
 
+var comp = 'lib/components/';
+
 // Configuración básica en desarrollo *en un navegador*
 var require = {
   baseUrl: './js',
@@ -11,17 +13,27 @@ var require = {
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
     'db/initdb': 'db/initdb-dev',
-    'menu': '../test/data/menu'
+    'menu': '../test/data/menu',
+    // Librerías
+    jquery: 'lib/jquery',
+    async: 'lib/async',
+    SQLitePlugin: comp + 'PG-SQLitePlugin-Android/Android/assets/www/SQLitePlugin',
+    backbone: comp + 'backbone/backbone',
+    underscore: comp + 'underscore/underscore',
+    almond: comp + 'almond/almond',
+    persistence: comp + 'persistencejs/lib/persistence',
+    'persistence.store.sql': comp + 'persistencejs/lib/persistence.store.sql',
+    'persistence.store.websql': comp + 'persistencejs/lib/persistence.store.websql',
   },
   shim: {
-    'lib/backbone': {
-      deps: ['lib/jquery', 'lib/underscore']
+    'backbone': {
+      deps: ['jquery', 'underscore']
     },
-    'lib/persistence.websql': {
-      deps: ['lib/persistence.store.sql']
+    'persistence.websql': {
+      deps: ['persistence.store.sql']
     },
-    'lib/persistence.sql': {
-      deps: ['lib/persistence', 'lib/SQLitePlugin']
+    'persistence.sql': {
+      deps: ['persistence', 'SQLitePlugin']
     }
   }
 }
@@ -34,7 +46,7 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
     // Opciones para la build de r.js
     build: {
       name: 'main',
-      include: [ 'lib/almond' ],
+      include: [ 'almond' ],
       out: 'build/js/scripts.js',
       optimize: 'none'
     },

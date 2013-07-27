@@ -1,9 +1,8 @@
 define(
   [ 
-    'lib/jquery', 'lib/underscore', 'lib/backbone', 'modules/touch',
-    'lib/persistence', 'lib/persistence.store.sql', 'lib/persistence.store.websql',
-    'lib/SQLitePlugin',
-    'lib/async', 'modules/i18n'
+    'jquery', 'underscore', 'backbone',
+    'persistence', 'persistence.store.sql', 'persistence.store.websql',
+    'modules/touch', 'SQLitePlugin', 'async', 'modules/i18n'
   ],
   function() {
     window.B = Backbone;

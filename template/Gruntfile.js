@@ -55,7 +55,7 @@ grunt.initConfig({
       laxcomma: true
     },
     // JSHint a todo el código salvo las librerias
-    all: ['js/**/*.js', '!js/lib/*.js'],
+    all: ['js/**/*.js', '!js/lib/**'],
   },
   requirejs: {
     prod: {
@@ -73,6 +73,12 @@ grunt.initConfig({
     js: {
       src: ['js/**'],
       dest: 'build/'
+    },
+    jsComponents: {
+      src: ['**/*.js'],
+      cwd: 'bower_components',
+      dest: 'js/lib/components/',
+      expand: true
     },
     data: {
       src: 'test/**',
@@ -118,7 +124,7 @@ grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
 grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
 /*  */
 
-grunt.registerTask('dev', ['less:dev', 'jshint']);
+grunt.registerTask('dev', ['less:dev', 'jshint', 'copy:jsComponents']);
 grunt.registerTask('device', ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
 grunt.registerTask('optimized', ['basic-build', 'copy:data', 'css-build-dev', 'rjs-dev']);
 grunt.registerTask('prod', ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre']);

@@ -3,3 +3,5 @@ node_modules
 style.css
 build/
 template-android-build/
+bower_components
+js/lib/components

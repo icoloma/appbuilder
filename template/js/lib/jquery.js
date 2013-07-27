@@ -1,6 +1,6 @@
 /*
 
-Custom build de jQuery 2.0.0
+Custom build de jQuery 2.0.2
 
 git clone git://github.com/jquery/jquery.git
 cd jquery

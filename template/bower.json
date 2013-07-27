@@ -1,0 +1,11 @@
+{
+  "name": "app-template",
+  "dependencies": {
+    "backbone": "~1.0.0",
+    "underscore": "~1.5.1",
+    "requirejs": "~2.1.8",
+    "almond": "~0.2.5",
+    "persistencejs": "https://github.com/zefhemel/persistencejs.git#7b34341a6027284b635bb97ba7059848adfe685a",
+    "PG-SQLitePlugin-Android": "https://github.com/pgsqlite/PG-SQLitePlugin-Android.git#r2013.05"
+  }
+}

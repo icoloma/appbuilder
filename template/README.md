@@ -1,9 +1,25 @@
 TEMPLATE
 --------
-Las dependencias de la aplicación requieren [node.js](http://nodejs.org) y [npm](http://npmjs.org) para instalarse.
+Las dependencias de la aplicación requieren [node.js](http://nodejs.org),  [npm](http://npmjs.org), [Grunt](http://gruntjs.com/) y [Bower](http://bower.io) para instalarse.
 
-    npm install
+```shell    
+npm install -g bower grunt-cli
+npm install
+bower install
+```
+### Permisos de administrador
+Sin permisos de administrador, aún se pueden usar algunas de las herramientas que dependan de Node, como Bower o Grunt, ya que una instalación local de dichas herramientas guarda un ejecutable en `node_modules/.bin`. (Las dependencias de la aplicación ya incluyen estos ejecutables.)
+```shell```
+# Ejemplo: Bower
+# Con permisos de admin
+npm install -g bower
+bower ...
+# Sin permisos de admin
+npm install bower # Innecesario, ya incluido en la aplicación
+node node_modules/.bin/bower ...
+```
 
+### Debugging
 Para depurar en un navegador, hay que levantar un servidor en la máquina local:
 * Node.js: [http-server](https://github.com/nodeapps/http-server), [simple-http-server](https://github.com/andrewpthorp/simple-http-server)
 * [Python](http://docs.python.org/2/library/simplehttpserver.html)
@@ -20,21 +36,17 @@ En la configuración en desarrollo, la página de inicio `index.html` contiene u
 ### Maneras de depurar. Grunt.js. Build para producción.
 La aplicación incluye un `Gruntfile` para automatización de tareas.
 
-    # Instalar 
-    npm install -g grunt-cli
     grunt {nombre de la tarea}
-    # Sin instalar grunt-cli de forma global (requiere permisos) se puede hacer:
-    node node_modules/.bin/grunt {nombre de la tarea}
 
-La tarea `dev` simplemente compila la hoja LESS y comprueba con JSHint el código JavaScript. Esto deja lista la aplicación para depurar con un navegador desktop o móvil. El resto de tareas compila en una carpeta `build` y permite otras opciones:
+La tarea `dev` prepara el proyecto para depurar con un navegador desktop o móvil. El resto de tareas compila en una carpeta `build` y permite otras opciones:
 * `device`: simplemente copia la estructura de ficheros. Útil para depurar en un móvil compilando una aplicación nativa.
 * `optimized`: optimiza el javascript. Útil para depurar el build de Require.js, ya sea con un navegador o en nativo. 
 * `prod`: compila JS y LESS para producción (necesitará "ensamblarse" con los datos del catálogo).
 
-## Esquema de datos
+### Esquema de datos
 Los schemas en `js/schemas` contienen el formato esperado para el volcado de datos desde el repositorio, así como el ejemplo en `test/data/data.json`.
 
-## Build en Android
+### Build en Android
 Requisitos:
 * [Phonegap](http://phonegap.com/).
 * El SDK de Android, con `tools` y `platform-tools` en el `PATH`.

@@ -8,7 +8,7 @@
 
 */
 
-define(['lib/jquery'], function() {
+define(['jquery'], function() {
   var $doc = $(document)
 
   // Estado del evento 'tap' 
