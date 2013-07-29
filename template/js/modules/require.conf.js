@@ -13,7 +13,7 @@ var require = {
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
     'db/initdb': 'db/initdb-dev',
-    'menu': '../test/data/menu',
+    'menu.config': '../test/data/menu',
     // Librerías
     jquery: 'lib/jquery',
     async: 'lib/async',

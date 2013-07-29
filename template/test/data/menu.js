@@ -1,29 +1,43 @@
 /*
+  TODO: i18n
+  
   Ejemplo de configuración de menús.
   La estructura básica es:
 
-  TODO: i18n
-
   ** Configuración
   {
-    root: <menuID>,
+    root: <rootMenu>,
     menus: { 
-      <menuId>: <menu>...
+      <menuId>: <menu>
+      ...
     }
   }
 
-  ** Un menú
+  ** Configuración de portada <rootMenu>
   {
-    id: <string, unique>, //Sería conveniente usar un prefix para las ids
-    title: <string>,
+    menu: <menuID>,
+    pois: [ <poiData> ]
+  }
+
+  ** Datos de POI para la portada <poiData> (para ahorrar llamadas a BDD)
+  {
+    thumb: <thumbID>,
+    id: <poiID>
+  }
+
+  ** Un <menu>
+  {
+    id: <menuId, string, unique>, //Sería conveniente usar un prefix para las ids
+    title: <string, i18n>,
     entries: [ entry ]
   }
 
-  ** Una entry. En los menús de nivel superior, las entries llevan a otros menús.
-  En los del nivel inferior, ejecutan una query contra la BDD.
+  ** Una entry.
+    En los menús de nivel superior, las entries llevan a otros menús.
+    En los del nivel inferior, ejecutan una query contra la BDD.
   {
-    "label": <string>,
-    "desc": <string>,
+    "label": <string, i18n>,
+    "desc": <string, i18n>,
     "poiCount": <number>,
     "menu": <menuID>*,
     "query": <string>*
@@ -32,7 +46,19 @@
 */
 define(
 {
-  root: "a0",
+  root: {
+    menu: "a0",
+    pois: [
+      {
+        id: "51c9a32644ae0be7c55268d2",
+        thumb: "img1.png"
+      },
+      {
+        id: "51c9a32744ae0be7c55269dd",
+        thumb: "img2.png"
+      } 
+    ]
+  },
   menus: {
     "a0": {
       "id": "a0",

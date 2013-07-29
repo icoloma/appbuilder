@@ -42,7 +42,7 @@ define(
 
         for (i = 0; i < json.pois.length; i++) {
           poi = json.pois[i];
-          obj = new Db.Poi(_.omit(poi, ['id', 'tags']));
+          obj = new Db.Poi(_.omit(poi, [ 'tags']));
           addTags(poi.tags, obj);
           persistence.add(obj);
         }

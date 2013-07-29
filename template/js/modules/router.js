@@ -3,17 +3,15 @@
 */
 define(
   [ 
-    'globals', 'menu', 'db/utils',
+    'globals', 'menu.config', 'db/utils',
     'page/pages', 'schemas/schemas', 'ui/basedialogview',
     'poi/poi', 'poi/collection'
   ],
-  function(Globals, Menu, DbUtils, Page, Db, DialogView, Poi) {
+  function(Globals, MenuConfig, DbUtils, Page, Db, DialogView, Poi) {
     return B.Router.extend({
 
       routes: {
-        '': function() {
-          this.renderMenu(Menu.root);
-        },
+        '': 'renderHome',
         'menu/:menuId': 'renderMenu',
         'pois(?:query)': 'renderPois',
         'pois/:poiId': 'renderPoi'
@@ -33,8 +31,23 @@ define(
         this.$el.prepend(dialogView.render().$el);
       },
 
+      renderHome: function() {
+        var menu = MenuConfig.menus[MenuConfig.root.menu]
+        , collection = new B.Collection(
+          menu.entries.map(function(entry) {
+            return new B.Model(entry);
+          })
+        )
+        ;
+        this.setView(Page.HomeView, {
+          title: menu.title,
+          collection: collection,
+          pois: MenuConfig.root.pois
+        });
+      },
+
       renderMenu: function(menuId) {
-        var menu = Menu.menus[menuId]
+        var menu = MenuConfig.menus[menuId]
         , collection = new B.Collection(
           menu.entries.map(function(entry) {
             return new B.Model(entry);
