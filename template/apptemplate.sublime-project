@@ -3,7 +3,7 @@
     {
       "name": "LESS",
       "cmd": ["node", "node_modules/.bin/grunt", "less:dev"],
-      "selector": "source.css",
+      "selector": "source.css.less",
       "working_dir": "${project_path}"
     },
     {
