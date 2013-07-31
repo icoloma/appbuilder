@@ -10,7 +10,8 @@ define(
         this.topbarView = new TopbarView({
           title: this.options.title,
           filter: true,
-          sort: true
+          sort: true,
+          map: true
         });
         this.listenTo(this.topbarView, 'sort', this.sort);
         this.listenTo(this.topbarView, 'filter', this.filterDialog);

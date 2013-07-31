@@ -42,6 +42,7 @@ define(['jquery'], function() {
       $target.trigger('tap');
       // Simulamos un click instantáneo en caso de que
       // sea un enlace <a>
+      // OJO: no funcionará para elementos *dentro* de un <a>
       if (e.target.tagName === 'A') {
         window.location = e.target.href;
       }

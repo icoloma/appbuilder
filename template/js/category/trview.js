@@ -8,8 +8,12 @@ define(
       },
 
       tmpl: _.template(
-        '<td>{{label}} <span>{{desc}}</span></td>' +
-        '<td>{{poiCount}}</td>'
+        '<td>' +
+          '{{label}}' +
+          // '<div class="name">{{label}}</div>' +
+          // '<div class="entry-description">{{desc}}</div>' +
+        '</td>' +
+        '<% if(poiCount) { %> <td class="poiCount">{{poiCount}}</td> <% } %>'
       )
     });
   }

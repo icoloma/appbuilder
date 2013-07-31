@@ -11,7 +11,8 @@ define(
           trView: TrView
         });
         this.topbarView = new TopbarView({
-          title: this.options.title
+          title: this.options.title,
+          search: true,
         });
       },
 

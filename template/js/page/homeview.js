@@ -12,6 +12,7 @@ define(
         });
         this.topbarView = new TopbarView({
           title: this.options.title,
+          search: true,
           root: true
         });
       },

@@ -1,8 +1,8 @@
 table {
-  width: 95%;
+  width: 100%;
   margin: auto;
-  font-size: 30px;
-  line-height: @rowHeight;
+  font-size: @rowFontSize;
+  line-height: @rowHeight - 10px;
   border-collapse: collapse;
 }
 
@@ -10,8 +10,23 @@ td {
   border-top: 1px solid #aaa;
   padding: 0 4px;
 }
+td:first-child {
+  padding-left: 30px;
+}
 tr:first-child > td {
   border-top: none;
+}
+
+.entry-name {
+  line-height: 50px;
+}
+.entry-description {
+  font-size: 14px;
+  line-height: (@rowHeight - 50px);
+  color: #777;
+}
+.poiCount {
+  color: #777;
 }
 
 // .collectionview, .poicollectionview {

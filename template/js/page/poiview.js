@@ -9,13 +9,9 @@ define(
       initialize: function() {
         this.topbarView = new TopbarView({
           title: this.model.get('name'),
-          map: this.model.geoLink(),
-          star: true,
-          starred: this.model.get('starred')
           // TODO: implementar notificaciones
           // notify: true
         });
-        this.listenTo(this.topbarView, 'star', this.star);
         this.modelView = new ArticleView({
           model: this.model
         });

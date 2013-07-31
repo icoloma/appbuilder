@@ -29,29 +29,30 @@ define(['globals'], function() {
         // '<span class="options-button">Options</span>'
       '</div>' +
       '<div class="actionbar">' +
-        '<% if (starredPois) { %><a href="#/pois?starred=true" class="icon-star bar-button">{{res.Starred}}</a> <% } %>' +
+        // '<% if (starredPois) { %><a href="#/pois?starred=true" class="icon-star bar-button">{{res.Starred}}</a> <% } %>' +
+        '<% if (search) { %><span data-action="search" data-async="true" class="search-button icon-search bar-button"></span><% } %>' +
         '<% if (filter) { %><span data-action="filter" data-async="true" class="filter-button icon-filter bar-button"></span><% } %>' +
         '<% if (sort) { %><span data-action="sort" data-async="true" class="sort-button icon-sort bar-button"></span><% } %>' +
         '<% if (notify) { %><span data-action="notify" class="notify-button">Notify</span><% } %>' +
-        '<% if (star) { %><span data-action="star" class="star-button bar-button {{isStarred}}"></span><% } %>' +
-        '<% if (map) { %><span data-action="map" class="map-button bar-button"><a href="{{map}}" class="icon-map"></a></span><% } %>' +
+        // '<% if (map) { %><span data-action="map" class="map-button bar-button"><a href="{{map}}" class="icon-map"></a></span><% } %>' +
+        '<% if (map) { %><span data-action="map" class="map-button bar-button icon-map"></span><% } %>' +
       '</div>'
     ),
 
     controlDefaults: function () {
       return {
         root: false,
-        starredPois: false,
+        // starredPois: false,
         filter: false,
         sort: false,
         notify: false,
         map: false,
-        star: false
+        search: false
       };
     },
 
     render: function() {
-      this.options.isStarred = this.options.starred ? 'icon-star' : 'icon-star-empty';
+      // this.options.isStarred = this.options.starred ? 'icon-star' : 'icon-star-empty';
       this.$el.html(
         this.tmpl(_.extend(this.controlDefaults(), this.options))
       );

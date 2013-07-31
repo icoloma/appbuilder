@@ -1,6 +1,14 @@
 @rowHeight: 70px;
-@rowFontSize: 50px;
+@rowFontSize: 20px;
+@lightGrey: #eee;
 
+.clearfix() {
+  &:before, &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+}
 
 * {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  
@@ -9,6 +17,7 @@
 body {
   margin: 0;
   font-size: 20px;
+  line-height: 30px;
   font-family: 'Open Sans', 'sans';
   background-color: #fcfefe;
 }
@@ -21,4 +30,8 @@ a, a:focus, a:hover, a:active, a:visited {
 
 .homeview, .menuview, .poiview, .poisview {
   padding-top: @rowHeight;
+}
+
+.container {
+  padding: 10px 20px;
 }
