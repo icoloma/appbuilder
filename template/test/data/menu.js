@@ -68,13 +68,19 @@ define(
           "label": "See",
           "desc": "See stuff in Huesca",
           "menu": "f8",
-          "poiCount": 100
+          "poiCount": null
         },
         {
           "label": "Sleep",
           "desc": "Take a nap",
-          "poiCount": 300,
+          "poiCount": null,
           "menu": "0c"
+        },
+        {
+          "label": "My favorites",
+          "desc": "sdfasdf",
+          "poiCount": null,
+          "query": "#/pois?starred=true"
         },
       ]
     },

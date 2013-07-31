@@ -8,7 +8,7 @@ var sqlite3 = require('sqlite3').verbose()
 , jsonFile = __dirname + '/data/data.json'
 , dbFile = __dirname + '/data/data.db'
 , languages = ['en', 'es', 'de', 'fr', 'it']
-, name = 'lorem ipsum place'
+, name = 'poi lorem'
 , desc = 'Proin vehicula nisl ac libero blandit, nec feugiat odio facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer a porttitor purus, a vulputate nisl. Morbi eros diam, lacinia a faucibus sed, elementum mattis orci.'
 , types = [ 
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
@@ -94,12 +94,10 @@ for (var i = 0; i < pois; i++) {
     imgs: [ 'img1.png', 'img2.png', 'img3.png' ],
     starred: false
   };
-  i18nField('name').forEach(function(field) {
-    poi[field] = name;
-  });
-  i18nField('desc').forEach(function(field) {
-    poi[field] = desc;
-  });
+  _.extend(poi,
+    _.object(i18nField('name'), i18nValue(name + poi.id.substr(0, 2))),
+    _.object(i18nField('desc'), i18nValue(poi.id.substr(0, 2) + desc))
+  );
   json.pois[i] = poi;
 }
 fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));
@@ -108,7 +106,7 @@ fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));
 /* Generar POIs en sqlite */
 db = new sqlite3.Database(dbFile);
 db.serialize(function() {
-  db.run('CREATE TABLE IF NOT EXISTS Pois (\
+  db.run('CREATE TABLE IF NOT EXISTS Poi (\
     id VARCHAR(32) PRIMARY KEY, \
     type TEXT, ' +
     i18nField('name').map(function(field) {
@@ -128,13 +126,13 @@ db.serialize(function() {
     starred BOOLEAN \
     )');
 
-  var smnt = db.prepare('INSERT INTO Pois VALUES \
+  var smnt = db.prepare('INSERT INTO Poi VALUES \
     (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
   ;
   for (var i = 0; i < pois; i++) {
     poi = json.pois[i];
     [
-    'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'img'
+    'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'imgs'
     ].forEach(function(field) {
       poi[field] = JSON.stringify(poi[field]);
     });
@@ -147,7 +145,7 @@ db.serialize(function() {
         return poi[field];
       }),
       [ 'prices', 'address', 'contact', 'timetables', 'languages', 'data', 'flags',
-        'created', 'lastModified', 'thumb', 'imgs', 'lat', 'lon', 'normLon', 'starred'
+        'created', 'lastModified', 'lat', 'lon', 'normLon', 'thumb', 'imgs', 'starred'
       ].map(function(field) {
         return poi[field];
       })
