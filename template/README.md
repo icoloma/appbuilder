@@ -60,7 +60,7 @@ build_android() {
   rm -r template-android-build/assets/www
   mv build/ template-android-build/assets/www
   cp "$1"/lib/android/cordova*js template-android-build/assets/www/phonegap.js
-  cp test/data/openCatalog.db template-android-build/assets/
+  cp test/data/data.db template-android-build/assets/
   cd template-android-build
   wget https://github.com/jrvidal/PG-SQLitePlugin-Android/archive/master.zip
   unzip master.zip; rm master.zip

@@ -50,11 +50,11 @@ define(
     menu: "a0",
     pois: [
       {
-        id: "51c9a32644ae0be7c55268d2",
+        id: "7076D97BBE3740859B1FA716598DEBD2",
         thumb: "img1.png"
       },
       {
-        id: "51c9a32744ae0be7c55269dd",
+        id: "273C408479D446C180ED6AA18D7AC2DA",
         thumb: "img2.png"
       } 
     ]
@@ -86,13 +86,13 @@ define(
           "label": "Monuments",
           "desc": "Old rocks",
           "poiCount": 70,
-          "query": ""
+          "query": "#/pois?type=MONUMENT"
         },
         {
           "label": "Aquatic parks",
           "desc": "Get wet!",
           "poiCount": 30,
-          "query": ""
+          "query": "#/pois?type=PARK_GARDEN"
         }
       ]
     },
@@ -104,13 +104,13 @@ define(
           "label": "Hotels",
           "desc": "So fancy...",
           "poiCount": 210,
-          "query": ""
+          "query": "#/pois?type=HOTEL"
         },
         {
           "label": "Camping",
           "desc": "Squirrels!",
           "poiCount": 90,
-          "query": ""
+          "query": "#/pois?type=CAMPING"
         }
       ]
     }

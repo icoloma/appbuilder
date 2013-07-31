@@ -63,16 +63,17 @@ define(
 
       renderPois: function(query) {
         var self = this
-        , parsedQuery = query ? DbUtils.parseQuery(query) : {} ;
+        , parsedQuery = query ? DbUtils.parseQuery(query) : {}
+        ;
 
         async.parallel({
           pois: function(cb) {
             // TODO: esto tiene que ser más general
-            Db.Tag.findBy('id', parsedQuery.tag, function(tag) {
-              tag.pois.asJSON(Db.Poi, function(pois) {
+            Db.Poi.all()
+              .query(parsedQuery)
+              .asJSON(Db.Poi, function(pois) {
                 cb(null, pois);
               });
-            });
           },
           title: function(cb) {
             // Busca el título adecuado para la página
@@ -80,10 +81,8 @@ define(
               cb(null, res.searchResults);
             } else if (parsedQuery.starred) {
               cb(null, res.Starred);
-            } else if (parsedQuery.tag) {
-              Db.Tag.findBy('id', parsedQuery.tag, function(subcat) {
-                cb(null, subcat.name);
-              });
+            } else if (parsedQuery.title) {
+              cb(null, parsedQuery.title);
             } else {
               cb(null, '');
             }

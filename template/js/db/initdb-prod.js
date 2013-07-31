@@ -7,10 +7,10 @@ define(
 
 
     return function(cb) {
-      openDatabase({ name: 'openCatalog' });
+      openDatabase({ name: 'data' });
       // BDD y schemas
       persistence.store.websql
-        .config(persistence, 'openCatalog', 'Our own very DB', 5 * 1024 * 1024);
+        .config(persistence, 'data', 'Our own very DB', 5 * 1024 * 1024);
 
       persistence.schemaSync();
       cb();

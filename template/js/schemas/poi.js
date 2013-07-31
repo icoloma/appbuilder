@@ -10,15 +10,21 @@ define(['globals'], function() {
     desc_it: 'TEXT', //i18n
     desc_fr: 'TEXT', //i18n
     desc_de: 'TEXT', //i18n
+    address: 'TEXT',
+    flags: 'JSON',
+    data: 'JSON',
+    timetables: 'JSON',
+    languages: 'JSON',
+    type: 'TEXT',
+    contact: 'JSON',
     thumb: 'TEXT',
     imgs: 'JSON',
     created: 'DATE',
-    updated: 'DATE',
+    lastModified: 'DATE',
     lat: 'REAL',
     lon: 'REAL',
     normLon: 'REAL',
     starred: 'BOOL',
-    idPoi: 'TEXT'
   })
   , oldJSON = Poi.prototype.toJSON
   , jsonFields = _.filter(Poi.meta.fields, function(value) {

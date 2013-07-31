@@ -8,7 +8,7 @@ define(
     var initPersistence = function() {
       // BDD y schemas
       persistence.store.websql
-        .config(persistence, 'openCatalog', 'Our own very DB', 5 * 1024 * 1024);
+        .config(persistence, 'data', 'Our own very DB', 5 * 1024 * 1024);
 
       console.log('Sincronizando esquemas'); // DEBUG
       persistence.schemaSync();
@@ -28,7 +28,7 @@ define(
         // ;
 
         // Carga inicial de la base de datos desde el JSON
-        Db.Tag.all().limit(1).list(null, function(results) {
+        Db.Poi.all().limit(1).list(null, function(results) {
           if (!results.length) {
             console.log('Cargando la base de datos'); //DEBUG
             LoadDb(cb);
@@ -40,7 +40,7 @@ define(
       };
     } else {
       return function(cb) {
-        openDatabase({ name: 'openCatalog' });
+        openDatabase({ name: 'data' });
         initPersistence();
         cb();
       };
