@@ -6,7 +6,7 @@ define(
        return '#/pois/' + this.model.get('id');
       },
       tmpl: _.template(
-        '<td>{{name}}</td>' +
+        '<td><span>{{name}}</span> <span>{{address}}</span> </td>' +
         '<td><img class="poi-thumb" src="{{appConfig.assets+thumb}}"></td>' 
         // +
         // '<td><span class="go">➤</span></td>'

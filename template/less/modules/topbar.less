@@ -15,7 +15,7 @@
 .navbar, .actionbar {
   float: left;
 
-  width: @navbarWidth;
+  // width: @navbarWidth;
   height: @navbarHeight;
   line-height: @navbarHeight;
 
@@ -24,17 +24,31 @@
   font-size: 25px;
 
 }
+
+.actionbar {
+  float: right;
+}
+
+.pagetitle {
+  margin: 0;
+  height: @rowHeight;
+  line-height: @rowHeight;
+  float: left;
+  font-size: 24px;
+}
+
 .bar-button {
   width: @navbarHeight;
   height: @navbarHeight;
 
   -webkit-box-sizing: border-box;
-  display: inline-block;
+  // display: inline-block;
+  float: left;
   text-align: center;
 }
 
 .actionbar {
-  width: (100%-@navbarWidth);
+  // width: (100%-@navbarWidth);
   text-align: right;
 
   .bar-button {

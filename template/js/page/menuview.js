@@ -10,7 +10,9 @@ define(
           collection: this.collection,
           trView: TrView
         });
-        this.topbarView = new TopbarView();
+        this.topbarView = new TopbarView({
+          title: this.options.title
+        });
       },
 
       render: function() {

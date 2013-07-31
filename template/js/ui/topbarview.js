@@ -24,8 +24,8 @@ define(['globals'], function() {
 
     tmpl: _.template(
       '<div class="navbar">' +
-        '<% if (!root) { %><span class="back-button icon-back bar-button"></span><% } %>' +
-        // '<h1 class="pagetitle">{{title}}</h1>'
+        '<span class="<% if (!root) { %>back-button icon-back<% } %> bar-button"></span>' +
+        '<h1 class="pagetitle">{{title}}</h1>' +
         // '<span class="options-button">Options</span>'
       '</div>' +
       '<div class="actionbar">' +

@@ -8,7 +8,7 @@ define(
 
       initialize: function() {
         this.topbarView = new TopbarView({
-          title: this.options.name,
+          title: this.options.title,
           filter: true,
           sort: true
         });
