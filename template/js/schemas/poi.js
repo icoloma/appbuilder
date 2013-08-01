@@ -27,9 +27,16 @@ define(['globals'], function() {
     starred: 'BOOL',
   })
   , oldJSON = Poi.prototype.toJSON
-  , jsonFields = _.filter(Poi.meta.fields, function(value) {
-    return value === 'JSON';
-  })
+  , jsonFields = 
+    _.chain(Poi.meta.fields)
+      .pairs()
+      .filter(function(value) {
+        return value[1] === 'JSON';
+      })
+      .map(function(value) {
+        return value[0];
+      }).
+      value()
   ;
 
   /*
@@ -37,9 +44,9 @@ define(['globals'], function() {
   */
   Poi.prototype.toJSON = function() {
     var json = oldJSON.apply(this);
-    for (var field in jsonFields) {
+    _.each(jsonFields, function(field) {
       json[field] = this[field];
-    }
+    }, this);
     return json;
   };
 
