@@ -15,6 +15,8 @@ define(
         this.modelView = new ArticleView({
           model: this.model
         });
+
+        this.listenTo(this.modelView, 'star', this.star);
       },
 
       render: function() {
@@ -34,7 +36,7 @@ define(
           self.$el.prepend(dialogView.render().$el);
 
           self.topbarView.options.starred = this.get('starred');
-          self.topbarView.render();
+          self.modelView.render();
         });
       }
     });
