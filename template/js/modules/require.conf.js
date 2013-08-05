@@ -4,30 +4,45 @@
     * También actúa como configuración al depurar en un navegador 
 */
 
-var comp = 'lib/components/';
+var comp = 'lib/components/'
+// Un shim de _.extend para copiar propiedades comunes
+, extendObject = function(dest, orig) {
+  for (var p in orig) {
+    dest[p] = orig[p];
+  }
+  return dest;
+}
+
+// Rutas para las librerías
+, libPaths = {
+  jquery: 'lib/jquery',
+  async: 'lib/async',
+  swipe: comp + 'swiper/dist/idangerous.swiper-2.0',
+  SQLitePlugin: comp + 'PG-SQLitePlugin-Android/Android/assets/www/SQLitePlugin',
+  backbone: comp + 'backbone/backbone',
+  underscore: comp + 'underscore/underscore',
+  almond: comp + 'almond/almond',
+  persistence: comp + 'persistencejs/lib/persistence',
+  'persistence.store.sql': comp + 'persistencejs/lib/persistence.store.sql',
+  'persistence.store.websql': comp + 'persistencejs/lib/persistence.store.websql',
+}
+;
 
 // Configuración básica en desarrollo *en un navegador*
 var require = {
   baseUrl: './js',
-  paths: {
+  paths: extendObject({
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
     'db/initdb': 'db/initdb-dev',
     'menu.config': '../test/data/menu',
-    // Librerías
-    jquery: 'lib/jquery',
-    async: 'lib/async',
-    SQLitePlugin: comp + 'PG-SQLitePlugin-Android/Android/assets/www/SQLitePlugin',
-    backbone: comp + 'backbone/backbone',
-    underscore: comp + 'underscore/underscore',
-    almond: comp + 'almond/almond',
-    persistence: comp + 'persistencejs/lib/persistence',
-    'persistence.store.sql': comp + 'persistencejs/lib/persistence.store.sql',
-    'persistence.store.websql': comp + 'persistencejs/lib/persistence.store.websql',
-  },
+  }, libPaths),
   shim: {
     'backbone': {
       deps: ['jquery', 'underscore']
+    },
+    swipe: {
+      deps: [ 'jquery' ]
     },
     'persistence.websql': {
       deps: ['persistence.store.sql']
@@ -55,12 +70,13 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
       optimize: 'none'
     },
     prod: {
-      paths: {
+      paths: extendObject({
         globals: 'lib/globals',
         'modules/config': 'modules/config-prod',
         'db/initdb': 'db/initdb-prod',
-        'menu': 'data/menu'
-      },
+        'menu.config': 'data/menu'
+      }, libPaths),
+      optimize: 'uglify2'
     }
   };
 }

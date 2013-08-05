@@ -80,6 +80,12 @@ grunt.initConfig({
       dest: 'js/lib/components/',
       expand: true
     },
+    cssComponents: {
+      src: ['**/*.css', '**/*.less'],
+      cwd: 'bower_components',
+      dest: 'less/components',
+      expand: true
+    },
     data: {
       src: 'test/**',
       dest: 'build/',
@@ -124,7 +130,7 @@ grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
 grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
 /*  */
 
-grunt.registerTask('dev', ['less:dev', 'jshint', 'copy:jsComponents']);
+grunt.registerTask('dev', ['less:dev', 'jshint', 'copy:jsComponents', 'copy:cssComponents']);
 grunt.registerTask('device', ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
 grunt.registerTask('optimized', ['basic-build', 'copy:data', 'css-build-dev', 'rjs-dev']);
 grunt.registerTask('prod', ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre']);
