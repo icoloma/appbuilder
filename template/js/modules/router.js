@@ -13,7 +13,7 @@ define(
       routes: {
         '': 'renderHome',
         'menu/:menuId': 'renderMenu',
-        'pois(?:query)': 'renderPois',
+        'pois?title=:title&(:query)': 'renderPois',
         'pois/:poiId': 'renderPoi'
       },
 
@@ -61,41 +61,22 @@ define(
         });
       },
 
-      renderPois: function(query) {
+      renderPois: function(title, query) {
         var self = this
         , parsedQuery = query ? DbUtils.parseQuery(query) : {}
         ;
-
-        async.parallel({
-          pois: function(cb) {
-            // TODO: esto tiene que ser más general
-            Db.Poi.all()
-              .query(parsedQuery)
-              .asJSON(Db.Poi, function(pois) {
-                cb(null, pois);
-              });
-          },
-          title: function(cb) {
-            // Busca el título adecuado para la página
-            if (parsedQuery.q) {
-              cb(null, res.searchResults);
-            } else if (parsedQuery.starred) {
-              cb(null, res.Starred);
-            } else if (parsedQuery.title) {
-              cb(null, parsedQuery.title);
-            } else {
-              cb(null, '');
-            }
-          }
-        }, function(err, results) {
-          var collection = new Poi.Collection(results.pois.map(function(poi) {
-            return new Poi.Model(poi);
-          }));
-          self.setView(Page.PoisView, {
-            collection: collection,
-            title: results.title,
+        // TODO: esto tiene que ser más general
+        Db.Poi.all()
+          .query(parsedQuery)
+          .asJSON(Db.Poi, function(pois) {
+            var collection = new Poi.Collection(pois.map(function(poi) {
+              return new Poi.Model(poi);
+            }));
+            self.setView(Page.PoisView, {
+              collection: collection,
+              title: title,
+            });
           });
-        });
       },
 
       renderPoi: function(poiId) {
