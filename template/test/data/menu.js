@@ -35,12 +35,13 @@
   ** Una entry.
     En los menús de nivel superior, las entries llevan a otros menús.
     En los del nivel inferior, ejecutan una query contra la BDD.
+    Se necesitan ambos campos, el que no procede con null
   {
     "label": <string, i18n>,
     "desc": <string, i18n>,
     "poiCount": <number>,
-    "menu": <menuID>*,
-    "query": <string>*
+    "menu": <menuID>,
+    "query": <string>
   }
 
 */
@@ -68,19 +69,22 @@ define(
           "label": "See",
           "desc": "See stuff in Huesca",
           "menu": "f8",
+          "query": null,
           "poiCount": null
         },
         {
           "label": "Sleep",
           "desc": "Take a nap",
           "poiCount": null,
-          "menu": "0c"
+          "menu": "0c",
+          "query": null,
         },
         {
           "label": "My favorites",
           "desc": "sdfasdf",
           "poiCount": null,
-          "query": "#/pois?starred=true"
+          "menu": null,
+          "query": "starred=true"
         },
       ]
     },
@@ -92,13 +96,15 @@ define(
           "label": "Monuments",
           "desc": "Old rocks",
           "poiCount": 70,
-          "query": "#/pois?type=MONUMENT"
+          "menu": null,
+          "query": "type=MONUMENT"
         },
         {
           "label": "Aquatic parks",
           "desc": "Get wet!",
           "poiCount": 30,
-          "query": "#/pois?type=PARK_GARDEN"
+          "menu": null,
+          "query": "type=PARK_GARDEN"
         }
       ]
     },
@@ -110,13 +116,15 @@ define(
           "label": "Hotels",
           "desc": "So fancy...",
           "poiCount": 210,
-          "query": "#/pois?type=HOTEL"
+          "menu": null,
+          "query": "type=HOTEL"
         },
         {
           "label": "Camping",
           "desc": "Squirrels!",
           "poiCount": 90,
-          "query": "#/pois?type=CAMPING"
+          "menu": null,
+          "query": "type=CAMPING"
         }
       ]
     }

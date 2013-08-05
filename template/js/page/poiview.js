@@ -35,7 +35,6 @@ define(
           });
           self.$el.prepend(dialogView.render().$el);
 
-          self.topbarView.options.starred = this.get('starred');
           self.modelView.render();
         });
       }

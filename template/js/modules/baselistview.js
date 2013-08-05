@@ -15,8 +15,7 @@ define(['globals'],
 
       events: {
         'tap tr': function(e) {
-          window.location.hash = 
-            $(e.target).closest('[data-item]').data('item');
+          window.location.href = $(e.currentTarget).data('url');
         }
       },
 
@@ -29,9 +28,7 @@ define(['globals'],
         var $tbody = $('<tbody></tbody>');
         this.collection.forEach(function(model) {
           $tbody.append(
-            (new this.trView({
-              model: model
-            })).render().$el
+            this.trView(model.toJSON())
           );
         }, this);
         this.$el.html($tbody);
