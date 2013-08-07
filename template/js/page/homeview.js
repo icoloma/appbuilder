@@ -3,7 +3,7 @@ define(
   function(ListView, TrView, TopbarView) {
 
     return B.View.extend({
-      className: 'homeview',
+      className: 'pageview homeview',
 
       poiTmpl: _.template(
         '<a class="homepois" href={{url}} style="background-image: url({{src}})"></a>'

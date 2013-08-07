@@ -4,7 +4,7 @@ define(
   function(ListView, TrView, TopbarView, Geo, PoiCollection, DialogView) {
 
     return B.View.extend({
-      className: 'poisview',
+      className: 'pageview poisview',
 
       initialize: function() {
         this.topbarView = new TopbarView({

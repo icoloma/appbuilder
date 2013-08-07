@@ -54,6 +54,70 @@ define(['jquery'], function() {
     e.preventDefault();
   }, true);
 
+
+  /*
+    Animación para el cambio de la vista principal
+  */
+  $.fn.loadAnimation = function($oldView, $newView, dir) {
+    var $this = $(this)
+    , width = $oldView.css('width').match(/([0-9]+)px/)[1]
+    , toLeft = dir > 0
+    ;
+
+    $this.addClass('animating-views');
+    // Fijar tamaño y posición
+    $this.append(
+      $newView.css({
+        width: width,
+        position: 'absolute',
+        left: toLeft ? width : -width,
+        top: window.pageYOffset
+      })
+    );
+    $oldView.css({
+      width: width,
+      position: 'relative',
+      left: 0,
+      top: 0
+    });
+
+    // Dispara la transición. Se aplica un delay para encolarlo y dar tiempo a que los cambios
+    // anteriores terminen de dibujarse antes de comenzar la transición.
+    // OJO: necesita testeo.
+    _.defer(function() {
+      $oldView.css('left', toLeft ? -width : (width + 'px'));
+      $newView.css({left: '0px'});
+    });
+
+    $this.on('webkitTransitionEnd', function (e) {
+      // Elimina el handler
+      $this.off('webkitTransitionEnd');
+
+      // Deshace el estilado
+      $this.removeClass('animating-views');
+      $oldView.remove();
+      $newView.css({
+        width: '',
+        position: '',
+        left: '',
+        top: ''
+      });
+
+      // Resetea el scroll que tuviera la vista anterior
+      window.scrollTo(0, 0);
+
+      // Fix para la topbar
+      // En Android 2.3.6, después de una animación, deja de ser 'touchable', y se necesita
+      // disparar un redraw para volver a la normalidad.
+      var $topbar = $this.find('.topbar');
+      $topbar.css('width', width + 1);
+      _.defer(function() {
+        $topbar.css('width', '');
+      });
+    });
+  };
+
+
   return {
     delegateScroll: function(el) {
       $doc.on('touchmove.delegatedScroll', function(e) {

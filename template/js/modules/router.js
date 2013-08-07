@@ -22,14 +22,22 @@ define(
       },
 
       setView: function(view, options) {
-        this.currentView = new view(options).render();
-        this.$el.html(this.currentView.$el);
-        return this.currentView;
+        if (this.currentView) {
+          var newView = new view(options).render();
+          // this.$el.loadAnimation(this.currentView.$el, newView.$el, -1);
+          this.$el.html(newView.$el);
+          this.currentView = newView;
+          return this.currentView;
+        } else {
+          this.currentView = new view(options).render();
+          this.$el.html(this.currentView.$el);
+          return this.currentView;
+        }
       },
 
-      dialog: function(dialogView) {
-        this.$el.prepend(dialogView.render().$el);
-      },
+      // dialog: function(dialogView) {
+      //   this.$el.prepend(dialogView.render().$el);
+      // },
 
       renderHome: function() {
         var menu = MenuConfig.menus[MenuConfig.root.menu]

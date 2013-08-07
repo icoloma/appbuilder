@@ -4,7 +4,7 @@ define(
 
 
     return B.View.extend({
-      className: 'poiview',
+      className: 'pageview poiview',
 
       initialize: function() {
         this.topbarView = new TopbarView({

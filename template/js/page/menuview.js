@@ -3,7 +3,7 @@ define(
   function(ListView, TrView, TopbarView) {
 
     return B.View.extend({
-      className: 'menuview',
+      className: 'pageview menuview',
 
       initialize: function() {
         this.collectionView = new ListView({
