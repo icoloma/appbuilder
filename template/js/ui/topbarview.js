@@ -5,7 +5,7 @@ define(['globals'], function() {
 
     events: {
       'tap .back-button': function(e) {
-        // TODO: para navegar entre jerarquías hará distinguir entre las acciones 'back' y 'up'
+        // TO-DO: para navegar entre jerarquías hará distinguir entre las acciones 'back' y 'up'
         // Ej: moverse entre los Pois resultados de una búsquedas 
         // Necesitará entonces mantener un historial de navegación con jerarquías
         history.back();

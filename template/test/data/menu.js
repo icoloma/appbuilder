@@ -1,5 +1,5 @@
 /*
-  TODO: i18n
+  TO-DO: i18n
   
   Ejemplo de configuración de menús.
   La estructura básica es:

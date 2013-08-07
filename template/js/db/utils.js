@@ -24,7 +24,7 @@ define(['globals'], function() {
   }
   /*
     Devuelve una lista de los campos de la entidad, filtrada por idioma
-    OJO: no devuelve campos 1:N o M:N
+    AVISO: no devuelve campos 1:N o M:N
   */
   , localizedFields = function(entity, lang) {
       var fields = _.keys(entity.meta.fields)

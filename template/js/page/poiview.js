@@ -9,7 +9,7 @@ define(
       initialize: function() {
         this.topbarView = new TopbarView({
           title: this.model.get('name'),
-          // TODO: implementar notificaciones
+          // TO-DO: implementar notificaciones
           // notify: true
         });
         this.modelView = new ArticleView({

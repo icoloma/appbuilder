@@ -3,7 +3,7 @@
   
   Pequeña librería para dar soporte a eventos táctiles
   Soporta: evento 'tap'
-  Ojo: el evento 'click' se elimina, pero la acción por defecto en los <a> se
+  AVISO: el evento 'click' se elimina, pero la acción por defecto en los <a> se
   simula al tiempo que se dispara el 'tap', para poder usar enlaces como siempre
 
 */
@@ -15,7 +15,7 @@ define(['jquery'], function() {
   , tapping = false
 
   // Cancela el tap al mover el punto de contacto
-  // Ojo: Necesita testeo, por si la pantalla es muy sensible
+  // AVISO: Necesita testeo, por si la pantalla es muy sensible
   , cancelTap = function() {
     tapping = false;
     $doc.off('touchmove.cancelTap');
@@ -24,7 +24,7 @@ define(['jquery'], function() {
 
   $doc.on('touchstart', function(e) {
     // Cancela el tap al entrar con más de un punto de contacto
-    // OJO: no siempre soportado (e.g. Android 2.3.6)
+    // AVISO: no siempre soportado (e.g. Android 2.3.6)
     if (e.originalEvent.touches.length > 1) {
       tapping = false;
       return false;
@@ -42,7 +42,7 @@ define(['jquery'], function() {
       $target.trigger('tap');
       // Simulamos un click instantáneo en caso de que
       // sea un enlace <a>
-      // OJO: no funcionará para elementos *dentro* de un <a>
+      // AVISO: no funcionará para elementos *dentro* de un <a>
       if (e.target.tagName === 'A') {
         window.location = e.target.href;
       }
@@ -83,7 +83,7 @@ define(['jquery'], function() {
 
     // Dispara la transición. Se aplica un delay para encolarlo y dar tiempo a que los cambios
     // anteriores terminen de dibujarse antes de comenzar la transición.
-    // OJO: necesita testeo.
+    // AVISO: necesita testeo.
     _.defer(function() {
       $oldView.css('left', toLeft ? -width : (width + 'px'));
       $newView.css({left: '0px'});
@@ -122,7 +122,7 @@ define(['jquery'], function() {
     delegateScroll: function(el) {
       $doc.on('touchmove.delegatedScroll', function(e) {
         e.preventDefault();
-        // TODO: pasar la capacidad de scrollar a @el
+        // TO-DO: pasar la capacidad de scrollar a @el
       });
     },
     undelegateScroll: function() {

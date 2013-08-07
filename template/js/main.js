@@ -7,7 +7,7 @@ define(['modules/config', 'modules/router', 'db/initdb', 'modules/i18n'],
           Config,
           function(cb) {
             // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
-            // fallback. OJO: se asume que los locales del app y de los datos del catálogo son los mismos
+            // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
             window.appConfig.locale = 
               window.appConfig.locale in i18n ? window.appConfig.locale : 'en'; 
             window.res = i18n[window.appConfig.locale];

@@ -20,7 +20,7 @@ define(['globals'], function() {
   /*
     Dispara eventos 'tap' en un navegador desktop sin necesidad de simular eventos táctiles con
     las dev tools. 
-    OJO: usa un API moderna para disparar los eventos 'tap', no funcionará en IE
+    AVISO: usa un API moderna para disparar los eventos 'tap', no funcionará en IE
   */
   if (!supportsTouch) {
     var tapEvent = new CustomEvent('tap', {bubbles: true});
@@ -53,13 +53,13 @@ define(['globals'], function() {
         window.appConfig.locale = locale.value.match(/^([a-z]{2})/)[1];
         once();
       }, function(err) {
-        // TODO: mejor error handling
+        // TO-DO: mejor error handling
         window.appConfig.locale = 'en';
       });
     });
 
     // Un timeout con una configuración por defecto
-    // OJO: supone que siempre se levanta un servidor local para depurar en el navegador
+    // AVISO: supone que siempre se levanta un servidor local para depurar en el navegador
     if (location.protocol === 'http:' || location.protocol === 'https:' ) {
       setTimeout(function() {
         console.log('Simulando deviceready!');

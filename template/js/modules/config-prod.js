@@ -26,7 +26,7 @@ define(['globals'],
         window.appConfig.locale = locale.value.match(/^([a-z]{2})/)[1];
         callback();
       }, function(err) {
-        // TODO: mejor error handling
+        // TO-DO: mejor error handling
         window.appConfig.locale = 'en';
       });
     });

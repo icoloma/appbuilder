@@ -23,7 +23,7 @@ define(
 
       render: function() {
         this.$el.html(this.topbarView.render().$el);
-        // TODO: añadir una vista para esto
+        // TO-DO: añadir una vista para esto
         this.$el.append(this.poiTmpl({
           src: appConfig.assets + this.options.pois[0].thumb,
           url: '#/pois/' + this.options.pois[0].id

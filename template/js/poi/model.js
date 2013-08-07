@@ -5,7 +5,7 @@ define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
     },
     geoLink: function() {
       if (window.appConfig.platform.match(/ios/i)) {
-        // TODO: testear!!
+        // TO-DO: testear!!
         return 'http//:maps.apple.com/?ll=' + this.get('lat') + ',' + this.get('lon') + '&z=17';
       } else {
         // Android como valor por defecto
@@ -27,7 +27,7 @@ define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
           _.extend(poi, changed);
           persistence.flush(_.bind(callback, self));
         } else {
-          // TODO: error handling
+          // TO-DO: error handling
         }
       });
     }
