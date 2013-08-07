@@ -122,6 +122,19 @@ grunt.initConfig({
   }
 });
 
+grunt.registerTask('mock', 'foobar', function() {
+  var done = this.async();
+  grunt.util.spawn({
+    cmd: 'node',
+    args: [ './test/mock.js' ],
+    opts: {
+      stdio: 'inherit'
+    }
+  }, function(error, result, code) {
+    done();
+  });
+});
+
 /* Tareas internas */
 grunt.registerTask('css-build-dev', ['less:dev', 'copy:css', 'regex-replace:css']);
 grunt.registerTask('css-build-prod', ['less:prod', 'regex-replace:css']);
@@ -130,7 +143,8 @@ grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
 grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
 /*  */
 
-grunt.registerTask('dev', ['less:dev', 'jshint', 'copy:jsComponents', 'copy:cssComponents']);
+grunt.registerTask('default', ['dev']);
+grunt.registerTask('dev', ['less:dev', 'jshint', 'copy:jsComponents', 'copy:cssComponents', 'mock']);
 grunt.registerTask('device', ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
 grunt.registerTask('optimized', ['basic-build', 'copy:data', 'css-build-dev', 'rjs-dev']);
 grunt.registerTask('prod', ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre']);

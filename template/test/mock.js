@@ -49,12 +49,15 @@ var sqlite3 = require('sqlite3').verbose()
 }
 ;
 
+console.log('Generando POIs aleatorios...');
+
 // Sobrescribe Math.random
 seed('Secret seed', true);
 
 if (fs.existsSync(dbFile)) fs.unlinkSync(dbFile);
 if (fs.existsSync(jsonFile)) fs.unlinkSync(jsonFile);
 
+console.log('Generando ' + jsonFile);
 /* Generar POIs en json */
 json.pois = [];
 var poi;
@@ -104,6 +107,7 @@ fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));
 
 
 /* Generar POIs en sqlite */
+console.log('Generando ' + dbFile);
 db = new sqlite3.Database(dbFile);
 db.serialize(function() {
   db.run('CREATE TABLE IF NOT EXISTS Poi (\
