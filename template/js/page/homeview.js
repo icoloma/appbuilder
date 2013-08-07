@@ -5,6 +5,10 @@ define(
     return B.View.extend({
       className: 'homeview',
 
+      poiTmpl: _.template(
+        '<a class="homepois" href={{url}} style="background-image: url({{src}})"></a>'
+      ),
+
       initialize: function() {
         this.collectionView = new ListView({
           collection: this.collection,
@@ -20,12 +24,10 @@ define(
       render: function() {
         this.$el.html(this.topbarView.render().$el);
         // TODO: añadir una vista para esto
-        this.$el.append(
-          _.template('<a class="homepois" href="{{href}}"><img src="{{src}}"></img></a>', {
-            src: appConfig.assets + this.options.pois[0].thumb,
-            href: '#/pois/' + this.options.pois[0].id
-          })
-        );
+        this.$el.append(this.poiTmpl({
+          src: appConfig.assets + this.options.pois[0].thumb,
+          url: '#/pois/' + this.options.pois[0].id
+        }));
         this.$el.append(this.collectionView.render().$el);
         return this;
       }

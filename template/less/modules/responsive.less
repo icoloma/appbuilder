@@ -1,0 +1,25 @@
+.redefineFonts(@baseFontSize, @largeFontSize, @smallFontSize, @smallLineHeight) {
+  body {
+    font-size: @baseFontSize;
+  }
+  .topbar {
+    h1, span {
+      font-size: @largeFontSize;
+    }
+  }
+  .entry-description, .description, .titlebar address {
+    font-size: @smallFontSize;
+  }
+  .description {
+    line-height: @smallLineHeight;
+  }
+}
+
+@media (max-width: 320px) {
+  @baseFontSize: 18px;
+  @largeFontSize: 22px;
+  @smallFontSize: 13px;
+  @smallLineHeight: 18px;
+
+  .redefineFonts(@baseFontSize, @largeFontSize, @smallFontSize, @smallLineHeight);
+}

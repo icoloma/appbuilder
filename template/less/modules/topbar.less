@@ -11,6 +11,9 @@
   background-color: @navbarBg;
   color: white;
   z-index: 10;
+  h1, span {
+    font-size: @largeFontSize;
+  }
 }
 
 .navbar, .actionbar {
@@ -22,12 +25,17 @@
 
   clear: right;
 
-  font-size: 25px;
-
 }
 
 .actionbar {
   float: right;
+  text-align: right;
+  // width: (100%-@navbarWidth);
+
+  // .bar-button {
+  //   border: 0 solid #aaa;
+  //   border-left-width: 2px;
+  // }
 }
 
 .pagetitle {
@@ -35,28 +43,16 @@
   height: @topbarHeight;
   line-height: @topbarHeight;
   float: left;
-  font-size: 24px;
 }
 
 .bar-button {
-  width: @topbarHeight;
+  width: @topbarHeight - 20px;
   height: @topbarHeight;
 
   -webkit-box-sizing: border-box;
   // display: inline-block;
   float: left;
   text-align: center;
-}
-
-.actionbar {
-  // width: (100%-@navbarWidth);
-  text-align: right;
-
-  // .bar-button {
-  //   border: 0 solid #aaa;
-  //   border-left-width: 2px;
-  // }
-
 }
 
 .busy.bar-button {

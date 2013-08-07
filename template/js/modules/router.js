@@ -65,7 +65,6 @@ define(
         var self = this
         , parsedQuery = query ? DbUtils.parseQuery(query) : {}
         ;
-        // TODO: esto tiene que ser más general
         Db.Poi.all()
           .query(parsedQuery)
           .asJSON(Db.Poi, function(pois) {

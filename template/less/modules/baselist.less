@@ -1,7 +1,7 @@
 table {
   width: 100%;
   margin: auto;
-  font-size: @rowFontSize;
+  font-size: @baseFontSize;
   line-height: @rowHeight - 10px;
   border-collapse: collapse;
 }
@@ -21,9 +21,9 @@ tr:first-child > td {
   line-height: 50px;
 }
 .entry-description {
-  font-size: 14px;
   line-height: (@rowHeight - 50px);
   color: #777;
+  font-size: @smallFontSize;
 }
 .poiCount {
   color: #777;
