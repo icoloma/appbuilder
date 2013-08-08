@@ -54,7 +54,7 @@ define(
 
         navigator.geolocation.getCurrentPosition(function(position) {
           self.topbarView.unblock();
-          
+
           var coords = position.coords;
           collection.comparator = PoiCollection.sortByDistanceTo(coords.latitude,
                                                            coords.longitude);
