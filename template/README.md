@@ -1,64 +1,45 @@
 TEMPLATE
 --------
-Las dependencias de la aplicación requieren [node.js](http://nodejs.org),  [npm](http://npmjs.org), [Grunt](http://gruntjs.com/) y [Bower](http://bower.io) para instalarse.
-
-```shell    
+## Puesta en marcha
+```shell
+# Dependencias globales
 npm install -g bower grunt-cli
+
+# OJO: dentro de appbuilder/template !!!
 npm install
 bower install
 grunt
-```
-### Permisos de administrador
-Sin permisos de administrador, aún se pueden usar algunas de las herramientas que dependan de Node, como Bower o Grunt, ya que una instalación local de dichas herramientas guarda un ejecutable en `node_modules/.bin`. (Las dependencias de la aplicación ya incluyen estos ejecutables.)
-```shell```
-# Ejemplo: Bower
-# Con permisos de admin
-npm install -g bower
-bower ...
-# Sin permisos de admin
-npm install bower # Innecesario, ya incluido en el package.json
-node node_modules/.bin/bower ...
+# Aplicación corriendo en el puerto 7000 con LiveReload activado
 ```
 
-### Debugging
-Para depurar en un navegador, hay que levantar un servidor en la máquina local:
-* Node.js: [http-server](https://github.com/nodeapps/http-server), [simple-http-server](https://github.com/andrewpthorp/simple-http-server)
-* [Python](http://docs.python.org/2/library/simplehttpserver.html)
+Hay más opciones para **grunt** en el `Gruntfile.js`: *optimized*, *device*, *prod*... 
+(Varias cosas no funcionarán bien si se intenta depurar sin un servidor mediante urls `file:`, como Ajax o el evento `deviceready` de Phonegap).
 
-(Varias cosas no funcionarán bien si se intenta depurar mediante urls `file:`, como Ajax o el evento `deviceready` de Phonegap).
+### Dev Tools en mobile
+Para acceder a unas dev tools en un dispositivo móvil (requiere dispositivo y desktop conectados a una red local):
+* Cambiar `http://192.168.X.XXX` en `index.html` por la IP del desktop.
 
-En la configuración en desarrollo, la página de inicio `index.html` contiene un enlace a `192.168.X.XXX:8080/target/target-script-min.js` para acceder a las dev tools mientras se prueba en un dispositivo móvil, usando [Weinre](http://people.apache.org/~pmuellr/weinre/docs/latest/):
-    
-    # Requiere permisos de admin
-    npm install -g weinre
-    weinre --boundHost -all-
-    # Dev tools en: http://localhost:8080/client/
+```shell
+#Dependencias globales
+npm install -g weinre
 
-### Maneras de depurar. Grunt.js. Build para producción.
-La aplicación incluye un `Gruntfile` para automatización de tareas.
+weinre --boundHost -all-
+# Consola de debugging en http://localhost:8080/client/
+```
 
-    grunt {nombre de la tarea}
-
-La tarea `dev` prepara el proyecto para depurar con un navegador desktop o móvil y genera unos datos de prueba. El resto de tareas compila en una carpeta `build` y permite otras opciones:
-* `device`: simplemente copia la estructura de ficheros. Útil para depurar en un móvil compilando una aplicación nativa.
-* `optimized`: optimiza el javascript. Útil para depurar el build de Require.js, ya sea con un navegador o en nativo. 
-* `prod`: compila JS y LESS para producción (necesitará "ensamblarse" con los datos del catálogo).
-
-### Esquema de datos
-Los schemas en `js/schemas` contienen el formato esperado para el volcado de datos desde el repositorio, así como el ejemplo en `test/data/data.json` (despues de generarlos con `grunt dev`).
+Vale tanto para el navegador móvil como para la app nativa.
 
 ### Build en Android
 Requisitos:
 * Sistema operativo *nix (de momento).
-* [Phonegap](http://phonegap.com/).
+* [Phonegap](http://phonegap.com/) **<= 2.9**.
 * El SDK de Android, con `tools` y `platform-tools` en el `PATH`.
 
 ```shell
-# Dentro de appbuilder/template
 build_android() {
   rm -r template-android-build
   "$1"/lib/android/bin/create template-android-build com.segittur segittur
-  grunt $2
+  grunt optimized
   rm -r template-android-build/assets/www
   mv build/ template-android-build/assets/www
   cp "$1"/lib/android/cordova*js template-android-build/assets/www/phonegap.js
@@ -71,5 +52,17 @@ build_android() {
   rm -r PG-SQLitePlugin-Android-master
   cd ..
 }
-build_android {carpeta de phonegap} {opción de build}
+# Dentro de appbuilder/template
+build_android {carpeta de phonegap}
 ```
+
+### Esquema de datos
+A la hora de ensamblar la app con los datos del catálogo, esta necesita:
+  * Los datos del catálogo en SQLite.
+  * Un fichero de configuración de menús "JSON" (necesita un `define(...)`).
+
+El formato esperado para los datos puede verse en:
+ * La configuración de menús para testeo `test/data/menu.js`.
+ * Los datos de prueba `test/data/data.json` y `test/data/data.db`.
+ * El script `test/mock.js` que genera los anteriores.
+ * Los schemas en `js/db/schemas`.

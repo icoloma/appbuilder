@@ -34,6 +34,8 @@ grunt.loadNpmTasks('grunt-contrib-less');
 grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-requirejs');
 grunt.loadNpmTasks('grunt-regex-replace');
+grunt.loadNpmTasks('grunt-contrib-connect');
+grunt.loadNpmTasks('grunt-contrib-watch');
 
 
 grunt.initConfig({
@@ -119,6 +121,22 @@ grunt.initConfig({
         replace: '<script src="js/scripts.js"></script>'
       }]  
     }
+  },
+  connect: {
+    all: {
+      options: {
+        port: 7000,
+      }
+    },
+  },
+  watch: {
+    less: {
+      files: ['less/**/*.less'],
+      tasks: ['less:dev'],
+      options: {
+        livereload: true
+      }
+    }
   }
 });
 
@@ -143,10 +161,18 @@ grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
 grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
 /*  */
 
+// Tarea básica de desarrollo
 grunt.registerTask('default', ['dev']);
-grunt.registerTask('dev', ['less:dev', 'jshint', 'copy:jsComponents', 'copy:cssComponents', 'mock']);
+grunt.registerTask('dev',
+  ['less:dev', 'jshint', 'copy:jsComponents', 'copy:cssComponents', 'mock', 'connect', 'watch']);
+
+// Por si es necesario compilar la aplicación nativa *SIN* hacer el build de requirejs
 grunt.registerTask('device', ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
+
+// Optimización de javascript
 grunt.registerTask('optimized', ['basic-build', 'copy:data', 'css-build-dev', 'rjs-dev']);
+
+// Producción (necesita ensamblarse con los datos del catálogo)
 grunt.registerTask('prod', ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre']);
 
 };

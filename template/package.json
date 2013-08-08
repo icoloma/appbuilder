@@ -1,7 +1,6 @@
 {
   "name": "app-template",
   "dependencies": {
-    "grunt-cli": "~0.1.8",
     "grunt": "~0.4.1",
     "grunt-contrib-less": "~0.5.1",
     "jshint": "~2.0.1",
@@ -12,6 +11,8 @@
     "grunt-regex-replace": "~0.2.5",
     "underscore": "~1.4.4",
     "seed-random": "~1.0.1",
-    "sqlite3": "~2.1.14"
+    "sqlite3": "~2.1.14",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.1"
   }
 }

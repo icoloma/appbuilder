@@ -32,7 +32,7 @@ define(['globals'], function() {
   // Los resultados *NO* están listos para consumirse (hay campos "JSON" con valores string)
   // P. Ej.: { img : "['img1.png', 'img2.png']" }
   , parseAndLocalizeResults = function(rows) {
-    if (!row.length) return [];
+    if (!rows.length) return [];
     var results = [];
     for (var i = 0; i < rows.length; i++) {
       results.push(
