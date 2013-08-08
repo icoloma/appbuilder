@@ -6,8 +6,19 @@ define(
       className: 'pageview menuview',
 
       initialize: function() {
+        var collection = this.collection.map(function(model) {
+          var json = model.toJSON();
+          if (json.query) {
+            json.data = {
+              query: json.query,
+              title: json.label
+            };
+          }
+          return json;
+        });
+
         this.collectionView = new ListView({
-          collection: this.collection,
+          collection: collection,
           trView: TrView
         });
         this.topbarView = new TopbarView({

@@ -1,24 +1,9 @@
 define(['globals'], function() {
   var db = {}
 
-  // Parsea una queryString tipo foo=bar&...
-  , parseQuery = function(query) {
-    var queryObject = {}
-    , pattern = /(.+)=(.+)/
-    ;
-    query.split('&').forEach(function(param) {
-      var parts = param.match(pattern);
-      if (parts) {
-        queryObject[parts[1]] = parts[2];
-      }
-    });
-    return queryObject;
-  }
-
   // Parsea una query como un statement SQL
-  , queryToSql = function(table, query) {
-    var queryObj = parseQuery(query)
-    , conditions = _.map(queryObj, function(value, cond) {
+  , queryToSql = function(table, queryObj) {
+    var conditions = _.map(queryObj, function(value, cond) {
       return '`' + cond + '`="' + value + '",';
     }).join('').slice(0, -1)
     ;
@@ -82,7 +67,6 @@ define(['globals'], function() {
     },
 
     utils: {
-      parseQuery: parseQuery,
       queryToSql: queryToSql,
     },
 

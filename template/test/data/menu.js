@@ -97,14 +97,18 @@ define(
           "desc": "Old rocks",
           "poiCount": 70,
           "menu": null,
-          "query": "type=MONUMENT"
+          "query": {
+            type: "MONUMENT"
+          }
         },
         {
           "label": "Aquatic parks",
           "desc": "Get wet!",
           "poiCount": 30,
           "menu": null,
-          "query": "type=PARK_GARDEN"
+          "query": {
+            type: "PARK_GARDEN"
+          }
         }
       ]
     },
@@ -117,14 +121,18 @@ define(
           "desc": "So fancy...",
           "poiCount": 210,
           "menu": null,
-          "query": "type=HOTEL"
+          "query": {
+            type: "HOTEL"
+          }
         },
         {
           "label": "Camping",
           "desc": "Squirrels!",
           "poiCount": 90,
           "menu": null,
-          "query": "type=CAMPING"
+          "query": {
+            type: "CAMPING"
+          }
         }
       ]
     }

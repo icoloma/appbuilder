@@ -4,7 +4,7 @@ define(
     return _.template(
       '<tr ' +
       'data-url="<% if (menu) {  %> #/menu/{{menu}} ' +
-                '<% } else {     %> #/pois?title={{label}}&{{query}} <% } %>" ' +
+                '<% } else {     %> #/pois?{{encodeURIComponent(JSON.stringify(data))}} <% } %>" ' +
       'data-title="{{label}}">' +
         '<td>' +
           '{{label}}' +

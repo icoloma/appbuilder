@@ -21,14 +21,14 @@ define(['globals'],
 
       initialize: function(options) {
         this.trView = options.trView;
-        this.listenTo(this.collection, 'sort', this.render);
+        // this.listenTo(this.collection, 'sort', this.render);
       },
 
       render: function() {
         var $tbody = $('<tbody></tbody>');
-        this.collection.forEach(function(model) {
+        this.collection.forEach(function(item) {
           $tbody.append(
-            this.trView(model.toJSON())
+            this.trView(item)
           );
         }, this);
         this.$el.html($tbody);

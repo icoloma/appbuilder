@@ -12,7 +12,7 @@ define(
       routes: {
         '': 'renderHome',
         'menu/:menuId': 'renderMenu',
-        'pois?title=:title&(:query)': 'renderPois',
+        'pois?(:data)': 'renderPois',
         'pois/:poiId': 'renderPoi'
       },
 
@@ -68,14 +68,16 @@ define(
         });
       },
 
-      renderPois: function(title, query) {
+      renderPois: function(data) {
+        data = JSON.parse(decodeURIComponent(data));
         var self = this
+        , query = data.query
         , sqlStr = Db.utils.queryToSql('Poi', query)
         ;
         Db.sqlAsCollection(PoiCollection, sqlStr, [], function(err, pois) {
           self.setView(Page.PoisView, {
             collection: pois,
-            title: title
+            title: data.title
           });
         });
       },

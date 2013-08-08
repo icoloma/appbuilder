@@ -15,9 +15,10 @@ define(
         });
         this.listenTo(this.topbarView, 'sort', this.sort);
         this.listenTo(this.topbarView, 'filter', this.filterDialog);
+
         this.collectionView = new ListView({
           className: 'poicollectionview',
-          collection: this.collection,
+          collection: this.collection.toJSON(),
           trView: TrView
         });
       },
