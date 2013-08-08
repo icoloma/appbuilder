@@ -1,55 +1,71 @@
+
 /* 
-
-  Introduce los datos en la BDD WebSQL en el idoma @locale
-  Se llama al inicio de la app, depurando en un navegador
-
+  Introduce los datos en la BDD WebSQL
+  Se llama al inicio de la app, en un navegador.
 */
-define(
-  ['schemas/schemas'],
-  function(Db) {
 
+define(
+  ['db/db', 'db/schemas/poi', 'poi/model'],
+  function(Db, PoiSchema, PoiModel) {
+    // Introduce los datos en la BDD. Se devuelve como un callback para la
+    // petición "AJAX" de los datos json
     var loadData = function(callback) {
       return function() {
         var json = JSON.parse(this.responseText)
-        , i, tagObj, poi, obj
-/*        // Un hash para llevar la cuenta de las entities 'Tag'
-        , tagEntitiesHash = {}
-        // Un hash para encontrar el objeto json de cada tag
-        , tagJsonHash = _.object(_.pluck(json.tags, 'tag'), json.tags)
-        // Añade los tags correspondientes a un POI
-        , addTags = function(tags, poiEntity) {
-
-          var processTag = function(tag) {
-            if (tagEntitiesHash[tag]) {
-              poiEntity.tags.add(tagEntitiesHash[tag]);
-            } else {
-              tagObj = new Db.Tag(tagJsonHash[tag]);
-              poiEntity.tags.add(tagObj);
-              tagEntitiesHash[tag] = tagObj;
-            }
-          };
-
-          tags.forEach(processTag);
-        }*/
+        // Parejas clave/valor *ordenadas* (iterar sobre Poi directamente no asegura ningún orden)
+        , pairs = _.pairs(PoiSchema)
         ;
 
-        for (i = 0; i < json.pois.length; i++) {
-          poi = json.pois[i];
-          obj = new Db.Poi(_.omit(poi, [ 'tags']));
-          // addTags(poi.tags, obj);
-          persistence.add(obj);
-        }
+        Db.transaction(function(tx) {
+          var i
+          // (?, ?, ..., ?)
+          , placeholder = '(' + 
+            _.map(PoiSchema, function() {
+              return '?,';
+            }).join('').slice(0, -1) +
+            ')'
+          , values = function(poi) {
+            var row = (new PoiModel(poi)).toRow();
+            return _.map(pairs, function(entry) {
+              return row[entry[0]];
+            });
+          }
+          ;
 
-        // localStorage.appZone = json.zone.name[locale];
-        persistence.flush(callback);
+          tx.executeSql(
+            'CREATE TABLE Poi (' +
+            _.map(pairs, function(entry) {
+              return entry[0] + ' ' + entry[1] + ',';
+            }).join('').slice(0, -1) +
+            ')'
+          );
+
+          for (i = 0; i < json.pois.length; i++) {
+            tx.executeSql('INSERT INTO Poi VALUES' + placeholder, values(json.pois[i]));
+          }
+        }, function(e) {
+          console.log(e);
+        }, callback);
       };
     };
 
-    return function(locale, callback) {
+    return function(callback) {
       var req = new XMLHttpRequest();
-      req.onload = loadData(locale, callback);
-      req.open('get', window.appConfig.data + 'data.json', true);
-      req.send();
+      req.onload = loadData(callback);
+      // Comprueba si ya la BDD ya está cargada (después de F5 por ejemplo)
+      Db.transaction(function(tx) {
+        tx.executeSql(
+          'SELECT name FROM sqlite_master WHERE type="table" AND name="Poi"',
+          [], function(tx, res) {
+            if (res.rows.length) {
+              callback();
+            } else {
+              console.log('Cargando la base de datos'); //DEBUG
+              req.open('get', window.appConfig.data + 'data.json', true);
+              req.send();
+            }
+        });
+      });
     };
   }
 );

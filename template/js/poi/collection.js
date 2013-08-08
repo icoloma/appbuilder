@@ -1,4 +1,5 @@
-define(['globals', 'modules/geo'], function(Globals, Geo) {
+define(['globals', 'modules/geo', 'poi/model'],
+  function(Globals, Geo, Poi) {
   
   return B.Collection.extend({
     filterByDistanceTo: function(lat, lon, distance) {
@@ -9,13 +10,14 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
         })
       );
       return this;
-    }
+    },
   }, {
     // Devuelve un comparador por distancia al punto @lat,@lon
     sortByDistanceTo: function(lat, lon) {
       return function(model) {
         return -model.propDistanceTo(lat, lon);
       };
-    }
+    },
+    model: Poi
   });
 });

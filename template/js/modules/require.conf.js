@@ -22,9 +22,6 @@ var comp = 'lib/components/'
   backbone: comp + 'backbone/backbone',
   underscore: comp + 'underscore/underscore',
   almond: comp + 'almond/almond',
-  persistence: comp + 'persistencejs/lib/persistence',
-  'persistence.store.sql': comp + 'persistencejs/lib/persistence.store.sql',
-  'persistence.store.websql': comp + 'persistencejs/lib/persistence.store.websql',
 }
 ;
 
@@ -34,7 +31,6 @@ var require = {
   paths: extendObject({
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
-    'db/initdb': 'db/initdb-dev',
     'menu.config': '../test/data/menu',
   }, libPaths),
   shim: {
@@ -44,12 +40,6 @@ var require = {
     swipe: {
       deps: [ 'jquery' ]
     },
-    'persistence.websql': {
-      deps: ['persistence.store.sql']
-    },
-    'persistence.sql': {
-      deps: ['persistence', 'SQLitePlugin']
-    }
   }
 }
 ;
@@ -73,7 +63,6 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
       paths: extendObject({
         globals: 'lib/globals',
         'modules/config': 'modules/config-prod',
-        'db/initdb': 'db/initdb-prod',
         'menu.config': 'data/menu'
       }, libPaths),
       optimize: 'uglify2'

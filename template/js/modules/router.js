@@ -3,11 +3,10 @@
 */
 define(
   [ 
-    'globals', 'menu.config', 'db/utils',
-    'page/pages', 'schemas/schemas', 'ui/basedialogview',
+    'menu.config', 'page/pages', 'db/db', 'ui/basedialogview',
     'poi/poi', 'poi/collection'
   ],
-  function(Globals, MenuConfig, DbUtils, Page, Db, DialogView, Poi) {
+  function(MenuConfig, Page, Db, DialogView, Poi, PoiCollection) {
     return B.Router.extend({
 
       routes: {
@@ -71,27 +70,22 @@ define(
 
       renderPois: function(title, query) {
         var self = this
-        , parsedQuery = query ? DbUtils.parseQuery(query) : {}
+        , sqlStr = Db.utils.queryToSql('Poi', query)
         ;
-        Db.Poi.all()
-          .query(parsedQuery)
-          .asJSON(Db.Poi, function(pois) {
-            var collection = new Poi.Collection(pois.map(function(poi) {
-              return new Poi.Model(poi);
-            }));
-            self.setView(Page.PoisView, {
-              collection: collection,
-              title: title,
-            });
+        Db.sqlAsCollection(PoiCollection, sqlStr, [], function(err, pois) {
+          self.setView(Page.PoisView, {
+            collection: pois,
+            title: title
           });
+        });
       },
 
       renderPoi: function(poiId) {
         var self = this;
-        Db.Poi.findBy('id', poiId, function(poi) {
+        Db.sql('SELECT * FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
           self.setView(Page.PoiView, {
-            model: new Poi.Model(DbUtils.localizedJSON(poi)),
-            title: poi.name
+            model: new Poi.Model(pois[0]),
+            title: pois[0].name
           });
         });
       }

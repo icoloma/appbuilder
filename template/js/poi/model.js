@@ -1,5 +1,23 @@
-define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
+define(['globals', 'modules/geo', 'db/db'],
+  function(Globals, Geo, Db) {
+
+    // Campos JSON que vienen de la BDD como string
+    var jsonFields = [
+      'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'imgs'
+    ];
+
   return B.Model.extend({
+
+    // Parsea los campos JSON que lleguen como strings
+    constructor: function(attrs, opt) {
+      _.each(jsonFields, function(field) {
+        if (_.isString(attrs[field])) {
+          attrs[field] = JSON.parse(attrs[field]);
+        }
+      });
+      B.Model.apply(this, [attrs, opt]);
+    },
+
     propDistanceTo: function(lat, lon) {
       return Geo.propDistance(this.get('lat'), this.get('lon'), lat, lon);
     },
@@ -15,21 +33,31 @@ define(['globals', 'modules/geo', 'schemas/poi'], function(Globals, Geo, Poi) {
       }
     },
 
+    // Exporta el modelo para la BDD
+    toRow: function() {
+      var json = this.toJSON();
+      _.each(jsonFields, function(field) {
+        json[field] = JSON.stringify(json[field]);
+      });
+      return json;
+    },
+
     /* 
       Un pequeño shim para persistir cambios en un POI 
       https://github.com/icoloma/appbuilder/issues/29
     */
     persist: function(callback) {
-      var self = this;
-      var changed = this.changed;
-      Poi.load(this.get('id'), function(poi) {
-        if (poi) {
-          _.extend(poi, changed);
-          persistence.flush(_.bind(callback, self));
-        } else {
-          // TO-DO: error handling
-        }
+      var changed = _.pick(this.toRow(), _.keys(this.changed))
+      , sqlStr = _.map(changed, function(value, field) {
+        return '`' + field + '`="' + value + '",';
+      }).join('').slice(0, -1)
+      ;
+      Db.sql('UPDATE Poi SET ' + sqlStr + ' WHERE `id`="' + this.get('id') + '"', [], function(err, results) {
+        // TO-DO: error handling
+        callback();
       });
     }
+  }, {
+    jsonFields: jsonFields
   });
 });
