@@ -1,9 +1,9 @@
 .poicollectionview {
+  tr {
+    border: none;
+  }
   tr:nth-child(2n) {
     background-color: @lightGrey;
-  }
-  td {
-    border: none;
   }
 }
 
@@ -13,17 +13,13 @@
 .entry-description {
   line-height: (@rowHeight - 50px);
   color: #777;
-  font-size: @smallFontSize;
+  margin-bottom: 5px;
 }
 
 .td-poi-thumb {
   height: @rowHeight;
   background: transparent no-repeat 50% 50%;
   background-size: cover;
+  -webkit-background-clip: content-box;
   background-clip: content-box;
 }
-
-// .poi-thumb {
-//   height: 40px;
-//   display: block;
-// }

@@ -8,6 +8,9 @@ define(
       events: {
         'tap .star': function() {
           this.trigger('star');
+        },
+        'tap .name': function() {
+          this.$('.name').toggleClass('uncovered');
         }
       },
 
@@ -15,7 +18,7 @@ define(
         '<div class="titlebar row app-container">' +
           '<div class="details col-10">' + 
             '<div class="name hideable">{{name}}</div>' +
-            '<address><a href="{{geoLink}}">{{address}} <span class="icon-map"></span></a></address>' +
+            '<address class="small"><span class="icon-map"></span> <a href="{{geoLink}}">{{address}}</a></address>' +
           '</div>' +
           '<div class="col-2">' + 
             '<span class="star icon-{{isStarred}}"></span>' +
@@ -30,7 +33,7 @@ define(
           '</div>' +
         '</div>' +
         '<div class="row app-container">' + 
-          '<p class="description col-12">{{desc}}</p>' +
+          '<p class="small description col-12">{{desc}}</p>' +
         '</div>'
       ),
 

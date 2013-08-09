@@ -1,11 +1,17 @@
 @rowHeight: 70px;
 @topbarHeight: 60px;
-@baseFontSize: 20px;
-@baseLineHeight: 25px;
+
+@baseFontSize: 18px;
+@baseLineHeight: 23px;
+
+@titleFontSize: 20px;
+@titleLineHeight: 25px;
+
 @smallFontSize: 15px;
 @smallLineHeight: 25px;
+
 @largeFontSize: 25px;
-@bigLineHeight: 30px;
+@largeLineHeight: 30px;
 
 @lightGrey: #eee;
 
@@ -15,12 +21,26 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  
 }
 
+.small {
+  font-size: @smallFontSize;
+  line-height: @smallLineHeight;
+}
+.large {
+  font-size: @largeFontSize;
+  line-height: @largeLineHeight;
+}
+
 body {
   margin: 0;
   font-size: @baseFontSize;
-  line-height: 30px;
+  line-height: @baseLineHeight;
   font-family: 'Open Sans', 'sans';
   background-color: #fcfefe;
+}
+
+h1, .titlesize {
+  font-size: @titleFontSize;
+  line-height: @titleLineHeight;
 }
 
 a, a:focus, a:hover, a:active, a:visited {
@@ -34,8 +54,8 @@ a, a:focus, a:hover, a:active, a:visited {
 }
 
 .app-container {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .animating-views > .pageview {

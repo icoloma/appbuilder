@@ -29,11 +29,11 @@ define(['globals'], function() {
         // '<span class="options-button">Options</span>'
       '</div>' +
       '<div class="actionbar">' +
-        '<% if (search) { %><span data-action="search" data-async="true" class="search-button icon-search bar-button"></span><% } %>' +
-        '<% if (filter) { %><span data-action="filter" data-async="true" class="filter-button icon-filter bar-button"></span><% } %>' +
-        '<% if (sort) { %><span data-action="sort" data-async="true" class="sort-button icon-sort bar-button"></span><% } %>' +
-        '<% if (notify) { %><span data-action="notify" class="notify-button">Notify</span><% } %>' +
-        '<% if (map) { %><span data-action="map" class="map-button bar-button icon-map"></span><% } %>' +
+        '<% if (search) { %><span data-action="search" data-async="true" class="titlesize search-button icon-search bar-button"></span><% } %>' +
+        '<% if (filter) { %><span data-action="filter" data-async="true" class="titlesize filter-button icon-filter bar-button"></span><% } %>' +
+        '<% if (sort) { %><span data-action="sort" data-async="true" class="titlesize sort-button icon-sort bar-button"></span><% } %>' +
+        '<% if (notify) { %><span data-action="notify" class="titlesize notify-button">Notify</span><% } %>' +
+        '<% if (map) { %><span data-action="map" class="titlesize map-button bar-button icon-map"></span><% } %>' +
       '</div>'
     ),
 

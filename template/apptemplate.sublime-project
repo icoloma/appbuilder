@@ -2,13 +2,13 @@
   "build_systems": [
     {
       "name": "LESS",
-      "cmd": ["node", "node_modules/.bin/grunt", "less:dev"],
+      "cmd": ["grunt", "less:dev"],
       "selector": "source.css.less",
       "working_dir": "${project_path}"
     },
     {
       "name": "jshint",
-      "cmd": ["node_modules/.bin/jshint", "$file"],
+      "cmd": ["node", "node_modules/.bin/jshint", "$file"],
       "selector": "source.js",
       "working_dir": "${project_path}"
     }

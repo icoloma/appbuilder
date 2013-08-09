@@ -1,16 +1,29 @@
 .poiview {
-  line-height: 35px;
 }
 .titlebar {
   background-color: @lightGrey;
   .clearfix();
   address {
-    line-height: 20px;
     clear: both;
-    font-size: @smallFontSize;
+    // margin-bottom: 10px;
+    margin-top: 3px;
+  }
+  .icon-map {
+    color: #555;
+    font-size: @largeFontSize;
   }
 }
 
+.star {
+  font-size: (@baseFontSize+@smallFontSize);
+  line-height: (@baseLineHeight+@smallLineHeight);
+  margin-left: -@grid-gutter-width/2; //Definido en el grid de bootstrap
+
+  &.icon-star {
+    color: orange;
+    text-shadow: 0 0 2px darken(orange, 40%);
+  }
+}
 .poi-imgs {
   height: 200px;
   overflow: hidden;
@@ -20,6 +33,4 @@
 }
 .description {
   margin: 0;
-  font-size: @smallFontSize;
-  line-height: @smallLineHeight;
 }

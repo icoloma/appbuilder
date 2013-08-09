@@ -51,11 +51,11 @@ define(
     menu: "a0",
     pois: [
       {
-        id: "7076D97BBE3740859B1FA716598DEBD2",
+        id: "C630D367521A405B959DD454FD1987B7",
         thumb: "img1.png"
       },
       {
-        id: "273C408479D446C180ED6AA18D7AC2DA",
+        id: "7068487BF5594A9CA9EAC30B6885AEF4",
         thumb: "img2.png"
       } 
     ]

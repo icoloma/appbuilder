@@ -1,25 +1,52 @@
-.redefineFonts(@baseFontSize, @largeFontSize, @smallFontSize, @smallLineHeight) {
+.redefineFonts(
+    @baseFontSize, @baseLineHeight,
+    @titleFontSize, @titleLineHeight,
+    @smallFontSize, @smallLineHeight,
+    @largeFontSize, @largeLineHeight
+  ) {
   body {
     font-size: @baseFontSize;
+    line-height: @baseLineHeight;
   }
-  .topbar {
-    h1, span {
-      font-size: @largeFontSize;
-    }
+  h1, .titlesize {
+    font-size: @titleFontSize;
+    line-height: @titleLineHeight;
   }
-  .entry-description, .description, .titlebar address {
+  .small {
     font-size: @smallFontSize;
-  }
-  .description {
     line-height: @smallLineHeight;
+  }
+  .large {
+    font-size: @largeFontSize;
+    line-height: @largeLineHeight;
+  }
+
+  .titlebar .icon-map {
+    font-size: @largeFontSize;
+  }
+  .star {
+    font-size: (@baseFontSize+@smallFontSize);
+    line-height: (@baseLineHeight+@smallLineHeight);
   }
 }
 
 @media (max-width: 320px) {
-  @baseFontSize: 18px;
+  @baseFontSize: 17px;
+  @baseLineHeight: 22px;
+
+  @titleFontSize: 18px;
+  @titleLineHeight: 23px;
+
   @largeFontSize: 22px;
+  @largeLineHeight: 27px;
+
   @smallFontSize: 13px;
   @smallLineHeight: 18px;
 
-  .redefineFonts(@baseFontSize, @largeFontSize, @smallFontSize, @smallLineHeight);
+  .redefineFonts(
+      @baseFontSize, @baseLineHeight,
+      @titleFontSize, @titleLineHeight,
+      @smallFontSize, @smallLineHeight,
+      @largeFontSize, @largeLineHeight
+    )
 }

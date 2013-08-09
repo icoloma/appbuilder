@@ -5,23 +5,17 @@
   overflow: hidden;
   position: fixed;
   top: 0;
-  // padding: 0 10px;
   width: 100%;
   -webkit-box-sizing: border-box;
   background-color: @navbarBg;
   color: white;
-  z-index: 10;
-  h1, span {
-    font-size: @largeFontSize;
-  }
+  z-index: 2;
 }
 
 .navbar, .actionbar {
   float: left;
 
-  // width: @navbarWidth;
   height: @topbarHeight;
-  line-height: @topbarHeight;
 
   clear: right;
 
@@ -30,24 +24,19 @@
 .actionbar {
   float: right;
   text-align: right;
-  // width: (100%-@navbarWidth);
-
-  // .bar-button {
-  //   border: 0 solid #aaa;
-  //   border-left-width: 2px;
-  // }
 }
 
-.pagetitle {
+h1.pagetitle {
   margin: 0;
   height: @topbarHeight;
   line-height: @topbarHeight;
   float: left;
 }
 
-.bar-button {
+span.bar-button {
   width: @topbarHeight - 20px;
   height: @topbarHeight;
+  line-height: @topbarHeight;
 
   -webkit-box-sizing: border-box;
   // display: inline-block;
