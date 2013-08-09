@@ -2,10 +2,12 @@ define(
   ['globals'],
   function() {
     return _.template(
-      '<tr data-url="#/pois/{{id}}">' +
-        '<td><div class="entry-name">{{name}}</div>' +
+      '<tr data-url="#/pois/{{id}}" class="row">' +
+        '<td class="col-9"><div class="entry-name hideable">{{name}}</div>' +
           '<div class="entry-description">{{address}}</div> </td>' +
-        '<td><img class="poi-thumb" src="{{appConfig.assets+thumb}}"></td>' +
+        '<td class="col-3 td-poi-thumb" style="background-image: url({{appConfig.assets+thumb}})">' +
+          // '<img class="poi-thumb" src="{{appConfig.assets+thumb}}">' +
+        '</td>' +
       '</tr>'
     );
   }

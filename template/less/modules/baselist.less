@@ -1,34 +1,23 @@
-table {
+.collectionview, .poicollectionview {
   width: 100%;
   margin: auto;
   font-size: @baseFontSize;
   line-height: @rowHeight - 10px;
-  border-collapse: collapse;
+  display: block;
+  tbody, tr, td {
+    display: block;
+  }
+  tr {
+    border-top: 1px solid #aaa;
+    &:first-child {
+      border-top: none;
+    }
+  }
 }
 
-td {
-  border-top: 1px solid #aaa;
-  padding: 0 4px;
-}
-td:first-child {
-  padding-left: 30px;
-}
-tr:first-child > td {
-  border-top: none;
-}
 
-.entry-name {
-  line-height: 50px;
-}
-.entry-description {
-  line-height: (@rowHeight - 50px);
-  color: #777;
-  font-size: @smallFontSize;
-}
+
+/* menuview */
 .poiCount {
   color: #777;
 }
-
-// .collectionview, .poicollectionview {
-//   margin-top: @navbarHeight;
-// }

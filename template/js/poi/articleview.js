@@ -12,12 +12,14 @@ define(
       },
 
       tmpl: _.template(
-        '<div class="titlebar container">' +
-          '<div class="details">' + 
+        '<div class="titlebar row app-container">' +
+          '<div class="details col-10">' + 
             '<div class="name hideable">{{name}}</div>' +
             '<address><a href="{{geoLink}}">{{address}} <span class="icon-map"></span></a></address>' +
           '</div>' +
-          '<span class="star icon-{{isStarred}}"></span>' +
+          '<div class="col-2">' + 
+            '<span class="star icon-{{isStarred}}"></span>' +
+          '</div>' +
         '</div>' +
         '<div class="poi-imgs swiper-container">' +
           '<div class="swiper-wrapper">' + 
@@ -27,7 +29,9 @@ define(
             '<% } %>' +
           '</div>' +
         '</div>' +
-        '<p class="description container">{{desc}}</p>'
+        '<div class="row app-container">' + 
+          '<p class="description col-12">{{desc}}</p>' +
+        '</div>'
       ),
 
       render: function() {
