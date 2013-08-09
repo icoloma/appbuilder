@@ -53,6 +53,7 @@ define(
       var req = new XMLHttpRequest();
       req.onload = loadData(callback);
       // Comprueba si ya la BDD ya está cargada (después de F5 por ejemplo)
+      console.log('Comprobando si la BDD está vacía...'); //DEBUG
       Db.transaction(function(tx) {
         tx.executeSql(
           'SELECT name FROM sqlite_master WHERE type="table" AND name="Poi"',

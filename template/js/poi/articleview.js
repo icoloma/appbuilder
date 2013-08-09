@@ -14,7 +14,7 @@ define(
       tmpl: _.template(
         '<div class="titlebar container">' +
           '<div class="details">' + 
-            '<div>{{name}}</div>' +
+            '<div class="name hideable">{{name}}</div>' +
             '<address><a href="{{geoLink}}">{{address}} <span class="icon-map"></span></a></address>' +
           '</div>' +
           '<span class="star icon-{{isStarred}}"></span>' +

@@ -8,7 +8,8 @@ define(
 
       initialize: function() {
         this.topbarView = new TopbarView({
-          title: this.model.get('name'),
+          // TO-DO: el título es el type
+          title: '',
           // TO-DO: implementar notificaciones
           // notify: true
         });

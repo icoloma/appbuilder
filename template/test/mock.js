@@ -8,7 +8,7 @@ var sqlite3 = require('sqlite3').verbose()
 , jsonFile = __dirname + '/data/data.json'
 , dbFile = __dirname + '/data/data.db'
 , languages = ['en', 'es', 'de', 'fr', 'it']
-, name = 'poi lorem'
+, names = [ 'lorem', 'ipsum', 'fusce', 'lacus', 'lectus', 'malesuada' ]
 , desc = 'Proin vehicula nisl ac libero blandit, nec feugiat odio facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer a porttitor purus, a vulputate nisl. Morbi eros diam, lacinia a faucibus sed, elementum mattis orci.'
 , types = [ 
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
@@ -16,6 +16,15 @@ var sqlite3 = require('sqlite3').verbose()
   ]
 , pois = 100
 
+
+// Nombre aleatorio
+, name = function() {
+  var str = '';
+  _.times(_.random(2, 4), function() {
+    str = str + names[_.random(names.length-1)] + ' ';
+  });
+  return str;
+}
 
 // Campos i18n para la generación de la tabla
 , i18nField = function(field) {
@@ -98,7 +107,7 @@ for (var i = 0; i < pois; i++) {
     starred: false
   };
   _.extend(poi,
-    _.object(i18nField('name'), i18nValue(name + poi.id.substr(0, 2))),
+    _.object(i18nField('name'), i18nValue(name() + poi.id.substr(0, 2))),
     _.object(i18nField('desc'), i18nValue(poi.id.substr(0, 2) + desc))
   );
   json.pois[i] = poi;

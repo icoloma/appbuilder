@@ -126,6 +126,7 @@ grunt.initConfig({
     all: {
       options: {
         port: 7000,
+        hostname: '*'
       }
     },
   },

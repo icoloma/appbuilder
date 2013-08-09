@@ -87,7 +87,6 @@ define(
         Db.sql('SELECT * FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
           self.setView(Page.PoiView, {
             model: new Poi.Model(pois[0]),
-            title: pois[0].name
           });
         });
       }
