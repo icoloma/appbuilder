@@ -43,7 +43,7 @@ build_android() {
   rm -r template-android-build/assets/www
   mv build/ template-android-build/assets/www
   cp "$1"/lib/android/cordova*js template-android-build/assets/www/phonegap.js
-  cp test/data/data.db template-android-build/assets/
+  cp test/data/appData.db template-android-build/assets/
   cd template-android-build
   wget https://github.com/jrvidal/PG-SQLitePlugin-Android/archive/master.zip
   unzip master.zip; rm master.zip
@@ -57,12 +57,4 @@ build_android {carpeta de phonegap}
 ```
 
 ### Esquema de datos
-A la hora de ensamblar la app con los datos del catálogo, esta necesita:
-  * Los datos del catálogo en SQLite.
-  * Un fichero de configuración de menús "JSON" (necesita un `define(...)`).
-
-El formato esperado para los datos puede verse en:
- * La configuración de menús para testeo `test/data/menu.js`.
- * Los datos de prueba `test/data/data.json` y `test/data/data.db`.
- * El script `test/mock.js` que genera los anteriores.
- * Los schemas en `js/db/schemas`.
+Véase `test/README.md`.

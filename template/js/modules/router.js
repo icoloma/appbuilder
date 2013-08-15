@@ -3,10 +3,13 @@
 */
 define(
   [ 
-    'menu.config', 'page/pages', 'db/db', 'ui/basedialogview',
-    'poi/poi', 'poi/collection'
+    'page/pages', 'db/db', 'ui/basedialogview',
+    'poi/poi', 'poi/collection', 'db/metadata'
   ],
-  function(MenuConfig, Page, Db, DialogView, Poi, PoiCollection) {
+  function(Page, Db, DialogView, Poi, PoiCollection, Metadata) {
+
+    var menuConfig;
+
     return B.Router.extend({
 
       routes: {
@@ -18,6 +21,7 @@ define(
 
       initialize: function(options) {
         this.$el = options.$el;
+        menuConfig = Metadata.menuConfig;
       },
 
       setView: function(view, options) {
@@ -39,25 +43,25 @@ define(
       // },
 
       renderHome: function() {
-        var menu = MenuConfig.menus[MenuConfig.root.menu]
+        var menu = menuConfig.menus[menuConfig.root.menu]
         , collection = new B.Collection(
-          menu.entries.map(function(entry) {
-            return new B.Model(entry);
+          _.map(menu.entries, function(entryID) {
+            return new B.Model(menuConfig.entries[entryID]);
           })
         )
         ;
         this.setView(Page.HomeView, {
           title: menu.title,
           collection: collection,
-          pois: MenuConfig.root.pois
+          pois: menuConfig.root.pois
         });
       },
 
       renderMenu: function(menuId) {
-        var menu = MenuConfig.menus[menuId]
+        var menu = menuConfig.menus[menuId]
         , collection = new B.Collection(
-          menu.entries.map(function(entry) {
-            return new B.Model(entry);
+          _.map(menu.entries, function(entryID) {
+            return new B.Model(menuConfig.entries[entryID]);
           })
         )
         ;

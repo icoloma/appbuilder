@@ -22,21 +22,36 @@ define(['globals'], function() {
     for (var i = 0; i < rows.length; i++) {
       results.push(
         // El objeto rows.item(i) es de solo lectura, así que lo clonamos
-        localizedJSON(_.clone(rows.item(i)), window.appConfig.locale)
+        localizeJSON(_.clone(rows.item(i)))
       );
     }
     return results;
   }
 
-  // Encuentra los campos localizables en un json en el idioma @lang (tipo 'name_fr')
-  // y los copia en una propiedad sin localizar (p.ej. 'name')
-  , localizedJSON = function(json, lang) {
-    var regex = new RegExp('(.+)_' + lang)
+  // Encuentra los campos localizables en un @json en el idioma de la app (tipo 'name_fr')
+  // y los copia en la propiedad sin indentificador de idioma (p.ej. 'name')
+  // AVISO: require el global appConfig.locale
+  , localizeJSON = function(json) {
+    var regex = new RegExp('(.+)_' + appConfig.locale)
     ;
     _.each(json, function(value, key) {
       var match = key.match(regex);
       if (match) {
         json[match[1]] = value;
+      }
+    });
+    return json;
+  }
+  // Localiza el @json como localizeJSON, pero además eliminando el resto de campos i18n
+  // para ahorrar memoria
+  // AVISO: require el global appConfig.locale
+  , filterJSON = function(json) {
+    var regex = /(.+)_([a-z]{2})/;
+    _.each(json, function(value, key) {
+      var match = key.match(regex);
+      if (match) {
+        if (match[2] === appConfig.locale) json[match[1]] = value;
+        delete json[key];
       }
     });
     return json;
@@ -68,6 +83,7 @@ define(['globals'], function() {
 
     utils: {
       queryToSql: queryToSql,
+      filterJSON: filterJSON
     },
 
     /* 

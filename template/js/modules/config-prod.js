@@ -1,5 +1,5 @@
-define(['modules/i18n', 'db/db'],
-  function(i18n, Db) {
+define(['modules/i18n', 'db/db', 'db/metadata'],
+  function(i18n, Db, Metadata) {
 
   /*
     Configuración de la aplicación.
@@ -15,35 +15,49 @@ define(['modules/i18n', 'db/db'],
     - platform: la plataforma en la que corre la app
   */
   window.appConfig = {
-    assets: 'assets/'
+    assets: 'assets/',
+    dbName: 'appData'
   };
 
   // Inicia la BDD SQLite del dispositivo
-  Db.initDb(window.sqlitePlugin.openDatabase({name: 'data'}));
+  Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
 
   return function(callback) {
-    document.addEventListener('deviceready', function () {
+    // Búsqueda *asíncrona* de los metadatos. 
+    async.parallel({
+      device: function(cb) {
+        document.addEventListener('deviceready', function () {
 
-      // Obtener la plataforma y el locale
-      window.appConfig.platform = device.platform;
+          // Obtener la plataforma y el locale
+          window.appConfig.platform = device.platform;
 
-      navigator.globalization.getLocaleName(function(locale) {
-        locale = locale.value.match(/^([a-z]{2})/)[1];
+          navigator.globalization.getLocaleName(function(locale) {
+            cb(null, locale);
+          }, function(err) {
+            // TO-DO: mejor error handling
+            cb(null, {value: 'en'});
+          });
+        });
+      },
+      metadata: function(cb) {
+        var req = new XMLHttpRequest();
+        req.onload = function() {
+          cb(null, JSON.parse(this.responseText));
+        };
+        req.open('get', 'raw_metadata.json', true);
+        req.send();
+      }
+    }, function(err, results) {
+      locale = results.device.value.match(/^([a-z]{2})/)[1];
 
-        // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
-        // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
-        window.appConfig.locale = locale in i18n ? locale : 'en';
-        window.res = i18n[window.appConfig.locale];
+      // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
+      // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
+      window.appConfig.locale = locale in i18n ? locale : 'en';
+      window.res = i18n[window.appConfig.locale];
 
-        callback();
-      }, function(err) {
-        // TO-DO: mejor error handling
-
-        window.appConfig.locale = 'en';
-        window.res = i18n[window.appConfig.locale];
-
-        callback();
-      });
+      // Parsea los metadatos
+      Metadata.initMetadata(JSON.parse(results.metadata));
+      callback();
     });
   };
 });

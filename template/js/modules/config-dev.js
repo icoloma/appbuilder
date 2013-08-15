@@ -1,5 +1,5 @@
-define(['modules/i18n', 'db/db', 'db/loaddb'],
-  function(i18n, Db, LoadDb) {
+define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
+  function(i18n, Db, LoadDb, Metadata) {
 
   /*
     Configuración de la aplicación en desarrollo.
@@ -11,10 +11,20 @@ define(['modules/i18n', 'db/db', 'db/loaddb'],
 
   window.appConfig = {
     assets: 'test/assets/',
-
+    dbName: 'appData',
     // Este campo no es necesario en producción
     data: 'test/data/',
   };
+
+  // Búsqueda *síncrona* de los metadatos.
+  var req = new XMLHttpRequest()
+  , raw_metadata
+  ;
+  req.onload = function() {
+    raw_metadata = JSON.parse(this.responseText);
+  };
+  req.open('get', appConfig.data + 'raw_metadata.json', false);
+  req.send();
 
   // Detecta eventos 'touch', para distinguir si estamos en un dispositivo o en desktop
   var supportsTouch = (('ontouchstart' in window) ||
@@ -45,17 +55,20 @@ define(['modules/i18n', 'db/db', 'db/loaddb'],
     console.log('Simulando evento deviceready!'); //DEBUG
 
     // Inicializa la BDD
-    Db.initDb(openDatabase('data', 1, 'foobar', 5*1024*1024));
+    Db.initDb(openDatabase(appConfig.dbName, 1, 'foobar', 5*1024*1024));
 
     _.extend(window.appConfig, {
       platform: 'Android',
       locale: 'es'
     });
+  
+    // Parsea los metadatos
+    Metadata.initMetadata(raw_metadata);
 
     return function(callback) {
       window.res = i18n[window.appConfig.locale];
       // Rellenar la BDD SQL del navegador
-      LoadDb(callback);
+      LoadDb(Metadata.pois, callback);
     };
 
   } else {
@@ -68,7 +81,7 @@ define(['modules/i18n', 'db/db', 'db/loaddb'],
     return function(callback) {
 
       // Inicia la BDD SQLite del dispositivo
-      Db.initDb(window.sqlitePlugin.openDatabase({name: 'data'}));
+      Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
 
       console.log('Esperando el evento deviceready...'); //DEBUG
 
@@ -86,6 +99,9 @@ define(['modules/i18n', 'db/db', 'db/loaddb'],
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
           window.appConfig.locale = locale in i18n ? locale : 'en';
           window.res = i18n[window.appConfig.locale];
+
+          // Parsea los metadatos
+          Metadata.initMetadata(raw_metadata);
 
           callback();
         }, function(err) {
