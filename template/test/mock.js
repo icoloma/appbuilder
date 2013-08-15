@@ -1,171 +1,39 @@
-var sqlite3 = require('sqlite3').verbose()
-, fs = require('fs')
-, _ = require('underscore')
-, seed = require('seed-random')
 
-
-, db, json = {}
-, jsonFile = __dirname + '/data/data.json'
-, dbFile = __dirname + '/data/data.db'
-, languages = ['en', 'es', 'de', 'fr', 'it']
-, names = [ 'lorem', 'ipsum', 'fusce', 'lacus', 'lectus', 'malesuada' ]
-, desc = 'Proin vehicula nisl ac libero blandit, nec feugiat odio facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer a porttitor purus, a vulputate nisl. Morbi eros diam, lacinia a faucibus sed, elementum mattis orci.'
-, types = [ 
-  'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
-  'PARK_GARDEN', 'ECO_TOURISM', 'GOLF', 'NAUTICAL_STATION',
-  ]
-, pois = 100
-
-
-// Nombre aleatorio
-, name = function() {
-  var str = '';
-  _.times(_.random(2, 4), function() {
-    str = str + names[_.random(names.length-1)] + ' ';
-  });
-  return str;
-}
-
-// Campos i18n para la generación de la tabla
-, i18nField = function(field) {
-  return languages.map(function(lang) {
-    return field + '_' + lang;
-  });
-}
-
-// Valores i18n para insertar en la tabla
-, i18nValue = function(val) {
-  return languages.map(function(lang) {
-    return lang.toUpperCase() + ': ' + val;
-  });
-}
-
-// Extraido de github.com/zefhemel/persistencejs/blob/7b34341a6027284b635bb97ba7059848adfe685a/lib/persistence.js#L1259 
-// Math.random sustituido por una función determinista
-
-, createUUID = function() {
-  var s = []
-  , hexDigits = "0123456789ABCDEF"
-  ;
-  for ( var i = 0; i < 32; i++) {
-    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-  }
-  s[12] = "4";
-  s[16] = hexDigits.substr((s[16] & 0x3) | 0x8, 1);
-
-  var uuid = s.join("");
-  return uuid;
-}
+_ = require('underscore')
+, locales = ['en', 'es', 'it', 'de', 'fr']
+, fs = require('fs')  
 ;
 
-console.log('Generando POIs aleatorios...');
+var random = require('./mock/random-data.js')
+, i18n = require('./mock/i18n-generator.js')
+, flagsAndTypes = require('./mock/flags-and-types')
+, poiNumber = 200
+, jsonPois
+, data = {}
+, dataFolder = __dirname + '/data/'
+, jsonFile = 'raw_metadata.json'
+, sqliteFile = 'appData.db'
+;
 
-// Sobrescribe Math.random
-seed('Secret seed', true);
-
-if (fs.existsSync(dbFile)) fs.unlinkSync(dbFile);
-if (fs.existsSync(jsonFile)) fs.unlinkSync(jsonFile);
-
-console.log('Generando ' + jsonFile);
-/* Generar POIs en json */
-json.pois = [];
-var poi;
-for (var i = 0; i < pois; i++) {
-  poi = {
-    id: createUUID(),
-    created: 100000,
-    lastModified: 100000,
-    lat: 40 + (i % 20)/10,
-    lon: -1 + (i % 21)/10,
-    normLon: Math.sin((40 + (i % 20)/10)/180*Math.PI) * (-1 + (i % 21)/10),
-    type: types[ i % types.length ],
-    prices: {
-      foo: 'bar'
-    },
-    contact: {
-      bar: 'baz'
-    },
-    timetables: {
-      baz: 'foo'
-    },
-    languages: ['es', 'en'],
-    data: {
-      'Staff gender ratio': 1,
-      'Chairs/tables ratio': 0.1 
-    },
-    address: 'Plaza de Sol, Madrid',
-    flags: {
-      ACCESSIBILITY: [
-        'GUIDE_DOG_ALLOWED', 'LIFT_ACCESIBLE'
-      ],
-      COMMON: [
-        'AIR_CONDITIONING', 'PARKING'
-      ]
-    },
-    thumb: 'thumb.png',
-    imgs: [ 'img1.png', 'img2.png', 'img3.png' ],
-    starred: false
-  };
-  _.extend(poi,
-    _.object(i18nField('name'), i18nValue(name() + poi.id.substr(0, 2))),
-    _.object(i18nField('desc'), i18nValue(poi.id.substr(0, 2) + desc))
-  );
-  json.pois[i] = poi;
-}
-fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));
+// Exporta los flags y types
+data.flags = flagsAndTypes.flags;
+data.types = flagsAndTypes.types;
 
 
-/* Generar POIs en sqlite */
-console.log('Generando ' + dbFile);
-db = new sqlite3.Database(dbFile);
-db.serialize(function() {
-  db.run('CREATE TABLE IF NOT EXISTS Poi (\
-    id VARCHAR(32) PRIMARY KEY, \
-    type TEXT, ' +
-    i18nField('name').map(function(field) {
-      return '`' + field + '` TEXT,';
-    }).join('') +
-    i18nField('desc').map(function(field) {
-      return '`' + field + '` TEXT,';
-    }).join('') +
-    [
-      'prices', 'address', 'contact', 'timetables', 'languages', 'data', 'flags'
-    ].map(function(field) {
-      return '`' + field + '` TEXT, ';
-    }).join('') +
-    'created DATE, lastModified DATE, \
-    lat numeric, lon numeric, normLon numeric, \
-    thumb TEXT, imgs TEXT, \
-    starred BOOLEAN \
-    )');
+// Genera los POIs
+console.log('Generando ' + poiNumber + ' pois...');
+if (fs.existsSync(dataFolder + jsonFile)) fs.unlinkSync(dataFolder + jsonFile);
+data.pois = require('./mock/pois-json.js')(poiNumber);
 
-  var smnt = db.prepare('INSERT INTO Poi VALUES \
-    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
-  ;
-  for (var i = 0; i < pois; i++) {
-    poi = json.pois[i];
-    [
-    'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'imgs'
-    ].forEach(function(field) {
-      poi[field] = JSON.stringify(poi[field]);
-    });
-    smnt.run.apply(smnt, [].concat(
-      poi.id, poi.type,
-      i18nField('name').map(function(field) {
-        return poi[field];
-      }),
-      i18nField('desc').map(function(field) {
-        return poi[field];
-      }),
-      [ 'prices', 'address', 'contact', 'timetables', 'languages', 'data', 'flags',
-        'created', 'lastModified', 'lat', 'lon', 'normLon', 'thumb', 'imgs', 'starred'
-      ].map(function(field) {
-        return poi[field];
-      })
-    ));
-  }
-  smnt.finalize();
+// Genera la configuración de menús
+console.log(' * Configuración de menús.');
+data.menuConfig = require('./mock/menu.js')(data.pois);
 
-});
+// Exporta el JSON
+console.log(' * ' + jsonFile);
+fs.writeFileSync(dataFolder + jsonFile, JSON.stringify(data, null, 2));
 
-db.close();
+// Genera una BDD SQLite
+console.log(' * ' + sqliteFile);
+if (fs.existsSync(dataFolder + sqliteFile)) fs.unlinkSync(dataFolder + sqliteFile);
+require('./mock/pois-sqlite.js')(data.pois, dataFolder + sqliteFile);
