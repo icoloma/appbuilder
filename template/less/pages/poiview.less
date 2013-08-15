@@ -19,16 +19,24 @@
   line-height: (@baseLineHeight+@smallLineHeight);
   margin-left: -@grid-gutter-width/2; //Definido en el grid de bootstrap
 
+  color: #888;
+
   &.icon-star {
     color: orange;
-    text-shadow: 0 0 2px darken(orange, 40%);
+    text-shadow: 0 0 3px black;
   }
 }
 .poi-imgs {
   height: 200px;
   overflow: hidden;
-  img {
+  .swiper-wrapper {
+    height: 100%;
+  }
+  .swiper-slide {
+    height: 100%;
     width: 100%;
+    background: transparent no-repeat 50% 50%;
+    background-size: cover;
   }
 }
 .description {

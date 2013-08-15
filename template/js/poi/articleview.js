@@ -18,7 +18,9 @@ define(
         '<div class="titlebar row app-container">' +
           '<div class="details col-10">' + 
             '<div class="name hideable">{{name}}</div>' +
-            '<address class="small"><span class="icon-map"></span> <a href="{{geoLink}}">{{address}}</a></address>' +
+            '<address class="small">' +
+              '<a href="{{geoLink}}"> <span class="icon-map"></span> {{address}}</a>' +
+            '</address>' +
           '</div>' +
           '<div class="col-2">' + 
             '<span class="star icon-{{isStarred}}"></span>' +
@@ -26,9 +28,9 @@ define(
         '</div>' +
         '<div class="poi-imgs swiper-container">' +
           '<div class="swiper-wrapper">' + 
-            '<img class="swiper-slide" src="{{appConfig.assets + thumb}}">' +
+            '<div class="swiper-slide" style="background-image: url({{appConfig.assets+thumb}})"></div>' +
             '<% for (var i in imgs) { var img = imgs[i]; %>' + 
-              '<img class="swiper-slide" src={{appConfig.assets+img}}>' +
+              '<div class="swiper-slide" style="background-image: url({{appConfig.assets+img}})"></div>' +
             '<% } %>' +
           '</div>' +
         '</div>' +

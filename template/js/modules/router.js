@@ -89,8 +89,12 @@ define(
       renderPoi: function(poiId) {
         var self = this;
         Db.sql('SELECT * FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
+          var poi = new Poi.Model(pois[0])
+          , type = Metadata.types[poi.get('type')]
+          ;
           self.setView(Page.PoiView, {
             model: new Poi.Model(pois[0]),
+            title: type.name 
           });
         });
       }

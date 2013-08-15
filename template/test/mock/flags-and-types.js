@@ -14,34 +14,36 @@ var random = require('./random-data.js')
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
   'PARK_GARDEN', 'ECO_TOURISM', 'GOLF', 'NAUTICAL_STATION',
 ]
-, flags = []
-, types = []
+, flags = {}
+, types = {}
 ;
 
 console.log('Generando flags y types...');
 
 // Genera los types
-_.each(raw_types, function(type, i) {
-  types[i] = i18n.object({
+_.each(raw_types, function(raw_type, i) {
+  var type = i18n.object({
     name: function() {
-      return type + ' ' + random.variableLorem(0, 1);
+      return raw_type + ' ' + random.variableLorem(0, 1);
     },
     description: random.fixedLorem(3, 10)
   });
-  types[i].id = random.createUUID();
+  type.id = random.createUUID();
   // Un campo solo para testing
-  types[i]['_keyword'] = type;
+  type._keyword = raw_type;
+  types[type.id] = type;
 });
 
 // Genera las flags
-_.each(raw_flags, function(flag, i) {
-  flags[i] = i18n.object({
+_.each(raw_flags, function(raw_flag, i) {
+  var flag = i18n.object({
     name: function() {
-      return flag + ' ' + random.variableLorem(0, 1);
+      return raw_flag + ' ' + random.variableLorem(0, 1);
     },
     description: random.fixedLorem(3, 10)
   });
-  flags[i].id = random.createUUID();
+  flag.id = random.createUUID();
+  flags[flag.id] = flag; 
 });
 
 module.exports = {
