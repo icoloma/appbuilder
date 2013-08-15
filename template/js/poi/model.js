@@ -4,7 +4,9 @@ define(['globals', 'modules/geo', 'db/db'],
     // Campos JSON que vienen de la BDD como string
     var jsonFields = [
       'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'imgs'
-    ];
+    ]
+    , booleanFields = [ 'starred' ]
+    ;
 
   return B.Model.extend({
 
@@ -13,6 +15,11 @@ define(['globals', 'modules/geo', 'db/db'],
       _.each(jsonFields, function(field) {
         if (_.isString(attrs[field])) {
           attrs[field] = JSON.parse(attrs[field]);
+        }
+      });
+      _.each(booleanFields, function(field) {
+        if (_.isString(attrs[field])) {
+          attrs[field] = attrs[field] === 'true' ? true : false;
         }
       });
       B.Model.apply(this, [attrs, opt]);
