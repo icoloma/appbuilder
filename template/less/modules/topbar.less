@@ -1,5 +1,5 @@
-@navbarWidth: 20%;
-@navbarBg: #444;
+@topbarBg: #444;
+@barButtonWidth: (@topbarHeight - 10px);
 
 .topbar {
   overflow: hidden;
@@ -7,41 +7,57 @@
   top: 0;
   width: 100%;
   -webkit-box-sizing: border-box;
-  background-color: @navbarBg;
+  background-color: @topbarBg;
   color: white;
   z-index: 2;
 }
 
 .navbar, .actionbar {
-  float: left;
-
   height: @topbarHeight;
+}
 
-  clear: right;
-
+.navbar {
+  width: 100%;
+  .box-sizing(border-box);
+  padding-right: @barButtonWidth;
+  white-space: nowrap;
 }
 
 .actionbar {
-  float: right;
-  text-align: right;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 h1.pagetitle {
   margin: 0;
   height: @topbarHeight;
   line-height: @topbarHeight;
-  float: left;
 }
 
 span.bar-button {
-  width: @topbarHeight - 20px;
+  width: @barButtonWidth;
   height: @topbarHeight;
   line-height: @topbarHeight;
 
   -webkit-box-sizing: border-box;
-  // display: inline-block;
   float: left;
+  clear: both;
   text-align: center;
+}
+
+.action-menu {
+  display: none;
+
+  position: fixed;
+  top: @topbarHeight;
+  right: 0;
+
+  width: 2*@barButtonWidth;
+  background: @topbarBg;
+  .bar-button {
+    
+  }
 }
 
 .busy.bar-button {
