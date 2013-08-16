@@ -17,10 +17,11 @@ define(
         this.listenTo(this.topbarView, 'filter', this.filterDialog);
 
         this.collectionView = new ListView({
-          className: 'poicollectionview',
+          className: 'collectionview poicollectionview',
           collection: this.collection.toJSON(),
           trView: TrView
         });
+        this.pass(this.topbarView, 'historyback');
       },
 
       render: function() {

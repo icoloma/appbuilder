@@ -61,6 +61,8 @@ define(['jquery'], function() {
   $.fn.loadAnimation = function($oldView, $newView, dir) {
     var $this = $(this)
     , width = $oldView.css('width').match(/([0-9]+)px/)[1]
+    , widthPx = width + 'px'
+    , minusWidthPx = (-width) + 'px'
     , toLeft = dir > 0
     ;
 
@@ -70,7 +72,7 @@ define(['jquery'], function() {
       $newView.css({
         width: width,
         position: 'absolute',
-        left: toLeft ? width : -width,
+        left: toLeft ? widthPx : minusWidthPx,
         top: window.pageYOffset
       })
     );
@@ -85,7 +87,7 @@ define(['jquery'], function() {
     // anteriores terminen de dibujarse antes de comenzar la transición.
     // AVISO: necesita testeo.
     _.defer(function() {
-      $oldView.css('left', toLeft ? -width : (width + 'px'));
+      $oldView.css('left', toLeft ? minusWidthPx : widthPx);
       $newView.css({left: '0px'});
     });
 
@@ -103,8 +105,7 @@ define(['jquery'], function() {
         top: ''
       });
 
-      // Resetea el scroll que tuviera la vista anterior
-      window.scrollTo(0, 0);
+      if (dir > 0) window.scrollTo(0, 0);
 
       // Fix para la topbar
       // En Android 2.3.6, después de una animación, deja de ser 'touchable', y se necesita

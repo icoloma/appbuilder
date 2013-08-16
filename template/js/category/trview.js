@@ -2,15 +2,15 @@ define(
   ['globals'],
   function() {
     return _.template(
-      '<tr class="row"' +
+      '<div class="row"' +
       'data-url="<% if (menu) {  %> #/menu/{{menu}} ' +
                 '<% } else {     %> #/pois?{{encodeURIComponent(JSON.stringify(data))}} <% } %>" ' +
-      'data-title="{{label}}">' +
-        '<td class="col-{{poiCount ? 10 : 12}}">' +
+      '>' +
+        '<div class="menu-tr-name col-{{poiCount ? 10 : 12}}">' +
           '{{label}}' +
-        '</td>' +
-        '<% if(poiCount) { %> <td class="poiCount col-2">{{poiCount}}</td> <% } %>' +
-      '</tr>'
+        '</div>' +
+        '<% if(poiCount) { %> <div class="poiCount col-2">{{poiCount}}</div> <% } %>' +
+      '</div>'
     );
   }
 );

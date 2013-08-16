@@ -29,6 +29,8 @@ define(
           search: true,
           root: true
         });
+
+        this.pass(this.topbarView, 'historyback');
       },
 
       render: function() {

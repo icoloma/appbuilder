@@ -1,23 +1,28 @@
+@poiRowHeight: @rowHeight + 10px;
+
 .poicollectionview {
-  tr {
+  .row {
     border: none;
+    height: @poiRowHeight;
   }
-  tr:nth-child(2n) {
+  .row:nth-child(2n) {
     background-color: @lightGrey;
   }
 }
 
-.entry-name {
+.poi-tr-name {
   line-height: 50px;
 }
-.entry-description {
-  line-height: (@rowHeight - 50px);
+.poi-tr-description {
+  line-height: (@poiRowHeight - 55px);
   color: #777;
   margin-bottom: 5px;
 }
 
-.td-poi-thumb {
-  height: @rowHeight;
+.poi-tr-thumb {
+  height: @poiRowHeight;
+  padding-top: 5px;
+  padding-bottom: 5px;
   background: transparent no-repeat 50% 50%;
   background-size: cover;
   -webkit-background-clip: content-box;

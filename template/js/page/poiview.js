@@ -12,6 +12,8 @@ define(
           // TO-DO: implementar notificaciones
           // notify: true
         });
+        this.pass(this.topbarView, 'historyback');
+
         this.modelView = new ArticleView({
           model: this.model
         });

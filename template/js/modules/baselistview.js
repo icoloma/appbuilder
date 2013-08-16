@@ -10,11 +10,10 @@ define(['globals'],
     */
 
     return B.View.extend({
-      tagName: 'table',
       className: 'collectionview',
 
       events: {
-        'tap tr': function(e) {
+        'tap .row': function(e) {
           window.location.href = $(e.currentTarget).data('url');
         }
       },
@@ -25,13 +24,13 @@ define(['globals'],
       },
 
       render: function() {
-        var $tbody = $('<tbody></tbody>');
+        var $this = this.$el;
         this.collection.forEach(function(item) {
-          $tbody.append(
+          $this.append(
             this.trView(item)
           );
         }, this);
-        this.$el.html($tbody);
+        // this.$el.html($tbody);
         return this;
       }
     });

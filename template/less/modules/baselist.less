@@ -1,16 +1,22 @@
-.collectionview, .poicollectionview {
+.collectionview {
   width: 100%;
   margin: auto;
   line-height: @rowHeight - 10px;
-  display: block;
-  tbody, tr, td {
-    display: block;
-  }
-  tr {
+  & > .row {
+    height: @rowHeight;
     border-top: 1px solid #aaa;
     &:first-child {
       border-top: none;
     }
+    .cols-mixin();
+  }
+}
+
+.cols-mixin() {
+  & > .col-1, .col-2, .col-3, .col-4,
+  .col-5, .col-6, .col-7, .col-8,
+  .col-9, .col-10, .col-11, .col-12 {
+    line-height: @rowHeight;
   }
 }
 

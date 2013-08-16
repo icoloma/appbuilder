@@ -12,5 +12,12 @@ define(
       escape      : /\{\{-([\s\S]+?)\}\}/g,
       evaluate      : /<%([\s\S]+?)%>/g
     };
+
+    Backbone.View.prototype.pass = function(obj, event) {
+      var self = this;
+      this.listenTo(obj, event, function() {
+        self.trigger(event);
+      });
+    };
   }
 );

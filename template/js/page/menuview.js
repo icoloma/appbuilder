@@ -25,6 +25,7 @@ define(
           title: this.options.title,
           search: true,
         });
+        this.pass(this.topbarView, 'historyback');
       },
 
       render: function() {

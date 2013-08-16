@@ -22,20 +22,27 @@ define(
       initialize: function(options) {
         this.$el = options.$el;
         menuConfig = Metadata.menuConfig;
+        this.direction = 1;
+      },
+
+      historyBack: function() {
+        this.direction = -1;
+        history.back();
       },
 
       setView: function(view, options) {
         if (this.currentView) {
           var newView = new view(options).render();
-          // this.$el.loadAnimation(this.currentView.$el, newView.$el, -1);
-          this.$el.html(newView.$el);
+          this.stopListening(this.currentView);
+          this.$el.loadAnimation(this.currentView.$el, newView.$el, this.direction);
           this.currentView = newView;
-          return this.currentView;
+          this.listenTo(this.currentView, 'historyback', this.historyBack);
+          this.direction = 1;
         } else {
           this.currentView = new view(options).render();
           this.$el.html(this.currentView.$el);
-          return this.currentView;
         }
+        return this.currentView;
       },
 
       // dialog: function(dialogView) {
