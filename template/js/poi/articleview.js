@@ -46,16 +46,14 @@ define(
           geoLink: this.model.geoLink()
         });
         this.$el.html(this.tmpl(json));
-        this.swipe();
+        _.delay(function() {
+          this.$('.swiper-container').swiper({
+            mode: 'horizontal',
+            loop: true
+          });
+        }, 250);
         return this;
       },
-
-      swipe: function() {
-        this.$('.swiper-container').swiper({
-          mode: 'horizontal',
-          loop: true
-        });
-      }
     });
   }
 );

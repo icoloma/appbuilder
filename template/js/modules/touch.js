@@ -86,14 +86,14 @@ define(['jquery'], function() {
     // Dispara la transición. Se aplica un delay para encolarlo y dar tiempo a que los cambios
     // anteriores terminen de dibujarse antes de comenzar la transición.
     // AVISO: necesita testeo.
-    _.defer(function() {
+    _.delay(function() {
       $oldView.css('left', toLeft ? minusWidthPx : widthPx);
       $newView.css({left: '0px'});
-    });
+    }, 100);
 
-    $this.on('webkitTransitionEnd', function (e) {
+    $this.on('webkitTransitionEnd.changeView', function (e) {
       // Elimina el handler
-      $this.off('webkitTransitionEnd');
+      $this.off('webkitTransitionEnd.changeView');
 
       // Deshace el estilado
       $this.removeClass('animating-views');

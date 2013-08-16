@@ -54,6 +54,7 @@ define(
           'SELECT name FROM sqlite_master WHERE type="table" AND name="Poi"',
           [], function(tx, res) {
             if (res.rows.length) {
+              console.log('BDD presente.'); //DEBUG
               callback();
             } else {
               console.log('Cargando la base de datos'); //DEBUG
