@@ -5,54 +5,53 @@ function(Globals, Tmpl) {
     className: 'topbar',
 
     events: {
-      'tap .back-button': function(e) {
-        // TO-DO: para navegar entre jerarquías hará distinguir entre las acciones 'back' y 'up'
-        // Ej: moverse entre los Pois resultados de una búsquedas 
-        // Necesitará entonces mantener un historial de navegación con jerarquías
-        this.trigger('historyback');
-      },
       'tap [data-action]': function(e) {
-        var $target = $(e.target)
-        , action = $target.data('action')
-        , async = $target.data('async')
-        ;
-        if (!this.blocked$El) {
-          this.trigger(action);
-          if (async) this.block($target);
+        var action = $(e.target).data('action');
+
+        if (action === 'historyback')  {
+          this.trigger('historyback');
+        } else {
+          if (!this.isBlocked) {
+            this.trigger(action);
+            this.block();
+          }
+          this.toggleMenu();
         }
-        this.toggleMenu();
       },
       'tap .menu-button': 'toggleMenu'
     },
 
-    controlDefaults: function () {
-      return {
-        root: false,
-        filter: false,
-        sort: false,
-        notify: false,
-        map: false,
-        search: false
-      };
-    },
+    buttonTmpl: _.template(
+      '<span data-action="{{action}}" class="titlesize icon-{{action}} bar-button"></span>'
+    ),
 
     render: function() {
-      // this.options.isStarred = this.options.starred ? 'icon-star' : 'icon-star-empty';
-      this.$el.html(
-        Tmpl(_.extend(this.controlDefaults(), this.options))
-      );
+      var wrappedMenu = this.options.actions.length > 1;
+      _.extend(this.options, {
+        hideBackButton: this.options.root ? 'invisible' : '',
+        hideMenuButton: wrappedMenu ? '' : 'hide',
+        wrapActions: wrappedMenu ? 'wrapped-action-menu' : '',
+        actions: _.map(this.options.actions, function(action) {
+          return this.buttonTmpl({action: action});
+        }, this).join('')
+      });
+      this.$el.html(Tmpl(this.options));
+      this.$button = wrappedMenu ? this.$('.menu-button') : this.$('.actionbar').first();
       return this;
     },
 
-    block: function($el) {
-      this.blocked$El = $el.addClass('busy');
-    }, 
-    unblock: function() {
-      this.blocked$El.removeClass('busy');
-      this.blocked$El = false;
+    block: function() {
+      this.isBlocked = true;
+      this.$button.addClass('blocked');
     },
+
+    unblock: function() {
+      this.isBlocked = false;
+      this.$button.removeClass('blocked');
+    },
+
     toggleMenu: function() {
-      this.$('.action-menu').toggle();
+      this.$('.wrapped-action-menu').toggle();
     }
   });
 });

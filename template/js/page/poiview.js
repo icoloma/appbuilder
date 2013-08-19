@@ -1,6 +1,6 @@
 define(
-  ['poi/articleview', 'ui/topbarview', 'ui/basedialogview'],
-  function(ArticleView, TopbarView, DialogView) {
+  ['poi/articleview', 'ui/topbarview'],
+  function(ArticleView, TopbarView) {
 
 
     return B.View.extend({
@@ -9,15 +9,13 @@ define(
       initialize: function() {
         this.topbarView = new TopbarView({
           title: this.options.title,
-          // TO-DO: implementar notificaciones
-          // notify: true
+          actions: ['search']
         });
         this.pass(this.topbarView, 'historyback');
 
         this.modelView = new ArticleView({
           model: this.model
         });
-
         this.listenTo(this.modelView, 'star', this.star);
       },
 
@@ -32,10 +30,7 @@ define(
         this.model.set('starred', !this.model.get('starred'));
         var message = this.model.get('starred') ? res.bookmarkAdded : res.bookmarkRemoved;
         this.model.persist(function() {
-          var dialogView = new DialogView({
-            content: '<p>' + message + '</p>'
-          });
-          self.$el.prepend(dialogView.render().$el);
+          navigator.notification.alert(message);
 
           self.modelView.render();
         });

@@ -45,7 +45,7 @@ span.bar-button {
   text-align: center;
 }
 
-.action-menu {
+.wrapped-action-menu {
   display: none;
 
   position: absolute;
@@ -59,19 +59,15 @@ span.bar-button {
   }
 }
 
-.busy.bar-button {
-  display: inline-block;
-  // background: url(img/spinner.gif) no-repeat 50% 50%;
-  // TO-DO: añadir un spinner
-  background: url(http://www.wizzy.ch/static/images/spinning-wheel.gif) no-repeat 50% 50%;
-  background-size: 40px;
-
-  &:before {
-    content: '';
-    width: 0;
-    margin: 0;
+.blocked {
+  &.menu-button, &.action-menu {
+    // TO-DO: añadir un spinner
+    background: url(http://www.wizzy.ch/static/images/spinning-wheel.gif) no-repeat 50% 50%;
+    background-size: 40px;
+    &:before {
+      content: '';
+      width: 0;
+      margin: 0;
+    }
   }
-
-}
-.spinner {
 }

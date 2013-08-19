@@ -61,6 +61,11 @@ define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
       platform: 'Android',
       locale: 'es'
     });
+
+    // Shim para el API de notificaciones de Phonegap
+    navigator.notification = {
+      alert: _.bind(alert, window)
+    };
   
     // Parsea los metadatos
     Metadata.initMetadata(raw_metadata);
