@@ -1,6 +1,6 @@
 define(
   [ 
-    'jquery', 'underscore', 'backbone',
+    'jquery', 'underscore', 'backbone', 'backbone.history',
     'modules/touch', 'SQLitePlugin', 'async', 'modules/i18n', 'swipe'
   ],
   function() {

@@ -22,6 +22,7 @@ var comp = 'lib/components/'
   backbone: comp + 'backbone/backbone',
   underscore: comp + 'underscore/underscore',
   almond: comp + 'almond/almond',
+  'backbone.history': comp + 'backbone-historytracker/backbone.historytracker'
 }
 ;
 
@@ -41,6 +42,9 @@ var require = {
     swipe: {
       deps: [ 'jquery' ]
     },
+    'backbone.history': {
+      deps: ['backbone']
+    }
   }
 }
 ;
