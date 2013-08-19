@@ -58,12 +58,15 @@ a, a:focus, a:hover, a:active, a:visited {
   padding-bottom: 15px;
 }
 
-// Dispara la GPU
-.pageview {
-  -webkit-transform: translateZ(0);
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
-}
+/*
+  Bug en Android: la topbar no recibe bien los touchevents si esto está activado siempre
+*/
+// // Dispara la GPU
+// .pageview {
+//   -webkit-transform: translateZ(0);
+//   -webkit-perspective: 1000;
+//   -webkit-backface-visibility: hidden;
+// }
 
 .animating-views > .pageview {
   -webkit-transition: left .2s;
