@@ -1,4 +1,4 @@
-define(['poi/model', 'poi/collection', 'poi/articleview', 'poi/trview'],
+define(['poi/model', 'poi/collection', 'poi/articleview', 'tpl!poi/trview.tpl'],
   function(Model, Collection, ArticleView, TrView) {
     return {
       Model: Model,

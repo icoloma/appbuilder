@@ -1,5 +1,5 @@
 define(
-  ['modules/baselistview', 'poi/trview', 'ui/topbarview', 'modules/geo',
+  ['modules/baselistview', 'tpl!poi/trview.tpl', 'ui/topbarview', 'modules/geo',
    'poi/collection', 'ui/basedialogview'],
   function(ListView, TrView, TopbarView, Geo, PoiCollection, DialogView) {
 

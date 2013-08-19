@@ -32,6 +32,7 @@ var require = {
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
     'menu.config': '../test/data/menu',
+    tpl: 'modules/tpl'
   }, libPaths),
   shim: {
     'backbone': {
@@ -53,7 +54,10 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
       name: 'main',
       include: [ 'almond' ],
       out: 'build/js/scripts.js',
-      optimize: 'none'
+      optimize: 'none',
+      pragmasOnSave: {
+        tplExclude: true
+      },
     },
     // Opciones exclusivas de la build en desarrollo o producción
     dev: {

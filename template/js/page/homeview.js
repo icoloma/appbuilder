@@ -1,5 +1,5 @@
 define(
-  ['modules/baselistview', 'category/trview', 'ui/topbarview'],
+  ['modules/baselistview', 'tpl!category/trview.tpl', 'ui/topbarview'],
   function(ListView, TrView, TopbarView) {
 
     return B.View.extend({
