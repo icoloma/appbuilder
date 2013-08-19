@@ -3,10 +3,9 @@
 */
 define(
   [ 
-    'page/pages', 'db/db', 'ui/basedialogview',
-    'poi/poi', 'poi/collection', 'db/metadata', 'category/model'
+    'page/pages', 'db/db', 'poi/poi', 'poi/collection', 'db/metadata', 'menu/model'
   ],
-  function(Page, Db, DialogView, Poi, PoiCollection, Metadata, Menu) {
+  function(Page, Db, Poi, PoiCollection, Metadata, Menu) {
 
     var menuConfig;
 
