@@ -4,9 +4,9 @@
 define(
   [ 
     'page/pages', 'db/db', 'ui/basedialogview',
-    'poi/poi', 'poi/collection', 'db/metadata'
+    'poi/poi', 'poi/collection', 'db/metadata', 'category/model'
   ],
-  function(Page, Db, DialogView, Poi, PoiCollection, Metadata) {
+  function(Page, Db, DialogView, Poi, PoiCollection, Metadata, Menu) {
 
     var menuConfig;
 
@@ -15,7 +15,7 @@ define(
       routes: {
         '': 'renderHome',
         'menu/:menuId': 'renderMenu',
-        'pois?(:data)': 'renderPois',
+        'pois?(:uri)': 'renderPois',
         'pois/:poiId': 'renderPoi'
       },
 
@@ -30,30 +30,40 @@ define(
         history.back();
       },
 
+      updateUri: function(uriParams) {
+        var oldUri = location.hash
+        , rawQueryMatch = location.hash.match(/(^[^?]+)(\?.+)?/)
+        , uriObj = rawQueryMatch[2] ? 
+          JSON.parse(decodeURIComponent(rawQueryMatch[2].slice(1))) :
+          {}
+        ;
+        _.extend(uriObj, uriParams);
+        var newUri = rawQueryMatch[1].slice(1) + '?' +
+          encodeURIComponent(JSON.stringify(uriObj));
+        this.navigate(newUri, {replace: true});
+      },
+
       setView: function(view, options) {
         if (this.currentView) {
           var newView = new view(options).render();
           this.stopListening(this.currentView);
           this.$el.loadAnimation(this.currentView.$el, newView.$el, this.direction);
           this.currentView = newView;
-          this.listenTo(this.currentView, 'historyback', this.historyBack);
           this.direction = 1;
         } else {
           this.currentView = new view(options).render();
           this.$el.html(this.currentView.$el);
         }
+        this.listenTo(this.currentView, 'historyback', this.historyBack);
+        this.listenTo(this.currentView, 'updatequery', this.updateUri);
         return this.currentView;
       },
-
-      // dialog: function(dialogView) {
-      //   this.$el.prepend(dialogView.render().$el);
-      // },
 
       renderHome: function() {
         var menu = menuConfig.menus[menuConfig.root.menu]
         , collection = new B.Collection(
           _.map(menu.entries, function(entryID) {
-            return new B.Model(menuConfig.entries[entryID]);
+            return new Menu(menuConfig.entries[entryID]);
           })
         )
         ;
@@ -68,7 +78,7 @@ define(
         var menu = menuConfig.menus[menuId]
         , collection = new B.Collection(
           _.map(menu.entries, function(entryID) {
-            return new B.Model(menuConfig.entries[entryID]);
+            return new Menu(menuConfig.entries[entryID]);
           })
         )
         ;
@@ -79,16 +89,21 @@ define(
         });
       },
 
-      renderPois: function(data) {
-        data = JSON.parse(decodeURIComponent(data));
-        var self = this
-        , query = data.query
+      renderPois: function(uri) {
+        var uriObj = JSON.parse(decodeURIComponent(uri))
+        , self = this
+        , query = uriObj.query
         , sqlStr = Db.utils.queryToSql('Poi', query)
         ;
         Db.sqlAsCollection(PoiCollection, sqlStr, [], function(err, pois) {
+          if (uriObj.sort) {
+            pois.comparator = 
+              PoiCollection.sortByDistanceTo(uriObj.sort.lat, uriObj.sort.lon);
+            pois.sort();
+          }
           self.setView(Page.PoisView, {
             collection: pois,
-            title: data.title
+            title: uriObj.title
           });
         });
       },
