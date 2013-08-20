@@ -19,6 +19,7 @@ var random = require('./mock/random-data.js')
 data.flags = flagsAndTypes.flags;
 data.types = flagsAndTypes.types;
 
+if (!fs.existsSync(dataFolder)) fs.mkdirSync(dataFolder);
 
 // Genera los POIs
 console.log('Generando ' + poiNumber + ' pois...');

@@ -22,7 +22,8 @@ var comp = 'lib/components/'
   backbone: comp + 'backbone/backbone',
   underscore: comp + 'underscore/underscore',
   almond: comp + 'almond/almond',
-  'backbone.history': comp + 'backbone-historytracker/backbone.historytracker'
+  'backbone.history': comp + 'backbone-historytracker/backbone.historytracker',
+  tpl: 'modules/tpl'
 }
 ;
 
@@ -33,7 +34,6 @@ var require = {
     globals: 'lib/globals',
     'modules/config': 'modules/config-dev',
     'menu.config': '../test/data/menu',
-    tpl: 'modules/tpl'
   }, libPaths),
   shim: {
     'backbone': {

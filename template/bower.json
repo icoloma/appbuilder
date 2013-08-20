@@ -7,7 +7,7 @@
     "almond": "~0.2.5",
     "PG-SQLitePlugin-Android": "https://github.com/pgsqlite/PG-SQLitePlugin-Android.git#r2013.05",
     "swiper": "https://github.com/nolimits4web/Swiper.git#7e4558f897d4a5bb64d8c0db7bbfd6da14d25436",
-    "bootstrap": "~3.0.0-rc1",
+    "bootstrap": "~3.0.0",
     "backbone-historytracker": "~1.0.2"
   }
 }

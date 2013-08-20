@@ -15,9 +15,12 @@ grunt
 Hay más opciones para **grunt** en el `Gruntfile.js`: *optimized*, *device*, *prod*... 
 (Varias cosas no funcionarán bien si se intenta depurar sin un servidor mediante urls `file:`, como Ajax o el evento `deviceready` de Phonegap).
 
+### Windows
+El paquete `sqlite3` tiene unas [dependencias](https://github.com/TooTallNate/node-gyp#installation) complicadas en Windows. Sin él, fallará la generación de datos de prueba (solo la parte de generar un `appData.db`).
+
 ### Dev Tools en mobile
 Para acceder a unas dev tools en un dispositivo móvil (requiere dispositivo y desktop conectados a una red local):
-* Cambiar `http://192.168.X.XXX` en `index.html` por la IP del desktop.
+* *Antes de desplegar en el móvil*, cambiar `http://192.168.X.XXX` en `index.html` por la IP del desktop.
 
 ```shell
 #Dependencias globales
