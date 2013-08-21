@@ -6,7 +6,7 @@
   "glyphs": [
     {
       "uid": "9bd60140934a1eb9236fd7a8ab1ff6ba",
-      "css": "spin4",
+      "css": "spinner",
       "code": 59400,
       "src": "fontelico"
     },
@@ -41,6 +41,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "b035c28eba2b35c6ffe92aee8b0df507",
+      "css": "flag-common",
+      "code": 59403,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0d08dbb1dd648a43bdea81b7e6c9e036",
+      "css": "map",
+      "code": 59395,
+      "src": "fontawesome"
+    },
+    {
       "uid": "559647a6f430b3aeadbecd67194451dd",
       "css": "menu",
       "code": 59402,
@@ -48,13 +60,19 @@
     },
     {
       "uid": "d870630ff8f81e6de3958ecaeac532f2",
-      "css": "left-open",
+      "css": "back",
       "code": 59396,
       "src": "fontawesome"
     },
     {
+      "uid": "19e7b342a5e6bd0cd86de6d6208486a4",
+      "css": "flag-nature",
+      "code": 59406,
+      "src": "fontawesome"
+    },
+    {
       "uid": "f4f0e849b805be1f6d76b65581cb3b8b",
-      "css": "align-left",
+      "css": "sort",
       "code": 59397,
       "src": "fontawesome"
     },
@@ -65,9 +83,57 @@
       "src": "fontawesome"
     },
     {
-      "uid": "22cfc7af2c4f158b37317c65c92b48c2",
-      "css": "location",
-      "code": 59395,
+      "uid": "05ef9b5e8742971aa85b23cfcbe71594",
+      "css": "flag-family",
+      "code": 59404,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "6d3728ea0e5678ab9cf6840c4a040e34",
+      "css": "ferry",
+      "code": 59413,
+      "src": "maki"
+    },
+    {
+      "uid": "93f72325e13529f1673ae0c3be4b7d22",
+      "css": "flag-golf",
+      "code": 59407,
+      "src": "maki"
+    },
+    {
+      "uid": "de3978220965d0d1b1cbe671a5a57f9a",
+      "css": "flag-lodging",
+      "code": 59409,
+      "src": "maki"
+    },
+    {
+      "uid": "19d9ceb791d76257545e308954808fc1",
+      "css": "flag-cultural",
+      "code": 59412,
+      "src": "maki"
+    },
+    {
+      "uid": "ebabd8ff4b67bdbba7660952c30813ca",
+      "css": "flag-ski",
+      "code": 59410,
+      "src": "maki"
+    },
+    {
+      "uid": "d8813acae9d35ada76fda399a6000587",
+      "css": "flag-sports",
+      "code": 59411,
+      "src": "maki"
+    },
+    {
+      "uid": "d368c9b110be1daa21f992afca084b8c",
+      "css": "flag-beach",
+      "code": 59408,
+      "src": "maki"
+    },
+    {
+      "uid": "afe93fc3d2e6e389194bb3771f00fdb1",
+      "css": "flag-accessibility",
+      "code": 59405,
       "src": "elusive"
     }
   ]
