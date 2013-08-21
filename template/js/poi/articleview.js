@@ -1,6 +1,6 @@
 define(
   ['globals', 'tpl!poi/articleview.tpl'],
-  function(Globals, Tmpl) {
+  function(Globals, Tmpl, Metadata) {
     return B.View.extend({
 
       className: 'articleview',
@@ -18,7 +18,10 @@ define(
         var json = this.model.toJSON();
         _.extend(json, {
           isStarred: json.starred ? 'star' : 'star-empty',
-          geoLink: this.model.geoLink()
+          geoLink: this.model.geoLink(),
+          flags: json.flags.map(function(flagID) {
+            return res._metadata.flags[flagID];
+          })
         });
         this.$el.html(Tmpl(json));
         _.delay(function() {

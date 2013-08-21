@@ -1,0 +1,23 @@
+{
+  "flag_icons" : {
+    "COMMON": "common", 
+    "FAMILY": "family", 
+    "ACCESSIBILITY": "accessibility",
+    "NATURE": "nature", 
+    "BEACH": "beach",
+    "CULTURE": "cultural",
+    "CULTURE_ARTISTIC": "cultural",
+    "CULTURE_CONSTRUCTION": "cultural",
+    "CULTURE_DESIGNATION": "cultural",
+    "CULTURE_HISTORICAL": "cultural",
+    "BUSINESS_ACTIVITY": "cultural",
+    "BUSINESS_NAUTICAL": "cultural",
+    "BUSINESS_SKI": "ski",
+    "BUSINESS_SPORT": "sports",
+    "GOLF_TYPE": "golf",
+    "BUSINESS_GOLF": "golf",
+    "LODGING": "lodging", 
+    "LODGING_SERVICES": "lodging", 
+    "ROOM": "lodging"
+  }
+}

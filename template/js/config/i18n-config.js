@@ -13,5 +13,9 @@ define(['db/db'], function(Db) {
     });
 
     window.res._metadata = metadata;
+
+    for (var i = 2; arguments[i] !== undefined; i++) {
+      _.extend(window.res._metadata, arguments[i]);
+    }
   };
 });

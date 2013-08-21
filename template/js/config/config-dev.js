@@ -18,21 +18,21 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
   };
 
   // Búsqueda *síncrona* de los metadatos y los recursos i18n
-  var req = new XMLHttpRequest()
-  , raw_metadata , i18n
+  var loadJSONResource = function(url) {
+    var req = new XMLHttpRequest()
+    , result
+    ;
+    req.onload = function() {
+      result = JSON.parse(this.responseText);
+    };
+    req.open('get', url, false);
+    req.send();
+    return result;
+  }
+  , raw_metadata = loadJSONResource(appConfig.data + 'raw_metadata.json')
+  , i18n = loadJSONResource(appConfig.configFolder + 'i18n.json')
+  , flag_icons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
   ;
-  req.onload = function() {
-    raw_metadata = JSON.parse(this.responseText);
-  };
-  req.open('get', appConfig.data + 'raw_metadata.json', false);
-  req.send();
-
-  req = new XMLHttpRequest();
-  req.onload = function() {
-    i18n = JSON.parse(this.responseText);
-  };
-  req.open('get', appConfig.configFolder + 'i18n.json', false);
-  req.send();
 
 
   // Detecta eventos 'touch', para distinguir si estamos en un dispositivo o en desktop
@@ -77,7 +77,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
     };
 
     return function(callback) {
-      i18nConfig(i18n, raw_metadata);
+      i18nConfig(i18n, raw_metadata, flag_icons);
 
       // Rellenar la BDD SQL del navegador
       LoadDb(raw_metadata.pois, callback);
@@ -111,7 +111,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
           window.appConfig.locale = locale in i18n ? locale : 'en';
 
-          i18nConfig(i18n, raw_metadata);
+          i18nConfig(i18n, raw_metadata, flag_icons);
           callback();
         }, function(err) {
           // TO-DO: mejor error handling

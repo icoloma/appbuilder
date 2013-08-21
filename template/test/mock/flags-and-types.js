@@ -3,13 +3,19 @@
 */
 var random = require('./random-data.js') 
 , i18n = require('./i18n-generator.js')
-, raw_flags = [
-  'AIR_CONDITIONING', 'BAR', 'BBQ', 'BIKE_RENT', 'CAR_RENT',
-  'CREDIT_CARD', 'EDUCATIONAL_ACTIVITIES', 'EXCHANGE', 'GUIDED_TOUR', 'HANDICAPPED',
-  'LEISURE', 'LOCKER', 'MEDICAL_SERVICE', 'PARKING', 'REPAIR',
-  'RESTAURANT', 'NO_CHILDS', 'PETS_ALLOWED', 'PETS_ALLOWED_SIZE', 'SHOP',
-  'SOS_SERVICE', 'WC'
-]
+, empty_flags = []
+, raw_flags = empty_flags.concat.apply(empty_flags, [
+  'COMMON:PARKING BIKE_RENT', 'ACCESSIBILITY:GUIDE HANDICAPPED_ACCESS',
+  'FAMILY:FAMILY_KINDER FAMILY_BABYSITTING', 'LODGING:CASINO LIFT',
+  'NATURE:NATIONAL_PARK NATURAL_RESERVE', 'BUSINESS_GOLF: GOLF_CLUB',
+  'BUSINESS_SPORT:SPORTS_TENNIS SPORTS_FOOTBALL', 'CULTURE_ARTISTIC:CULTURE_PERIOD_CELTIC'
+].map(function(groupStr) {
+  var parts = groupStr.split(':')
+  ;
+  return parts[1].split(' ').map(function(flag) {
+    return { keyword: flag, group: parts[0] };
+  });
+}))
 , raw_types = [
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
   'PARK_GARDEN', 'ECO_TOURISM', 'GOLF', 'NAUTICAL_STATION',
@@ -38,11 +44,14 @@ _.each(raw_types, function(raw_type, i) {
 _.each(raw_flags, function(raw_flag, i) {
   var flag = i18n.object({
     name: function() {
-      return raw_flag + ' ' + random.variableLorem(0, 1);
+      return raw_flag.keyword.toLowerCase() + ' ' + random.variableLorem(0, 1);
     },
     description: random.fixedLorem(3, 10)
   });
-  flag.id = random.createUUID();
+  _.extend(flag, {
+    id: random.createUUID(),
+    group: raw_flag.group
+  });
   flags[flag.id] = flag; 
 });
 

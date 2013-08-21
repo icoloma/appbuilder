@@ -135,8 +135,8 @@ grunt.initConfig({
     },
   },
   watch: {
-    less: {
-      files: ['less/**/*.less'],
+    web: {
+      files: ['less/**/*.less', 'js/**/*.tpl'],
       tasks: ['less:dev'],
       options: {
         livereload: true

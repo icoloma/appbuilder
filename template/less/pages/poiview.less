@@ -3,14 +3,15 @@
 .titlebar {
   background-color: @lightGrey;
   .clearfix();
+
   address {
-    clear: both;
-    // margin-bottom: 10px;
     margin-top: 3px;
   }
   .icon-map {
     color: #555;
-    font-size: @largeFontSize;
+    &:before {
+      display: inline;
+    }
   }
 }
 
@@ -41,4 +42,9 @@
 }
 .description {
   margin: 0;
+}
+
+.flag-description {
+  line-height: @smallLineHeight + 3px;
+  vertical-align: top;
 }
