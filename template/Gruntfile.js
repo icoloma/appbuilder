@@ -97,6 +97,10 @@ grunt.initConfig({
       dest: 'build/css/',
       expand: true,
       cwd: 'less/'
+    },
+    config: {
+      src: 'config/*',
+      dest: 'build/'
     }
   },
   'regex-replace': {
@@ -169,12 +173,14 @@ grunt.registerTask('dev',
   ['prepare-project', 'less:dev', 'jshint', 'mock', 'connect', 'watch']);
 
 // Por si es necesario compilar la aplicación nativa *SIN* hacer el build de requirejs
-grunt.registerTask('device', ['basic-build', 'copy:data', 'css-build-dev', 'copy:js']);
+grunt.registerTask('device',
+  ['basic-build', 'copy:data', 'copy:config', 'css-build-dev', 'copy:js']);
 
 // Optimización de javascript
-grunt.registerTask('optimized', ['basic-build', 'copy:data', 'css-build-dev', 'rjs-dev']);
+grunt.registerTask('optimized',
+  ['basic-build', 'copy:data', 'copy:config', 'css-build-dev', 'rjs-dev']);
 
 // Producción (necesita ensamblarse con los datos del catálogo)
-grunt.registerTask('prod', ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre']);
-
+grunt.registerTask('prod',
+  ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre', 'copy:config']);
 };

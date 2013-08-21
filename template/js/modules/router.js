@@ -3,9 +3,9 @@
 */
 define(
   [ 
-    'page/pages', 'db/db', 'poi/poi', 'poi/collection', 'db/metadata', 'menu/model'
+    'page/pages', 'db/db', 'poi/poi', 'poi/collection', 'menu/model'
   ],
-  function(Page, Db, Poi, PoiCollection, Metadata, Menu) {
+  function(Page, Db, Poi, PoiCollection, Menu) {
 
     var menuConfig;
 
@@ -20,7 +20,7 @@ define(
 
       initialize: function(options) {
         this.$el = options.$el;
-        menuConfig = Metadata.menuConfig;
+        menuConfig = window.res._metadata.menuConfig;
         this.direction = 1;
       },
 
@@ -111,7 +111,7 @@ define(
         var self = this;
         Db.sql('SELECT * FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
           var poi = new Poi.Model(pois[0])
-          , type = Metadata.types[poi.get('type')]
+          , type = window.res._metadata.types[poi.get('type')]
           ;
           self.setView(Page.PoiView, {
             model: new Poi.Model(pois[0]),

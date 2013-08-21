@@ -25,7 +25,8 @@
         "less",
         "test",
         "build",
-        "template-android-build"
+        "template-android-build",
+        "config"
       ]
     },
     {
@@ -36,6 +37,9 @@
       "path": "less",
       "folder_exclude_patterns": ["components/*"],
       "file_exclude_patterns": ["style.css"]
+    },
+    {
+      "path": "config"
     },
     {
       "path": "test"

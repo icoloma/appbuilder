@@ -1,5 +1,5 @@
-define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
-  function(i18n, Db, LoadDb, Metadata) {
+define(['db/db', 'db/loaddb', 'modules/i18n-config'],
+  function(Db, LoadDb, i18nConfig) {
 
   /*
     Configuración de la aplicación en desarrollo.
@@ -12,19 +12,28 @@ define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
   window.appConfig = {
     assets: 'test/assets/',
     dbName: 'appData',
-    // Este campo no es necesario en producción
+    // Estos campos no son necesarios en producción
     data: 'test/data/',
+    configFolder: 'config/'
   };
 
-  // Búsqueda *síncrona* de los metadatos.
+  // Búsqueda *síncrona* de los metadatos y los recursos i18n
   var req = new XMLHttpRequest()
-  , raw_metadata
+  , raw_metadata , i18n
   ;
   req.onload = function() {
     raw_metadata = JSON.parse(this.responseText);
   };
   req.open('get', appConfig.data + 'raw_metadata.json', false);
   req.send();
+
+  req = new XMLHttpRequest();
+  req.onload = function() {
+    i18n = JSON.parse(this.responseText);
+  };
+  req.open('get', appConfig.configFolder + 'i18n.json', false);
+  req.send();
+
 
   // Detecta eventos 'touch', para distinguir si estamos en un dispositivo o en desktop
   var supportsTouch = (('ontouchstart' in window) ||
@@ -66,14 +75,12 @@ define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
     navigator.notification = {
       alert: _.bind(alert, window)
     };
-  
-    // Parsea los metadatos
-    Metadata.initMetadata(raw_metadata);
 
     return function(callback) {
-      window.res = i18n[window.appConfig.locale];
+      i18nConfig(i18n, raw_metadata);
+
       // Rellenar la BDD SQL del navegador
-      LoadDb(Metadata.pois, callback);
+      LoadDb(raw_metadata.pois, callback);
     };
 
   } else {
@@ -103,11 +110,8 @@ define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
           // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
           window.appConfig.locale = locale in i18n ? locale : 'en';
-          window.res = i18n[window.appConfig.locale];
 
-          // Parsea los metadatos
-          Metadata.initMetadata(raw_metadata);
-
+          i18nConfig(i18n, raw_metadata);
           callback();
         }, function(err) {
           // TO-DO: mejor error handling
@@ -115,6 +119,7 @@ define(['modules/i18n', 'db/db', 'db/loaddb', 'db/metadata'],
           window.appConfig.locale = 'en';
           window.res = i18n[window.appConfig.locale];
 
+          i18nConfig(i18n, raw_metadata);
           callback();
         });
       });

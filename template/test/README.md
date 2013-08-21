@@ -1,18 +1,23 @@
 ## Estructura de datos
 
-La aplicación espera:
-* Una base de datos `appData.db` en la carpeta raíz de los componentes web (junto a `index.html`, `js/`, `css/`, etc.)
-* Un fichero de metadatos `raw_metadata.json` en la misma carpeta raíz.
+La aplicación en producción espera encontrar:
+* Una base de datos de POIs `appData.db` en la carpeta raíz de los componentes web (junto a `index.html`, `js/`, `css/`, etc.)
+* Un fichero de configuración con metadatos y cadenas i18n `appConfig.json` en la misma carpeta raíz.
 
-Los metadatos `raw_metadata.json` contienen la información sobre los *flags* y *types* de la aplicación, y la configuración del menú.
+Este último se genera combinando configuración estática del app-template (cadenas i18n, etc.) con configuración dinámica proveniente del catálogo, a saber: información sobre *types*, *flags* y los menús.
 
+    // appConfig.json
     {
+      // Parte "estática"
+      i18n: <cadenas i18n de la aplicación>,
+      ...
+      // Parte "dinámica"
       flags: [ <flag> ],
       types: [ <type> ],
       menuConfig: <menu config>
     }
 
-### i18n
+### Campos i18n en metadatos
 Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar internacionalizados. Los campos «i18n» en realidad requieren una copia por idioma, algo como:
 
     {
