@@ -1,203 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head th:substituteby="fragments/template :: headTag">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Points of interest</title>
-    <link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
-    <link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
 	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
-    <link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
 </head>
 
 <body>
 
-	<!--  Nav bar -->
-	<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="#">OpenCatalog</a>
-			</div>
-		</div>
-	</div>
-    
-    <!-- container -->    
-	<div class="container">
+<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse"><div class="navbar-inner"><div class="container">	<a class="brand" href="#">OpenCatalog</a></div></div></div>
+   
+<div class="container">
 	
-		<div th:substituteby="fragments/template :: alert" />
-			
-		<h1 th:text="#{'poiType.' + ${poi.type.id}}">Genérico</h1>
-		
-		<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.type.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
-		 	
-		 		<ul class="nav nav-tabs">
-					<li class="active"><a href="#es" data-toggle="tab" th:text="#{lang.es}">Spanish</a></li>
-					<li><a href="#en" data-toggle="tab" th:text="#{lang.en}">English</a></li>
-					<li><a href="#fr" data-toggle="tab" th:text="#{lang.fr}">French</a></li>
-					<li><a href="#de" data-toggle="tab" th:text="#{lang.de}">German</a></li>
-					<li><a href="#it" data-toggle="tab" th:text="#{lang.it}">Italian</a></li>
-				</ul>
-				
-				
-				
-				<div class="tab-content">
-					<div class="tab-pane active" id="es">
-						<label th:text="#{poi.name.es}">Name (ES)</label>
-				  		<div class="alert alert-error" th:if="${#fields.hasErrors('name')}">
-					  		<ul>
-							  <li th:each="err : ${#fields.errors('name')}" th:text="#{${err}}">Input is incorrect</li>
-							</ul>
-				  		</div>
-				  		<input id="gsearcher" name="name.es" type="text" th:field="*{name.es}" placeholder="Enter poi name (spanish)" th:placeholder="#{poi.name.es.placeholder}" class="input-xxlarge" required="required" value="Puerta del Sol"/>
-			  			<label th:text="#{poi.description.es}">Description	 (ES)</label>
-			  			<div class="alert alert-error" th:if="${#fields.hasErrors('description')}">
-					  		<ul>
-							  <li th:each="err : ${#fields.errors('description')}" th:text="#{${err}}">Input is incorrect</li>
-							</ul>
-				  		</div>
-			  			<textarea name="description.es" class="input-xxlarge" th:field="*{description.es}" placeholder="Enter poi description (spanish)" th:placeholder="#{poi.description.es.placeholder}"  >La Puerta del Sol es una plaza de Madrid (España). 
-Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras radiales españolas. El edificio más antiguo de la Puerta del Sol es la Casa de Correos y en ella destaca el reloj de torre que fue construido y donado en el siglo XIX por José Rodríguez de Losada, y cuyas campanadas de las 12 de la noche del 31 de diciembre marcan la tradicional toma de las doce uvas a la gran mayoría de los españoles. Dichas campanadas se empezaron a televisar el 31 de diciembre de 1962 en La 1 de TVE, a partir de ese año no se ha dejado de retransmitir por diversos canales de televisión de España. La Puerta del Sol es un lugar de cita, un lugar de paso entre diversas partes de Madrid. Es visita turística obligada de aquellos que se acercan a Madrid.
-			  			</textarea>
-			  		</div>
-			  		<div class="tab-pane" id="en">
-						<label th:text="#{poi.name.en}">Name (EN)</label>
-				  		<input name="name.en"  class="input-xxlarge"  type="text" th:field="*{name.en}" placeholder="Enter poi name (english)" th:placeholder="#{poi.name.en.placeholder}"/>
-			  			
-			  			<label th:text="#{poi.description.en}">Description	 (EN)</label>
-			  			<textarea name="description.en" class="input-xxlarge" cols="80" th:field="*{description.en}" placeholder="Enter poi description (english)" th:placeholder="#{poi.description.en.placeholder}"></textarea>
-			  		</div>
-			  		<div class="tab-pane" id="fr">
-						<label th:text="#{poi.name.fr}">Name (FR)</label>
-				  		<input name="name.fr"  class="input-xxlarge"  type="text" th:field="*{name.fr}" placeholder="Enter poi name (french)" th:placeholder="#{poi.name.fr.placeholder}"/>
-			  			
-			  			<label th:text="#{poi.description.fr}">Description	 (FR)</label>
-			  			<textarea  name="description.fr" class="input-xxlarge" cols="80" th:field="*{description.fr}" placeholder="Enter poi description (french)" th:placeholder="#{poi.description.fr.placeholder}"></textarea>
-			  		</div>
-			  		<div class="tab-pane" id="de">
-						<label th:text="#{poi.name.de}">Name (DE)</label>
-				  		<input name="name.de"  class="input-xxlarge"  type="text" th:field="*{name.de}" placeholder="Enter poi name (german)" th:placeholder="#{poi.name.de.placeholder}"/>
-			  			
-			  			<label th:text="#{poi.description.de}">Description	 (DE)</label>
-			  			<textarea name="description.de" class="input-xxlarge" cols="80" th:field="*{description.de}" placeholder="Enter poi description (german)" th:placeholder="#{poi.description.es.placeholder}"></textarea>
-			  		</div>
-			  		<div class="tab-pane" id="it">
-						<label th:text="#{poi.name.it}">Name (IT)</label>
-				  		<input name="name.it"  class="input-xxlarge"  type="text" th:field="*{name.it}" placeholder="Enter poi name (italian)" th:placeholder="#{poi.name.it.placeholder}"/>
-			  			
-			  			<label th:text="#{poi.description.it}">Description	 (IT)</label>
-			  			<textarea name="description.it" class="input-xxlarge" cols="80" th:field="*{description.it}" placeholder="Enter poi description (italian)" th:placeholder="#{poi.description.it.placeholder}" ></textarea>
-			  		</div>
-				</div>
-				
-				<div>
-					<fieldset>
-						<legend th:text="#{poi.image}">Image</legend>
-						<div class ="item rounded dark poiImage">
-							<img src="../../../../../resources/img/no_image.png" th:src="@{'/admin/poi/' +${poi.id} + '/image'}" title="Poi image" th:title="#{poi.image}"/>
-						</div>
-						<div  th:if="${poi.hasImage}" >
-							<label class="checkbox">
-						      	<input type="checkbox" name="deleteImage"  value="true"/><span th:text="#{poi.image.delete}" >Delete image</span> 
-						    </label>
+	<div th:substituteby="fragments/template :: alert">
+		<div id="alerts">
+			<div  class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<span>Info Message</span>
+			</div>
+  		</div>
+  	</div>
+	
+	<h1 th:text="#{'poiType.' + ${poi.type.id}}">Genérico</h1>
+
+	<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.type.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
 		 
-						</div>
-						<div>
-							<input type="file" name="file" />
-						</div>
-					</fieldset>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#data" data-toggle="tab" th:text="#{poi.data}" >Data</a></li>
+			<li th:if="${poi.id}"><a href="#images" data-toggle="tab" th:text="#{poi.images}">Images</a></li>
+			<li><a href="#geo" data-toggle="tab" th:text="#{poi.location}">Location</a></li>
+			<li><a href="#flags" data-toggle="tab" th:text="#{poi.tags}">Flags</a></li>
+		</ul>
+			
+		<div class="tab-content">
+			
+				<!--  Data -->
+				<div class="tab-pane active" id="data">
+				 	
+				 	<!--  name & description -->
+				 	<div th:substituteby="fragments/poi/poiName :: poiNameDescriptionTag" >
+				 			Dummy name and description
+				 	</div>
+				 	
+				 	<!--  Score -->
+				 	<div th:substituteby="fragments/poi/poiScore :: poiScoreTag" >
+				 		<!--  dummy data -->
+				 		<label>Score</label>
+						<select>
+							<option>--</option>
+							<option>1 Star</option>
+							<option>2 Star</option>
+							<option>3 Star</option>
+							<option>4 Star</option>
+							<option>5 Star</option>
+						</select>
+					</div>
+					
+					
+					<!--  custom Data -->
+				 	<div th:substituteby="fragments/poi/poiData :: poiDataTag" >
+				 		<legend>Data</legend>
+						<label>label</label>
+						<input type="text"/>
+					</div>
+				 </div>
+				 
+				 <!--  Images -->
+				 <div class="tab-pane" id="images" th:if="${poi.id}">
+					<div th:substituteby="fragments/poi/poiImages :: poiImagesTag" >
+						<table class="table table-striped">
+							<tr>
+								<td>Some dummy images</td>
+								<td>
+									<div class ="item rounded dark poiImage">
+										<img class="poiImageSmall" src="../../../../../resources/img/no_image.png" title="Poi image" />
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				 </div>
+				 
+				<!--  Geolocation -->
+			  	<div class="tab-pane" id="geo">
+			  		<div th:substituteby="fragments/poi/poiLocation :: poiLocationTag" >
+			  		  Poi location ...
+			  		</div>
+			  	</div>
+			  	
+				<!--  Flags -->
+			  	<div class="tab-pane" id="flags">
+				  	<div th:substituteby="fragments/poi/poiFlags :: poiFlags" >
+				  		Some dummy flags...
+				  	</div>
 				</div>
-				
-				
-				<div>
-					<fieldset>
-						<legend th:text="#{poi.coord}">Coordinates</legend>
-						<div class="row">
-							<div class="span3">
-								<label th:text="#{poi.coord.lat}">Latitude</label>
-							 	<input name="location.lat" type="number" step="any" readonly="readonly" placeholder="Latitude"  th:placeholder="#{poi.coord.lat}" th:field="*{location.lat}" value="40.402" class="input-medium" />
-							</div>
-							<div class="span3">
-							 	<label th:text="#{poi.coord.lng}">Longitude</label>
-							 	<input name="location.lng" type="number" step="any" readonly="readonly" placeholder="Longitude" th:placeholder="#{poi.coord.lng}" th:field="*{location.lng}" value="-3.233" class="input-medium"/>
-							</div>						 	
-						</div>
-						
-						<div class="item rounded dark">
-							
-							<div id="map_canvas" class="map rounded" data-coord=" 40.416957,-3.703794" data:coord="${poi.location.lat + ',' + poi.location.lng}"></div>
-						</div>
-					</fieldset>					 	
+						  							  		  	
+		</div>
 
-					<fieldset>
-						<legend th:text="#{poi.address}">Address</legend>
-						<div class="row">
-							<div class="span3">
-								<label th:text="#{poi.address.route}">Route</label>
-								<input name="address.route" id="route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="${poi.address.route} ? ${poi.address.route}" value="Plaza Puerta del Sol" class="span3"/>
-							</div>
-						 	<div class="span3">
-							 	<label th:text="#{poi.address.adminArea2}">Admin Area 2</label>
-							 	<input name="address.adminArea2" id="adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{poi.address.adminArea2}" th:value="${poi.address.adminArea2} ? ${poi.address.adminArea2}" value="Madrid" class="span3"/>
-							</div>
-						 	<div class="span3">
-							 	<label th:text="#{poi.address.adminArea1}">Admin Area 1</label>
-							 	<div class="alert alert-error" th:if="${#fields.hasErrors('address.adminArea1')}">
-							  		<ul>
-									  <li th:each="err : ${#fields.errors('address.adminArea1')}" th:text="#{${err}}">Input is incorrect</li>
-									</ul>
-						  		</div>
-							 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid" required="required" class="span3"/>
-							</div>
-							<div class="span3">
-							 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
-							 	<input name="address.zipCode" id="zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28013" class="span3"/>
-							</div>
-						</div>
-					</fieldset>
 
-				</div>
-				
-				
-
-				<div th:substituteby="fragments/poiData :: poiDataTag" >
-					<legend>Data</legend>
-					<label>label</label>
-					<input type="text"/>
-				</div>
-				
-				<legend th:text="#{poi.tags}">Tags</legend>
-
-				<div class="accordion" id="accordionDIV">
-	  			    
-	  			    <div th:each="group: ${flags}" class="accordion-group">
-	  			    
-		  			    <div class="accordion-heading">
-	      						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionDIV" href="#collapseOne" th:text="#{'flagGroup.' + ${group.key}}" th:href="${'#collapse'} + ${group.key}" >
-							        Collapsible Group Item #1
-							    </a>
-	    				</div>
-	    				
-					    <div id="collapseOne" th:id="${'collapse'} + ${group.key}" class="accordion-body collapse in">
-					      <div class="accordion-inner">
-							 	<div th:each="flag:${group.value}">
-							 		<input type="checkbox" th:field="*{flags}" th:value="${flag}"/>
-							 		<span th:text="#{'flags.' + ${flag}}">Aire acondicionado</span>
-							 	</div>
-							 	<div th:remove="all">
-							 		<input type="checkbox" />
-							 		<span >WIFI</span>
-							 	</div>
-					      </div>
-					    </div>
-				    </div>
-				</div>
-
-	  		<hr/>
-			<div class="well">
-				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
-	  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
-	  		 	<button class="btn btn-danger pull-right deleteButton"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
-  		 	</div>
+  		<hr/>
+		<div class="well">
+			<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
+  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
+  		 	<button class="btn btn-danger pull-right deleteButton"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
+ 		</div>
+  		 
 	  		
 	  </form>  
 	</div>
@@ -221,61 +132,26 @@ Aquí se encuentra desde 1950 el denominado Kilómetro Cero de las carreteras ra
 		<div th:remove="all"><!-- PAGE SCRIPTS --></div>
 		<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 		<script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" th:src="@{/resources/js/vendor/jquery-ui-1.9.2.custom.js}"></script>
-
-	    <!-- 
-		<script src="../../../../resources/js/vendor/jquery.ui.map.full.min.js" th:src="@{/resources/js/vendor/jquery.ui.map.full.min.js}"></script>
-		<script src="../../../../resources/js/vendor/jquery.geocomplete.js" th:src="@{/resources/js/vendor/jquery.geocomplete.js}"></script>
-	     -->
 		<script src="../../../../resources/js/vendor/jquery.ui.map.js" th:src="@{/resources/js/vendor/jquery.ui.map.js}"></script>
 		<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" th:src="@{/resources/js/vendor/jquery.ui.map.services.js}"></script>
 		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
+		<script src="../../../../resources/js/poi-map.js" th:src="@{/resources/js/poi-map.js}"></script>
 	</div>
 	
 	<script>
-	
-	$(function(){
-		
-		$(".collapse").collapse();
-		
-		var map = $('#map_canvas'); 
-		
-		map.gmap({ 
-	 		'center': map.data("coord"),
-			'zoom': 17,
-	 		'callback':function() {
-	 	        var self = this;
-				self.addMarker({ 
-	 	    		'position':  map.data("coord"), 
-	 	        }); 
-	 		}
-	 	}).bind('init', function (event, map) { 
-			$(map).click( function(event) {
-				addMarker(event.latLng );	
-				addAddress(event.latLng);
-			});
-			
-		});
-
-		$('#map_canvas').gmap('autocomplete', 'gsearcher', function(ui) {
-			addMarker(ui.item.position );	
-			addAddress(ui.item.position);
-		});
-		
-		function addMarker(latLng){
-			map.gmap('clear','markers');
-			map.gmap('addMarker', { 'position' : latLng }, function(map, marker){
-				map.setCenter(latLng);
-			});
-			
-			$('input[name="location.lat"]').val(latLng.lat());
-			$('input[name="location.lng"]').val(latLng.lng());
-			
-		}
-		
-		
-	});
-
+	// <![CDATA[
+	// 
+	 $( function(){
+		 var defaultImage = $('input:radio[name="defaultImageFilename"]:checked')[0];
+		 var firstImage = $('input:radio[name="defaultImageFilename"]')[0];
+		 if (! defaultImage && firstImage){
+			 $(firstImage).attr('checked', 'checked')
+		 }
+		 
+	 })
+	// ]]>
 	</script>
+		
 	
 </body>
 </html>

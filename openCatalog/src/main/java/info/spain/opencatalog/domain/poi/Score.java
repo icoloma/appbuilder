@@ -16,13 +16,13 @@ public enum Score {
 	KEY_3,		// Tres llaves
 	KEY_4,		// Cuatro llaves
 	KEY_5,		// Cinco llaves
-	LUXURY,		// Gran Lujo
-	OTHER,		// Otra
 	STAR_1,		// 1 estrella
 	STAR_2,		// 2 estrellas
 	STAR_3,		// 3 estrellas
 	STAR_4,		// 4 estrellas
 	STAR_5,		// 5 estrellas
+	LUXURY,		// Gran Lujo
+	OTHER,		// Otra
 	
 
 }

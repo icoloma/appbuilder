@@ -8,19 +8,14 @@ import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.exception.NotFoundException;
-import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -28,17 +23,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefaults;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -81,12 +74,13 @@ public class PoiController extends AbstractUIController {
 		}
 		PoiForm poiForm = new PoiForm(poi.getType().getId());
 		poiForm.copyData(poi);
-	
-
-		
+			
 		//poiForm.setHasImage(poiImageUtils.hasImage(id));
 		model.addAttribute("flags", getMapFlags(poi.getType()));
 		model.addAttribute("poi", poiForm);
+		
+		model.addAttribute("poiImages", poiImageUtils.getPoiImageFilenames(id));
+		
 		return "admin/poi/poi";
 	}
 	
@@ -146,9 +140,15 @@ public class PoiController extends AbstractUIController {
 	 * UPDATE
 	 * 
 	 * FIXME: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
+	 * @throws IOException 
 	 */
-	@RequestMapping( value="/{id}", method=RequestMethod.POST)
-	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,  Model model, @PathVariable("id") String id,  @RequestParam(value="flags", required=false) String[] strFlags) {
+	@RequestMapping( value="/{id}", method=RequestMethod.POST) 
+	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,  
+						Model model, @PathVariable("id") String id,  
+						@RequestParam(value="flags", required=false) String[] strFlags,
+						@RequestParam(value="files", required=false) List<MultipartFile> addFiles,
+						@RequestParam(value="deleteFile", required=false) String[] deleteFiles) throws IOException {
+
 		
 		poiForm.setFlags(convertFlags(strFlags));
 		
@@ -157,7 +157,7 @@ public class PoiController extends AbstractUIController {
 		poiForm.validate(); 
 		
 		
-		if (errors.hasErrors() || ! processImage(poiForm, errors)){
+		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
 
@@ -166,9 +166,34 @@ public class PoiController extends AbstractUIController {
 		
 		dbPoi.copyData(poi);
 		
+		updatePoiImages(dbPoi, addFiles, deleteFiles);
+
 		poiRepository.save(dbPoi);
 		model.addAttribute(INFO_MESSAGE,  "message.item.updated") ;
+
+		
 		return "redirect:/admin/poi/" + id;
+	}
+
+
+	private void updatePoiImages(BasicPoi poi, List<MultipartFile> addFiles,  String[] deleteFiles) throws IOException {
+		
+		// Save new files
+		for (Iterator<MultipartFile> iterator = addFiles.iterator(); iterator.hasNext();) {
+			MultipartFile file = iterator.next();
+			poiImageUtils.saveImage(poi.getId(), file.getInputStream(), file.getContentType());
+		}
+		
+		// Delete selected images
+		if (deleteFiles != null) {
+			for (int i = 0; i < deleteFiles.length; i++) {
+				poiImageUtils.deleteImage(deleteFiles[i]);
+				if (poi.getDefaultImageFilename().equals(deleteFiles[i])){
+					poi.setDefaultImageFilename(null);
+				}
+				
+			}
+		}
 	}
 	
 	private Flag[] convertFlags(String[] strFlags){
@@ -192,89 +217,6 @@ public class PoiController extends AbstractUIController {
 		model.addAttribute(INFO_MESSAGE, "message.item.deleted" ) ;
 		return "redirect:/admin/poi/";
 	}
-
-
 	
-	/**
-	 * TAG LIST
-	 * @param term
-	 * Generates a list of tags [ {"id":"...", "label":"...", "value":"..." } ]
-	 * Used by jquery.tagedit.js
-	 */
-	@RequestMapping(value="/tags/{type}", produces="application/json; charset=utf-8")
-	public @ResponseBody String getAllTags(@RequestParam String term, @PathVariable("type") String poiType, Locale locale){
-
-		BasicPoiType type = PoiTypeRepository.getType(PoiTypeID.valueOf(poiType));
-		
-		List<Flag> values = getValidFlags(type, locale);
-		
-		StringBuffer result = new StringBuffer("[");
-		
-		boolean empty = true;
-		int i=0;
-		for (Flag flag : values) {
-			String txt = messageSource.getMessage("flags." + flag, new Object[]{}, locale);
-			if (txt.toLowerCase().contains(term.toLowerCase())){
-				if (i++>0 && ! empty){
-					result.append(",");
-				}
-				result.append("{\"id\":\"").append(flag).append("\", \"label\":\"").append(txt).append("\", \"value\":\"").append(txt).append("\"}");
-				empty = false;
-			}
-		}
-		result.append("]");
-		return result.toString();
-		
-	}
-	
-	/** Flags validos para el tipo ordenados alfabéticamente según el locale */
-	// TODO: Mejorar la ordenación basada en la traducción
-	private List<Flag> getValidFlags(BasicPoiType type, final Locale locale){
-		Set<Flag> allowedValues = type.getAllowedFlags();
-		List<Flag> result = new ArrayList<Flag>();
-		result.addAll(allowedValues);
-		Collections.sort(result, new Comparator<Flag>() {
-			@Override
-			public int compare(Flag o1, Flag o2) {
-				String txt1 = normalizeText(messageSource.getMessage("flags." + o1.toString(), new Object[]{}, locale));
-				String txt2 = normalizeText(messageSource.getMessage("flags." + o2.toString(), new Object[]{}, locale));
-				return txt1.compareTo(txt2);
-			}
-		});
-		return result;
-	}
-	
-	
-	
-	/**
-	 * IMAGE
-	 */
-	 @RequestMapping(value = "/{id}/image", method = RequestMethod.GET)
-	 public HttpEntity<byte[]> getById (@PathVariable (value="id") String id) throws IOException {
-		 ImageResource img = poiImageUtils.getPoiImageResource(id);
-		 return super.getInputStreamAsHttpEntity(img.getInputStream(), img.getContentType(), img.getContentLenght(), img.getFilename());
-	  }
-	 
-	 
-	 /**
-	  * SAVE OR DELETE POI IMAGE
-	  */
-	 private boolean processImage(PoiForm form, BindingResult errors ){
-
-		 if (form.isDeleteImage()){
-			 poiImageUtils.deleteImage(form.getId());
-			return true;
-		 } 
-		 try {
-			 if (form.getFile() != null && ! form.getFile().isEmpty()) {
-				 poiImageUtils.deleteImage(form.getId());
-				 poiImageUtils.saveImage(form.getId(), form.getFile().getInputStream(), form.getFile().getContentType());
-			 }
-			return true;
-		 } catch (IOException e) {
-			errors.addError( new ObjectError("image", "poi.image.save.error"));
-			return false;
-		 }
-	}
 
 }

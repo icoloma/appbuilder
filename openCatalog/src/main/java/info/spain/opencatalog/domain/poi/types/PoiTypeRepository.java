@@ -336,7 +336,8 @@ public class PoiTypeRepository {
  	   			.add(Flag.LESSONS)
  	   			.build()
  	   			)
-    		.setAllowedDataValidator("total-km-esquiables", DataValidator.DOUBLE_VALIDATOR)
+ 	   			
+ 			.setAllowedDataValidator("total-km-esquiables", DataValidator.DOUBLE_VALIDATOR)
 			.setAllowedDataValidator("cota-maxima", DataValidator.DOUBLE_VALIDATOR)
 			.setAllowedDataValidator("cota-minima", DataValidator.DOUBLE_VALIDATOR)
     		

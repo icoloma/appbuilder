@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+	
+	<script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" ></script>
+	<script src="../../../../resources/js/vendor/jquery.ui.map.js" ></script>
+	<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" ></script>
+	<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js"></script>
+	
+	
+</head>
+
+<body>
+
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+	<!-- 
+		Poi Location
+	 -->      
+	<div th:fragment="poiLocationTag"> 
+	
+		<div class="navbar">
+			<div class="navbar-inner ">
+				<input type="text" id="gsearcher" placeholder="Search address" th:placeholder="#{poi.address.search}" class="input-xxlarge search-query" />
+			</div>
+		</div>
+				
+		<div class="item rounded dark">
+			<div id="map_canvas" class="map rounded" data-coord=" 40.416957,-3.703794" data:coord="${poi.location.lat + ',' + poi.location.lng}"></div>
+		</div>
+
+
+		<fieldset>
+			<legend th:text="#{poi.coord}">Coordinates</legend>
+			<div class="row">
+				<div class="span3">
+					<label th:text="#{poi.coord.lat}">Latitude</label>
+				 	<input name="location.lat" type="number" step="any" readonly="readonly" placeholder="Latitude"  th:placeholder="#{poi.coord.lat}" th:field="*{location.lat}" value="40.402" class="input-medium" />
+				</div>
+				<div class="span3">
+				 	<label th:text="#{poi.coord.lng}">Longitude</label>
+				 	<input name="location.lng" type="number" step="any" readonly="readonly" placeholder="Longitude" th:placeholder="#{poi.coord.lng}" th:field="*{location.lng}" value="-3.233" class="input-medium"/>
+				</div>						 	
+			</div>
+		</fieldset>
+			
+		<fieldset>
+			<legend th:text="#{poi.address}">Address</legend>
+			<div class="row">
+				<div class="span3">
+					<label th:text="#{poi.address.route}">Route</label>
+					<input name="address.route" id="route" type="text" placeholder="route" th:placeholder="#{poi.address.route}" th:value="${poi.address.route} ? ${poi.address.route}" value="Plaza Puerta del Sol" class="span3"/>
+				</div>
+			 	<div class="span3">
+				 	<label th:text="#{poi.address.adminArea2}">Admin Area 2</label>
+				 	<input name="address.adminArea2" id="adminArea2" type="text" placeholder="Admin Area 2" th:placeholder="#{poi.address.adminArea2}" th:value="${poi.address.adminArea2} ? ${poi.address.adminArea2}" value="Madrid" class="span3"/>
+				</div>
+			 	<div class="span3">
+				 	<label th:text="#{poi.address.adminArea1}">Admin Area 1</label>
+				 	<div class="alert alert-error" th:if="${#fields.hasErrors('address.adminArea1')}">
+				  		<ul>
+						  <li th:each="err : ${#fields.errors('address.adminArea1')}" th:text="#{${err}}">Input is incorrect</li>
+						</ul>
+			  		</div>
+				 	<input name="address.adminArea1" id="adminArea1" type="text" placeholder="Admin Area 1" th:placeholder="#{poi.address.adminArea1}" th:value="*{address.adminArea1}" value="Comunidad de Madrid" required="required" class="span3"/>
+				</div>
+				<div class="span3">
+				 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
+				 	<input name="address.zipCode" id="zipCode" type="text" placeholder="zip code" th:placeholder="#{poi.address.zipCode}" th:value="*{address.zipCode}" value="28013" class="span3"/>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+</div>  
+	
+	
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+	<script src="../../../../resources/js/main.js"></script>
+	<script src="../../../../resources/js/poi-map.js"></script>
+	<script>
+	$(function(){
+		showMap();
+	});
+	</script>
+
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+    
+  <div class="container">
+  
+	 <!-- 
+		Poi Images
+	 -->      
+	 <div th:fragment="poiImagesTag">
+	 	<fieldset th:if="${poi.id}">
+			<legend th:text="#{poi.images}">Images</legend>
+			<table th:if="${poiImages}" class="table table-striped">
+				<thead>
+					<tr>
+						<th th:text="#{poi.image.default}">Default</th>
+						<th th:text="#{poi.image}">Image</th>
+						<th th:text="#{poi.image.delete}">Delete</th>
+						
+					</tr>	
+				</thead>
+				<tr th:each="image: ${poiImages}">
+					<td>
+						<input type="radio" name="default" th:field="*{defaultImageFilename}"  value="idImage" th:value="${image}" />
+					</td>
+					<td>
+						<div class ="item rounded dark poiImage">
+							<a href="../../../../../resources/img/no_image.png" th:href="@{'/admin/poi/' +${poi.id} + '/image/' + ${image}}" >
+								<img class="poiImageSmall" src="../../../../../resources/img/no_image.png" th:src="@{'/admin/poi/' +${poi.id} + '/image/' + ${image}}" title="Poi image" th:title="#{poi.image}"/>
+							</a>
+						</div>
+					</td>
+					<td>
+						<input type="checkbox" name="deleteFile" value="idImage" th:value="${image}" />
+					</td>
+				</tr>
+			</table>
+	
+			<input id="fileupload" type="file" name="files" multiple="multiple" data:url="@{'/admin/poi/' + ${poi.id} + '/image/'}" />
+		</fieldset>
+	 </div>
+	 
+	
+	 
+</div> <!-- /container -->
+  
+  
+
+</body>
+</html>
+
+
+
+

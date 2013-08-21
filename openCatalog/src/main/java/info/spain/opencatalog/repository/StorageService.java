@@ -1,6 +1,7 @@
 package info.spain.opencatalog.repository;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 
@@ -13,5 +14,6 @@ public interface StorageService {
 	public GridFsResource getByFilename(String filename);
 	public void deleteFile(String filename);
 	public boolean existsFile(String filename);
+	public List<String> getFilenamesLike(String filename);
 
 }

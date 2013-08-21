@@ -73,6 +73,9 @@ public class BasicPoi {
     
 	/** Idiomas soportados en formato ISO*/
     protected Set<String> languages;
+    
+    /** Imagen por defecto */
+    protected String defaultImageFilename;
 	
     
     @CreatedDate
@@ -103,6 +106,7 @@ public class BasicPoi {
 		if (this.address == null){
 			setAddress(new Address());
 		}
+		this.location = new GeoLocation();
 	}
 	
 	public BasicPoi copyData(BasicPoi source){
@@ -114,6 +118,7 @@ public class BasicPoi {
         this.contactInfo = source.contactInfo;
         this.flags = source.flags;
         this.timetable = source.timetable;
+        this.defaultImageFilename=source.defaultImageFilename;
         this.data= deleteEmptyEntries(source.data);
         return this;
     }	
@@ -271,7 +276,16 @@ public class BasicPoi {
 		this.enviroment = enviroment;
 		return this;
 	}
+	
+	
+	
 
+	public String getDefaultImageFilename() {
+		return defaultImageFilename;
+	}
+	public void setDefaultImageFilename(String defaultImageFilename) {
+		this.defaultImageFilename = defaultImageFilename;
+	}
 	@Override
 	public String toString() {
 		return toStringHelper().toString();
@@ -290,6 +304,7 @@ public class BasicPoi {
 				.add("flags", flags)
 				.add("prices", prices)
 				.add("languages", languages)
+				.add("defaultImageFilename", defaultImageFilename)
 				.add("enviroment",enviroment)
 				.add("created", created)
 				.add("lastModified", lastModified);

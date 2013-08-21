@@ -16,7 +16,10 @@
 	max-width: 400px;
 	display: inline-block;
 }
-
+.poiImageSmall { 
+	max-width: 100px;
+	display: inline-block;
+}
 
 .infoWindow h2 {
 	font-size: 1em;
@@ -38,6 +41,10 @@ box-shadow: 2px 2px 3px #000000;
 }
 
 form.form-search {
+	margin: 10px 0 10px;
+}
+
+#gsearcher {
 	margin: 10px 0 10px;
 }
 .tagedit-list {
@@ -73,4 +80,13 @@ form.form-search {
 
 .well select {
 	margin-bottom: 0px;
+}
+
+tr.dataLink {
+	cursor: pointer;
+}
+
+ul.nav-stacked {
+	float: left;
+	margin-right: 20px;
 }

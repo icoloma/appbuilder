@@ -65,7 +65,7 @@ public class DataValidator {
 		if (validValues != null){
 			this.validValues = new HashSet<String>();
 			for (Object object : validValues) {
-				this.validValues.add(object.toString());
+				this.validValues.add(object==null?null:object.toString());
 			}
 		}
 		return this;
@@ -90,8 +90,9 @@ public class DataValidator {
 		return type;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static DataValidator booleanValidator(){
-		return new DataValidator(ValidatorType.BOOLEAN).setValidValues(Sets.newHashSet(Boolean.TRUE, Boolean.FALSE));
+		return new DataValidator(ValidatorType.BOOLEAN).setValidValues(Sets.newHashSet("",Boolean.TRUE, Boolean.FALSE));
 	}
 	private static DataValidator integerValidator(){
 		return new DataValidator(ValidatorType.INTEGER).setRegex(INTEGER);

@@ -4,6 +4,7 @@ import info.spain.opencatalog.domain.DummyPoiFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -11,7 +12,7 @@ import org.springframework.http.MediaType;
 public class PoiImageUtilsMock implements PoiImageUtils {
 
 	@Override
-	public boolean hasImage(String idPoi) {
+	public boolean hasImages(String idPoi) {
 		return true;
 	}
 
@@ -19,7 +20,7 @@ public class PoiImageUtilsMock implements PoiImageUtils {
 	public void deleteImage(String idPoi) {}
 
 	@Override
-	public void saveImage(String idPoi, InputStream inputStream, String contentType) throws IOException {}
+	public String saveImage(String idPoi, InputStream inputStream, String contentType) throws IOException { return "";}
 
 
 	@Override
@@ -27,15 +28,25 @@ public class PoiImageUtilsMock implements PoiImageUtils {
 		try {
 			Resource img = DummyPoiFactory.randomImage();
 			int contentLength = (int) img.contentLength();
-			return new ImageResource(img.getInputStream(), MediaType.IMAGE_JPEG.toString(), contentLength, getPoiImageFilename(idPoi));
+			return new ImageResource(img.getInputStream(), MediaType.IMAGE_JPEG.toString(), contentLength, getImageFileName(idPoi, null));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	
+
 	@Override
-	public String getPoiImageFilename(String idPoi) {
-		return idPoi;
+	public String getImageFileName(String idPoi, String idImg) {
+		return idPoi + "::" + idImg;
 	}
+
+	@Override
+	public List<String> getPoiImageFilenames(String idPoi) {
+		return null;
+	}
+
+	
+	
 
 }

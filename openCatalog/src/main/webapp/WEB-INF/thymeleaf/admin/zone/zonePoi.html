@@ -56,13 +56,13 @@
 			    	data:name="${poi.name.es}" data-name="Poi-1"
 			        data:lat="${poi.location.lat}" 	data-lat="40.402"
 			        data:lng="${poi.location.lng}" data-lng="-3.739"
-			        data:desc="${#strings.abbreviate(poi.description.es,50)}" data-desc="bla,bla,bla"
+			        data:desc="${#strings.abbreviate(zone.description ,50)}" data-desc="bla,bla,bla"
 			    	data:link="@{'/admin/poi/' + ${poi.id}}" data-link="../poi/poi.html"
-			    	data:img="@{'/admin/poi/' + ${poi.id}} + '/image'" data-img="../../../../../resources/img/no_image.png"    
-			    	class="markerLink"
+			    	data:img="@{'/admin/poi/' + ${poi.id}} + '/image/default'" data-img="../../../../../resources/img/no_image.png"    
+			    	class="dataLink"
 			      >
 			      <td th:text="${poi.name.es}">Poi-1</td>
-			      <td th:text="${#strings.abbreviate(poi.description.es,50)}">bla,bla,bla ...</td>
+			      <td th:text="${#strings.abbreviate(zone.description,50)}">bla,bla,bla ...</td>
 			      <td th:text="${poi.address.adminArea2}">Madrid</td>
 			      <td th:text="${poi.address.adminArea1}">Comunidad de Madrid</td>
 			      	
