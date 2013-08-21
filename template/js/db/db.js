@@ -89,7 +89,7 @@ define(['globals'], function() {
     /* 
       Inicializa la BDD.
       El objeto 'db' devuelto por requirejs es un proxy a la verdadera BDD.
-      De otro modo, este módulo se enreda en dependencias circulares con 'modules/config'
+      De otro modo, este módulo se enreda en dependencias circulares con 'config/config'
     */
     initDb: _.once(function(dbObject) {
       this.transaction = function() {

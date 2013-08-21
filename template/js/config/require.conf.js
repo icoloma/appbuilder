@@ -32,8 +32,7 @@ var require = {
   baseUrl: './js',
   paths: extendObject({
     globals: 'lib/globals',
-    'modules/config': 'modules/config-dev',
-    'menu.config': '../test/data/menu',
+    'config/config': 'config/config-dev',
   }, libPaths),
   shim: {
     'backbone': {
@@ -70,8 +69,7 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
     prod: {
       paths: extendObject({
         globals: 'lib/globals',
-        'modules/config': 'modules/config-prod',
-        'menu.config': 'data/menu'
+        'config/config': 'config/config-prod',
       }, libPaths),
       optimize: 'uglify2'
     }

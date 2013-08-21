@@ -8,7 +8,7 @@
 var _ = require('underscore')
 
 /* Configuración para el build de require.js */
-, rjsConf = require('./js/modules/require.conf.js')
+, rjsConf = require('./js/config/require.conf.js')
 , rjsBasicConf = _.extend(rjsConf.basic, rjsConf.build)
 , rjsDev = _.extend(_.clone(rjsBasicConf), rjsConf.dev)
 , rjsProd = _.extend(_.clone(rjsBasicConf), rjsConf.prod)

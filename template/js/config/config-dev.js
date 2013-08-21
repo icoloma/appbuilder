@@ -1,10 +1,10 @@
-define(['db/db', 'db/loaddb', 'modules/i18n-config'],
+define(['db/db', 'config/loaddb', 'config/i18n-config'],
   function(Db, LoadDb, i18nConfig) {
 
   /*
     Configuración de la aplicación en desarrollo.
     Intenta cubrir todos los casos: navegador o nativo, desktop o móvil
-    VÉASE modules/config-prod
+    VÉASE config/config-prod
   */
 
   console.log('Configurando aplicación...'); //DEBUG

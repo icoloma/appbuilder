@@ -1,4 +1,4 @@
-define(['db/db', 'modules/i18n-config'],
+define(['db/db', 'config/i18n-config'],
   function(Db, i18nConfig) {
 
   /*
@@ -16,7 +16,9 @@ define(['db/db', 'modules/i18n-config'],
   */
   window.appConfig = {
     assets: 'assets/',
-    dbName: 'appData'
+    dbName: 'appData',
+    locale: null,
+    platform: null
   };
 
   // Inicia la BDD SQLite del dispositivo
