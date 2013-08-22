@@ -3,6 +3,7 @@ package info.spain.opencatalog.repository;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
 
 import java.util.Random;
 
@@ -33,6 +34,7 @@ public class StorageServiceTest {
 	@Autowired
 	private GridFsOperations gridFsTemplate;
 	
+	
 	@Test
 	public void testSaveGetDelete() throws Exception {
 		
@@ -40,6 +42,8 @@ public class StorageServiceTest {
 		assertTrue(res.exists());
 		
 		String filename =  random.nextInt() + "-" + res.getFilename();
+		
+		assertFalse(storageService.existsFile(filename));
 
 		GridFSFile saved = storageService.saveFile(res.getInputStream(), filename, MediaType.PLAIN_TEXT_UTF_8.toString());
 		assertNotNull(saved);
@@ -49,6 +53,8 @@ public class StorageServiceTest {
 		assertNotNull(file);
 		assertNotNull(file.exists());
 		assertTrue(file.contentLength() > 0);
+		assertTrue(storageService.existsFile(filename));
+
 		
 		// delete
 		storageService.deleteFile(filename);
