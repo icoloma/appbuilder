@@ -32,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "PoiAPITest-config.xml"})
+@ContextConfiguration({ "classpath:PoiAPITest-config.xml"})
 @ActiveProfiles("dev")
 public class PoiAPITest {
 	
