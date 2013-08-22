@@ -9,6 +9,7 @@ apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'jetty'
+apply plugin: 'cobertura'
  
 
 sourceCompatibility = 7
@@ -68,6 +69,7 @@ dependencies {
 
 test {
     systemProperties 'property': 'value'
+     jvmArgs '-XX:-UseSplitVerifier' 
 }
 
 uploadArchives {
@@ -77,3 +79,13 @@ uploadArchives {
        }
     }
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "net.saliman:gradle-cobertura-plugin:1.1.0"
+    }
+}
+
