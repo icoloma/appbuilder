@@ -96,6 +96,7 @@ public class PoiAPITest {
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
 	public void testPOST() throws Exception {
 		repo.deleteAll();
 		String json = "{" +
