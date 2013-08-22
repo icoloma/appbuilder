@@ -12,7 +12,7 @@ define(['globals'],
       className: 'collectionview',
 
       events: {
-        'tap .row': function(e) {
+        'tap .item-row': function(e) {
           window.location.href = $(e.currentTarget).data('url');
         }
       },

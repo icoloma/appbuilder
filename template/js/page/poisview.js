@@ -1,5 +1,5 @@
 define(
-  ['modules/baselistview', 'tpl!poi/trview.tpl', 'ui/topbarview', 'modules/geo',
+  ['modules/paginatedlistview', 'tpl!poi/trview.tpl', 'ui/topbarview', 'modules/geo',
    'poi/collection'],
   function(ListView, TrView, TopbarView, Geo, PoiCollection) {
 
@@ -19,8 +19,10 @@ define(
         this.collectionView = new ListView({
           className: 'collectionview poicollectionview',
           collection: this.collection,
-          trView: TrView
+          trView: TrView,
+          cursor: this.options.cursor
         });
+        this.pass(this.collectionView, 'updatequery');
       },
 
       render: function() {

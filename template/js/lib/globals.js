@@ -16,7 +16,7 @@ define(
     Backbone.View.prototype.pass = function(obj, event) {
       var self = this;
       this.listenTo(obj, event, function() {
-        self.trigger(event);
+        self.trigger.apply(self, [].concat(event, Array.prototype.slice.call(arguments)));
       });
     };
   }

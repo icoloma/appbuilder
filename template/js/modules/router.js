@@ -102,7 +102,8 @@ define(
           }
           self.setView(Page.PoisView, {
             collection: pois,
-            title: uriObj.title
+            title: uriObj.title,
+            cursor: uriObj.cursor
           });
         });
       },

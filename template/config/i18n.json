@@ -6,7 +6,8 @@
     "geoError": "La geolocalización no funcionó.",
     "Error": "Error",
     "Back": "Atrás",
-    "kilometers": "kilómetros"
+    "kilometers": "kilómetros",
+    "ShowMore": "Mostrar más"
   },
   "en": {
     "Starred": "Bookmarks",
@@ -15,6 +16,7 @@
     "geoError": "Geolocation didn't work.",
     "Error": "Error",
     "Back": "Back",
-    "kilometers": "kilometers"
+    "kilometers": "kilometers",
+    "ShowMore": "Show more"
   }
 }
