@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.validation.constraints.NotNull;
 
@@ -100,7 +101,7 @@ public class BasicPoi {
 	protected void initCollections(){
 		this.flags= new HashSet<Flag>();
 		this.data = new HashMap<String,String>();
-		this.timetable = new HashSet<TimeTableEntry>();
+		this.timetable = new TreeSet<TimeTableEntry>();
 		this.prices = new HashSet<Price>();
 		this.languages=new HashSet<String>();
 		if (this.address == null){
@@ -146,7 +147,10 @@ public class BasicPoi {
 	}
 
 	public BasicPoi setTimetable(TimeTableEntry... timetable) {
-		this.timetable = Sets.newHashSet(timetable);
+		this.timetable = Sets.newTreeSet();
+		for (TimeTableEntry timeTableEntry : timetable) {
+			this.timetable.add(timeTableEntry);
+		}
 		return this;
 	}
 

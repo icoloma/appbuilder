@@ -34,6 +34,7 @@
 			<li th:if="${poi.id}"><a href="#images" data-toggle="tab" th:text="#{poi.images}">Images</a></li>
 			<li><a href="#geo" data-toggle="tab" th:text="#{poi.location}">Location</a></li>
 			<li><a href="#flags" data-toggle="tab" th:text="#{poi.tags}">Flags</a></li>
+			<li><a href="#timetable" data-toggle="tab" th:text="#{poi.timetable}">Timetable</a></li>
 		</ul>
 			
 		<div class="tab-content">
@@ -98,6 +99,13 @@
 				  		Some dummy flags...
 				  	</div>
 				</div>
+				
+				<!--  TimeTable -->
+			  	<div class="tab-pane" id="timetable">
+			  		<div th:substituteby="fragments/poi/poiTimeTable :: poiTimeTableTag" >
+			  		  Poi timetable
+			  		</div>
+			  	</div>
 						  							  		  	
 		</div>
 
@@ -136,6 +144,7 @@
 		<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" th:src="@{/resources/js/vendor/jquery.ui.map.services.js}"></script>
 		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
 		<script src="../../../../resources/js/poi-map.js" th:src="@{/resources/js/poi-map.js}"></script>
+		<script src="../../../../resources/js/poi-timetable.js" th:src="@{/resources/js/poi-timetable.js}"></script>
 	</div>
 	
 	<script>

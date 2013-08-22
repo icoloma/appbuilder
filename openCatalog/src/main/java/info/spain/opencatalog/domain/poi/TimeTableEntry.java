@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
 *	De Enero a Julio, Lunes a Viernes de 9 a 1 y de 5 a 7: [0101-0107]Mon,Tue,Wed,Thu,Fri=09:00-13:00,15:00-19:00
 * </pre>
 */
-public class TimeTableEntry {
+public class TimeTableEntry implements Comparable<TimeTableEntry> {
 
 	static final String HOUR= "([01][0-9]|2[0-3]):[0-5][0-9]"; 				// hh:mm
 	static final String HOUR_RANGE = "(" + HOUR + "-" + HOUR + ")";			// hh:mm-hh:mm
@@ -64,5 +64,12 @@ public class TimeTableEntry {
 			.add("period",period)
 			.toString();
 	}
+
+	@Override
+	public int compareTo(TimeTableEntry other) {
+		return period.compareTo(other.period);
+	}
+
+
 
 }

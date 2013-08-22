@@ -4,6 +4,7 @@ package info.spain.opencatalog.web.controller;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.FlagGroup;
+import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
@@ -13,6 +14,7 @@ import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -145,11 +147,12 @@ public class PoiController extends AbstractUIController {
 	@RequestMapping( value="/{id}", method=RequestMethod.POST) 
 	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,  
 						Model model, @PathVariable("id") String id,  
+						@RequestParam(value="timetable", required=false) String[] timetable,
 						@RequestParam(value="flags", required=false) String[] strFlags,
 						@RequestParam(value="files", required=false) List<MultipartFile> addFiles,
 						@RequestParam(value="deleteFile", required=false) String[] deleteFiles) throws IOException {
 
-		
+		poiForm.setTimetable(convertTimeTable(timetable));
 		poiForm.setFlags(convertFlags(strFlags));
 		
 		BasicPoi dbPoi = poiRepository.findOne(id);
@@ -194,6 +197,15 @@ public class PoiController extends AbstractUIController {
 				
 			}
 		}
+	}
+	
+	private TimeTableEntry[] convertTimeTable(String[] timeTable){
+		List<TimeTableEntry> result = Lists.newArrayList();
+		for (int i = 0; i < timeTable.length; i++) {
+			result.add(new TimeTableEntry(timeTable[i]));
+		}
+		Collections.sort(result);  // Los guardamos en orden para visualizarlos mejor
+		return result.toArray(new TimeTableEntry[] {});
 	}
 	
 	private Flag[] convertFlags(String[] strFlags){

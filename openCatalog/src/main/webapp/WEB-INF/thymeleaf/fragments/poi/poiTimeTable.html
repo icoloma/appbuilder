@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+  
+	<!-- 
+		Poi timeTable
+	-->      
+	<div th:fragment="poiTimeTableTag">
+	
+		<table class="table table-striped table-bordered timetable" data:pattern="${T(info.spain.opencatalog.domain.poi.TimeTableEntry).PERIOD_REGEX}" data-pattern="aaa">
+			<thead>
+				<tr>
+					<th th:text="#{poi.timetable.period}">Period</th>
+					<th th:text="#{poi.timetable.period.delete}">Delete</th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr th:each="entry: ${poi.timetable}">
+					<td>
+						<input name="timetable" class="input-xxlarge" required="required" type="text" th:value="${entry.period}" value="[0101-0107]Mon,Tue,Wed,Thu,Fri=09:00-13:00,14:00-20:00"
+						th:pattern="${T(info.spain.opencatalog.domain.poi.TimeTableEntry).PERIOD_REGEX}"/>
+					</td>	
+					<td><a href="#" class="btn btn-danger remove"><i class="icon-trash icon-white" ></i></a></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+					<button class="btn add" href="#">Añadir</button>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		
+		<div id="foo" name="foo"></div>
+	    
+		
+		<div>
+			<legend th:text="#{poi.timetable.examples}">Example:</legend>
+			<div th:each="i : ${#numbers.sequence(1,6)}">
+				<span th:text="#{'poi.timetable.examples.' + ${i} + '.regex'}">regex</span>
+				<p class="text-info" th:text="#{'poi.timetable.examples.' + ${i} + '.text'}">description</p>
+			
+			</div>
+			<!-- 
+			<legend>Regex</legend>
+			<div th:text="${T(info.spain.opencatalog.domain.poi.TimeTableEntry).PERIOD_REGEX}">Regex ...</div>
+			 -->
+		</div>
+	
+	</div>
+	
+	<script src="../../../../resources/js/poi-timetable.js"></script>	
+	
+</div>
+</body>
+</html>
+
+
+
+
