@@ -120,8 +120,12 @@ public class PoiController extends AbstractUIController {
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
-		poiForm.setFlags(convertFlags(strFlags));
-		poiForm.setTimetable(convertTimeTable(timetable));
+		if (timetable != null){
+			poiForm.setTimetable(convertTimeTable(timetable));
+		}
+		if (strFlags != null){
+			poiForm.setFlags(convertFlags(strFlags));
+		}
 		BasicPoi poi = poiRepository.save( new BasicPoi(PoiTypeRepository.getType(type)).copyData(poiForm));
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
@@ -155,8 +159,12 @@ public class PoiController extends AbstractUIController {
 						@RequestParam(value="files", required=false) List<MultipartFile> addFiles,
 						@RequestParam(value="deleteFile", required=false) String[] deleteFiles) throws IOException {
 
-		poiForm.setTimetable(convertTimeTable(timetable));
-		poiForm.setFlags(convertFlags(strFlags));
+		if (timetable != null){
+			poiForm.setTimetable(convertTimeTable(timetable));
+		}
+		if (strFlags != null){
+			poiForm.setFlags(convertFlags(strFlags));
+		}
 		
 		BasicPoi dbPoi = poiRepository.findOne(id);
 		poiForm.setType(dbPoi.getType());  // Always override with db type
