@@ -12,11 +12,6 @@
 <div class="poi-imgs swiper-container">
   <div class="swiper-wrapper">
     <div class="swiper-slide" style="background-image: url({{appConfig.assets+thumb}})"></div>
-    <% for (var i in imgs) { 
-      var img = imgs[i];
-    %>
-      <div class="swiper-slide" style="background-image: url({{appConfig.assets+img}})"></div>
-    <% } %>
   </div>
 </div>
 <div class="row app-container poiview-section">

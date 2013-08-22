@@ -66,7 +66,6 @@ define(['jquery'], function() {
     , toLeft = dir > 0
     ;
 
-    $this.addClass('animating-views');
     // Fijar tamaño y posición
     $this.append(
       $newView.css({
@@ -87,9 +86,10 @@ define(['jquery'], function() {
     // anteriores terminen de dibujarse antes de comenzar la transición.
     // AVISO: necesita testeo.
     _.delay(function() {
+      $this.addClass('animating-views');
       $oldView.css('left', toLeft ? minusWidthPx : widthPx);
       $newView.css({left: '0px'});
-    }, 100);
+    }, 200);
 
     $this.on('webkitTransitionEnd.changeView', function (e) {
       // Elimina el handler
@@ -114,6 +114,7 @@ define(['jquery'], function() {
       $topbar.css('width', width + 1);
       _.defer(function() {
         $topbar.css('width', '');
+        $newView.trigger('pagetransitionend');
       });
     });
   };

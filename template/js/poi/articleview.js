@@ -24,14 +24,24 @@ define(
           })
         });
         this.$el.html(Tmpl(json));
-        _.delay(function() {
-          this.$('.swiper-container').swiper({
-            mode: 'horizontal',
-            loop: true
-          });
-        }, 250);
         return this;
       },
+
+      imgTmpl: function(img) {
+        return '<div class="swiper-slide" style="background-image: url(' +
+                appConfig.assets+img + ')"></div>';
+      },
+
+      swipe: function() {
+        var imgs = this.model.get('imgs');
+        this.$('.swiper-wrapper').append(
+          $(imgs.map(this.imgTmpl).join(''))
+        );
+        this.$('.swiper-container').swiper({
+          mode: 'horizontal',
+          loop: true
+        });
+      }
     });
   }
 );

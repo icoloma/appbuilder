@@ -6,7 +6,17 @@ define(
     return B.View.extend({
       className: 'pageview poiview',
 
+      events: {
+        'pagetransitionend': function() {
+          if (this.isNew) {
+            this.modelView.swipe();
+            this.isNew = false;
+          }
+        }
+      },
+
       initialize: function() {
+        this.isNew = true;
         this.topbarView = new TopbarView({
           title: this.options.title,
           actions: ['search']
