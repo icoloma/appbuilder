@@ -47,7 +47,7 @@ define(
           });
         }, function(err) {
           self.topbarView.unblock();
-          navigator.notification.alert(res.geoError);
+          navigator.notification.alert(res.geoError, null, res.Error);
         });
       },
 

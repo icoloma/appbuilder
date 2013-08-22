@@ -30,7 +30,7 @@ define(
         this.model.set('starred', !this.model.get('starred'));
         var message = this.model.get('starred') ? res.bookmarkAdded : res.bookmarkRemoved;
         this.model.persist(function() {
-          navigator.notification.alert(message);
+          navigator.notification.alert(message, null, res.Starred);
 
           self.modelView.render();
         });

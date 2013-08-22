@@ -1,17 +1,19 @@
 {
   "es": {
     "Starred": "Favoritos",
-    "bookmarkAdded": "Añadido a favoritos",
-    "bookmarkRemoved": "Borrado de favoritos",
+    "bookmarkAdded": "Añadido a favoritos.",
+    "bookmarkRemoved": "Borrado de favoritos.",
     "geoError": "La geolocalización no funcionó.",
+    "Error": "Error",
     "Back": "Atrás",
     "kilometers": "kilómetros"
   },
   "en": {
     "Starred": "Bookmarks",
-    "bookmarkAdded": "Boorkmark added",
-    "bookmarkRemoved": "Boorkmark removed",
+    "bookmarkAdded": "Boorkmark added.",
+    "bookmarkRemoved": "Boorkmark removed.",
     "geoError": "Geolocation didn't work.",
+    "Error": "Error",
     "Back": "Back",
     "kilometers": "kilometers"
   }
