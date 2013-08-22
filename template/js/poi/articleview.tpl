@@ -22,6 +22,20 @@
 <div class="row app-container poiview-section">
   <p class="small description col-xs-12">{{desc}}</p>
 </div>
+<div class="row app-container poiview-section small">
+  <% 
+    for (var key in data) {
+  %>
+    <div class="row data-item">
+      <div class="col-xs-8 data-item-name">
+        {{res._metadata.data[key]}} 
+      </div>
+      <div class="col-xs-4 data-item-value">
+        {{data[key]}}
+      </div>
+    </div>
+  <% }%>
+</div>
 <div class="row app-container poiview-section">
   <% 
     var flag_icons = window.res._metadata.flag_icons,
@@ -37,7 +51,4 @@
       </span>
     </div>
   <% }%>
-</div>
-<div class="row app-container poiview-section">
-
 </div>

@@ -3,11 +3,21 @@
 */
 var random = require('./random-data.js')
 , i18n = require('./i18n-generator.js')
-, flagsAndTypes = require('./flags-and-types.js')
-, flags = flagsAndTypes.flags, types = flagsAndTypes.types
+, poiMetadata = require('./poi-metadata.js')
+, flags = poiMetadata.flags, types = poiMetadata.types, dataIds = poiMetadata.dataIds
 // Funciones para escoger type y flags aleatoriamente
 , randomType = random.fixedAmountChooser(_.pluck(types, 'id'), 1)
 , randomFlags = random.fixedAmountChooser(_.pluck(flags, 'id'), 1, 5)
+, randomDataId = random.fixedAmountChooser(dataIds, 1)
+, randomData = function(min, max) {
+  var data = {}
+  , count = random.randomInt(min, max)
+  ;
+  for (var i = 0; i < count; i++) {
+    data[randomDataId()] = random.randomInt(1, 100);
+  }
+  return data;
+}
 ;
 
 module.exports = function(poiNumber) {
@@ -35,10 +45,7 @@ module.exports = function(poiNumber) {
         baz: 'foo'
       },
       languages: ['es', 'en'],
-      data: {
-        'Staff gender ratio': 1,
-        'Chairs/tables ratio': 0.1 
-      },
+      data: randomData(2, 4),
       /**/
       type: randomType(),
       address: 'Calle ' + random.variableLorem(1, 4),

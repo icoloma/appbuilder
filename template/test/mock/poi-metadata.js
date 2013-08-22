@@ -20,11 +20,16 @@ var random = require('./random-data.js')
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
   'PARK_GARDEN', 'ECO_TOURISM', 'GOLF', 'NAUTICAL_STATION',
 ]
+, dataStringsCount = 50
 , flags = {}
 , types = {}
+, dataStrings = _.chain(locales).map(function(lang) {
+  return [lang, {}];
+}).object().value()
+, dataIds = []
 ;
 
-console.log('Generando flags y types...');
+console.log('Generando metadatos de POIs...');
 
 // Genera los types
 _.each(raw_types, function(raw_type, i) {
@@ -55,7 +60,24 @@ _.each(raw_flags, function(raw_flag, i) {
   flags[flag.id] = flag; 
 });
 
+_.times(dataStringsCount, function() {
+  var dataId = random.createUUID()
+  , translations = i18n.object({
+    t: function() {
+      return random.variableLorem(1, 3);
+    }
+  })
+  , value = random.variableLorem(1)
+  ;
+  dataIds.push(dataId);
+  _.each(translations, function(translation, t_lang) {
+    dataStrings[t_lang.slice(2)][dataId] = translation;
+  });
+});
+
 module.exports = {
   flags: flags,
   types: types,
+  dataIds: dataIds,
+  dataStrings: dataStrings 
 };
