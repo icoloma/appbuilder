@@ -1,7 +1,5 @@
 package info.spain.opencatalog.exporter;
 
-import info.spain.opencatalog.domain.Tags.Tag;
-import info.spain.opencatalog.domain.poi.Poi;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
@@ -11,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 
