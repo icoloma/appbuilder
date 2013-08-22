@@ -6,6 +6,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import info.spain.opencatalog.domain.Address;
@@ -14,6 +16,7 @@ import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
@@ -59,10 +62,11 @@ public class PoiControllerTest {
 	public void test_POST_GET_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.newPoi("poiTest");
-		poi.setFlags( Flag.SHOP, Flag.GUIDED_TOUR);
+		poi.setFlags( Flag.AIR_CONDITIONED, Flag.GUIDE_DOG_ALLOWED);
+		poi.setTimetable(new TimeTableEntry("2412="));
 		
 		// Test POST
-		MvcResult result = this.mockMvc.perform(post("/admin/poi")
+		MvcResult result = this.mockMvc.perform(post("/admin/poi/new/BASIC")
 				.param("name.es", poi.getName().getEs())
 				.param("description.es", poi.getDescription().getEs())
 				.param("address.route", poi.getAddress().getRoute())
@@ -71,8 +75,9 @@ public class PoiControllerTest {
 				.param("address.zipCode", poi.getAddress().getZipCode())
 				.param("location.lat", poi.getLocation().getLat().toString())
 				.param("location.lng", poi.getLocation().getLng().toString())
-			    .param("flag[" + Flag.GUIDED_TOUR + "-a]", "whatever")
-			    .param("flag[" + Flag.SHOP + "-a]", "whatever")
+			    .param("flags", Flag.AIR_CONDITIONED.toString())
+			    .param("flags", Flag.GUIDE_DOG_ALLOWED.toString())
+			    .param("timetable", "2412=")
 			    )
 	    	.andExpect(status().isMovedTemporarily())
 	    	.andReturn();
@@ -97,9 +102,10 @@ public class PoiControllerTest {
 		update.setAddress(new Address().setRoute("xxx").setAdminArea1("xxx").setAdminArea2("xxx").setZipCode("xxx"));
 		update.setLocation(new GeoLocation().setLat(1.00).setLng(1.00));
 		update.setFlags(Flag.WC, Flag.HANDICAPPED);
+		update.setTimetable(new TimeTableEntry("0112="));
 				
 
-		result = this.mockMvc.perform(post("/admin/poi/" + id)
+		result = this.mockMvc.perform(fileUpload("/admin/poi/" + id)
 				.param("name.es", update.getName().getEs())
 				.param("description.es", update.getDescription().getEs())
 				.param("address.route", update.getAddress().getRoute())
@@ -108,8 +114,9 @@ public class PoiControllerTest {
 				.param("address.zipCode", update.getAddress().getZipCode())
 				.param("location.lat", update.getLocation().getLat().toString())
 				.param("location.lng", update.getLocation().getLng().toString())
-			    .param("flag[" + Flag.WC + "-a]", "whatever")
-			    .param("flag[" + Flag.HANDICAPPED + "-a]", "whatever")
+				.param("flags", Flag.WC.toString())
+				.param("flags", Flag.HANDICAPPED.toString())
+				.param("timetable", "0112=")
 			    )
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();

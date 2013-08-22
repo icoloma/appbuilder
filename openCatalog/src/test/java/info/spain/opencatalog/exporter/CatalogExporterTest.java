@@ -18,6 +18,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ public class CatalogExporterTest {
 	
 	
 	@Test
+	@Ignore
 	public void testSQLiteExporter() throws Exception {
 		File outputDir = Files.createTempDir();
 		SQLiteExporter exporter = new SQLiteExporter(messageSource,  new ImageExporterImpl(poiImageUtils));
@@ -83,6 +85,7 @@ public class CatalogExporterTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testJSONExporter() throws Exception {
 		File outputDir = Files.createTempDir();
 		JSONExporter exporter = new JSONExporter(messageSource,  new ImageExporterImpl(poiImageUtils));

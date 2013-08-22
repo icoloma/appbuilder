@@ -113,12 +113,15 @@ public class PoiController extends AbstractUIController {
 	 * CREATE 
 	 */
 	@RequestMapping(value="/new/{type}", method = RequestMethod.POST)
-	public String create(@Valid @ModelAttribute("poi") PoiForm poiForm, @PathVariable("type") String type, BindingResult errors,  Model model,  @RequestParam(value="flags", required=false) String[] strFlags) {
+	public String create(@Valid @ModelAttribute("poi") PoiForm poiForm, 
+			@PathVariable("type") String type, BindingResult errors,  Model model,  
+			@RequestParam(value="flags", required=false) String[] strFlags,
+			@RequestParam(value="timetable", required=false) String[] timetable) {
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
 		poiForm.setFlags(convertFlags(strFlags));
-		
+		poiForm.setTimetable(convertTimeTable(timetable));
 		BasicPoi poi = poiRepository.save( new BasicPoi(PoiTypeRepository.getType(type)).copyData(poiForm));
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
