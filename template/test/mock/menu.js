@@ -17,11 +17,11 @@ module.exports = function(pois) {
       pois: [
         {
           id: pois[0].id,
-          thumb: "img1.png"
+          thumb: pois[0].thumb
         },
         {
           id: pois[1].id,
-          thumb: "img2.png"
+          thumb: pois[1].thumb
         } 
       ]
     },

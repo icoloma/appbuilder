@@ -22,11 +22,15 @@ var random = require('./random-data.js')
 
 module.exports = function(poiNumber) {
   var pois = []
-  , poi, lat, lon
+  , poi, lat, lon, imgs
   ;
   for (var i = 0; i < poiNumber; i++) {
     lat = 40 + random.randomInt(0, 200)/100;
     lon = -1 + random.randomInt(0, 200)/100;
+    imgs = [ 
+    '0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg',
+    '5.jpg', '6.jpg', '7.jpg', '8.jpg',
+    ];
     poi = {
       id: random.createUUID(),
       created: 1370000000000 + random.randomInt(0, 10000000000),
@@ -50,8 +54,8 @@ module.exports = function(poiNumber) {
       type: randomType(),
       address: 'Calle ' + random.variableLorem(1, 4),
       flags: randomFlags().split(' '),
-      thumb: 'thumb.png',
-      imgs: [ 'img1.png', 'img2.png', 'img3.png' ],
+      thumb: imgs.splice(random.randomInt(0, imgs.length -1 ), 1)[0],
+      imgs: imgs,
       starred: false
     };
     _.extend(poi,
