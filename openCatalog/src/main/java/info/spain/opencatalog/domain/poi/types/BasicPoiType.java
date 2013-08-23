@@ -66,7 +66,7 @@ public class BasicPoiType {
 	 * Comprueba que los datos tienen key y valores válidos
 	 */
 	private void validateData(Map<String, String> data) {
-		if (allowedDataValidators == null) {
+		if (allowedDataValidators == null || data == null) {
 			return;
 		}
 		Set<String> validKeys = allowedDataValidators.keySet();

@@ -1,5 +1,8 @@
 package info.spain.opencatalog.domain.poi.types;
 
+import info.spain.opencatalog.domain.poi.BasicPoi;
+import info.spain.opencatalog.domain.poi.lodging.Lodging;
+
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -50,7 +53,12 @@ public enum PoiTypeID {
 		ECO_TOURISM, 
 		GOLF, 
 		NAUTICAL_STATION, 
-		SKI_STATION);		  
+		SKI_STATION);	
+    
+    public Class<? extends BasicPoi> getPoiClass(){
+    	return LODGING_TYPES.contains(this) ? Lodging.class : BasicPoi.class; 
+ 	   
+    }
    
 }
 

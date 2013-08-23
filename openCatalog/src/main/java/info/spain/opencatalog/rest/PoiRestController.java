@@ -8,10 +8,15 @@ import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.controller.AbstractController;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpEntity;
@@ -83,49 +88,42 @@ public class PoiRestController extends AbstractController {
 		 }
 	 }
 
-	/**
-	 * POST without type param
-	 * @param res
-	 */
-	 @RequestMapping(value = "/poi", method = RequestMethod.POST, params="!type")
-	 @ResponseStatus(HttpStatus.BAD_REQUEST)
-	 public void noType(HttpServletResponse res)  {
-		res.addHeader("Error", "No POI type param specified: Valid types: [" + getValidPoiTypes()+ "]");
-	 }	
-	 
-	 private String getValidPoiTypes(){
-		 StringBuffer validTypes = new StringBuffer();
-		 PoiTypeID[] values = PoiTypeID.values();
-		 for (int i = 0; i < values.length; i++) {
-			 validTypes.append(values[i]);
-			 if (i<values.length-1){
-				 validTypes.append(", ");
-			 }
-		 }
-		 return "[" + validTypes.toString() + "]";
-	 }
-	 
 	 
 	/**
 	 * POST 
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "/poi", method = RequestMethod.POST, params="type")
-	public void saveBacic(@RequestParam String type, HttpServletRequest req, HttpServletResponse res) throws IOException  {
-//		PoiTypeID idType = PoiTypeID.valueOf(type);
-//		InputStream body = req.getInputStream();
-//		 // Basic or Lodging
-//		Class<? extends BasicPoi> clazz = PoiTypeRepository.BASIC_TYPES.contains(idType)? BasicPoi.class : Lodging.class;
-//		BasicPoi poi = objectMapper.readValue(body, clazz);
-//		savePoi(poi,type,req,res);
+	@RequestMapping(value = "/poi", method = RequestMethod.POST)
+	public void saveBacic( HttpServletRequest req, HttpServletResponse res) throws IOException, JSONException {
+		
+		JSONObject json = getJSON(req.getInputStream());
+
+		// Basic or Lodging
+		//Class<? extends BasicPoi> clazz = PoiTypeRepository.BASIC_TYPES.contains(idType)? BasicPoi.class : Lodging.class;
+		
+		String jsonType= json.getString("type");
+	
+		PoiTypeID type = PoiTypeID.valueOf(jsonType);
+		Class<? extends BasicPoi> clazz = type.getPoiClass();
+		
+		BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
+		savePoi(poi, jsonType ,req,res);
 	 }
+	
+	private JSONObject getJSON(InputStream inputStream) throws  IOException, JSONException {
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(inputStream, writer);
+		return new JSONObject(writer.toString());
+	}
 	 
-	 
+	
 	 private void savePoi(BasicPoi poi, String type, HttpServletRequest req, HttpServletResponse res)  {
-//		 poi.setType(PoiTypeRepository.getType(type));
-//		 poi.validate();
-//		 poi = poiRepository.save(poi);
-//		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));
+		// poi.setType(PoiTypeRepository.getType(type));
+		 poi.validate();
+		 poi = poiRepository.save(poi);
+		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));
 	 }	
 
 	 private String getLocationForChildResource(HttpServletRequest request,  Object childIdentifier) {

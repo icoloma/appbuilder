@@ -59,7 +59,8 @@ dependencies {
      		'org.slf4j:slf4j-log4j12:1.7.5',
 			'org.thymeleaf:thymeleaf:2.0.16',
 			'org.thymeleaf:thymeleaf-spring3:2.0.16',
-            'org.xerial:sqlite-jdbc:3.7.2'			
+            'org.xerial:sqlite-jdbc:3.7.2',
+            'org.json:json:20090211'	
 	
      		
     testCompile 'junit:junit:4.7',

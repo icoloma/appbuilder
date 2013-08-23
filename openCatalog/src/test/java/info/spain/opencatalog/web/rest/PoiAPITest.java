@@ -10,6 +10,7 @@ import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
@@ -61,7 +62,6 @@ public class PoiAPITest {
 	 * @throws Exception
 	 */
 	@Test
-	@Ignore
     public void testDiscoverAndGET() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi= DummyPoiFactory.newPoi("getPoi");
@@ -96,20 +96,18 @@ public class PoiAPITest {
 	 * @throws Exception
 	 */
 	@Test
-	@Ignore
 	public void testPOST() throws Exception {
+		String type = PoiTypeID.HOTEL.toString();
 		repo.deleteAll();
 		String json = "{" +
-				"'type': 'HOTEL'," +
+				"'type': '" + type + "'," +
 				"'name':{" +
 					"'es':'es-name'," +
-					"'en':'en-name'," +
-					"'de':'en-name'" +
+					"'en':'en-name'" +
 				"}," +
 				"'description':{" +
 					"'es':'es-description'," +
-					"'en':'en-description'," +
-					"'de':'en-description'" +
+					"'en':'en-description'" +
 				"}," +
 				"'address':{" +
 					"'route':'route'," +
@@ -126,7 +124,8 @@ public class PoiAPITest {
 		json = json.replaceAll("'", "\"");
 		
 		System.out.println( "POI:" + json);
-	    this.mockMvc.perform(post("/poi/basic")
+	    this.mockMvc.perform(post("/poi")
+	    	.param("type", type)
 	    	.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
 			.content(json))
 			.andExpect(status().isCreated());
@@ -134,7 +133,6 @@ public class PoiAPITest {
 	
 
 	@Test
-	@Ignore
 	public void tesFindByName() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.newPoi("tesFindByName");
@@ -150,7 +148,6 @@ public class PoiAPITest {
 	}
 	
 	@Test
-	@Ignore
 	public void tesFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
 		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
@@ -181,7 +178,6 @@ public class PoiAPITest {
 	}
 	
 	@Test
-	@Ignore
 	public void tesFindByLocationNear() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.POI_TEIDE;
