@@ -4,10 +4,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import info.spain.opencatalog.domain.Address;
@@ -54,12 +53,20 @@ public class PoiControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 	
+	
+	@Test
+	public void testPoiNotFound()  throws Exception {
+		this.mockMvc.perform( get("/admin/poi/notExists"))
+			.andExpect(status().isInternalServerError())
+			.andExpect(view().name("notFoundError"))
+			.andReturn();
+	}
 	/**
 	 * Test CRUD of a POI
 	 * @throws Exception
 	 */
 	@Test
-	public void test_POST_GET_UPDATE_DELETE() throws Exception {
+	public void test_POST_GET_SEARCH_UPDATE_DELETE() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.newPoi("poiTest");
 		poi.setFlags( Flag.AIR_CONDITIONED, Flag.GUIDE_DOG_ALLOWED);
@@ -95,6 +102,18 @@ public class PoiControllerTest {
 				.andExpect(view().name("admin/poi/poi"))
 				.andReturn();
 		
+		// Test Search all
+				result = this.mockMvc.perform( get("/admin/poi"))
+						.andExpect(status().isOk())
+						.andExpect(view().name("admin/poi/poiList"))
+						.andReturn();
+				
+		// Test Search by name
+		result = this.mockMvc.perform( get("/admin/poi").param("q", poi.getName().getEs()))
+				.andExpect(status().isOk())
+				.andExpect(view().name("admin/poi/poiList"))
+				.andReturn();
+				
 		// Test UPDATE 
 		PoiForm update = new PoiForm(PoiTypeID.BASIC);
 		update.setName(new I18nText().setEs("xxx"));
@@ -132,9 +151,10 @@ public class PoiControllerTest {
 		
 		repoPoi = repo.findOne(id);
 		assertNull(repoPoi);
-		
-		
     }
+	
+	
+	
 	
 	private void testEquals(BasicPoi expected, BasicPoi actual){
 		assertEquals(expected.getName().getEs(), actual.getName().getEs());
@@ -156,8 +176,10 @@ public class PoiControllerTest {
 		}
 		
 	}
-
 	
 
+
+	
+	
 
 }

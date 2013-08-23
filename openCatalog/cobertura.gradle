@@ -35,7 +35,7 @@ cobertura.doFirst  {
     'cobertura-instrument'(datafile: serFile) {
       fileset(dir: classes,
               includes:"**/*.class",
-              excludes:"**/*Test.class")
+              excludes:"**/*Test.class, **/*Exception.class, info/spain/opencatalog/config/*.class")
     }
   }
 }
