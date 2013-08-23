@@ -11,18 +11,34 @@ define(
         },
         'tap .name': function() {
           this.$('.name').toggleClass('uncovered');
+        },
+        'tap .flag-group-line': function(e) {
+          $(e.currentTarget).parent().find('.flags-container').toggle();
         }
       },
 
       render: function() {
-        var json = this.model.toJSON();
+        var json = this.model.toJSON()
+        , flagGroups = {}
+        ;
+
+        _.each(json.flags, function(flag) {
+          var flagObj = res._metadata.flags[flag];
+          if (!flagGroups[flagObj.group]) {
+            var newGroupId = flagObj.group;
+            flagGroups[newGroupId] = _.clone(res._metadata.flagGroups[newGroupId]);
+            flagGroups[newGroupId].flags = [];
+            flagGroups[newGroupId].icon = res._metadata.flag_icons[newGroupId];
+          }
+          flagGroups[flagObj.group].flags.push(flagObj);
+        });
+
         _.extend(json, {
           isStarred: json.starred ? 'star' : 'star-empty',
           geoLink: this.model.geoLink(),
-          flags: json.flags.map(function(flagID) {
-            return res._metadata.flags[flagID];
-          })
+          flagGroups: flagGroups
         });
+
         this.$el.html(Tmpl(json));
         return this;
       },

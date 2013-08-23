@@ -33,17 +33,22 @@
 </div>
 <div class="row app-container poiview-section">
   <% 
-    var flag_icons = window.res._metadata.flag_icons,
-    flag, icon;
-    for (var i in flags) {
-      flag = flags[i];
-      icon = flag_icons[flag.group] ? flag_icons[flag.group] : flag_icons['COMMON'];
+    var group, icon, flag;
+    for (var groupId in flagGroups) {
+      group = flagGroups[groupId];
   %>
-    <div class="col-xs-12 small flag-item">
-      <span>
-        <span class="flag-icon icon-flag-{{icon}}"></span>
-        <span class="flag-description">{{flag.name}}</span>
+    <div class="col-xs-12 small flag-group">
+      <span class="flag-group-line">
+        <span class="flag-group-icon icon-flag-{{group.icon}}"></span>
+        <span class="flag-group-name">{{group.name}}</span>
       </span>
+      <div class="flags-container">
+        <% for (var flagId in group.flags) {
+            flag = group.flags[flagId];
+        %>
+          <div>{{flag.name}}</div>
+        <%  } %>
+      </div>
     </div>
-  <% }%>
+  <% } %>
 </div>

@@ -6,7 +6,7 @@ define(['db/db'], function(Db) {
     window.res = i18nStrings[appConfig.locale];
 
     _.each([
-      metadata.types, metadata.flags,
+      metadata.types, metadata.flags, metadata.flagGroups,
       metadata.menuConfig.menus, metadata.menuConfig.entries
     ], function(collection) {
       _.each(collection, Db.utils.filterJSON);

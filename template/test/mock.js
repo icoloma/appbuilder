@@ -15,8 +15,9 @@ var random = require('./mock/random-data.js')
 , sqliteFile = 'appData.db'
 ;
 
-// Exporta los flags y types
+// Exporta los metadatos
 jsonData.flags = poiMetadata.flags;
+jsonData.flagGroups = poiMetadata.flagGroups;
 jsonData.types = poiMetadata.types;
 jsonData.data = poiMetadata.dataStrings;
 

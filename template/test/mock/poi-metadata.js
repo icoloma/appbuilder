@@ -4,25 +4,24 @@
 var random = require('./random-data.js') 
 , i18n = require('./i18n-generator.js')
 , empty_flags = []
-, raw_flags = empty_flags.concat.apply(empty_flags, [
-  'COMMON:PARKING BIKE_RENT', 'ACCESSIBILITY:GUIDE HANDICAPPED_ACCESS',
-  'FAMILY:FAMILY_KINDER FAMILY_BABYSITTING', 'LODGING:CASINO LIFT',
-  'NATURE:NATIONAL_PARK NATURAL_RESERVE', 'BUSINESS_GOLF: GOLF_CLUB',
-  'BUSINESS_SPORT:SPORTS_TENNIS SPORTS_FOOTBALL', 'CULTURE_ARTISTIC:CULTURE_PERIOD_CELTIC'
-].map(function(groupStr) {
-  var parts = groupStr.split(':')
-  ;
-  return parts[1].split(' ').map(function(flag) {
-    return { keyword: flag, group: parts[0] };
-  });
-}))
+, raw_flags = { 
+  COMMON: ['AIR_CONDITIONING', 'BBQ', 'EDUCATIONAL_ACTIVITIES', 'GUIDED_TOUR', 'WC', ],
+  ACCESSIBILITY: [ 'GUIDE', 'HANDICAPPED_ACCESS' ],
+  BEACH: [ 'BEACH_BATH_CONDITION_CALM', 'BEACH_COMPOSITION_SAND', 'BEACH_SAND_TYPE_GOLDEN' ],
+  FAMILY: [ 'FAMILY_KINDER', 'FAMILY_BABYSITTING' ],
+  LODGING: ['BUSSINESS_CENTER', 'CASINO', 'FREE_FACILITIES', 'FREE_FACILITIES_REQ', 'LIBRARY', ],
+  NATURE: [ 'NATIONAL_PARK', 'NATURAL_RESERVE' , 'REGIONAL_PARK' ],
+  BUSINESS_GOLF: ['GOLF_BUNKER', 'GOLF_CADDY', 'GOLF_CALL_PLAY_CARD', 'GOLF_CLUB', ],
+  BUSINESS_SPORT: ['SPORTS_FOOTBALL', 'SPORTS_GOLF', 'SPORTS_GYM', 'SPORTS_JACUZZI', 'SPORTS_TENIS', ],
+  CULTURE_CONSTRUCTION: ['CULTURE_TYPE_ROADWAY', 'CULTURE_TYPE_CHAPEL', 'CULTURE_TYPE_CHARTERHOUSE', 'CULTURE_TYPE_MANOR_HOUSE', 'CULTURE_TYPE_CASTLE', 'CULTURE_TYPE_CASTRO', 'CULTURE_TYPE_CATACOMBS', 'CULTURE_TYPE_CATHEDRAL'],
+  BUSINESS_SKI: ['SKI_RENTALS']
+}
 , raw_types = [
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
   'PARK_GARDEN', 'ECO_TOURISM', 'GOLF', 'NAUTICAL_STATION',
 ]
 , dataStringsCount = 50
-, flags = {}
-, types = {}
+, flags = {} , types = {}, flagGroups = {}
 , dataStrings = _.chain(locales).map(function(lang) {
   return [lang, {}];
 }).object().value()
@@ -45,19 +44,37 @@ _.each(raw_types, function(raw_type, i) {
   types[type.id] = type;
 });
 
-// Genera las flags
-_.each(raw_flags, function(raw_flag, i) {
-  var flag = i18n.object({
+// Genera los flags y grupos de flags 
+_.each(raw_flags, function(flag_group, groupName) {
+  // Grupo
+  var groupID = groupName
+  , group = i18n.object({
     name: function() {
-      return raw_flag.keyword.toLowerCase() + ' ' + random.variableLorem(0, 1);
+      return groupName.toLowerCase() + ' ' + random.variableLorem(1);
     },
-    description: random.fixedLorem(3, 10)
+    desc: random.fixedLorem(3, 10)
+  })
+  ;
+
+  group.id = groupID;
+  flagGroups[groupID] = group;
+
+  // Flags en el grupo
+  _.each(flag_group, function(flagName) {
+    var flag = i18n.object({
+      name: function() {
+        return flagName.toLowerCase() + ' ' + random.variableLorem(0, 1);
+      },
+      description: random.fixedLorem(3, 10)
+    });
+
+    _.extend(flag, {
+      id: random.createUUID(),
+      group: group.id
+    });
+
+    flags[flag.id] = flag;
   });
-  _.extend(flag, {
-    id: random.createUUID(),
-    group: raw_flag.group
-  });
-  flags[flag.id] = flag; 
 });
 
 _.times(dataStringsCount, function() {
@@ -78,6 +95,7 @@ _.times(dataStringsCount, function() {
 module.exports = {
   flags: flags,
   types: types,
+  flagGroups: flagGroups,
   dataIds: dataIds,
   dataStrings: dataStrings 
 };
