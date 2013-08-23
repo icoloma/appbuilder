@@ -21,9 +21,6 @@ define(['db/db', 'config/i18n-config'],
     platform: null
   };
 
-  // Inicia la BDD SQLite del dispositivo
-  Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
-
   return function(callback) {
     // Búsqueda *asíncrona* de los metadatos. 
     async.parallel({
@@ -50,6 +47,10 @@ define(['db/db', 'config/i18n-config'],
         req.send();
       }
     }, function(err, results) {
+      // Inicia la BDD SQLite del dispositivo
+      Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
+
+
       locale = results.device.value.match(/^([a-z]{2})/)[1];
 
       // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como

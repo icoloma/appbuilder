@@ -92,14 +92,14 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
 
     return function(callback) {
 
-      // Inicia la BDD SQLite del dispositivo
-      Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
-
       console.log('Esperando el evento deviceready...'); //DEBUG
 
       document.addEventListener('deviceready', function () {
 
         console.log('deviceready nativo disparado!'); //DEBUG
+
+        // Inicia la BDD SQLite del dispositivo
+        Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
 
         // Obtener la plataforma y el locale
         window.appConfig.platform = device.platform;
