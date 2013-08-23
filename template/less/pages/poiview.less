@@ -8,24 +8,38 @@
 }
 
 .titlebar {
+  position: relative;
   background-color: @lightGrey;
-  .clearfix();
 
   address {
     margin-top: 3px;
   }
+
   .icon-map {
     color: #555;
+
     &:before {
       display: inline;
     }
+
   }
+
+}
+
+.details {
+  margin-left: @gridMargin;
+  padding-right: 50px + @gridMargin;
 }
 
 .star {
+  width: 50px;
+
+  position: absolute;
+  right: @gridMargin;
+  top: @appContainerPadding;
+
   font-size: (@baseFontSize+@smallFontSize);
   line-height: (@baseLineHeight+@smallLineHeight);
-  margin-left: -@grid-gutter-width/2; //Definido en el grid de bootstrap
 
   color: #888;
 
@@ -33,20 +47,26 @@
     color: orange;
     text-shadow: 0 0 3px black;
   }
+
 }
+
 .poi-imgs {
   height: 200px;
   overflow: hidden;
+
   .swiper-wrapper {
     height: 100%;
   }
+
   .swiper-slide {
     height: 100%;
     width: 100%;
     background: transparent no-repeat 50% 50%;
     background-size: cover;
   }
+
 }
+
 .description {
   margin: 0;
 }

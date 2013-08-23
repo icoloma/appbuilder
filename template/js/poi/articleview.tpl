@@ -1,5 +1,5 @@
-<div class="titlebar row app-container">
-  <div class="details col-xs-10">
+<div class="titlebar app-container">
+  <div class="details">
     <div class="name hideable">{{name}}</div>
     <address class="small">
       <a href="{{geoLink}}" class="geo-link">
@@ -7,7 +7,7 @@
       </a>
     </address>
   </div>
-  <div class="col-xs-2"><span class="star icon-{{isStarred}}"></span></div>
+  <span class="star icon-{{isStarred}}"></span>
 </div>
 <div class="poi-imgs swiper-container">
   <div class="swiper-wrapper">
