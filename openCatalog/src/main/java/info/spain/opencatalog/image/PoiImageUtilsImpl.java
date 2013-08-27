@@ -37,8 +37,16 @@ public class PoiImageUtilsImpl implements PoiImageUtils {
 	}
 	
 	@Override
+	public void deletePoiImages(String idPoi) {	
+		List<String> images = getPoiImageFilenames(idPoi);
+		for (String filename : images) {
+			deleteImage(filename);
+		}
+	}
+	
+	@Override
 	public void deleteImage(String filename) {	
-		 storageService.deleteFile(filename);
+		storageService.deleteFile(filename);
 	}
 
 	@Override

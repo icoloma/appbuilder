@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +57,7 @@ public class PoiController extends AbstractUIController {
 	 * SEARCH
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String search(Model model, @PageableDefaults(sort="name.es") Pageable pageable, @RequestParam(value="q",required=false) String q) {
+	public String search(Model model, @PageableDefaults(sort="lastModified", sortDir=Direction.DESC) Pageable pageable, @RequestParam(value="q",required=false) String q) {
 		String query = q == null ? "" : q; 
 		Page<BasicPoi>page  = poiRepository.findByNameEsLikeIgnoreCase(query, pageable);
 		model.addAttribute("page", page);
@@ -74,6 +75,7 @@ public class PoiController extends AbstractUIController {
 		if (poi == null){
 			throw new NotFoundException("poi", id);
 		}
+		//PoiForm poiForm = new PoiForm(poi.getType().getId());
 		PoiForm poiForm = new PoiForm(poi.getType().getId());
 		poiForm.copyData(poi);
 			
@@ -89,7 +91,7 @@ public class PoiController extends AbstractUIController {
 	/**
 	 * Flags permitidos para un tipo determinado organizado por grupos
 	 * 
-	 * Ej. para Hotel :   QUALITY -> [ ]
+	 * Ej. para Hotel :   QUALITY -> [ QUALITY_ACCESIBILIDAD, QUALITY_MICHELIN, ...]
 	 */
 	private Map<String,List<String>> getMapFlags(BasicPoiType type){
 		Map<String,List<String>> result = Maps.newLinkedHashMap();
@@ -108,15 +110,17 @@ public class PoiController extends AbstractUIController {
 		return result;
 	}
 
-	
 	/**
 	 * CREATE 
 	 */
 	@RequestMapping(value="/new/{type}", method = RequestMethod.POST)
-	public String create(@Valid @ModelAttribute("poi") PoiForm poiForm, 
+	public String create(
+			@Valid @ModelAttribute("poi") PoiForm poiForm,
 			@PathVariable("type") String type, BindingResult errors,  Model model,  
 			@RequestParam(value="flags", required=false) String[] strFlags,
 			@RequestParam(value="timetable", required=false) String[] timetable) {
+	
+		
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
 		}
@@ -130,6 +134,20 @@ public class PoiController extends AbstractUIController {
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
 		return "redirect:/admin/poi/" + poi.getId();
+	}
+	
+
+	/**
+	 * DELETE
+	 * 
+	 * FIXME: Parece que no funciona el _method=DELETE con multipart
+	 */
+	@RequestMapping( value="/{id}/delete")
+	public String delete( @PathVariable("id") String idPoi, Model model) {
+		poiImageUtils.deletePoiImages(idPoi);
+		poiRepository.delete(idPoi);
+		model.addAttribute(INFO_MESSAGE, "message.item.deleted" ) ;
+		return "redirect:/admin/poi/";
 	}
 	
 	/**
@@ -205,7 +223,6 @@ public class PoiController extends AbstractUIController {
 				if (poi.getDefaultImageFilename().equals(deleteFiles[i])){
 					poi.setDefaultImageFilename(null);
 				}
-				
 			}
 		}
 	}
@@ -230,16 +247,6 @@ public class PoiController extends AbstractUIController {
 	}
 	
 	
-	
-	/**
-	 * DELETE
-	 */
-	@RequestMapping( value="/{id}", method=RequestMethod.DELETE)
-	public String delete( @PathVariable("id") String id, Model model) {
-		poiRepository.delete(id);
-		model.addAttribute(INFO_MESSAGE, "message.item.deleted" ) ;
-		return "redirect:/admin/poi/";
-	}
 	
 
 }

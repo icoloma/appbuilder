@@ -145,7 +145,7 @@ public class PoiControllerTest {
 		
 		
 		// TEST DELETE
-		result = this.mockMvc.perform(delete("/admin/poi/" + id))
+		result = this.mockMvc.perform(post("/admin/poi/" + id + "/delete"))
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();
 		

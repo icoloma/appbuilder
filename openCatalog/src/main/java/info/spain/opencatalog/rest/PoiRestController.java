@@ -99,17 +99,13 @@ public class PoiRestController extends AbstractController {
 	public void saveBacic( HttpServletRequest req, HttpServletResponse res) throws IOException, JSONException {
 		
 		JSONObject json = getJSON(req.getInputStream());
-
-		// Basic or Lodging
-		//Class<? extends BasicPoi> clazz = PoiTypeRepository.BASIC_TYPES.contains(idType)? BasicPoi.class : Lodging.class;
 		
 		String jsonType= json.getString("type");
-	
-		PoiTypeID type = PoiTypeID.valueOf(jsonType);
-		Class<? extends BasicPoi> clazz = type.getPoiClass();
+
+		Class<? extends BasicPoi> clazz = PoiTypeID.valueOf(jsonType).getPoiClass();
 		
 		BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
-		savePoi(poi, jsonType ,req,res);
+		savePoi(poi, req,res);
 	 }
 	
 	private JSONObject getJSON(InputStream inputStream) throws  IOException, JSONException {
@@ -119,8 +115,7 @@ public class PoiRestController extends AbstractController {
 	}
 	 
 	
-	 private void savePoi(BasicPoi poi, String type, HttpServletRequest req, HttpServletResponse res)  {
-		// poi.setType(PoiTypeRepository.getType(type));
+	 private void savePoi(BasicPoi poi, HttpServletRequest req, HttpServletResponse res)  {
 		 poi.validate();
 		 poi = poiRepository.save(poi);
 		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));

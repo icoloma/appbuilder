@@ -17,7 +17,10 @@ public class PoiImageUtilsMock implements PoiImageUtils {
 	}
 
 	@Override
-	public void deleteImage(String idPoi) {}
+	public void deletePoiImages(String idPoi) {}
+
+	@Override
+	public void deleteImage(String filename) {}
 
 	@Override
 	public String saveImage(String idPoi, InputStream inputStream, String contentType) throws IOException { return "";}

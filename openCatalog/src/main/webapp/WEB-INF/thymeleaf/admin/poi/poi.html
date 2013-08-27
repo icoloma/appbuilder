@@ -27,8 +27,10 @@
 	
 	<h1 th:text="#{'poiType.' + ${poi.type.id}}">Genérico</h1>
 
-	<form id="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.type.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
-		 
+	<form id="poiForm" name="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.type.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
+		
+		<input type="hidden" name="_method" value="POST" />
+	
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#data" data-toggle="tab" th:text="#{poi.data}" >Data</a></li>
 			<li th:if="${poi.id}"><a href="#images" data-toggle="tab" th:text="#{poi.images}">Images</a></li>
@@ -112,7 +114,7 @@
 
   		<hr/>
 		<div class="well">
-			<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
+		    <input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
   		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
   		 	<button class="btn btn-danger pull-right deleteButton"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
  		</div>
@@ -151,11 +153,26 @@
 	// <![CDATA[
 	// 
 	 $( function(){
+		 
+		 // check default Image
 		 var defaultImage = $('input:radio[name="defaultImageFilename"]:checked')[0];
 		 var firstImage = $('input:radio[name="defaultImageFilename"]')[0];
 		 if (! defaultImage && firstImage){
 			 $(firstImage).attr('checked', 'checked')
 		 }
+		 
+		 
+		// delete button
+		$("button.deleteButton").click(function(){
+			var form = $($(this).closest('form'));
+			var action = form.attr("action")
+			form.attr("action", action + "/delete")
+			
+			// disble required for submit
+			$('[required]', form).each(function(){
+				$(this).removeAttr("required");
+			});
+		}); 
 		 
 	 })
 	// ]]>

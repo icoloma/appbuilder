@@ -8,8 +8,9 @@ public interface PoiImageUtils {
 	
 	public String getImageFileName(String idPoi, String idImg );
 	public List<String> getPoiImageFilenames(String idPoi);
+	public void deletePoiImages(String idPoi);
 	public boolean hasImages(String idPoi);
-	public void deleteImage(String idPoi);
+	public void deleteImage(String filename);
 	public String saveImage(String idPoi,InputStream inputStream, String contentType) throws IOException;
 	public ImageResource getPoiImageResource(String filename);
 		
