@@ -1,8 +1,8 @@
 ## Estructura de datos
 
 La aplicación en producción espera encontrar:
-* Una base de datos de POIs `appData.db` en la carpeta raíz de los componentes web (junto a `index.html`, `js/`, `css/`, etc.)
-* Un fichero de configuración con metadatos y cadenas i18n `appConfig.json` en la misma carpeta raíz.
+* Una base de datos de POIs `appData.db` junto a la carpeta raíz de los componentes web `www`.
+* Un fichero de configuración con metadatos y cadenas i18n `appConfig.json` *dentro* de dicha carpeta `www`.
 
 Este último se genera combinando configuración estática del app-template (cadenas i18n, etc.) con configuración dinámica proveniente del catálogo, a saber: información sobre *types*, *flags* y los menús.
 
@@ -12,6 +12,7 @@ Este último se genera combinando configuración estática del app-template (cad
       i18n: <cadenas i18n de la aplicación>,
       ...
       // Parte "dinámica"
+      flagGroups: [ <flag group> ],
       flags: [ <flag> ],
       types: [ <type> ],
       menuConfig: <menu config>

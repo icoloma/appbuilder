@@ -166,7 +166,8 @@ grunt.registerTask('mock', 'Prepara datos de prueba.', function() {
 });
 
 /* Tareas internas */
-grunt.registerTask('prepare-project', ['copy:cssComponents', 'copy:jsComponents']);
+grunt.registerTask('prepare-project',
+  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint', 'mock']);
 grunt.registerTask('css-build-dev', ['less:dev', 'copy:css', 'regex-replace:css']);
 grunt.registerTask('css-build-prod', ['less:prod', 'regex-replace:css']);
 grunt.registerTask('basic-build', ['jshint', 'clean', 'copy:index']);
@@ -177,7 +178,7 @@ grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
 // Tarea básica de desarrollo
 grunt.registerTask('default', ['dev']);
 grunt.registerTask('dev',
-  ['prepare-project', 'less:dev', 'jshint', 'mock', 'connect', 'watch']);
+  ['prepare-project', 'connect', 'watch']);
 
 // Por si es necesario compilar la aplicación nativa *SIN* hacer el build de requirejs
 grunt.registerTask('device',

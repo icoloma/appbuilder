@@ -33,31 +33,7 @@ weinre --boundHost -all-
 Vale tanto para el navegador móvil como para la app nativa.
 
 ### Build en Android
-Requisitos:
-* Sistema operativo *nix (de momento).
-* [Phonegap](http://phonegap.com/) **<= 2.9**.
-* El SDK de Android, con `tools` y `platform-tools` en el `PATH`.
-
-```shell
-build_android() {
-  rm -r template-android-build
-  "$1"/lib/android/bin/create template-android-build com.segittur segittur
-  grunt optimized
-  rm -r template-android-build/assets/www
-  mv build/ template-android-build/assets/www
-  cp "$1"/lib/android/cordova*js template-android-build/assets/www/phonegap.js
-  cp test/data/appData.db template-android-build/assets/
-  cd template-android-build
-  wget https://github.com/jrvidal/PG-SQLitePlugin-Android/archive/master.zip
-  unzip master.zip; rm master.zip
-  cp -r PG-SQLitePlugin-Android-master/Android/src/com/phonegap src/com
-  sed -i "s/<plugins>/<plugins>\n<plugin name=\"SQLitePlugin\" value=\"com.phonegap.plugin.sqlitePlugin.SQLitePlugin\"\/>/" res/xml/config.xml
-  rm -r PG-SQLitePlugin-Android-master
-  cd ..
-}
-# Dentro de appbuilder/template
-build_android {carpeta de phonegap}
-```
+Ver `appbuilder/assembler/README.md`.
 
 ### Esquema de datos
 Véase `test/README.md`.

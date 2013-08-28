@@ -1,0 +1,12 @@
+{
+  "name": "app-assembler",
+  "version": "0.0.1",
+  "dependencies": {
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-hub": "~0.5.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-regex-replace": "~0.2.5",
+    "pgsqlite-android": "git://github.com/jrvidal/PG-SQLitePlugin-Android#r2013.05-pop"
+  }
+}
