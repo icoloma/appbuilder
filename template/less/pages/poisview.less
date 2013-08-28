@@ -1,20 +1,22 @@
 @poiRowHeight: @rowHeight + 10px;
 
 .poicollectionview {
-  .row {
+  .item-row {
     border: none;
     height: @poiRowHeight;
   }
-  .row:nth-child(2n) {
+  .item-row:nth-child(2n) {
     background-color: @lightGrey;
   }
 }
 
 .poi-tr-name {
   line-height: 50px;
+  height: 50px;
 }
 .poi-tr-description {
   line-height: (@poiRowHeight - 55px);
+  height: (@poiRowHeight - 55px);
   color: #777;
   margin-bottom: 5px;
 }

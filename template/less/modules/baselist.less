@@ -2,7 +2,7 @@
   width: 100%;
   margin: auto;
   line-height: @rowHeight - 10px;
-  & > .row {
+  & > .item-row {
     height: @rowHeight;
     border-top: 1px solid #aaa;
     &:first-child {
@@ -31,6 +31,10 @@
 }
 
 /* menuview */
-.poiCount {
+.menu-tr-name, .menu-tr-poicount {
+  height: @rowHeight;
+}
+
+.menu-tr-poicount {
   color: #777;
 }
