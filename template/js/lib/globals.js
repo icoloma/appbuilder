@@ -1,7 +1,8 @@
 define(
   [ 
     'jquery', 'underscore', 'backbone', 'backbone.history',
-    'modules/touch', 'SQLitePlugin', 'async', 'swipe'
+    'modules/touch', 'SQLitePlugin', 'async', 'swipe',
+    'bootstrap/transition', 'bootstrap/collapse'
   ],
   function() {
     window.B = Backbone;

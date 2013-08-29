@@ -38,11 +38,11 @@
       group = flagGroups[groupId];
   %>
     <div class="col-xs-12 small flag-group">
-      <span class="flag-group-line">
+      <span class="flag-group-line" data-toggle="collapse" data-target="#flags-container-{{group.id}}">
         <span class="flag-group-icon icon-flag-{{group.icon}}"></span>
         <span class="flag-group-name">{{group.name}}</span>
       </span>
-      <div class="flags-container">
+      <div class="flags-container collapse" id="flags-container-{{group.id}}">
         <% for (var flagId in group.flags) {
             flag = group.flags[flagId];
         %>

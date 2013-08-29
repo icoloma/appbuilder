@@ -12,9 +12,6 @@ define(
         'tap .name': function() {
           this.$('.name').toggleClass('uncovered');
         },
-        'tap .flag-group-line': function(e) {
-          $(e.currentTarget).parent().find('.flags-container').toggle();
-        }
       },
 
       render: function() {
