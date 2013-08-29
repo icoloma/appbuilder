@@ -126,7 +126,7 @@ grunt.registerTask('join-config', '', function() {
 
 grunt.registerTask('test', 'Crea una aplicación con datos de prueba', function(phonegapPath) {
   grunt.task.run([
-  'hub', 'clean:app', 'clean:tmp', 'create-phonegap-android:' + phonegapPath,
+  'hub:dev', 'clean:app', 'clean:tmp', 'create-phonegap-android:' + phonegapPath,
   'copy:appBuild', 'copy:plugin', 'regex-replace:androidConfig',
   'clean:www', 'copy:www', 'copy:appData', 'copy:testAppData', 'clean:tmp'
   ]);

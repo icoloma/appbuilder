@@ -22,6 +22,17 @@ define(
         this.$el = options.$el;
         menuConfig = window.res._metadata.menuConfig;
         this.direction = 1;
+
+        var self = this;
+        $(document).on('backbutton', function(e) {
+          if (location.hash) {
+            e.preventDefault();
+            self.historyBack();
+          } else {
+            // AVISO: esto NO es cross-platform
+            navigator.app.exitApp();
+          }
+        });
       },
 
       historyBack: function() {

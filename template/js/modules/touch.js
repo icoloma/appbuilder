@@ -120,16 +120,16 @@ define(['jquery'], function() {
   };
 
 
-  return {
-    delegateScroll: function(el) {
-      $doc.on('touchmove.delegatedScroll', function(e) {
-        e.preventDefault();
-        // TO-DO: pasar la capacidad de scrollar a @el
-      });
-    },
-    undelegateScroll: function() {
-      $doc.off('touchmove.delegatedScroll');
-    }
-  };
+  // return {
+  //   delegateScroll: function(el) {
+  //     $doc.on('touchmove.delegatedScroll', function(e) {
+  //       e.preventDefault();
+  //       // TO-DO: pasar la capacidad de scrollar a @el
+  //     });
+  //   },
+  //   undelegateScroll: function() {
+  //     $doc.off('touchmove.delegatedScroll');
+  //   }
+  // };
 
 });
