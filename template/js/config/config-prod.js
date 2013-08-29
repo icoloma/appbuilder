@@ -55,9 +55,9 @@ define(['db/db', 'config/i18n-config'],
 
       // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
       // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
-      window.appConfig.locale = locale in i18n ? locale : 'en';
+      window.appConfig.locale = locale in results.config.i18n ? locale : 'en';
 
-      i18nConfig(config.i18n, config.metadata);
+      i18nConfig(results.config.i18n, results.config.metadata);
 
       callback();
     });

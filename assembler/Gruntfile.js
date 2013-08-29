@@ -1,5 +1,8 @@
 
-var path = require('path');
+var path = require('path')
+, fs = require('fs')
+, _ = require('underscore')
+;
 
 module.exports = function(grunt) {
 
@@ -13,7 +16,11 @@ grunt.initConfig({
   hub: {
     dev: {
       src: ['../template/Gruntfile.js'],
-      tasks: ['prepare-project', 'optimized']
+      tasks: ['prepare-dev', 'optimized']
+    },
+    prod: {
+      src: ['../template/Gruntfile.js'],
+      tasks: ['prepare-project', 'prod']
     }
   },
   copy: {
@@ -35,11 +42,35 @@ grunt.initConfig({
       src: ['**'],
       dest: 'apps/segittur/assets/www/'
     },
-    appData: {
+    'www-prod': {
+      expand: true,
+      cwd: 'tmp-www',
+      src: ['**', '!config/**'],
+      dest: 'apps/segittur/assets/www/'
+    },
+    testAppData: {
       expand: true,
       cwd: 'apps/segittur/assets/www/test/data/',
       src: [ 'appData.db' ],
-      dest: 'apps/segittur/assets/',
+      dest: 'app-data/',
+    },
+    appData: {
+      expand: true,
+      cwd: 'app-data',
+      src: [ 'appData.db' ],
+      dest: 'apps/segittur/assets/'
+    },
+    appConfig: {
+      expand: true,
+      cwd: 'app-data',
+      src: [ 'appConfig.json' ],
+      dest: 'apps/segittur/assets/www'
+    },
+    appAssets: {
+      expand: true,
+      cwd: 'app-data',
+      src: [ 'assets/**' ],
+      dest: 'apps/segittur/assets/www/'
     }
   },
   clean: {
@@ -80,11 +111,32 @@ function(phonegapPath) {
   });
 });
 
+grunt.registerTask('join-config', '', function() {
+  var metadata = JSON.parse(fs.readFileSync('app-data/metadata.json', 'utf-8'))
+  , i18n = JSON.parse(fs.readFileSync('tmp-www/config/i18n.json', 'utf-8'))
+  , flag_icons = JSON.parse(fs.readFileSync('tmp-www/config/flag-icons.json', 'utf-8'))
+  , appConfig
+  ;
+
+  appConfig = _.extend({i18n: i18n}, {metadata: metadata});
+  _.extend(appConfig.metadata, flag_icons);
+
+  fs.writeFileSync('app-data/appConfig.json', JSON.stringify(appConfig), 'utf-8');
+});
+
 grunt.registerTask('test', 'Crea una aplicación con datos de prueba', function(phonegapPath) {
   grunt.task.run([
   'hub', 'clean:app', 'clean:tmp', 'create-phonegap-android:' + phonegapPath,
   'copy:appBuild', 'copy:plugin', 'regex-replace:androidConfig',
-  'clean:www', 'copy:www', 'copy:appData', 'clean:tmp'
+  'clean:www', 'copy:www', 'copy:appData', 'copy:testAppData', 'clean:tmp'
+  ]);
+});
+
+grunt.registerTask('prod', 'Crea una aplicación con datos arbitrarios', function(phonegapPath) {
+  grunt.task.run([
+  'hub:prod', 'clean:app', 'clean:tmp', 'create-phonegap-android:' + phonegapPath,
+  'copy:appBuild', 'copy:plugin', 'regex-replace:androidConfig', 'clean:www',
+  'join-config', 'copy:www-prod', 'copy:appData', 'copy:appConfig', 'copy:appAssets', 'clean:tmp'
   ]);
 });
 

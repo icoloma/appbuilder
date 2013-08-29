@@ -48,7 +48,7 @@ grunt.initConfig({
     },
     prod: {
       src: 'less/style.less',
-      dest: 'build/css/style.css',
+      dest: 'less/style.css',
       yuicompress: true
     }
   },
@@ -167,9 +167,11 @@ grunt.registerTask('mock', 'Prepara datos de prueba.', function() {
 
 /* Tareas internas */
 grunt.registerTask('prepare-project',
-  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint', 'mock']);
+  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint']);
+grunt.registerTask('prepare-dev',
+  ['prepare-project', 'mock']);
 grunt.registerTask('css-build-dev', ['less:dev', 'copy:css', 'regex-replace:css']);
-grunt.registerTask('css-build-prod', ['less:prod', 'regex-replace:css']);
+grunt.registerTask('css-build-prod', ['less:prod', 'copy:css', 'regex-replace:css']);
 grunt.registerTask('basic-build', ['jshint', 'clean', 'copy:index']);
 grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
 grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);

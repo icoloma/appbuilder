@@ -192,7 +192,7 @@ module.exports = function(pois) {
         "poiCount": 5,
         "menu": null,
         "query": {
-          type: findByKeyword("APARTMENT")
+          type: findByKeyword("GOLF")
         }
       },
       '17BA689093354DA48E76AFB83CA86F68': {
