@@ -2,10 +2,7 @@ package info.spain.opencatalog.domain.poi;
 
 import info.spain.opencatalog.domain.I18nText;
 
-import java.util.Set;
-
 import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
 
 /**
  * Precios de acceso 
@@ -20,13 +17,13 @@ public class Price {
 	protected Double price;
 	
 	/** Tipo de tarifa:  General, Adulto, Niño, Estudiante, ... */
-	protected Set<PriceType> priceTypes;
+	protected PriceType priceType;
 	
-	/** Horarios aplicados a este precio: Lunes-Viernes de 18:00 a 20:00 */
-	protected Set<TimeTableEntry> timeTable;
+	/** Horario aplicado a este precio: Lunes-Viernes de 18:00 a 20:00 */
+	protected TimeTableEntry timeTable = new TimeTableEntry();
 	
 	/** Texto adicional: "La Entrada es gratuíta para miembros de ... " */
-	protected I18nText observations;
+	protected I18nText observations = new I18nText();
 	
 	
 	public Double getPrice() {
@@ -36,20 +33,20 @@ public class Price {
 		this.price = price;
 		return this;
 	}
-	public Set<PriceType> getPriceTypes() {
-		return priceTypes;
+	public PriceType getPriceType() {
+		return priceType;
 	}
 	
-	public Price setPriceTypes(PriceType... culturePriceTypes) {
-		this.priceTypes = Sets.newHashSet(culturePriceTypes);
+	public Price setPriceType(PriceType priceType) {
+		this.priceType = priceType;
 		return this;
 	}
-	public Set<TimeTableEntry> getTimeTable() {
+	public TimeTableEntry getTimeTable() {
 		return timeTable;
 	}
 	
-	public Price setTimetable(TimeTableEntry... timeTable) {
-		this.timeTable = Sets.newHashSet(timeTable);
+	public Price setTimetable(TimeTableEntry timeTable) {
+		this.timeTable = timeTable;
 		return this;
 	}
 	
@@ -66,7 +63,7 @@ public class Price {
 	public String toString() {
 		return Objects.toStringHelper(getClass())
 			.add("price", price)
-			.add("priceTypes", priceTypes)
+			.add("priceType", priceType)
 			.add("timeTable", timeTable)
 			.add("observations", observations)
 			.toString();

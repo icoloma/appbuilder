@@ -38,25 +38,32 @@ public class TimeTableEntry implements Comparable<TimeTableEntry> {
 	static final String DAY = "(" + WDAY + "|" + DATE + ")";				// día de semana o día concreto (con mes)
 	static final String DAYS = "(" + DAY + "(," + DAY + ")*)";				// (dia,?) 
 	
-	public static final String PERIOD_REGEX = "(" + DATE_RANGE + "|" + DAYS + "|" + DATE_RANGE + DAYS +")=" + "(" + HOUR_RANGE + "(," + HOUR_RANGE + ")*?)?";
+	public static final String PERIOD_REGEX = "((" + DATE_RANGE + "|" + DAYS + "|" + DATE_RANGE + DAYS +")=" + "(" + HOUR_RANGE + "(," + HOUR_RANGE + ")*?)?)?";
 	
 	@Transient
-	private final Pattern pattern = Pattern.compile(TimeTableEntry.PERIOD_REGEX);
+	private static final Pattern pattern = Pattern.compile(TimeTableEntry.PERIOD_REGEX);
 	
 	/** Expresión regular que indica el periodo que aplica */
 	private String period;
 	
-	public String getPeriod() {
-		return period;
-	}
+	public TimeTableEntry() {}
 	
 	public TimeTableEntry(String period) {
 		super();
 		this.period = period;
-		if (!pattern.matcher(period).matches()) {
-			throw new IllegalArgumentException("period expression doesn't match " + PERIOD_REGEX);
-		}
+		validate(period);
 	}
+
+	public String getPeriod() {
+		return period;
+	}
+	
+	public TimeTableEntry setPeriod(String period){
+		this.period = period;
+		validate(period);
+		return this;
+	}
+	
 
 	@Override
 	public String toString() {
@@ -68,6 +75,12 @@ public class TimeTableEntry implements Comparable<TimeTableEntry> {
 	@Override
 	public int compareTo(TimeTableEntry other) {
 		return period.compareTo(other.period);
+	}
+	
+	public static void validate(String period){
+		if (!pattern.matcher(period).matches()) {
+			throw new IllegalArgumentException("Invalid format");
+		}
 	}
 
 

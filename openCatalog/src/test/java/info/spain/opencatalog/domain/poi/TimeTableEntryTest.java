@@ -12,6 +12,7 @@ public class TimeTableEntryTest {
 	@Test
 	public void testTimeTable() {
 		Pattern p = Pattern.compile(TimeTableEntry.PERIOD_REGEX);
+		assertTrue( p.matcher("").matches());						// abierto 24/365
 		assertTrue( p.matcher("2412=").matches());					// cerrado día concreto
 		assertTrue( p.matcher("[0101-0107]=").matches());			// cerrado rango
 		assertTrue( p.matcher("Mon,Tue=").matches());				// cerrado lunes y martes
@@ -20,8 +21,6 @@ public class TimeTableEntryTest {
 		assertTrue( p.matcher("[0101-0107]Mon,Tue,Wed,Thu,Fri=09:00-13:00").matches());
 		assertTrue( p.matcher("[0101-0107]Mon,Tue,Wed,Thu,Fri=09:00-13:00,14:00-20:00").matches());
 		assertTrue( p.matcher("2412=09:00-13:00,14:00-20:00").matches());	// horario para día en concreto
-		
-		assertFalse(p.matcher("").matches());
 		assertFalse(p.matcher("MonTue").matches());
 	}
 	

@@ -8,6 +8,7 @@ import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
 import info.spain.opencatalog.domain.poi.lodging.RoomType;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -29,7 +30,7 @@ public class LodgingType extends BasicPoiType {
         super.validate(poi);
         Lodging lp = (Lodging) poi;
         validateSet("room type", allowedRoomTypes, lp.getRoomTypes());
-        Set<Price> prices = lp.getPrices();
+        List<Price> prices = lp.getPrices();
         if (prices != null) {
 	        for( Price p : prices) {
 	        	RoomPrice price = (RoomPrice) p;

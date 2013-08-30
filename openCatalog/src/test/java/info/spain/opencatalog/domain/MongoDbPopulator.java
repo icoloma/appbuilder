@@ -93,17 +93,17 @@ public class MongoDbPopulator {
 		mongoTemplate.insert(DummyPoiFactory.CAMPING);
 		mongoTemplate.insert(DummyPoiFactory.APARTMENT);
 
-		// Culture
-		mongoTemplate.insert(DummyPoiFactory.MUSEUM);
-		mongoTemplate.insert(DummyPoiFactory.MONUMENT);
-		mongoTemplate.insert(DummyPoiFactory.GARDEN);
-		
 
 		// Business
 		mongoTemplate.insert(DummyPoiFactory.ECO_TOURISM);
 		mongoTemplate.insert(DummyPoiFactory.GOLF);
 		mongoTemplate.insert(DummyPoiFactory.NAUTICAL_STATION);
 		mongoTemplate.insert(DummyPoiFactory.SKI_STATION);
+		
+		// Culture
+		mongoTemplate.insert(DummyPoiFactory.MUSEUM);
+		mongoTemplate.insert(DummyPoiFactory.GARDEN);
+		mongoTemplate.insert(DummyPoiFactory.MONUMENT);
 		
 	}
 	

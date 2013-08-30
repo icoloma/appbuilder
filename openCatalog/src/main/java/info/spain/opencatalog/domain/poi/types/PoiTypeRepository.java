@@ -359,12 +359,16 @@ public class PoiTypeRepository {
     		.setAllowedDataValidator("pistas:otros:numero-show-park", DataValidator.INTEGER_VALIDATOR)
     		.setAllowedDataValidator("pistas:otros:numero-halfpipe", DataValidator.INTEGER_VALIDATOR)
     		.setAllowedDataValidator("pistas:otros:numero-snowboard", DataValidator.INTEGER_VALIDATOR)
-    		.setAllowedDataValidator("pistas:otros:otros", DataValidator.KEY_VALUE_VALIDATOR)  // Múltiple 
+    		
+    		// Not supported in version 1.0
+    		//.setAllowedDataValidator("pistas:otros:otros", DataValidator.KEY_VALUE_VALIDATOR)  // Múltiple 
     		
     		.setAllowedDataValidator("nieve:numero-caniones", DataValidator.INTEGER_VALIDATOR)
     		.setAllowedDataValidator("nieve:total-km-innovados", DataValidator.DOUBLE_VALIDATOR)
     		.setAllowedDataValidator("nieve:total-pistas-inhibidas", DataValidator.INTEGER_VALIDATOR)
-    		.setAllowedDataValidator("nieve:otros", DataValidator.KEY_VALUE_VALIDATOR)  // Cualquier texto
+    		
+    		// Not supported in version 1.0
+    		// .setAllowedDataValidator("nieve:otros", DataValidator.KEY_VALUE_VALIDATOR)  // Cualquier texto
     		
     		.setAllowedDataValidator("servicios:numero-escuelas", DataValidator.INTEGER_VALIDATOR)
     		.setAllowedDataValidator("servicios:numero-profesores", DataValidator.INTEGER_VALIDATOR)

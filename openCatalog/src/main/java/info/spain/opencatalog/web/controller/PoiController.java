@@ -4,6 +4,8 @@ package info.spain.opencatalog.web.controller;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.FlagGroup;
+import info.spain.opencatalog.domain.poi.Price;
+import info.spain.opencatalog.domain.poi.PriceType;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
@@ -18,7 +20,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -125,10 +130,10 @@ public class PoiController extends AbstractUIController {
 			return "admin/poi/poi";
 		}
 		if (timetable != null){
-			poiForm.setTimetable(convertTimeTable(timetable));
+			poiForm.setTimetable(convertTimeTable(timetable, errors));
 		}
 		if (strFlags != null){
-			poiForm.setFlags(convertFlags(strFlags));
+			poiForm.setFlags(convertFlags(strFlags, errors));
 		}
 		BasicPoi poi = poiRepository.save( new BasicPoi(PoiTypeRepository.getType(type)).copyData(poiForm));
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
@@ -170,28 +175,35 @@ public class PoiController extends AbstractUIController {
 	 * @throws IOException 
 	 */
 	@RequestMapping( value="/{id}", method=RequestMethod.POST) 
-	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,  
-						Model model, @PathVariable("id") String id,  
-						@RequestParam(value="timetable", required=false) String[] timetable,
-						@RequestParam(value="flags", required=false) String[] strFlags,
-						@RequestParam(value="files", required=false) List<MultipartFile> addFiles,
-						@RequestParam(value="deleteFile", required=false) String[] deleteFiles) throws IOException {
-
-		if (timetable != null){
-			poiForm.setTimetable(convertTimeTable(timetable));
-		}
-		if (strFlags != null){
-			poiForm.setFlags(convertFlags(strFlags));
-		}
+	public String update(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,
+		Model model, 
+		@PathVariable("id") String id,  
+		@RequestParam(value="timetable", required=false) String[] timetable,
+		@RequestParam(value="flags", required=false) String[] strFlags,
+		@RequestParam(value="files", required=false) List<MultipartFile> addFiles,
+		@RequestParam(value="deleteFile", required=false) String[] deleteFiles
 		
+		) throws IOException {
+
 		BasicPoi dbPoi = poiRepository.findOne(id);
 		poiForm.setType(dbPoi.getType());  // Always override with db type
+
+		assignPrices(poiForm, errors);
+		
+		if (timetable != null){
+			poiForm.setTimetable(convertTimeTable(timetable,errors));
+		}
+		if (strFlags != null){
+			poiForm.setFlags(convertFlags(strFlags,errors));
+		}
+
+		if (errors.hasErrors()){
+			return "/admin/poi/poi";
+		}
+		
 		poiForm.validate(); 
 		
 		
-		if (errors.hasErrors()){
-			return "admin/poi/poi";
-		}
 
 		BasicPoi poi = poiForm.getPoi();
 		poi.setId(id);
@@ -206,6 +218,38 @@ public class PoiController extends AbstractUIController {
 		
 		return "redirect:/admin/poi/" + id;
 	}
+	
+	private void assignPrices( PoiForm poiForm,  BindingResult errors){
+		/*
+		Set<String> keys = values.keySet();
+		for (String key : keys) {
+			Price p = new Price();
+			try {
+				p.setPrice(Double.valueOf((String)values.get(key)));
+				errors.reject("invalidValue", "invalid price value");
+			} catch( Exception e){
+				System.out.print(e.getStackTrace());
+			}
+			/*
+			try {
+				p.setTimetable(new TimeTableEntry((String) periods.get(key)));
+			} catch( Exception e){
+				errors.rejectValue("price_period" + key, "invalidValue", "invalid period value");
+			}
+			
+			try {
+				p.setPriceType( PriceType.valueOf((String) types.get(key)));
+			} catch( Exception e){
+				errors.rejectValue("prices" + key + ".price", "invalidValue", "invalid type value");
+			}
+			poiForm.getPrices().add(p);
+*/
+	
+	}
+	
+	
+	
+	
 
 
 	private void updatePoiImages(BasicPoi poi, List<MultipartFile> addFiles,  String[] deleteFiles) throws IOException {
@@ -227,20 +271,28 @@ public class PoiController extends AbstractUIController {
 		}
 	}
 	
-	private TimeTableEntry[] convertTimeTable(String[] timeTable){
+	private TimeTableEntry[] convertTimeTable(String[] timeTable, BindingResult errors){
 		List<TimeTableEntry> result = Lists.newArrayList();
 		for (int i = 0; i < timeTable.length; i++) {
-			result.add(new TimeTableEntry(timeTable[i]));
+			try {
+				result.add(new TimeTableEntry(timeTable[i]));
+			} catch (Exception e ){
+				errors.reject("timetable.error.invalid", "invalid timeTable values");
+			}
 		}
 		Collections.sort(result);  // Los guardamos en orden para visualizarlos mejor
 		return result.toArray(new TimeTableEntry[] {});
 	}
 	
-	private Flag[] convertFlags(String[] strFlags){
+	private Flag[] convertFlags(String[] strFlags, BindingResult errors){
 		List<Flag> flags = Lists.newArrayList();
 		if (strFlags != null){
 			for (String flag : strFlags) {
-				flags.add(Flag.valueOf(flag));
+				try{
+					flags.add(Flag.valueOf(flag));
+				} catch(Exception e){
+					errors.reject("flag.error.invalid", "Invalid flags values");
+				}
 			}
 		}
 		return flags.toArray(new Flag[]{});

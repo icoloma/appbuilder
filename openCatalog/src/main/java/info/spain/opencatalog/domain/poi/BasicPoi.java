@@ -5,8 +5,10 @@ import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -23,6 +25,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -67,7 +70,7 @@ public class BasicPoi {
     protected Set<TimeTableEntry> timetable;
 	
 	/** precios de acceso */
-    protected Set<Price> prices;
+    protected List<Price> prices;
    
 	/** Información de contacto */
     protected ContactInfo contactInfo;
@@ -102,7 +105,7 @@ public class BasicPoi {
 		this.flags= new HashSet<Flag>();
 		this.data = new HashMap<String,String>();
 		this.timetable = new TreeSet<TimeTableEntry>();
-		this.prices = new HashSet<Price>();
+		this.prices = new ArrayList<Price>();
 		this.languages=new HashSet<String>();
 		if (this.address == null){
 			setAddress(new Address());
@@ -119,6 +122,7 @@ public class BasicPoi {
         this.contactInfo = source.contactInfo;
         this.flags = source.flags;
         this.timetable = source.timetable;
+        this.prices = source.prices;
         this.defaultImageFilename=source.defaultImageFilename;
         this.data= deleteEmptyEntries(source.data);
         return this;
@@ -241,12 +245,12 @@ public class BasicPoi {
 		return type;
 	}
 
-	public Set<Price> getPrices() {
+	public List<Price> getPrices() {
 		return prices;
 	}
 
 	public BasicPoi setPrices(Price...prices) {
-		this.prices = Sets.newHashSet(prices);
+		this.prices = Lists.newArrayList(prices);
 		return this;
 	}
 	

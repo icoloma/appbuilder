@@ -253,21 +253,22 @@ public class DummyPoiFactory extends AbstractFactory {
 			)
 			.setPrices(
 				new Price()
-					.setPriceTypes(PriceType.GENERAL, PriceType.GROUPS)
+					.setPriceType(PriceType.GENERAL)
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=09:00-13:00,15:00-20:00"))
 					.setPrice(14d),
 				new Price()
-					.setPriceTypes(PriceType.REDUCED)
+					.setPriceType(PriceType.REDUCED)
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=09:00-13:00,15:00-20:00"))
 					.setPrice(7d),
 				new Price()
-					.setPriceTypes(PriceType.STUDENT)
+					.setPriceType(PriceType.STUDENT)
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=09:00-13:00,15:00-20:00"))
 					.setPrice(10d),
 				new Price()
-					.setPriceTypes(PriceType.FREE)
+					.setPrice(0d)
+					.setPriceType(PriceType.FREE)
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"))
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
-					.setTimetable(
-						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"),
-						new TimeTableEntry("Sat,Sun=17:00-19:00")
-					)
 			)
 			.validate();
 	
@@ -297,27 +298,30 @@ public class DummyPoiFactory extends AbstractFactory {
 				Flag.PARKING_ACCESSIBLE
 			)
 			.setTimetable(
-					new TimeTableEntry("Mon,Wed,Fri=09:00-13:00,15:00-20:00"),
+					new TimeTableEntry(""),
 					new TimeTableEntry("0601,2412=10:00-12:00"),
 					new TimeTableEntry("0101,2512=")
 			)
 			.setPrices(
 				new Price()
-					.setPriceTypes(PriceType.GENERAL, PriceType.GROUPS)
+					.setTimetable(new TimeTableEntry(""))
+					.setPriceType(PriceType.GROUPS)
 					.setPrice(14d),
 				new Price()
-					.setPriceTypes(PriceType.REDUCED)
+					.setTimetable(new TimeTableEntry(""))
+					.setPriceType(PriceType.REDUCED)
 					.setPrice(7d),
 				new Price()
-					.setPriceTypes(PriceType.STUDENT)
+					.setTimetable(new TimeTableEntry(""))
+					.setPriceType(PriceType.STUDENT)
 					.setPrice(10d),
 				new Price()
-					.setPriceTypes(PriceType.FREE)
-					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
-					.setTimetable(
-						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"),
-						new TimeTableEntry("Sat,Sun=17:00-19:00")
-					)
+					.setPriceType(PriceType.FREE)
+					.setPrice(0d)
+					.setObservations(new I18nText()
+						.setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura")
+						.setEn("Unemployed, State museums staff"))
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"))
 			).validate();
 	}
 		
@@ -355,7 +359,7 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setPrices( 
 				new Price()
 					.setPrice(25d)
-					.setPriceTypes(PriceType.ADULT)
+					.setPriceType(PriceType.ADULT)
 					.setTimetable( 
 						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri,Sat,Sun=09:00-20:00")
 					)
@@ -428,9 +432,11 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setData("pistas:alpino:numero-pistas-rojas", "8")
 			.setData("pistas:alpino:numero-pistas-negras", "4")
 			.setData("pistas:otros:numero-halfpipe", "1")
-			.setData("pistas:otros:otros", "Foo=1,Bar=2")
+			// Not supported in version 1.0
+    		//.setData("pistas:otros:otros", "Foo=1,Bar=2")
 			.setData("nieve:numero-caniones", "42")
-			.setData("nieve:otros", "ABC=1,DEF=2")
+			// Not supported in version 1.0
+    		//.setData("nieve:otros", "ABC=1,DEF=2")
 			.setData("servicios:numero-escuelas", "4")
 			.setData("servicios:numero-profesores", "14")
 			.setData("servicios:estacion", "Podrá además consultar el parte de nieve y las ultimas noticias en ... ")
