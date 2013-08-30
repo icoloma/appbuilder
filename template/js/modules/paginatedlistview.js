@@ -25,13 +25,18 @@ function(BaseListView) {
 
     render: function() {
       this.$el.html('');
-      _.each(this.collection.toJSON(), function(item, i) {
-        if (i < this.cursor) {
-          this.$el.append(this.trView(item));
+      if (this.collection.length === 0) {
+        var message = '<div class="item-row empty-list"><b>' + res.EmptyList + '</b></div>';
+        this.$el.append(message);
+      } else {
+        _.each(this.collection.toJSON(), function(item, i) {
+          if (i < this.cursor) {
+            this.$el.append(this.trView(item));
+          }
+        }, this);
+        if (this.cursor < this.collection.length) {
+          this.$el.append(this.button());
         }
-      }, this);
-      if (this.cursor < this.collection.length) {
-        this.$el.append(this.button());
       }
       return this;
     },

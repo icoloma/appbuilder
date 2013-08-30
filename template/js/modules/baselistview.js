@@ -30,7 +30,6 @@ define(['globals'],
             this.trView(item)
           );
         }, this);
-        // this.$el.html($tbody);
         return this;
       }
     });
