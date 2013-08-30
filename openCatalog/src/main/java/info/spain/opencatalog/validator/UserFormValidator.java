@@ -9,7 +9,7 @@ import com.google.common.base.Strings;
 
 public class UserFormValidator implements Validator {
 	
-	private static final int MIN_PASSWORD_LENGTH = 7;
+	protected static final int MIN_PASSWORD_LENGTH = 7;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -23,7 +23,7 @@ public class UserFormValidator implements Validator {
 	    validatePasswordLength(userForm, errors);
     }
 	
-	private void validatePasswordsMatch(UserForm userForm, Errors errors){
+	protected void validatePasswordsMatch(UserForm userForm, Errors errors){
 		boolean isValid;
 		String repassword = userForm.getRepassword();
 		String password = userForm.getPassword();
@@ -38,7 +38,7 @@ public class UserFormValidator implements Validator {
 		}
 	}
 	
-	private void validatePasswordLength(UserForm userForm, Errors errors){
+	protected void validatePasswordLength(UserForm userForm, Errors errors){
 		if (!Strings.isNullOrEmpty(userForm.getPassword()) &&  userForm.getPassword().length() < MIN_PASSWORD_LENGTH ){
 			errors.rejectValue("password", "user.password.error.length", "Password lenght minmun is " + MIN_PASSWORD_LENGTH);
 		}
