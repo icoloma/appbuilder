@@ -28,7 +28,7 @@ define(
         $(document).on('backbutton', function(e) {
           if (location.hash) {
             e.preventDefault();
-            self.historyBack();
+            self.navigateTo(null, -1);
           } else {
             // AVISO: esto NO es cross-platform
             navigator.app.exitApp();

@@ -54,17 +54,19 @@ define(['jquery'], function() {
     e.preventDefault();
   }, true);
 
-
   /*
     Animación para el cambio de la vista principal
   */
-  $.fn.loadAnimation = function($oldView, $newView, dir) {
+  $.fn.loadAnimation = function($oldView, $newView, newScroll, dir) {
     var $this = $(this)
     , width = $oldView.css('width').match(/([0-9]+)px/)[1]
     , widthPx = width + 'px'
     , minusWidthPx = (-width) + 'px'
     , toLeft = dir > 0
+    , newViewOffset
     ;
+
+    newScroll = dir > 0 ? 0 : newScroll;
 
     // Fijar tamaño y posición
     $this.append(
@@ -72,24 +74,24 @@ define(['jquery'], function() {
         width: width,
         position: 'absolute',
         left: toLeft ? widthPx : minusWidthPx,
-        top: window.pageYOffset
+        top: 0
       })
     );
-    $oldView.css({
-      width: width,
-      position: 'relative',
-      left: 0,
-      top: 0
-    });
+
+    $this.css('height', $newView.css('height'));
+
+    $oldView.remove();
 
     // Dispara la transición. Se aplica un delay para encolarlo y dar tiempo a que los cambios
     // anteriores terminen de dibujarse antes de comenzar la transición.
     // AVISO: necesita testeo.
     _.delay(function() {
       $this.addClass('animating-views');
+      window.scrollTo(0, newScroll);
       $oldView.css('left', toLeft ? minusWidthPx : widthPx);
       $newView.css({left: '0px'});
-    }, 200);
+    }, 100);
+
 
     $this.on('webkitTransitionEnd.changeView', function (e) {
       // Elimina el handler
@@ -97,7 +99,6 @@ define(['jquery'], function() {
 
       // Deshace el estilado
       $this.removeClass('animating-views');
-      $oldView.remove();
       $newView.css({
         width: '',
         position: '',
@@ -105,7 +106,7 @@ define(['jquery'], function() {
         top: ''
       });
 
-      if (dir > 0) window.scrollTo(0, 0);
+      $this.css('height', '');
 
       // Fix para la topbar
       // En Android 2.3.6, después de una animación, deja de ser 'touchable', y se necesita
