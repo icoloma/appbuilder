@@ -14,7 +14,7 @@ define(
         this.listenTo(this.topbarView, 'sort', this.sort);
         // TO-DO: implementar vista de mapas
         // this.listenTo(this.topbarView, 'map', ...);
-        this.pass(this.topbarView, 'historyback');
+        this.pass(this.topbarView, 'navigate');
 
         this.collectionView = new ListView({
           className: 'collectionview poicollectionview',
@@ -23,6 +23,7 @@ define(
           cursor: this.options.cursor
         });
         this.pass(this.collectionView, 'updatequery');
+        this.pass(this.collectionView, 'navigate');
       },
 
       render: function() {

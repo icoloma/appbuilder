@@ -13,7 +13,7 @@ define(['globals'],
 
       events: {
         'tap .item-row': function(e) {
-          window.location.href = $(e.currentTarget).data('url');
+          this.trigger('navigate', $(e.currentTarget).data('url'), 1);
         }
       },
 

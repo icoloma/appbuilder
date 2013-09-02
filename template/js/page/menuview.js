@@ -14,7 +14,8 @@ define(
           title: this.options.title,
           actions: ['search']
         });
-        this.pass(this.topbarView, 'historyback');
+        this.pass(this.topbarView, 'navigate');
+        this.pass(this.collectionView, 'navigate');
       },
 
       render: function() {

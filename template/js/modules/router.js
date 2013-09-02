@@ -22,6 +22,7 @@ define(
         this.$el = options.$el;
         menuConfig = window.res._metadata.menuConfig;
         this.direction = 1;
+        this.cache = [];
 
         var self = this;
         $(document).on('backbutton', function(e) {
@@ -35,9 +36,19 @@ define(
         });
       },
 
-      historyBack: function() {
-        this.direction = -1;
-        history.back();
+      navigateTo: function(uri, dir) {
+        if (dir < 0) this.direction = -1;
+        if (dir > 0) {
+          this.cache.push({
+            uri: window.location.hash,
+            scroll: window.pageYOffset
+          });
+          window.location.hash = uri;
+        } else {
+          var entry = this.cache.pop();
+          this.newScroll = entry.scroll;
+          window.location.hash = entry.uri;
+        }
       },
 
       updateUri: function(uriParams) {
@@ -57,14 +68,14 @@ define(
         if (this.currentView) {
           var newView = new view(options).render();
           this.stopListening(this.currentView);
-          this.$el.loadAnimation(this.currentView.$el, newView.$el, this.direction);
+          this.$el.loadAnimation(this.currentView.$el, newView.$el, this.newScroll, this.direction);
           this.currentView = newView;
           this.direction = 1;
         } else {
           this.currentView = new view(options).render();
           this.$el.html(this.currentView.$el);
         }
-        this.listenTo(this.currentView, 'historyback', this.historyBack);
+        this.listenTo(this.currentView, 'navigate', this.navigateTo);
         this.listenTo(this.currentView, 'updatequery', this.updateUri);
         return this.currentView;
       },

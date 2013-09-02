@@ -20,7 +20,8 @@ define(
           root: true
         });
 
-        this.pass(this.topbarView, 'historyback');
+        this.pass(this.topbarView, 'navigate');
+        this.pass(this.collectionView, 'navigate');
       },
 
       render: function() {

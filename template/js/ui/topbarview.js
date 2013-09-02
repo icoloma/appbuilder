@@ -9,7 +9,7 @@ function(Globals, Tmpl) {
         var action = $(e.target).data('action');
 
         if (action === 'historyback')  {
-          this.trigger('historyback');
+          this.trigger('navigate', null, -1);
         } else {
           if (!this.isBlocked) {
             this.trigger(action);

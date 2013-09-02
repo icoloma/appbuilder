@@ -9,8 +9,11 @@ define(
       events: {
         'pagetransitionend': function() {
           if (this.isNew) {
-            this.modelView.swipe();
             this.isNew = false;
+            var self = this;
+            _.delay(function() {
+              self.modelView.swipe();
+            });
           }
         }
       },
@@ -21,7 +24,7 @@ define(
           title: this.options.title,
           actions: ['search']
         });
-        this.pass(this.topbarView, 'historyback');
+        this.pass(this.topbarView, 'navigate');
 
         this.modelView = new ArticleView({
           model: this.model
