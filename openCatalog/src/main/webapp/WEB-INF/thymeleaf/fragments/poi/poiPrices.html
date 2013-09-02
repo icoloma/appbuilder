@@ -32,7 +32,8 @@
 					<th th:text="#{poi.price.price}">Price</th>
 					<th th:text="#{poi.price.priceType}">Type</th>
 					<th><span th:text="#{poi.timetable.period}">Period</span> <a href="#timeTableExamples" role="button" data-toggle="modal" th:title="#{button.help}"><i class="icon-question-sign"></i></a></th>
-					<th th:text="#{poi.price.observations}">Observations</th>
+					<th th:text="#{poi.price.observations.es}">Observations (ES)</th>
+					<th th:text="#{poi.price.observations.en}">Observations (EN)</th>
 					<th th:text="#{poi.timetable.period.delete}">Delete</th>
 				</tr>	
 			
@@ -41,6 +42,7 @@
 				
 				<tr th:each="entry,iter: ${poi.prices}" data:it="${iter.count}">
 					<td>
+						<!--  price -->
 						<input type="number" required="required" step="any"
 							th:field="*{prices[__${iter.index}__].price}"
 							name="prices1.price"
@@ -49,6 +51,7 @@
 						
 					</td>
 					<td>
+						<!--  priceType -->
 						<select name="prices1.priceType" th:field="*{prices[__${iter.index}__].priceType}">
 							<option 
 								th:each="type: ${T(info.spain.opencatalog.domain.poi.PriceType).values()}"
@@ -56,12 +59,25 @@
 								th:text="#{${ 'priceType.' + type}}"> Option1 </option>
 						</select>
 					</td>
+					
 					<td>
-						<input type="text"  class="input-xlarge" th:field="*{prices[__${iter.index}__].timeTable.period}" th:pattern="${T(info.spain.opencatalog.domain.poi.TimeTableEntry).PERIOD_REGEX}"/>
+						<!--  Period -->
+						<input type="text"  th:field="*{prices[__${iter.index}__].timeTable.period}" th:pattern="${T(info.spain.opencatalog.domain.poi.TimeTableEntry).PERIOD_REGEX}"/>
 						<div th:if="${#fields.hasErrors('prices['+__${iter.index}__ + '].timeTable.period')}" class="alert alert-error" th:text="#{timetable.error.invalidFormat}">Invalid format</div>
 					</td>
-					<td th:text="${entry.observations} ? ${entry.observations.es}">Lorem ipsum...</td>
-					<td><a href="#" class="btn btn-danger removePrice"><i class="icon-trash icon-white" ></i></a></td>
+					
+					<td>
+						<textarea  th:field="*{prices[__${iter.index}__].observations.es}" >Observaciones del precio ...</textarea>
+					</td>
+					
+					<td>
+						<textarea th:field="*{prices[__${iter.index}__].observations.en}" >Price observations</textarea>
+					</td>
+					
+					<td>
+						<!--  Delete -->
+						<a href="#" class="btn btn-danger removePrice"><i class="icon-trash icon-white" ></i></a>
+					</td>
 				</tr>
 				<tr th:remove="all">
 					<td>100.12€</td>
@@ -81,7 +97,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="5">
+					<td colspan="6">
 					<button class="btn addPrice" href="#">Añadir</button>
 					</td>
 				</tr>
@@ -96,7 +112,14 @@
 						</select>
 					</td>
 					<td><input type="text"  class="input-xlarge" th:pattern="${T(info.spain.opencatalog.domain.poi.TimeTableEntry).PERIOD_REGEX}"  disabled="disabled"/></td>
-					<td/>
+					<td>
+						<textarea disabled="disabled"></textarea>
+					</td>
+					
+					<td>
+						<textarea disabled="disabled"></textarea>
+					</td>
+					
 					<td><a href="#" class="btn btn-danger removePrice"><i class="icon-trash icon-white" ></i></a></td>
 				</tr>
 			</tfoot>

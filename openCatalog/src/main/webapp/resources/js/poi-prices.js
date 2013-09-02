@@ -31,7 +31,9 @@ $(function(){
 			var priceInput  = $('input',  tr.children()[0]).removeAttr('disabled').attr('name', 'prices[' + it + '].price');
 			var selectInput = $('select', tr.children()[1]).removeAttr('disabled').attr('name', 'prices[' + it + '].priceType');
 			var periodInput = $('input',  tr.children()[2]).removeAttr('disabled').attr('name', 'prices[' + it + '].timeTable.period');
-			var deleteButton = $('a',  tr.children()[4]).on('click', function(e){
+			var periodInput = $('textarea',  tr.children()[3]).removeAttr('disabled').attr('name', 'prices[' + it + '].observations.es');
+			var periodInput = $('textarea',  tr.children()[4]).removeAttr('disabled').attr('name', 'prices[' + it + '].observations.en');
+			var deleteButton = $('a',  tr.children()[5]).on('click', function(e){
 				e.preventDefault();
 				deletePriceRow(this);
 			})
