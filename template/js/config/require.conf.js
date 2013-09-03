@@ -22,7 +22,6 @@ var comp = 'lib/components/'
   backbone: comp + 'backbone/backbone',
   underscore: comp + 'underscore/underscore',
   almond: comp + 'almond/almond',
-  'backbone.history': comp + 'backbone-historytracker/backbone.historytracker',
   'bootstrap/transition': comp + 'bootstrap/js/transition',
   'bootstrap/collapse': comp + 'bootstrap/js/collapse',
   tpl: 'modules/tpl'
@@ -42,9 +41,6 @@ var require = {
     },
     swipe: {
       deps: [ 'jquery' ]
-    },
-    'backbone.history': {
-      deps: ['backbone']
     },
     'bootstrap/transition': {
       deps: ['jquery']

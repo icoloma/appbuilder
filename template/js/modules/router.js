@@ -22,7 +22,7 @@ define(
         this.$el = options.$el;
         menuConfig = window.res._metadata.menuConfig;
         this.direction = 1;
-        this.cache = [];
+        this.cache = [ {uri: ''} ];
 
         var self = this;
         $(document).on('backbutton', function(e) {
@@ -39,20 +39,21 @@ define(
       navigateTo: function(uri, dir) {
         if (dir < 0) this.direction = -1;
         if (dir > 0) {
+          _.last(this.cache).scroll = window.pageYOffset;
           this.cache.push({
-            uri: window.location.hash,
-            scroll: window.pageYOffset
+            uri: uri
           });
           window.location.hash = uri;
         } else {
-          var entry = this.cache.pop();
+          this.cache.pop();
+          var entry = _.last(this.cache);
           this.newScroll = entry.scroll;
           window.location.hash = entry.uri;
         }
       },
 
       updateUri: function(uriParams) {
-        var oldUri = location.hash
+        var oldUri = _.last(this.cache).uri
         , rawQueryMatch = location.hash.match(/(^[^?]+)(\?.+)?/)
         , uriObj = rawQueryMatch[2] ? 
           JSON.parse(decodeURIComponent(rawQueryMatch[2].slice(1))) :
@@ -61,20 +62,28 @@ define(
         _.extend(uriObj, uriParams);
         var newUri = rawQueryMatch[1].slice(1) + '?' +
           encodeURIComponent(JSON.stringify(uriObj));
-        this.navigate(newUri, {replace: true});
+        _.last(this.cache).uri = newUri;
       },
 
       setView: function(view, options) {
+        var newView = new view(options).render();
+
         if (this.currentView) {
-          var newView = new view(options).render();
           this.stopListening(this.currentView);
-          this.$el.loadAnimation(this.currentView.$el, newView.$el, this.newScroll, this.direction);
-          this.currentView = newView;
+          this.$el.loadAnimation({
+            $oldView: this.currentView.$el,
+            $newView: newView.$el,
+            newScroll: this.newScroll,
+            direction: this.direction
+          }, function() {
+            newView.$el.trigger('pageviewready');
+          });
           this.direction = 1;
         } else {
-          this.currentView = new view(options).render();
-          this.$el.html(this.currentView.$el);
+          this.$el.html(newView.$el);
         }
+
+        this.currentView = newView;
         this.listenTo(this.currentView, 'navigate', this.navigateTo);
         this.listenTo(this.currentView, 'updatequery', this.updateUri);
         return this.currentView;
