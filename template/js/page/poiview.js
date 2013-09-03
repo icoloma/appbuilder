@@ -7,7 +7,7 @@ define(
       className: 'pageview poiview',
 
       events: {
-        'pagetransitionend': function() {
+        'pageviewready': function() {
           if (this.isNew) {
             this.isNew = false;
             var self = this;

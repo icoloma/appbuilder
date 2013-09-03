@@ -57,16 +57,20 @@ define(['jquery'], function() {
   /*
     Animación para el cambio de la vista principal
   */
-  $.fn.loadAnimation = function($oldView, $newView, newScroll, dir) {
+  $.fn.loadAnimation = function(options, callback) {
     var $this = $(this)
+    // options
+    , $oldView = options.$oldView
+    , $newView = options.$newView
+    , direction = options.direction
+    , newScroll = direction > 0 ? 0 : options.newScroll
+
     , width = $oldView.css('width').match(/([0-9]+)px/)[1]
     , widthPx = width + 'px'
     , minusWidthPx = (-width) + 'px'
-    , toLeft = dir > 0
+    , toLeft = direction > 0
     , newViewOffset
     ;
-
-    newScroll = dir > 0 ? 0 : newScroll;
 
     // Fijar tamaño y posición
     $this.append(
@@ -78,7 +82,7 @@ define(['jquery'], function() {
       })
     );
 
-    $this.css('height', $newView.css('height'));
+    $this.css('height', $newView.outerHeight());
 
     $oldView.remove();
 
@@ -88,7 +92,6 @@ define(['jquery'], function() {
     _.delay(function() {
       $this.addClass('animating-views');
       window.scrollTo(0, newScroll);
-      $oldView.css('left', toLeft ? minusWidthPx : widthPx);
       $newView.css({left: '0px'});
     }, 100);
 
@@ -115,7 +118,7 @@ define(['jquery'], function() {
       $topbar.css('width', width + 1);
       _.defer(function() {
         $topbar.css('width', '');
-        $newView.trigger('pagetransitionend');
+        callback();
       });
     });
   };

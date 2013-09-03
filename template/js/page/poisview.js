@@ -7,7 +7,7 @@ define(
       className: 'pageview poisview',
 
       events: {
-        'pagetransitionend': function() {
+        'pageviewready': function() {
           this.collectionView.monitorScroll();
         }
       },
