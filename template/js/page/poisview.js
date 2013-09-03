@@ -6,6 +6,12 @@ define(
     return B.View.extend({
       className: 'pageview poisview',
 
+      events: {
+        'pagetransitionend': function() {
+          this.collectionView.monitorScroll();
+        }
+      },
+
       initialize: function() {
         this.topbarView = new TopbarView({
           title: this.options.title,

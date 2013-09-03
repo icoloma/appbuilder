@@ -1,26 +1,38 @@
 define(['modules/baselistview'],
 function(BaseListView) {
   return BaseListView.extend({
+    /*
+      @cursor: número de elementos a mostrar
 
-    events: _.extend(BaseListView.prototype.events, {
-      'tap .showmore': function() {
-        this.cursor += Math.floor(this.pageCount/2);
-        this.cursor = Math.min(this.cursor, this.collection.length);
-        this.trigger('updatequery', {cursor: this.cursor});
-        this.showMore();
-      }
-    }),
-
+    */
     initialize: function(options) {
       BaseListView.prototype.initialize.call(this, options);
       this.pageCount = Math.ceil(window.innerHeight / 80);
       this.cursor = this.options.cursor || this.pageCount;
     },
 
-    button: function() {
-      return '<div class="row showmore"><div class="col-xs-12">' +
-            '<span class="icon-show-more"></span> ' + window.res.ShowMore +
-            '</div></div>';
+    monitorScroll: function() {
+      var self = this;
+
+      this.monitorId = setInterval(function() {
+
+        // Para si la lista no está en el DOM, o todos los elementos son visibles
+        if (! $.contains(document.documentElement, self.el) ||
+              self.cursor >= self.collection.length
+        ) {
+          clearInterval(self.monitorId);
+          return;
+        }
+
+        // Muestra más elementos cuando el borde de la ventana está cerca del final
+        // de la vista (hay un marge de ~80px debido a la topbar).
+        var screenBottomY = window.innerHeight + window.pageYOffset
+        , viewHeight = self.el.clientHeight
+        ;
+        if (screenBottomY >= viewHeight) {
+          self.showMore();
+        }
+      }, 100);
     },
 
     render: function() {
@@ -34,25 +46,22 @@ function(BaseListView) {
             this.$el.append(this.trView(item));
           }
         }, this);
-        if (this.cursor < this.collection.length) {
-          this.$el.append(this.button());
-        }
       }
       return this;
     },
     
     showMore: function() {
-      var currentCount = this.$('.item-row').length
-      , button = this.$('.showmore').remove()
-      ;
+      var currentCount = this.$('.item-row').length;
+
+      this.cursor += Math.floor(this.pageCount);
+      this.cursor = Math.min(this.cursor, this.collection.length);
+      this.trigger('updatequery', {cursor: this.cursor});
+
       _.each(this.collection.toJSON(), function(item, i) {
         if (i < this.cursor && i >= currentCount) {
           this.$el.append(this.trView(item));
         }
       }, this);
-      if (this.cursor < this.collection.length) {
-        this.$el.append(this.button());
-      }
     }    
   });
 });
