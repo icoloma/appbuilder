@@ -5,8 +5,14 @@ define(
     return B.View.extend({
       className: 'pageview homeview',
 
+      events: {
+        'tap .homepois': function(e) {
+          this.trigger('navigate', $(e.target).data('url'), 1);
+        }
+      },
+
       poiTmpl: _.template(
-        '<a class="homepois" href={{url}} style="background-image: url({{src}})"></a>'
+        '<div class="homepois" data-url={{url}} style="background-image: url({{src}})"></div>'
       ),
 
       initialize: function() {
