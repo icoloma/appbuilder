@@ -11,7 +11,7 @@ define(
           if (this.isNew) {
             this.isNew = false;
             var self = this;
-            _.delay(function() {
+            _.nextFrame(function() {
               self.modelView.swipe();
             });
           }

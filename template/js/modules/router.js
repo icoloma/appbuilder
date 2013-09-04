@@ -80,7 +80,7 @@ define(
           });
           this.direction = 1;
         } else {
-          this.$el.html(newView.$el);
+          this.$el.html(newView.$el.trigger('pageviewready'));
         }
 
         this.currentView = newView;

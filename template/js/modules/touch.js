@@ -8,45 +8,151 @@
 
 */
 
-define(['jquery'], function() {
+define(['jquery', 'underscore'], function() {
   var $doc = $(document)
 
-  // Estado del evento 'tap' 
-  , tapping = false
+  // Namespace para la gestión del evento 'tap'
+  , Tap = {
+    state: false,
+  }
 
-  // Cancela el tap al mover el punto de contacto
-  // AVISO: Necesita testeo, por si la pantalla es muy sensible
-  , cancelTap = function() {
-    tapping = false;
-    $doc.off('touchmove.cancelTap');
+  // Namespace para la gestión del elemento activo.
+  // Se espera que el proceso de activación use una trancisión de CSS
+  , Active = {
+
+    // Elemento activo
+    $el: null,
+
+    transitioning: false,
+
+    DELAY: 200,
+
+    // Inicia la transición
+    launchTransition: function() {
+      if (this.transitioning || !this.$el) return;
+
+      var self = this;
+      this.transitioning = true;
+      this.$el.addClass('active').on('webkitTransitionEnd.activeState', function() {
+        this.transitioning = false;
+        if (!self.$el) return;
+        self.$el.off('webkitTransitionEnd.activeState')
+                .data('active', true)
+                .trigger('activatedByTouch');
+      });
+    },
+
+    // Activa un elemento '.activable' a partir de un evento 'touchstart' sobre @$source
+    init: function($source) {
+      var $activable = $source.closest('.activable');
+
+      if ($activable.length) {
+        this.$el = $activable;
+        var self = this;
+        _.delay(function() {
+          self.launchTransition();
+        }, this.DELAY);
+      }
+    },
+
+    // Llama a @callback tras terminar el proceso de activación. Si es necesario, se salta
+    // el DELAY para que empieze la transición
+    finish: function(callback) {
+      if (!this.$el) return callback();
+
+      var listener = function() {
+        Active.cancel();
+        _.nextFrame(callback);
+      };
+
+      if (this.$el.data('active')) {
+        listener();
+      } else {
+        this.$el.on('activatedByTouch', listener);
+        if (!this.$el.hasClass('active')) {
+          this.launchTransition();
+        }
+      }
+    },
+
+    // Cancela el proceso de activación abruptamente
+    cancel: function() {
+      if (this.$el) {
+        this.$el
+          .removeClass('active')
+          .data('active', undefined)
+          .off('webkitTransitionEnd.activeState')
+          .off('activatedByTouch');
+        this.$el = null;
+      }
+      this.transitioning = false;
+    }
+  }
+
+  // Helper para las llamadas en serie en loadAnimation
+  , draw = function(action) {
+    return function(cb) {
+      action();
+      // requestAnimationFrame pasa un timestamp que fastida el async.parallel
+      _.nextFrame(function() {
+        cb();
+      });
+    };
   }
   ;
 
+  _.nextFrame = (typeof window.requestAnimationFrame === 'function') ? _.bind(requestAnimationFrame, window) : _.defer;
+
+  /*
+    Listeners para eventos táctiles.
+    Se encargan de gestionar el evento 'tap' al que responde la aplicación y
+    el estado '.active' de los elementos que respondan a 'tap' marcados con '.activable'
+  */
+
   $doc.on('touchstart', function(e) {
+
     // Cancela el tap al entrar con más de un punto de contacto
     // AVISO: no siempre soportado (e.g. Android 2.3.6)
     if (e.originalEvent.touches.length > 1) {
-      tapping = false;
+      Tap.state = false;
+      Active.cancel();
       return false;
     } else {
-      tapping = true;
-      $doc.on('touchmove.cancelTap', cancelTap);
+      Tap.state = true;
+      Active.init($(e.target));
+
+      // Cancela el tap al mover el punto de contacto
+      // AVISO: Necesita testeo, por si la pantalla es muy sensible
+      $doc.on('touchmove.cancelTap', function() {
+        // Solo se dispara una vez
+        $doc.off('touchmove.cancelTap');
+        Tap.state = false;
+        Active.cancel();
+      });
     }
   });
 
-  // Emite el evento 'tap'
   $doc.on('touchend', function(e) {
-    if (tapping) {
-      tapping = false;
-      var $target = $(e.target);
-      $target.trigger('tap');
-      // Simulamos un click instantáneo en caso de que
-      // sea un enlace <a>
-      // AVISO: no funcionará para elementos *dentro* de un <a>
-      if (e.target.tagName === 'A') {
-        window.location = e.target.href;
+    Active.finish(function() {
+      if (Tap.state) {
+        Tap.state = false;
+        $(e.target).trigger('tap');
+
+        // Simulamos un click instantáneo en caso de que
+        // sea un enlace <a>
+        // AVISO: no funcionará para elementos *dentro* de un <a>
+        // AVISO: no debería usarse con el router.cache, salvo para enlaces externos quizá?
+        if (e.target.tagName === 'A') {
+          window.location = e.target.href;
+        }
       }
-    }
+    });
+  });
+
+  $doc.on('touchcancel', function() {
+    $doc.off('touchmove.cancelTap');
+    Tap.state = false;
+    Active.cancel();
   });
 
   // Elimina los 'click' en la fase de captura
@@ -72,29 +178,32 @@ define(['jquery'], function() {
     , newViewOffset
     ;
 
-    // Fijar tamaño y posición
-    $this.append(
-      $newView.css({
-        width: width,
-        position: 'absolute',
-        left: toLeft ? widthPx : minusWidthPx,
-        top: 0
+    // Prepara y dispara la transición entre vistas. Se usa async.parallel y draw para encolar
+    // las tareas y que el navegador tenga tiempo hacer los reflows secuencialmente
+    async.series([
+      draw(function() {
+        // Fijar tamaño y posición
+        $this.append(
+          $newView.css({
+            width: width,
+            position: 'absolute',
+            left: toLeft ? widthPx : minusWidthPx,
+            top: 0
+          })
+        );
+      }),
+      draw(function() {
+        $this.css('height', $newView.outerHeight());
+      }),
+      draw(function() {
+        $oldView.remove();
+      }),
+      draw(function() {
+        $this.addClass('animating-views');
+        window.scrollTo(0, newScroll);
+        $newView.css({left: '0px'});
       })
-    );
-
-    $this.css('height', $newView.outerHeight());
-
-    $oldView.remove();
-
-    // Dispara la transición. Se aplica un delay para encolarlo y dar tiempo a que los cambios
-    // anteriores terminen de dibujarse antes de comenzar la transición.
-    // AVISO: necesita testeo.
-    _.delay(function() {
-      $this.addClass('animating-views');
-      window.scrollTo(0, newScroll);
-      $newView.css({left: '0px'});
-    }, 100);
-
+    ]);
 
     $this.on('webkitTransitionEnd.changeView', function (e) {
       // Elimina el handler
@@ -116,7 +225,7 @@ define(['jquery'], function() {
       // disparar un redraw para volver a la normalidad.
       var $topbar = $this.find('.topbar');
       $topbar.css('width', width + 1);
-      _.defer(function() {
+      _.nextFrame(function() {
         $topbar.css('width', '');
         callback();
       });
@@ -135,5 +244,6 @@ define(['jquery'], function() {
   //     $doc.off('touchmove.delegatedScroll');
   //   }
   // };
+
 
 });
