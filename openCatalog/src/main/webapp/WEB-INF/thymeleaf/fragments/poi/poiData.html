@@ -24,8 +24,16 @@
 	 -->      
       <div th:fragment="poiDataTag">
          <legend th:if="${poi.type.allowedDataValidators}" th:text="#{poi.data.other}">Other Data</legend>
-     	 <div th:each="data: ${poi.type.allowedDataValidators}" 
-     	 	th:with="
+        
+        <div id="poiData">
+			<div class="group-base"></div>
+			<div class="group-sub"></div>
+		</div>
+		
+     	 <div th:each="data: ${poi.type.allowedDataValidators}"
+     	 	  class="poiData" 
+     	 	  
+     	 	  th:with="
      	 	    isBoolean=${data.value.type.toString() == 'BOOLEAN'},  
      	 		isBigText=${data.value.type.toString() == 'BIGTEXT'},
      	 		isText=${data.value.type.toString() == 'TEXT'},  
@@ -33,21 +41,28 @@
 	     	 	isDouble=${data.value.type.toString() == 'DOUBLE'},
 	     	 	isInteger=${data.value.type.toString() == 'INTEGER'},
      	 	    normalizedKey=${#strings.replace(data.key,':','_')}
-     	 	    ">
+     	 	   "
+     	 	  data:path="${T(info.spain.opencatalog.web.controller.PoiController).getDataGroup(normalizedKey)}"
+     	 	  data:tpath="#{'poi.data.group.' + ${T(info.spain.opencatalog.web.controller.PoiController).getDataGroup(normalizedKey)}}"
+     	 	 
+     	 	 
+     	 
+     	  
+     	 	>
 	     	 	
 				<label th:text="#{'poi.data.' + ${normalizedKey} }">label</label>
 	     	 	
-	     	 	<select th:if="${isBoolean}"  th:field="*{data['__${data.key}__']}" th:id="${normalizedKey}" data:key="${data.key}">
+	     	 	<select th:if="${isBoolean}"  th:field="*{data['__${data.key}__']}" th:id="${normalizedKey}" data:key="${data.key}" class="poiData">
 	     	 		<option value="">--</option>
 	     	 		<option value="false" th:text="#{boolean.false}">No</option>
 					<option value="true" th:text="#{boolean.true}">Yes</option>
 				</select>
 				
-				<textarea th:if="${isBigText || isKeyValue }" th:field="*{data['__${data.key}__']}" class="input-xxlarge" th:id="${normalizedKey}" data:key="${data.key}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut eros in dolor pellentesque porta. Praesent vel egestas ipsum. Vestibulum quam enim, pellentesque ac tempus in, vulputate vel lectus. Donec malesuada elit orci, vel aliquam tortor tristique nec. Ut lobortis elit ut quam d</textarea>
+				<textarea th:if="${isBigText || isKeyValue }" th:field="*{data['__${data.key}__']}" class="input-xxlarge poiData" th:id="${normalizedKey}" data:key="${data.key}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut eros in dolor pellentesque porta. Praesent vel egestas ipsum. Vestibulum quam enim, pellentesque ac tempus in, vulputate vel lectus. Donec malesuada elit orci, vel aliquam tortor tristique nec. Ut lobortis elit ut quam d</textarea>
 				
-				<input th:if="${isDouble || isInteger}"  type="number" th:step="${isDouble} ? 'ANY'" data:key="${data.key}" th:id="${normalizedKey}" th:field="*{data['__${data.key}__']}" class="span3" value="Lorem ipsum dolor sit amet"/>
+				<input th:if="${isDouble || isInteger}"  type="number" th:step="${isDouble} ? 'ANY'" data:key="${data.key}" th:id="${normalizedKey}" th:field="*{data['__${data.key}__']}" class="span3 poiData" value="Lorem ipsum dolor sit amet"/>
 				
-				<input th:if="${isText}"  type="text" data:key="${data.key}" th:id="${normalizedKey}" th:field="*{data['__${data.key}__']}" class="span3" value="Lorem ipsum dolor sit amet"/>
+				<input th:if="${isText}"  type="text" data:key="${data.key}" th:id="${normalizedKey}" th:field="*{data['__${data.key}__']}" class="span3 poiData" value="Lorem ipsum dolor sit amet"/>
 		</div>
 	 </div>
 	 

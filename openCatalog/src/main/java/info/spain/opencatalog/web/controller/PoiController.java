@@ -4,8 +4,6 @@ package info.spain.opencatalog.web.controller;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.FlagGroup;
-import info.spain.opencatalog.domain.poi.Price;
-import info.spain.opencatalog.domain.poi.PriceType;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
@@ -20,9 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.WebUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -87,7 +82,6 @@ public class PoiController extends AbstractUIController {
 		//poiForm.setHasImage(poiImageUtils.hasImage(id));
 		model.addAttribute("flags", getMapFlags(poi.getType()));
 		model.addAttribute("poi", poiForm);
-		
 		model.addAttribute("poiImages", poiImageUtils.getPoiImageFilenames(id));
 		
 		return "admin/poi/poi";
@@ -299,6 +293,16 @@ public class PoiController extends AbstractUIController {
 	}
 	
 	
-	
-
+	/**
+	 * Extrae el grupo de una key normalizada de poi.data
+	 * Ej.: Si la key es grupo1_grupo_2_value devuelve grupo1_grupo2
+	 * @param key : key normalizada
+	 */
+	public static String getDataGroup(String key){
+		if (key == null) {
+			return "";
+		}
+		int index = key.lastIndexOf("_");
+		return index < 0 ? "": key.substring(0,index);
+	}
 }
