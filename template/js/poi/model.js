@@ -34,9 +34,10 @@ define(['globals', 'modules/geo', 'db/db'],
         return 'http//:maps.apple.com/?ll=' + this.get('lat') + ',' + this.get('lon') + '&z=17';
       } else {
         // Android como valor por defecto
-        return 'geo:' + this.get('lat') + ',' + this.get('lon') + 
-               '?q=' + this.get('lat') + ',' + this.get('lon') + 
-               '(' + this.get('name') + ')';
+        return 'geo:' + this.get('lat') + ',' + this.get('lon'); 
+                // El nuevo engine de Google Maps no acepta labels 
+                // '?q=' + this.get('lat') + ',' + this.get('lon') + 
+                // '(' + this.get('name') + ')';
       }
     },
 
