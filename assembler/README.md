@@ -1,24 +1,27 @@
 ASSEMBLER
 ---------
-## Build de Android
-Requisitos:
-* Sistema operativo *nix.
-* Grunt y Ant.
-* [Phonegap](http://phonegap.com/) **<= 2.9**.
-* El SDK de Android, con `tools` y `platform-tools` en el `PATH`.
-* Las dependencias instaladas en `appbuilder/template`.
+## Antes de un build
+* Instalar las dependencias de `appbuilder/template`. 
 
+```
+# Dentro de appbuilder/template
+npm install
+bower install
+```
+
+## Build de Android
 Para preparar las dependencias:
 
     # Dentro de appbuilder/assembler
     npm install
+
+**Comandos disponibles:** `grunt --help`.
 
 ### Con datos de prueba
 
 ```shell
 # Sustituir '/opt/phonegap' por la carpeta donde se encuentre PhoneGap instalado.
 grunt test:/opt/phonegap
-(cd apps/segittur; ant debug; adb install -rd bin/Segittur-debug.apk)
 
 # El código se genera en 'apps/segittur'.
 ```
@@ -32,5 +35,4 @@ En producción, la carpeta `assembler/app-data` debe contener:
 ```shell
 # Sustituir '/opt/phonegap' por la carpeta donde se encuentre PhoneGap instalado.
 grunt prod:/opt/phonegap
-(cd apps/segittur; ant debug; adb install -rd bin/Segittur-debug.apk)
 ```

@@ -1,10 +1,3 @@
-/*
-  Opciones para compilar:
-  * 'prod'
-  * 'optimized'
-  * 'device'
-*/
-
 var _ = require('underscore')
 
 /* Configuración para el build de require.js */
@@ -111,10 +104,10 @@ grunt.initConfig({
         replace: '<link rel="stylesheet" href="css/style.css">'
       }]  
     },
-    weinre: {
+    debug: {
       src: 'build/index.html',
       actions: [{
-        search: buildRegex('WEINRE'),
+        search: buildRegex('DEBUG'),
         replace: ''
       }]  
     },
@@ -148,11 +141,40 @@ grunt.initConfig({
       options: {
         livereload: true
       }
-    }
+    },
+    // No se incluye una tarea para los *.js, en favor de usar las DevTools con Workspaces directamente.
   }
 });
 
-grunt.registerTask('mock', 'Prepara datos de prueba.', function() {
+// Helper para registrar tareas
+grunt.registerNamedTask = function(name, desc, list) {
+  grunt.registerTask(name, desc, function() {
+    grunt.task.run(list);
+  });
+}
+
+/* Tareas internas */
+grunt.registerTask('_prepare_project',
+  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint']);
+grunt.registerTask('_prepare_dev',
+  ['_prepare_project', 'mock']);
+grunt.registerTask('_css_build_dev', ['less:dev', 'copy:css', 'regex-replace:css']);
+grunt.registerTask('_css_build_prod', ['less:prod', 'copy:css', 'regex-replace:css']);
+grunt.registerTask('_basic_build', ['jshint', 'clean', 'copy:index']);
+grunt.registerTask('_rjs_dev', ['requirejs:dev', 'regex-replace:scripts']);
+grunt.registerTask('_rjs_prod', ['requirejs:prod', 'regex-replace:scripts']);
+/*  */
+
+
+
+// Tarea básica de desarrollo
+grunt.registerTask('default', ['prepare-and-dev']);
+grunt.registerNamedTask('dev', 'Lanza el servidor y Livereload.\n', ['connect', 'watch'])
+grunt.registerNamedTask('prepare-and-dev',
+  '[DEFAULT] Prepara el proyecto con datos de prueba y lanza "dev".\n',
+  ['_prepare_dev', 'dev']);
+
+grunt.registerTask('mock', 'Prepara datos de prueba.\n', function() {
   var done = this.async();
   grunt.util.spawn({
     cmd: 'node',
@@ -165,32 +187,15 @@ grunt.registerTask('mock', 'Prepara datos de prueba.', function() {
   });
 });
 
-/* Tareas internas */
-grunt.registerTask('prepare-project',
-  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint']);
-grunt.registerTask('prepare-dev',
-  ['prepare-project', 'mock']);
-grunt.registerTask('css-build-dev', ['less:dev', 'copy:css', 'regex-replace:css']);
-grunt.registerTask('css-build-prod', ['less:prod', 'copy:css', 'regex-replace:css']);
-grunt.registerTask('basic-build', ['jshint', 'clean', 'copy:index']);
-grunt.registerTask('rjs-dev', ['requirejs:dev', 'regex-replace:scripts']);
-grunt.registerTask('rjs-prod', ['requirejs:prod', 'regex-replace:scripts']);
-/*  */
-
-// Tarea básica de desarrollo
-grunt.registerTask('default', ['dev']);
-grunt.registerTask('dev',
-  ['prepare-project', 'connect', 'watch']);
-
 // Por si es necesario compilar la aplicación nativa *SIN* hacer el build de requirejs
-grunt.registerTask('device',
-  ['basic-build', 'copy:data', 'copy:config', 'css-build-dev', 'copy:js']);
+grunt.registerNamedTask('device', 'Efectúa un build sin optimizar JavaScript.\n',
+  ['_basic_build', 'copy:data', 'copy:config', '_css_build_dev', 'copy:js']);
 
 // Optimización de javascript
-grunt.registerTask('optimized',
-  ['basic-build', 'copy:data', 'copy:config', 'css-build-dev', 'rjs-dev']);
+grunt.registerTask('optimized', 'Efectúa un build juntando todos los scripts.\n',
+  ['_basic_build', 'copy:data', 'copy:config', '_css_build_dev', '_rjs_dev']);
 
 // Producción (necesita ensamblarse con los datos del catálogo)
-grunt.registerTask('prod',
-  ['basic-build', 'css-build-prod', 'rjs-prod', 'regex-replace:weinre', 'copy:config']);
+grunt.registerTask('prod', 'Efectúa un build listo para producción, para usarse en el assembler.\n',
+  ['_basic_build', '_css_build_prod', '_rjs_prod', 'regex-replace:debug', 'copy:config']);
 };

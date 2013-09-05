@@ -44,11 +44,15 @@
     <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
     -->
 
-    <!-- << GRUNT: WEINRE -->
+    <!-- << GRUNT: DEBUG -->
+
     <!-- Util para depurar con Weinre. Sustituir IP por la del servidor local -->
     <script src="http://192.168.X.XXX:8080/target/target-script-min.js"></script>
 
-    <!-- GRUNT: WEINRE >> -->
+    <!-- Live reloading sin necesidad de extensiones -->
+    <script src="http://localhost:35729/livereload.js"></script>
+
+    <!-- GRUNT: DEBUG >> -->
     <script src="cordova.js"></script>
     <!-- << GRUNT: CSS -->
     <link rel="stylesheet" href="less/style.css">

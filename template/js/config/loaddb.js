@@ -47,19 +47,11 @@ define(
     };
 
     return function(pois, callback) {
-      // Comprueba si ya la BDD ya está cargada (después de F5 por ejemplo)
-      console.log('Comprobando si la BDD está vacía...'); //DEBUG
+      // Recarga la BDD siempre, después de cada refresh, etc.
       Db.transaction(function(tx) {
-        tx.executeSql(
-          'SELECT name FROM sqlite_master WHERE type="table" AND name="Poi"',
-          [], function(tx, res) {
-            if (res.rows.length) {
-              console.log('BDD presente.'); //DEBUG
-              callback();
-            } else {
-              console.log('Cargando la base de datos'); //DEBUG
-              loadData(pois, callback);
-            }
+        tx.executeSql('DROP TABLE IF EXISTS Poi', [], function(tx, res) {
+          console.log('Cargando la base de datos'); //DEBUG
+          loadData(pois, callback);
         });
       });
     };

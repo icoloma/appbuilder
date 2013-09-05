@@ -2,35 +2,36 @@ TEMPLATE
 --------
 ## Puesta en marcha
 ```shell
-# Dependencias globales
-npm install -g bower grunt-cli
-
-# OJO: dentro de appbuilder/template !!!
+# En appbuilder/template
 npm install
 bower install
 grunt
 # Aplicación corriendo en el puerto 7000 con LiveReload activado
 ```
 
-Hay más opciones para **grunt** en el `Gruntfile.js`: *optimized*, *device*, *prod*... 
-(Varias cosas no funcionarán bien si se intenta depurar sin un servidor mediante urls `file:`, como Ajax o el evento `deviceready` de Phonegap).
+**Comandos disponibles**: `grunt --help`.
+
+### Navegadores
+El depurado con navegadores sólo está testado en Chrome (necesariamente tiene que ser un navegador WebKit).
+
+Varias cosas no funcionarán bien si se intenta depurar sin un servidor mediante urls `file:`, como Ajax o el evento `deviceready` de Phonegap.
+
+### LiveReload
+Las tareas de desarrollo implementan *live reloading*, refrescando el navegador automáticamente cuando ciertos archivos cambian (ver `Gruntfile.js`, tarea `watch`).
 
 ### Windows
 El paquete `sqlite3` tiene unas [dependencias](https://github.com/TooTallNate/node-gyp#installation) complicadas en Windows. Sin él, fallará la generación de datos de prueba (solo la parte de generar un `appData.db`).
 
 ### Dev Tools en mobile
-Para acceder a unas dev tools en un dispositivo móvil (requiere dispositivo y desktop conectados a una red local):
+Para acceder a unas dev tools cuando se depura en un dispositivo móvil (requiere dispositivo y desktop conectados a una red local):
 * *Antes de desplegar en el móvil*, cambiar `http://192.168.X.XXX` en `index.html` por la IP del desktop.
 
 ```shell
-#Dependencias globales
-npm install -g weinre
-
 weinre --boundHost -all-
 # Consola de debugging en http://localhost:8080/client/
 ```
 
-Vale tanto para el navegador móvil como para la app nativa.
+Funciona usando el navegador móvil o la aplicación compilada.
 
 ### Build en Android
 Ver `appbuilder/assembler/README.md`.
