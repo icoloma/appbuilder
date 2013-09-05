@@ -28,12 +28,21 @@ $(function(){
 	function setPriceInputNames(){
 		$('table.prices tbody tr').each( function(it){
 			var tr = $(this);
-			var priceInput  = $('input',  tr.children()[0]).removeAttr('disabled').attr('name', 'prices[' + it + '].price');
-			var selectInput = $('select', tr.children()[1]).removeAttr('disabled').attr('name', 'prices[' + it + '].priceType');
-			var periodInput = $('input',  tr.children()[2]).removeAttr('disabled').attr('name', 'prices[' + it + '].timeTable.period');
-			var periodInput = $('textarea',  tr.children()[3]).removeAttr('disabled').attr('name', 'prices[' + it + '].observations.es');
-			var periodInput = $('textarea',  tr.children()[4]).removeAttr('disabled').attr('name', 'prices[' + it + '].observations.en');
-			var deleteButton = $('a',  tr.children()[5]).on('click', function(e){
+			
+			$('input.price',  tr).attr('name', 'prices[' + it + '].price').removeAttr('disabled');  // price 
+			$('input.period', tr).attr('name', 'prices[' + it + '].timeTable.period').removeAttr('disabled'); // period
+			$('select.priceType', tr).attr('name', 'prices[' + it + '].priceType').removeAttr('disabled'); // priceType
+
+			$($('ul.nav-pills a', tr)[0]).attr("href","#price-es-" + it);
+			$($('.tab-pane', tr)[0]).attr("id","price-es-" + it);
+			
+			$($('ul.nav-pills a', tr)[1]).attr("href","#price-en-" + it);
+			$($('.tab-pane', tr)[1]).attr("id","price-en-" + it);
+			
+			$('textarea.es', tr).attr('name', 'prices[' + it + '].observations.es').removeAttr('disabled');
+			$('textarea.en', tr).attr('name', 'prices[' + it + '].observations.en').removeAttr('disabled');
+			
+			var deleteButton = $('a.removePrice').on('click', function(e){
 				e.preventDefault();
 				deletePriceRow(this);
 			})

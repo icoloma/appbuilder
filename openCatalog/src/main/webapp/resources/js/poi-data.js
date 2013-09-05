@@ -10,18 +10,14 @@
 			}
 
 			var getDiv = function (divId){
-				console.log("looking for " + divId);
 				var div = $("#" + divId);
-				if (div.length == 0){
+				if (!div.length){
 					div = createDiv(divId);
-				} else {
-					console.log("found " + divId)
 				}
 				return div;
 			}
 
 			var createDiv = function (divId){
-				console.log("creating " + divId);
 				var parent = findParent(divId);
 				var sub = $(parent).find(".group-sub")[0]; 
 				var div = $("<div/>").attr("id", divId).appendTo(sub);
@@ -45,7 +41,7 @@
 
 				var div = $("#"+parentId);
 
-				if (div.length > 0 ){
+				if (div.length ){
 					return div;
 				}
 
@@ -61,7 +57,7 @@
 			var getHeaderText = function(divId){
 				var path = divId.substr(6);
 				var div = $("div.poiData[data-path='" + path +"']");
-				if (div.length > 0){
+				if (div.length){
 					return div.data("tpath")
 				}
 				return "";
@@ -73,8 +69,7 @@
 			poiData.each( function(){
 				var that = $(this);
 				var path = that.data("path");
-				console.log("processing " + path);
-				addToDiv(that, path.length == 0 ? "poiData": "group-" + path);
+				addToDiv(that, path.length ? "group-" + path : "poiData");
 			});
 
 

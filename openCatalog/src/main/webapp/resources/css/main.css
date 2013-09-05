@@ -116,4 +116,8 @@ ul.nav-stacked {
 .rowTemplate {
 	display:none;
 }
+
+textarea.priceObservation {
+	min-height: 174px;
+	width: 90%;
 }
