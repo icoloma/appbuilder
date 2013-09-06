@@ -1,6 +1,6 @@
 define(
   ['globals', 'tpl!poi/articleview.tpl'],
-  function(Globals, Tmpl, Metadata) {
+  function(Globals, Tmpl) {
     return B.View.extend({
 
       className: 'articleview',

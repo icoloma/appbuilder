@@ -88,7 +88,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
       i18nConfig(i18n, _.extend(catalog_metadata, flag_icons));
 
       // Rellenar la BDD SQL del navegador
-      LoadDb(metadata.pois, callback);
+      LoadDb(catalog_metadata.pois, callback);
     };
 
   } else {
