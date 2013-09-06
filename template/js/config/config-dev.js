@@ -63,6 +63,11 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
   if (location.protocol === 'http:' || location.protocol === 'https:') {
     console.log('Simulando evento deviceready!'); //DEBUG
 
+    console.warn(
+      '%cLa navegación de la app NO usa el API nativa de history del navegador. ' +
+      'Si has refrescado en una página distinta a la home, el botón "back" dará errores en modules/router.',
+      'color: #c00; font-weight: bold'); //DEBUG
+
     // Inicializa la BDD
     Db.initDb(openDatabase(appConfig.dbName, 1, 'foobar', 5*1024*1024));
 
