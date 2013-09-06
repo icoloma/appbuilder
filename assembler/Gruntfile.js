@@ -2,11 +2,6 @@
 var path = require('path')
 , fs = require('fs')
 , _ = require('underscore')
-
-// Un path puede contener ':' (e.g. Windows) y fastidiar los args de grunt
-, escapePath = function(path) {
-  return path.replace(':', '\\:', 'g');
-}
 ;
 
 module.exports = function(grunt) {
@@ -19,17 +14,25 @@ grunt.loadNpmTasks('grunt-regex-replace');
 
 grunt.initConfig({
   hub: {
-    dev: {
+    optimized: {
       src: ['../template/Gruntfile.js'],
-      tasks: ['_prepare_dev', 'optimized']
+      tasks: ['_prepare_project', '_optimized']
+    },
+    device: {
+      src: ['../template/Gruntfile.js'],
+      tasks: ['_prepare_project', '_device']
     },
     prod: {
       src: ['../template/Gruntfile.js'],
-      tasks: ['_prepare_project', 'prod']
+      tasks: ['_prepare_project', '_prod']
+    },
+    mock: {
+      src: ['../template/Gruntfile.js'],
+      tasks: ['mock']
     }
   },
   copy: {
-    appBuild: {
+    templateBuild: {
       cwd: '../template/build/',
       expand: true,
       src: ['**'],
@@ -44,43 +47,31 @@ grunt.initConfig({
     www: {
       expand: true,
       cwd: 'tmp-www',
-      src: ['**'],
-      dest: 'apps/segittur/assets/www/'
-    },
-    'www-prod': {
-      expand: true,
-      cwd: 'tmp-www',
       src: ['**', '!config/**'],
       dest: 'apps/segittur/assets/www/'
     },
-    testAppData: {
+    testData: {
       expand: true,
-      cwd: 'apps/segittur/assets/www/test/data/',
-      src: [ 'appData.db' ],
-      dest: 'app-data/',
+      cwd: '../template/test/data',
+      src: ['**'],
+      dest: 'tmp-app-data'
+    },
+    testAssets: {
+      expand: true,
+      cwd: '../template/test/',
+      src: ['assets/**'],
+      dest: 'tmp-app-data/www'
     },
     appData: {
       expand: true,
-      cwd: 'app-data',
-      src: [ 'appData.db' ],
+      cwd: 'tmp-app-data',
+      src: [ '**' , '!catalog_metadata.json' ],
       dest: 'apps/segittur/assets/'
     },
-    appConfig: {
-      expand: true,
-      cwd: 'app-data',
-      src: [ 'appConfig.json' ],
-      dest: 'apps/segittur/assets/www'
-    },
-    appAssets: {
-      expand: true,
-      cwd: 'app-data',
-      src: [ 'assets/**' ],
-      dest: 'apps/segittur/assets/www/'
-    }
   },
   clean: {
     app: ['apps/segittur'],
-    tmp: ['tmp-*'],
+    tmpWWW: ['tmp-www'],
     www: ['apps/segittur/assets/www/*', '!apps/segittur/assets/www/cordova.js']
   },
   'regex-replace': {
@@ -94,39 +85,41 @@ grunt.initConfig({
   }
 });
 
-/*
-  Tareas internas
-*/
 
 // Se encarga de unir la configuración que viene del openCatalog con la configuración propia
 // del template
 grunt.registerTask('_join_config', '[Tarea interna]', function() {
-  var metadata = JSON.parse(fs.readFileSync('app-data/metadata.json', 'utf-8'))
+  var catalog_metadata = JSON.parse(fs.readFileSync('tmp-app-data/catalog-metadata.json', 'utf-8'))
   , i18n = JSON.parse(fs.readFileSync('tmp-www/config/i18n.json', 'utf-8'))
   , flag_icons = JSON.parse(fs.readFileSync('tmp-www/config/flag-icons.json', 'utf-8'))
   , appConfig
   ;
 
-  appConfig = _.extend({i18n: i18n}, {metadata: metadata});
-  _.extend(appConfig.metadata, flag_icons);
+  appMetadata = _.extend({i18n: i18n}, {metadata: catalog_metadata});
+  _.extend(appMetadata.metadata, flag_icons);
 
-  fs.writeFileSync('app-data/appConfig.json', JSON.stringify(appConfig), 'utf-8');
+  fs.writeFileSync('tmp-app-data/www/appMetadata.json', JSON.stringify(appMetadata), 'utf-8');
 });
 
-// Crea el proyecto de phonegap
-grunt.registerTask('_pg_create_android', '[Tarea interna]\n', function(phonegapPath) {
+// Crea el proyecto Android
+grunt.registerTask('_pg_create_android', '[Tarea interna]', function() {
+  var phonegapPath = process.env.PHONEGAP_PATH;
+
   if (!phonegapPath) {
-    throw new Error('No has proporcinado un path para PhoneGap.');
+    throw new Error('La variable PHONEGAP_PATH no existe.');
   }
 
   var done = this.async()
-  , normalizedPath = phonegapPath.match(RegExp(path.sep + '$')) ? 
-                     phonegapPath : phonegapPath + path.sep
   , command = process.platform === 'win32' ? 'create.bat' : 'create'
+  , fullComand = path.join(phonegapPath, 'lib/android/bin', command)
   ;
 
+  if (!fs.existsSync(fullComand)) {
+    throw new Error('El ejecutable ' + fullComand + ' no existe.')
+  }
+
   grunt.util.spawn({
-    cmd: path.join(normalizedPath, 'lib/android/bin/' + command),
+    cmd: fullComand,
     args: [ 'apps/segittur', 'com.segittur', 'Segittur' ],
     opts: {
       stdio: 'inherit'
@@ -136,7 +129,20 @@ grunt.registerTask('_pg_create_android', '[Tarea interna]\n', function(phonegapP
   });
 });
 
-grunt.registerTask('android-build', 'Ejecuta ant.\n', function() {
+// Compila el código en appbuilder/template
+grunt.registerTask('_template_build', '[Tarea interna]', function(buildMode) {
+  buildMode = buildMode || 'optimized';
+  grunt.task.run('hub:' + buildMode);
+});
+
+// Compila e instala el apk
+grunt.registerTask('_android_deploy', '[Tarea interna]', ['android-build', 'android-install']);
+
+grunt.registerTask('_basic_build', '[Tarea interna]',
+  ['clean:tmpWWW', 'copy:templateBuild', 'copy:plugin', 'regex-replace:androidConfig',
+    'clean:www', 'copy:www', '_join_config', 'copy:appData', '_android_deploy']);
+
+grunt.registerTask('android-build', 'Compila la app con Ant.\n', function() {
   var done = this.async();
   grunt.util.spawn({
     cmd: 'ant',
@@ -146,51 +152,53 @@ grunt.registerTask('android-build', 'Ejecuta ant.\n', function() {
     }
   }, function(error, result, code) {
     done();
-  })
+  });
 });
 
-grunt.registerTask('android-install', 'Ejecuta adb install.\n', function() {
+grunt.registerTask('android-install', 'Instala la app mediante adb.\n', function() {
   var done = this.async();
   // Hacemos un uninstall + install para sobrescribir los datos
-  grunt.log.writeln('Desinstalando la aplicación.')
+  grunt.log.writeln('Desinstalando la aplicación.');
   grunt.util.spawn({
     cmd: 'adb',
     args: [ 'uninstall', 'com.segittur' ],
   }, function(error, result, code) {
-    grunt.log.writeln('Instalando el apk.')
+    grunt.log.writeln('Instalando el apk.');
     grunt.util.spawn({
       cmd: 'adb',
       args: [ 'install', 'apps/segittur/bin/Segittur-debug.apk' ],
       opts: {
         stdio: 'inherit'
       }
-
     }, function(error, result, code) {
       done();
     });
   });
 });
 
-grunt.registerTask('test',
-  'Crea e instala una aplicación Android de test, con datos aleatorios de prueba.\ngrunt test:{carpeta de PhoneGap}\n',
-  function(phonegapPath) {
-    grunt.task.run([
-      'hub:dev', 'clean:app', 'clean:tmp', '_pg_create_android:' + escapePath(phonegapPath),
-      'copy:appBuild', 'copy:plugin', 'regex-replace:androidConfig',
-      'clean:www', 'copy:www', 'copy:appData', 'copy:testAppData', 'clean:tmp',
-      'android-build', 'android-install'
-    ]);
+grunt.registerTask('mock', 'Genera unos datos de prueba aleatorios para "tmp-app-data".\n', function() {
+  grunt.task.run(['hub:mock', 'copy:testData', 'copy:testAssets']);
 });
 
-grunt.registerTask('prod',
-  'Crea e instala una aplicación Android en producción, con datos suministrados en "app-data" (Ver README).\ngrunt prod:{carpeta de PhoneGap}\n',
-  function(phonegapPath) {
-    grunt.task.run([
-      'hub:prod', 'clean:app', 'clean:tmp', '_pg_create_android:' + escapePath(phonegapPath),
-      'copy:appBuild', 'copy:plugin', 'regex-replace:androidConfig', 'clean:www',
-      '_join_config', 'copy:www-prod', 'copy:appData', 'copy:appConfig', 'copy:appAssets', 'clean:tmp',
-      'android-build', 'android-install'
-    ]);
+grunt.registerTask('build',
+'Compila el código web de template, genera un proyecto Android, compila e instala el apk.\n' +
+'Requiere una variable de entorno PHONEGAP_PATH apuntando a la instalación de PhoneGap.\n' +
+'Acepta un modo de compilación opcional (c.f. template/Gruntfile.js, tareas [Assembler]).\n' +
+'Ejemplo: grunt build:prod\n', 
+  function(buildMode) {
+    buildMode = buildMode || 'optimized';
+    grunt.task.run(['clean:app', '_pg_create_android',
+      '_template_build:' + buildMode, '_basic_build']);
+
+});
+
+grunt.registerTask('compile',
+'Compila el código web de template, recompila e instala el apk, SIN generar un nuevo proyecto Android.\n' +
+'Acepta un modo de compilación opcional, igual que \'build\'.\n' +
+'Ejemplo: grunt compile:prod\n', 
+  function(buildMode) {
+    buildMode = buildMode || 'optimized';
+    grunt.task.run(['_template_build:' + buildMode, '_basic_build']);
 });
 
 };

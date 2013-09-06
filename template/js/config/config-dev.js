@@ -10,9 +10,9 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
   console.log('Configurando aplicación...'); //DEBUG
 
   window.appConfig = {
-    assets: 'test/assets/',
+    assets: 'assets/',
     dbName: 'appData',
-    // Estos campos no son necesarios en producción
+    // Estos campos solo son necesarios en desarrollo para un browser
     data: 'test/data/',
     configFolder: 'config/'
   };
@@ -28,12 +28,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
     req.open('get', url, false);
     req.send();
     return result;
-  }
-  , raw_metadata = loadJSONResource(appConfig.data + 'raw_metadata.json')
-  , i18n = loadJSONResource(appConfig.configFolder + 'i18n.json')
-  , flag_icons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
-  ;
-
+  };
 
   // Detecta eventos 'touch', para distinguir si estamos en un dispositivo o en desktop
   var supportsTouch = (('ontouchstart' in window) ||
@@ -68,12 +63,20 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
       'Si has refrescado en una página distinta a la home, el botón "back" dará errores en modules/router.',
       'color: #c00; font-weight: bold'); //DEBUG
 
+
+    var catalog_metadata = loadJSONResource(appConfig.data + 'catalog-metadata.json')
+    , i18n = loadJSONResource(appConfig.configFolder + 'i18n.json')
+    , flag_icons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
+    ;
+
     // Inicializa la BDD
     Db.initDb(openDatabase(appConfig.dbName, 1, 'foobar', 5*1024*1024));
 
     _.extend(window.appConfig, {
       platform: 'Android',
-      locale: 'es'
+      locale: 'es',
+      // Sobrescribimos la carpeta de assets
+      assets: 'test/assets/'
     });
 
     // Shim para el API de notificaciones de Phonegap
@@ -82,10 +85,10 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
     };
 
     return function(callback) {
-      i18nConfig(i18n, raw_metadata, flag_icons);
+      i18nConfig(i18n, _.extend(catalog_metadata, flag_icons));
 
       // Rellenar la BDD SQL del navegador
-      LoadDb(raw_metadata.pois, callback);
+      LoadDb(metadata.pois, callback);
     };
 
   } else {
@@ -103,6 +106,8 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
 
         console.log('deviceready nativo disparado!'); //DEBUG
 
+        var appMetadata = loadJSONResource('appMetadata.json');
+
         // Inicia la BDD SQLite del dispositivo
         Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
 
@@ -114,17 +119,17 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
 
           // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
-          window.appConfig.locale = locale in i18n ? locale : 'en';
+          window.appConfig.locale = locale in appMetadata.i18n ? locale : 'en';
 
-          i18nConfig(i18n, raw_metadata, flag_icons);
+          i18nConfig(appMetadata.i18n, appMetadata.metadata);
           callback();
         }, function(err) {
           // TO-DO: mejor error handling
 
           window.appConfig.locale = 'en';
-          window.res = i18n[window.appConfig.locale];
+          window.res = appMetadata.i18n[window.appConfig.locale];
 
-          i18nConfig(i18n, raw_metadata);
+          i18nConfig(appMetadata.i18n, appMetadata.metadata);
           callback();
         });
       });

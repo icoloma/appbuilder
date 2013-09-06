@@ -15,9 +15,5 @@ define(['db/db'], function(Db) {
     // TO-DO: simplificar la inclusión de los 'data'
     window.res._metadata = metadata;
     window.res._metadata.data = metadata.data[appConfig.locale];
-
-    for (var i = 2; arguments[i] !== undefined; i++) {
-      _.extend(window.res._metadata, arguments[i]);
-    }
   };
 });

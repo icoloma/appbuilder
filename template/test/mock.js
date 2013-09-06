@@ -11,7 +11,7 @@ var random = require('./mock/random-data.js')
 , jsonPois
 , jsonData = {}
 , dataFolder = __dirname + '/data/'
-, jsonFile = 'raw_metadata.json'
+, jsonFile = 'catalog-metadata.json'
 , sqliteFile = 'appData.db'
 ;
 

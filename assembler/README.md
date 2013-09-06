@@ -1,7 +1,7 @@
 ASSEMBLER
 ---------
 ## Antes de un build
-* Instalar las dependencias de `appbuilder/template`. 
+* Instalar las dependencias de `appbuilder/template`.
 
 ```
 # Dentro de appbuilder/template
@@ -9,30 +9,46 @@ npm install
 bower install
 ```
 
-## Build de Android
-Para preparar las dependencias:
+## Puesta en marcha
+Build de Android con datos de prueba:
 
-    # Dentro de appbuilder/assembler
-    npm install
+```
+# Dependencias
+npm install
 
-**Comandos disponibles:** `grunt --help`.
+# Datos de prueba
+grunt mock
 
-### Con datos de prueba
-
-```shell
-# Sustituir '/opt/phonegap' por la carpeta donde se encuentre PhoneGap instalado.
-grunt test:/opt/phonegap
+# Generar e instalar un apk de testeo
+grunt build:{carpeta de Phonegap}
 
 # El código se genera en 'apps/segittur'.
 ```
 
-### Producción
-En producción, la carpeta `assembler/app-data` debe contener:
-* `metadata.json`: los metadatos de la aplicación (que el assembler fusiona con i18n, etc.)
-* `appData.db`: los datos de POIs.
-* `assets/`: la carpeta con las imágenes y demás de POIs.
+**Comandos disponibles:** `grunt --help`.
 
-```shell
-# Sustituir '/opt/phonegap' por la carpeta donde se encuentre PhoneGap instalado.
-grunt prod:/opt/phonegap
+Con `grunt compile:{carpeta de PhoneGap}` se repite el build SIN crear de cero un proyecto Android.
+
+## Opciones de build
+Se puede especificar como compilar el código web de `template`:
+
 ```
+# Ejemplos
+grunt build:{carpeta de PhoneGap}:prod
+grunt compile:{carpeta de PhoneGap}:device
+```
+
+Las opciones de compilación son:
+ * `prod`: minificación y optimización.
+ * `optimized` (default): JavaScript "empaquetado" sin minificar.
+ * `device`: JavaScript sin "empaquetar", scripts separados.
+
+
+## Datos para el build
+El `assembler` espera una serie de datos provenientes de `openCatalog`. Para generar unos datos de prueba:
+
+```
+grunt mock
+```
+
+Para el formato, véase `assembler/FORMAT.md`.

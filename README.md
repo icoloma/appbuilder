@@ -16,4 +16,4 @@ Entorno de generación de Apps de Segittur.
 npm install -g grunt-cli weinre bower
 ```
 
-* [Phonegap **2.9**](https://github.com/phonegap/phonegap/archive/2.9.0.zip).
+* [Phonegap **2.9**](https://github.com/phonegap/phonegap/archive/2.9.0.zip), con la carpeta guardada en la variable de entorno `PHONEGAP_PATH`.

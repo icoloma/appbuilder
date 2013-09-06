@@ -41,9 +41,10 @@ define(['db/db', 'config/i18n-config'],
       config: function(cb) {
         var req = new XMLHttpRequest();
         req.onload = function() {
+          // TO-DO: mejor error handling
           cb(null, JSON.parse(this.responseText));
         };
-        req.open('get', 'appConfig.json', true);
+        req.open('get', 'appMetadata.json', true);
         req.send();
       }
     }, function(err, results) {

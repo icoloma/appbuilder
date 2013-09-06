@@ -1,24 +1,42 @@
 ## Estructura de datos
 
-La aplicación en producción espera encontrar:
-* Una base de datos de POIs `appData.db` junto a la carpeta raíz de los componentes web `www`.
-* Un fichero de configuración con metadatos y cadenas i18n `appConfig.json` *dentro* de dicha carpeta `www`.
+La app en producción espera la siguiente estructura dentro de `assets`:
 
-Este último se genera combinando configuración estática del app-template (cadenas i18n, etc.) con configuración dinámica proveniente del catálogo, a saber: información sobre *types*, *flags* y los menús.
+    assets/
+    ├── appData.db
+    └── www
+        ├── appMetadata.json
+        ├── assets/
+        ├── (aplicación web)
+        └── ...
 
-    // appConfig.json
+* `appData.db` es la base de datos de POIs.
+* `assets/` es la carpeta con las imágenes y demás.
+* `appMetadata.json` son los metadatos.
+
+## Metadatos
+Los metadatos `appMetadata.json` son una combinación de configuración estática del `template` (cadenas i18n, etc.) con configuración dinámica proveniente de `openCatalog`: información sobre *types*, *flags* y los menús.
+
+Para realizar dicha combinación, `assembler` espera el siguiente formato en la carpeta `assembler/tmp-app-data`:
+
+    tmp-app-data/
+    ├── appData.db
+    ├── metadata.json
+    └── www
+        └── assets/
+
+
+
+### Formato
+    // metadata.json
     {
-      // Parte "estática"
-      i18n: <cadenas i18n de la aplicación>,
-      ...
-      // Parte "dinámica"
       flagGroups: [ <flag group> ],
       flags: [ <flag> ],
       types: [ <type> ],
       menuConfig: <menu config>
     }
 
-### Campos i18n en metadatos
+#### Campos i18n en metadatos
 Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar internacionalizados. Los campos «i18n» en realidad requieren una copia por idioma, algo como:
 
     {
@@ -31,7 +49,7 @@ Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar i
     }
 La aplicación se encarga de cargar en memoria sólo los datos en el idioma apropiado.
 
-### Menús
+#### Menús
 La estructura de la entrada `menuConfig` en los metadatos es como sigue:
 
 * Configuración global:

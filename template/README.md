@@ -33,8 +33,5 @@ weinre --boundHost -all-
 
 Funciona usando el navegador móvil o la aplicación compilada.
 
-### Build en Android
+### Build como aplicación nativa
 Ver `appbuilder/assembler/README.md`.
-
-### Esquema de datos
-Véase `test/README.md`.
