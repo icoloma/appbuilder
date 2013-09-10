@@ -7,7 +7,7 @@ function() {
         json.url = '#/menu/' + json.menu;
       } else {
         var uriObj = {
-          query: json.query,
+          queryConditions: json.queryConditions,
           title: json.label
         };
         json.url = '#/pois?' + encodeURIComponent(JSON.stringify(uriObj));

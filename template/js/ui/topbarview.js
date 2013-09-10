@@ -26,7 +26,7 @@ function(Globals, Tmpl) {
     ),
 
     render: function() {
-      var wrappedMenu = this.options.actions.length > 1;
+      var wrappedMenu = this.options.actions && this.options.actions.length > 1;
       _.extend(this.options, {
         hideBackButton: this.options.root ? 'invisible' : '',
         hideMenuButton: wrappedMenu ? '' : 'hide',

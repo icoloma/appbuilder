@@ -122,8 +122,8 @@ define(
       renderPois: function(uri) {
         var uriObj = JSON.parse(decodeURIComponent(uri))
         , self = this
-        , query = uriObj.query
-        , sqlStr = Db.utils.queryToSql('Poi', query)
+        , queryConditions = uriObj.queryConditions
+        , sqlStr = 'SELECT * FROM Poi WHERE ' + queryConditions
         ;
         Db.sqlAsCollection(PoiCollection, sqlStr, [], function(err, pois) {
           if (uriObj.sort) {
