@@ -37,12 +37,13 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
   /*
     Dispara eventos 'tap' en un navegador desktop sin necesidad de simular eventos táctiles con
     las dev tools. 
-    AVISO: usa un API moderna para disparar los eventos 'tap', no funcionará en IE
   */
   if (!supportsTouch) {
     var tapEvent = new CustomEvent('tap', {bubbles: true});
     document.addEventListener('click', function(e) {
       e.target.dispatchEvent(tapEvent);
+
+      // AVISO: esto no debería usarse con la history del router
       if (e.target.tagName === 'A') {
         window.location = e.target.href;
       }

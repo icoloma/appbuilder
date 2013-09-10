@@ -4,7 +4,7 @@
   el resultado es consistente. 
 */
 var seedRandom = require('seed-random')
-, randomUUIDgenerator = seedRandom('uuid')
+, randomUUIDGenerator = seedRandom('uuid')
 , rand = seedRandom('cthulhu ftangh')
 , loremIpsum =
   ['nullam','egestas','velit','et','euismod','placerat','nulla','consequat','risus','lectus',
@@ -25,7 +25,7 @@ var seedRandom = require('seed-random')
 , createUUID = function() {
   var s = []
   , hexDigits = "0123456789ABCDEF"
-  , random = randomUUIDgenerator
+  , random = randomUUIDGenerator
   ;
   for ( var i = 0; i < 32; i++) {
     s[i] = hexDigits.substr(Math.floor(random() * 0x10), 1);

@@ -151,6 +151,7 @@ grunt.registerTask('android-build', 'Compila la app con Ant.\n', function() {
       stdio: 'inherit'
     }
   }, function(error, result, code) {
+    if (error) grunt.fail.warn("Error en al intentar efectuar el build del proyecto Android.")
     done();
   });
 });
@@ -171,6 +172,7 @@ grunt.registerTask('android-install', 'Instala la app mediante adb.\n', function
         stdio: 'inherit'
       }
     }, function(error, result, code) {
+      if (error) grunt.fail.warn("Error al intentar instalar el apk.")
       done();
     });
   });

@@ -20,22 +20,22 @@ npm install
 grunt mock
 
 # Generar e instalar un apk de testeo
-grunt build:{carpeta de Phonegap}
+grunt build
 
 # El código se genera en 'apps/segittur'.
 ```
 
 **Comandos disponibles:** `grunt --help`.
 
-Con `grunt compile:{carpeta de PhoneGap}` se repite el build SIN crear de cero un proyecto Android.
+Con `grunt compile` se repite el build SIN crear de cero un proyecto Android.
 
 ## Opciones de build
 Se puede especificar como compilar el código web de `template`:
 
 ```
 # Ejemplos
-grunt build:{carpeta de PhoneGap}:prod
-grunt compile:{carpeta de PhoneGap}:device
+grunt build:prod
+grunt compile:device
 ```
 
 Las opciones de compilación son:

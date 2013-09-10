@@ -21,14 +21,12 @@ Para realizar dicha combinación, `assembler` espera el siguiente formato en la 
 
     tmp-app-data/
     ├── appData.db
-    ├── metadata.json
+    ├── catalog-metadata.json
     └── www
         └── assets/
 
-
-
 ### Formato
-    // metadata.json
+    // catalog-metadata.json
     {
       flagGroups: [ <flag group> ],
       flags: [ <flag> ],
