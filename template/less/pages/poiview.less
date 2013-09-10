@@ -82,11 +82,29 @@
 .data-item-value {
 }
 
-.flag-group-name {
-  line-height: @smallLineHeight + 3px;
-  vertical-align: top;
+.flag-group-line {
+  line-height: @largeLineHeight;
 }
 
 .flags-container {
-  margin-left: 2em;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 5px 2em;
+}
+
+.flag-name {
+  line-height: @largeLineHeight;
+}
+
+.open-close:before {
+  &:extend(.icon-up-dir:before);
+}
+
+.collapsed .open-close:before {
+  &:extend(.icon-down-dir:before);
+}
+
+.flag-group-icon:before {
+  line-height: @largeLineHeight + 2px;
+  vertical-align: bottom;
 }

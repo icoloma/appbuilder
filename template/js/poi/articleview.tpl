@@ -17,7 +17,7 @@
 <div class="row app-container poiview-section">
   <p class="small description col-xs-12">{{desc}}</p>
 </div>
-<div class="row app-container poiview-section small">
+<div class="row app-container poiview-section">
   <% 
     for (var key in data) {
   %>
@@ -37,18 +37,21 @@
     for (var groupId in flagGroups) {
       group = flagGroups[groupId];
   %>
-    <div class="col-xs-12 small flag-group">
-      <span class="flag-group-line" data-toggle="collapse" data-target="#flags-container-{{group.id}}">
+    <div class="col-xs-12 flag-group">
+      <span class="flag-group-line collapsed" data-toggle="collapse" data-target="#flags-container-{{group.id}}">
         <span class="flag-group-icon icon-flag-{{group.icon}}"></span>
-        <span class="flag-group-name">{{group.name}}</span>
+        <span class="flag-group-name">
+          {{group.name}} 
+        </span>
+          <span class="icon-custom open-close"></span>
       </span>
-      <div class="flags-container collapse" id="flags-container-{{group.id}}">
+      <ul class="flags-container collapse" id="flags-container-{{group.id}}">
         <% for (var flagId in group.flags) {
             flag = group.flags[flagId];
         %>
-          <div>{{flag.name}}</div>
+          <li class="flag-name">{{flag.name}}</li>
         <%  } %>
-      </div>
+      </ul>
     </div>
   <% } %>
 </div>

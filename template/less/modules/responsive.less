@@ -26,10 +26,14 @@
     line-height: (@baseLineHeight+@smallLineHeight);
   }
 
-  .flag-description {
-    line-height: @smallLineHeight + 2px;
+  .flag-group-line {
+    line-height: @largeLineHeight;
   }
 
+  .flag-group-icon:before {
+    line-height: @largeLineHeight + 2px;
+    vertical-align: bottom;
+  }
 }
 
 @media (max-width: 320px) {
