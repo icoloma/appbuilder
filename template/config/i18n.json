@@ -8,7 +8,8 @@
     "Back": "Atrás",
     "kilometers": "kilómetros",
     "ShowMore": "Mostrar más",
-    "EmptyList": "¡Nada que mostrar!"
+    "EmptyList": "¡Nada que mostrar!",
+    "Search": "Buscar"
   },
   "en": {
     "Starred": "Bookmarks",
@@ -19,6 +20,7 @@
     "Back": "Back",
     "kilometers": "kilometers",
     "ShowMore": "Show more",
-    "EmptyList": "Nothing to show!"
+    "EmptyList": "Nothing to show!",
+    "Search": "Search"
   }
 }

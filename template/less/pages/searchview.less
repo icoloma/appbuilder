@@ -1,0 +1,37 @@
+
+@searchIconCode: '\e809';
+
+.search-section {
+  text-align: center;
+  background: black;
+}
+
+.search-input-wrapper {
+  text-align: left;
+  border: 1px solid #aaa;
+  display: inline-block;
+  width: 200px+20px;
+  padding: 0 @baseLineHeight/2;
+  border-radius: @baseLineHeight/2;
+  background: white;
+  font-size: @smallFontSize;
+
+  &:before {
+    font-family: 'fontello';
+    content: @searchIconCode;
+    display: inline-block;
+  }
+}
+
+.search-form {
+  display: inline-block;
+}
+
+.search-input {
+  font-size: @smallFontSize;
+  width: 200px;
+  outline: none;
+  border: none;
+  height: @baseLineHeight;
+  line-height: @baseLineHeight;
+}

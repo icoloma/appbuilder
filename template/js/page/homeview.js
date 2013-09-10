@@ -28,6 +28,9 @@ define(
 
         this.pass(this.topbarView, 'navigate');
         this.pass(this.collectionView, 'navigate');
+        this.listenTo(this.topbarView, 'search', function() {
+          this.trigger('navigate', '/search?', 1);
+        });
       },
 
       render: function() {

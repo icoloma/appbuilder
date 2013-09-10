@@ -15,7 +15,8 @@ define(
         '': 'renderHome',
         'menu/:menuId': 'renderMenu',
         'pois?(:uri)': 'renderPois',
-        'pois/:poiId': 'renderPoi'
+        'pois/:poiId': 'renderPoi',
+        'search?(:query)': 'renderSearch'
       },
 
       initialize: function(options) {
@@ -150,6 +151,14 @@ define(
             title: type.name 
           });
         });
+      },
+
+      renderSearch: function(query) {
+        if (query) {
+
+        } else {
+          this.setView(Page.SearchView);
+        }
       }
     });
   }

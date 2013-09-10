@@ -30,6 +30,9 @@ define(
           model: this.model
         });
         this.listenTo(this.modelView, 'star', this.star);
+        this.listenTo(this.topbarView, 'search', function() {
+          this.trigger('navigate', '/search?', 1);
+        });
       },
 
       render: function() {
