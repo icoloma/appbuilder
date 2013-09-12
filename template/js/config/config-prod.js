@@ -1,5 +1,5 @@
-define(['db/db', 'config/i18n-config'],
-  function(Db, i18nConfig) {
+define(['db/db', 'modules/i18nUtils'],
+  function(Db, i18nUtils) {
 
   /*
     Configuración de la aplicación.
@@ -58,7 +58,13 @@ define(['db/db', 'config/i18n-config'],
       // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
       window.appConfig.locale = locale in results.config.i18n ? locale : 'en';
 
-      i18nConfig(results.config.i18n, results.config.metadata);
+      /*
+        Configura el global 'res'.
+        El global 'res' contiene:
+          * Los metadatos de la aplicación
+          * Las cadenas i18n 
+      */
+      i18nUtils.config(results.config.i18n, results.config.metadata);
 
       callback();
     });

@@ -1,5 +1,5 @@
-define(['db/db', 'config/loaddb', 'config/i18n-config'],
-  function(Db, LoadDb, i18nConfig) {
+define(['db/db', 'config/loaddb', 'modules/i18nUtils'],
+  function(Db, LoadDb, i18nUtils) {
 
   /*
     Configuración de la aplicación en desarrollo.
@@ -66,7 +66,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
 
 
     var catalog_metadata = loadJSONResource(appConfig.data + 'catalog-metadata.json')
-    , i18n = loadJSONResource(appConfig.configFolder + 'i18n.json')
+    , i18n_strings = loadJSONResource(appConfig.configFolder + 'i18n.json')
     , flag_icons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
     ;
 
@@ -86,7 +86,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
     };
 
     return function(callback) {
-      i18nConfig(i18n, _.extend(catalog_metadata, flag_icons));
+      i18nUtils.config(i18n_strings, _.extend(catalog_metadata, flag_icons));
 
       // Rellenar la BDD SQL del navegador
       LoadDb(catalog_metadata.pois, callback);
@@ -122,7 +122,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
           window.appConfig.locale = locale in appMetadata.i18n ? locale : 'en';
 
-          i18nConfig(appMetadata.i18n, appMetadata.metadata);
+          i18nUtils.config(appMetadata.i18n, appMetadata.metadata);
           callback();
         }, function(err) {
           // TO-DO: mejor error handling
@@ -130,7 +130,7 @@ define(['db/db', 'config/loaddb', 'config/i18n-config'],
           window.appConfig.locale = 'en';
           window.res = appMetadata.i18n[window.appConfig.locale];
 
-          i18nConfig(appMetadata.i18n, appMetadata.metadata);
+          i18nUtils.config(appMetadata.i18n, appMetadata.metadata);
           callback();
         });
       });
