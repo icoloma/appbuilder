@@ -43,14 +43,13 @@ define(['globals'], function() {
 
       _.each([
         metadata.types, metadata.flags, metadata.flagGroups,
-        metadata.menuConfig.menus, metadata.menuConfig.entries
+        metadata.menuConfig.menus, metadata.menuConfig.entries, metadata.data
       ], function(collection) {
         _.each(collection, filterJSON);
       });
 
-      // TO-DO: simplificar la inclusión de los 'data'
       window.res._metadata = metadata;
-      window.res._metadata.data = metadata.data[appConfig.locale];
+      // window.res._metadata.data = metadata.data[appConfig.locale];
     },
     filterJSON: filterJSON,
     localizeJSON: localizeJSON

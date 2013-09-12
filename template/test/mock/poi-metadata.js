@@ -20,11 +20,9 @@ var random = require('./random-data.js')
   'BEACH', 'NATURAL_SPACE', 'HOTEL', 'CAMPING', 'APARTMENT', 'MUSEUM', 'MONUMENT',
   'PARK_GARDEN', 'ECO_TOURISM', 'GOLF', 'NAUTICAL_STATION',
 ]
-, dataStringsCount = 50
+, dataItemsCount = 50
 , flags = {} , types = {}, flagGroups = {}
-, dataStrings = _.chain(locales).map(function(lang) {
-  return [lang, {}];
-}).object().value()
+, data = {}
 , dataIds = []
 ;
 
@@ -77,25 +75,19 @@ _.each(raw_flags, function(flag_group, groupName) {
   });
 });
 
-_.times(dataStringsCount, function() {
-  var dataId = random.createUUID()
-  , translations = i18n.object({
-    t: function() {
-      return random.variableLorem(1, 3);
+// Genera las cadenas i18n para 'data'
+_.times(dataItemsCount, function() {
+  var dataEntry = i18n.object({
+    label: function() {
+      return random.variableLorem(1, 4);
     }
-  })
-  , value = random.variableLorem(1)
-  ;
-  dataIds.push(dataId);
-  _.each(translations, function(translation, t_lang) {
-    dataStrings[t_lang.slice(2)][dataId] = translation;
   });
+  data[random.createUUID()] = dataEntry;
 });
 
 module.exports = {
   flags: flags,
   types: types,
   flagGroups: flagGroups,
-  dataIds: dataIds,
-  dataStrings: dataStrings 
+  data: data 
 };

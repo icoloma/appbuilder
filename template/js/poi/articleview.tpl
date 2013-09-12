@@ -23,7 +23,7 @@
   %>
     <div class="row data-item">
       <div class="col-xs-8 data-item-name">
-        {{res._metadata.data[key]}} 
+        {{res._metadata.data[key].label}} 
       </div>
       <div class="col-xs-4 data-item-value">
         {{data[key]}}

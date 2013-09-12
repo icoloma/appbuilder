@@ -1,8 +1,6 @@
 define(['modules/i18nUtils'], function(i18nUtils) {
-  var db = {}
-
   // Parsea una query como un statement SQL
-  , queryToSql = function(table, queryObj) {
+  var queryToSql = function(table, queryObj) {
     var conditions = _.map(queryObj, function(value, cond) {
       return '`' + cond + '`="' + value + '",';
     }).join('').slice(0, -1)
@@ -29,9 +27,7 @@ define(['modules/i18nUtils'], function(i18nUtils) {
   }
   ;
 
-  // Métodos adicionales de la BDD
-  _.extend(db, {
-
+  return {
     // Una abreviatura para ejecutar una transacción y parsear sus resultados
     sql: function(sqlStr, params, callback) {
       this.transaction(function(tx) {
@@ -62,7 +58,5 @@ define(['modules/i18nUtils'], function(i18nUtils) {
         dbObject.transaction.apply(dbObject, arguments);
       };
     })
-  });
-
-  return db;
+  };
 });

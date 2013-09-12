@@ -19,7 +19,7 @@ var random = require('./mock/random-data.js')
 jsonData.flags = poiMetadata.flags;
 jsonData.flagGroups = poiMetadata.flagGroups;
 jsonData.types = poiMetadata.types;
-jsonData.data = poiMetadata.dataStrings;
+jsonData.data = poiMetadata.data;
 
 if (!fs.existsSync(dataFolder)) fs.mkdirSync(dataFolder);
 

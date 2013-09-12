@@ -4,19 +4,19 @@
 var random = require('./random-data.js')
 , i18n = require('./i18n-generator.js')
 , poiMetadata = require('./poi-metadata.js')
-, flags = poiMetadata.flags, types = poiMetadata.types, dataIds = poiMetadata.dataIds
+, flags = poiMetadata.flags, types = poiMetadata.types, data = poiMetadata.data
 // Funciones para escoger type y flags aleatoriamente
 , randomType = random.fixedAmountChooser(_.pluck(types, 'id'), 1)
 , randomFlags = random.fixedAmountChooser(_.pluck(flags, 'id'), 1, 5)
-, randomDataId = random.fixedAmountChooser(dataIds, 1)
+, randomDataId = random.fixedAmountChooser(_.keys(data), 1)
 , randomData = function(min, max) {
-  var data = {}
+  var result = {}
   , count = random.randomInt(min, max)
   ;
   for (var i = 0; i < count; i++) {
-    data[randomDataId()] = random.randomInt(1, 100);
+    result[randomDataId()] = random.randomInt(1, 100);
   }
-  return data;
+  return result;
 }
 ;
 
