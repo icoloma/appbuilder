@@ -5,7 +5,7 @@ var poiMetadata = require('./poi-metadata.js')
 , types = poiMetadata.types
 , findByKeyword = function(keyword) {
   return _.find(types, function(type) {
-    return type._keyword === keyword;
+    return type._keyword_dev === keyword;
   }).id;
 }
 ;

@@ -1,28 +1,26 @@
-define(['globals', 'modules/geo', 'db/db'],
-  function(Globals, Geo, Db) {
-
-    // Campos JSON que vienen de la BDD como string
-    var jsonFields = [
-      'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'imgs'
-    ]
-    , booleanFields = [ 'starred' ]
-    ;
+/*
+  Modelo de un POI.
+    * El JSON de la BDD viene con los campos filtrados según el locale
+*/
+define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
 
   return B.Model.extend({
 
-    // Parsea los campos JSON que lleguen como strings
-    constructor: function(attrs, opt) {
-      _.each(jsonFields, function(field) {
+    // Parsea los campos con tipos "especiales"
+    parse: function(attrs, opt) {
+      // Los campos JSON y BOOLEAN llegan como strings
+      _.each(this.constructor.schema.json, function(field) {
         if (_.isString(attrs[field])) {
           attrs[field] = JSON.parse(attrs[field]);
         }
       });
-      _.each(booleanFields, function(field) {
+      _.each(this.constructor.schema.bool, function(field) {
         if (_.isString(attrs[field])) {
           attrs[field] = attrs[field] === 'true' ? true : false;
         }
       });
-      B.Model.apply(this, [attrs, opt]);
+
+      return attrs;
     },
 
     propDistanceTo: function(lat, lon) {
@@ -44,7 +42,7 @@ define(['globals', 'modules/geo', 'db/db'],
     // Exporta el modelo para la BDD
     toRow: function() {
       var json = this.toJSON();
-      _.each(jsonFields, function(field) {
+      _.each(this.constructor.schema.json, function(field) {
         json[field] = JSON.stringify(json[field]);
       });
       return json;
@@ -66,6 +64,32 @@ define(['globals', 'modules/geo', 'db/db'],
       });
     }
   }, {
-    jsonFields: jsonFields
+
+    // Algunos tipos de campos necesitan parsearse de manera especial debido a cómo funciona SQLIT
+    schema: {
+      json: [],
+      bool: [],
+    },
+
+    // Campos a pedir a la BDD, omitiendo columnas en otros locales
+    sqlFields: [],
+
+    // Inicializa el schema de un POI, para dar un tratamiento especial algunos tipos de campos
+    initSchema: function(schema) {
+      _.each(schema, function(type, field) {
+        if (type === 'i18n') {
+          this.sqlFields.push(field + '_' + appConfig.locale);
+        } else {
+
+          this.sqlFields.push(field);
+
+          if (type === 'BOOLEAN') {
+            this.schema.bool.push(field);
+          } else if (type == 'JSON') {
+            this.schema.json.push(field);
+          }
+        }
+      }, this);
+    }
   });
 });

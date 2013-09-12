@@ -38,7 +38,7 @@ _.each(raw_types, function(raw_type, i) {
   });
   type.id = random.createUUID();
   // Un campo solo para testing
-  type._keyword = raw_type;
+  type._keyword_dev = raw_type;
   types[type.id] = type;
 });
 

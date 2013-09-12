@@ -5,24 +5,38 @@
 */
 
 define(
-  ['db/db', 'db/schemas/poi', 'poi/model'],
-  function(Db, PoiSchema, PoiModel) {
+  ['db/db', 'poi/model'],
+  function(Db, PoiModel) {
     // Introduce los datos en la BDD.
     var loadData = function(pois, callback) {
-      // Parejas clave/valor *ordenadas* (iterar sobre Poi directamente no asegura ningún orden)
-      var pairs = _.pairs(PoiSchema)
+      var poiSchema = _.clone(res._metadata.schema)
+      , pairs
       ;
+
+      _.each(poiSchema, function(type, field) {
+        if (type === 'JSON' ) {
+          poiSchema[field] = type;
+        } else if (type === 'i18n') {
+          _.each(res._metadata._locales_dev, function(locale) {
+            poiSchema[field + '_' + locale] = type;
+          });
+          delete poiSchema[field];
+        }
+      });
+
+      // Parejas clave/valor *ordenadas* (iterar sobre Poi directamente no asegura ningún orden)
+      pairs = _.pairs(poiSchema);
 
       Db.transaction(function(tx) {
         var i
         // (?, ?, ..., ?)
         , placeholder = '(' + 
-          _.map(PoiSchema, function() {
+          _.map(poiSchema, function() {
             return '?,';
           }).join('').slice(0, -1) +
           ')'
         , values = function(poi) {
-          var row = (new PoiModel(poi)).toRow();
+          var row = (new PoiModel(poi, {parse: true})).toRow();
           return _.map(pairs, function(entry) {
             return row[entry[0]];
           });

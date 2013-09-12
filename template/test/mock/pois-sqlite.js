@@ -1,32 +1,21 @@
 /*
   Carga los POIs en una BDD SQLite
 */
-var sqlite3 = require('sqlite3').verbose();
-
+var sqlite3 = require('sqlite3').verbose()
 // Schema de un POI. Duplicado de db/schemas/poi
-var poiSchema = {
+, poiSchema = require('./schema.js')
+;
 
-  id: 'VARCHAR(32) PRIMARY KEY',
-  type: 'TEXT',
-  name_es: 'TEXT', name_en: 'TEXT', name_de: 'TEXT', name_it: 'TEXT', name_fr: 'TEXT',
-  desc_es: 'TEXT', desc_en: 'TEXT', desc_de: 'TEXT', desc_it: 'TEXT', desc_fr: 'TEXT',
-
-  /*CAMPOS JSON*/
-  prices: 'TEXT',
-  contact: 'TEXT',
-  timetables: 'TEXT',
-  languages: 'TEXT',
-  data: 'TEXT',
-  flags: 'TEXT',
-  /* */
-
-  address: 'TEXT',
-  created: 'DATE', lastModified: 'DATE',
-  lat: 'REAL', lon: 'REAL', normLon: 'REAL',
-  thumb: 'TEXT', imgs: 'TEXT',
-  starred: 'BOOLEAN'
-};
-
+_.each(poiSchema, function(value, field) {
+  if (value == 'i18n') {
+    _.each(locales, function(locale) {
+      poiSchema[field + '_' + locale] = 'TEXT';
+    });
+    delete poiSchema[field];
+  } else if (value == 'JSON') {
+    poiSchema[field] = 'TEXT';
+  }
+});
 
 module.exports = function(pois, dbFile) {
   var db = new sqlite3.Database(dbFile)

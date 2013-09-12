@@ -1,5 +1,5 @@
-define(['db/db', 'config/loaddb', 'modules/i18nUtils'],
-  function(Db, LoadDb, i18nUtils) {
+define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
+  function(Db, LoadDb, i18nUtils, PoiModel) {
 
   /*
     Configuración de la aplicación en desarrollo.
@@ -87,9 +87,10 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils'],
 
     return function(callback) {
       i18nUtils.config(i18n_strings, _.extend(catalog_metadata, flag_icons));
+      PoiModel.initSchema(catalog_metadata.schema);
 
       // Rellenar la BDD SQL del navegador
-      LoadDb(catalog_metadata.pois, callback);
+      LoadDb(catalog_metadata._pois_dev, callback);
     };
 
   } else {
@@ -123,6 +124,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils'],
           window.appConfig.locale = locale in appMetadata.i18n ? locale : 'en';
 
           i18nUtils.config(appMetadata.i18n, appMetadata.metadata);
+          PoiModel.initSchema(appMetadata.metadata.schema);
+
           callback();
         }, function(err) {
           // TO-DO: mejor error handling
@@ -131,6 +134,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils'],
           window.res = appMetadata.i18n[window.appConfig.locale];
 
           i18nUtils.config(appMetadata.i18n, appMetadata.metadata);
+          PoiModel.initSchema(appMetadata.metadata.schema);
+
           callback();
         });
       });

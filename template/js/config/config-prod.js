@@ -1,5 +1,5 @@
-define(['db/db', 'modules/i18nUtils'],
-  function(Db, i18nUtils) {
+define(['db/db', 'modules/i18nUtils', 'poi/model'],
+  function(Db, i18nUtils, PoiModel) {
 
   /*
     Configuración de la aplicación.
@@ -65,6 +65,11 @@ define(['db/db', 'modules/i18nUtils'],
           * Las cadenas i18n 
       */
       i18nUtils.config(results.config.i18n, results.config.metadata);
+
+      /*
+        Configura el schema de los POIs.
+      */
+      PoiModel.initSchema(results.config.schema);
 
       callback();
     });

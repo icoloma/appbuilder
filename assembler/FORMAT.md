@@ -26,13 +26,51 @@ Para realizar dicha combinación, `assembler` espera el siguiente formato en la 
         └── assets/
 
 ### Formato
-    // catalog-metadata.json
+El formato esperado para `catalog-metadata.json` es:
+
     {
-      flagGroups: [ <flag group> ],
-      flags: [ <flag> ],
-      types: [ <type> ],
-      menuConfig: <menu config>
+      // Metadatos de los FlagGroups
+      "flagGroups": {
+        <ID única>: {
+          "id": <ID única>,
+          "name": <string, i18n>,
+          "description": <string, i18n>
+        },
+        ...
+      },
+      // Una traducción de cada string 'data' en los POIs del volcado
+      "data": {
+        <ID única>: {
+          "label": <string, i18n>
+        },
+        ...
+      },
+      // Metadatos de las Flags
+      "flags": { 
+        <ID única>: {
+          "id": <ID única>,
+          "name": <string, i18n>,
+          "description": <string, i18n>,
+          "group": <id de FlagGroup>
+        },
+        ...
+      },
+      // Metadatos de los Types
+      "types": {
+        <ID única>: {
+          "id": <ID única>,
+          "name": <string, i18n>,
+          "description": <string, i18n>
+        },
+        ...
+      },
+      // Schema de los POIs, ver abajo
+      "schema": <schema de un POI>,
+      // Configuración de menús, ver abajo
+      "menuConfig": <menu config>
     }
+
+En `appbuilder/template` puede generarse un ejemplo con `grunt mock`.
 
 #### Campos i18n en metadatos
 Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar internacionalizados. Los campos «i18n» en realidad requieren una copia por idioma, algo como:
@@ -53,17 +91,17 @@ La estructura de la entrada `menuConfig` en los metadatos es como sigue:
 * Configuración global:
 
 ```
-menuConfig: {
-  root: {
+"menuConfig": {
+  "root": {
     "menu": <id de un menú>,
     "pois": [ <poiData> ]
   },
   // Un hash de menús por ID
-  menus: {
-    <id de un menú>: <menu>  
+  "menus": {
+    <ID única>: <menu>  
   },
   // Un hash de entradas de menús por ID
-  entries: {
+  "entries": {
     <id de una entry>: <entry>
   }
 }
@@ -74,7 +112,7 @@ menuConfig: {
 ```
 {
   "id": <id de un poi>,
-  "thumb": <imagen del poi>
+  "thumb": <imagen del poi (campo 'thumb')>
 }
 ```
 
@@ -97,15 +135,38 @@ menuConfig: {
   "desc": <string, i18n>,
   "poiCount": <number>,
   "menu": <id de un menú>,
-  "query": <queryObj>
+  "queryConditions": <queryStr>
 }
 ```
 El campo `menu` tiene valor cuando se salta a otro submenú. El campo `query` tiene valor cuando se muestra una lista de POIs según algún criterio. **Ambos deben estar presentes**, el que no aplique con valor `null`.
 
-* `<queryObj>`: una *query* para buscar POIs en la BDD.
+* `<queryStr>`: las condiciones para una query SQL.
 
 ```
-{
-  <field>: <value>
-}
+// Ejemplo
+"queryConditions": "(type=\"<id de un type>\")"
 ```
+
+#### Schema
+El campo `schema` especifica las columnas que trae la BDD `appData.db`, con notación especial para los **campos i18n y JSON**. Por ejemplo:
+
+    {
+      "id": "VARCHAR(32) PRIMARY KEY",
+      "address": "TEXT",
+      "thumb": "TEXT",
+      "lastModified": "REAL",
+      "lat": "REAL",
+      "lon": "REAL",
+
+      // Una sola entrada para las columnas 'name_en', 'name_es', etc.
+      "name": "i18n",
+      "desc": "i18n",
+  
+      // Campos que vengan como strings JSON
+      "imgs": "JSON",
+      "flags": "JSON",
+      
+      ...
+    }
+
+Véase `appbuilder/template/test/mock/schema.js`.
