@@ -3,9 +3,9 @@
 */
 define(
   [ 
-    'page/pages', 'db/db', 'poi/poi', 'poi/collection', 'menu/model'
+    'page/pages', 'db/db', 'poi/poi', 'menu/model',
   ],
-  function(Page, Db, Poi, PoiCollection, Menu) {
+  function(Page, Db, Poi, Menu) {
 
     var menuConfig;
 
@@ -124,9 +124,13 @@ define(
         var uriObj = JSON.parse(decodeURIComponent(uri))
         , self = this
         , queryConditions = uriObj.queryConditions
-        , sqlStr = 'SELECT * FROM Poi WHERE ' + queryConditions
+        , sqlStr = 'SELECT id,thumb,address,name_' + appConfig.locale + ' FROM Poi WHERE ' + queryConditions
         ;
-        Db.sqlAsCollection(PoiCollection, sqlStr, [], function(err, pois) {
+        Db.sql(sqlStr, [], function(err, pois) {
+          pois = new Poi.Collection(_.map(pois, function(poi) {
+            return new Poi.Model(poi, {parse: true});
+          }));
+
           if (uriObj.sort) {
             pois.comparator = 
               PoiCollection.sortByDistanceTo(uriObj.sort.lat, uriObj.sort.lon);
@@ -142,12 +146,12 @@ define(
 
       renderPoi: function(poiId) {
         var self = this;
-        Db.sql('SELECT * FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
-          var poi = new Poi.Model(pois[0])
+        Db.sql('SELECT ' + Poi.Model.sqlFields + ' FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
+          var poi = new Poi.Model(pois[0], {parse: true})
           , type = window.res._metadata.types[poi.get('type')]
           ;
           self.setView(Page.PoiView, {
-            model: new Poi.Model(pois[0]),
+            model: poi,
             title: type.name 
           });
         });
