@@ -1,32 +1,32 @@
 <div class="titlebar app-container">
   <div class="details">
-    <div class="name hideable">{{name}}</div>
+    <div class="name hideable">{{tpl.name}}</div>
     <address class="small">
-      <a href="{{geoLink}}" class="geo-link">
-        {{address}}&nbsp;<span class="icon-map"></span>
+      <a href="{{tpl.geoLink}}" class="geo-link">
+        {{tpl.address}}&nbsp;<span class="icon-map"></span>
       </a>
     </address>
   </div>
-  <span class="star icon-{{isStarred}}"></span>
+  <span class="star icon-{{tpl.isStarred}}"></span>
 </div>
 <div class="poi-imgs swiper-container">
   <div class="swiper-wrapper">
-    <div class="swiper-slide" style="background-image: url({{appConfig.assets+thumb}})"></div>
+    <div class="swiper-slide" style="background-image: url({{appConfig.assets+tpl.thumb}})"></div>
   </div>
 </div>
 <div class="row app-container poiview-section">
-  <p class="small description col-xs-12">{{desc}}</p>
+  <p class="small description col-xs-12">{{tpl.desc}}</p>
 </div>
 <div class="row app-container poiview-section">
   <% 
-    for (var key in data) {
+    for (var key in tpl.data) {
   %>
     <div class="row data-item">
       <div class="col-xs-8 data-item-name">
         {{res._metadata.data[key].label}} 
       </div>
       <div class="col-xs-4 data-item-value">
-        {{data[key]}}
+        {{tpl.data[key]}}
       </div>
     </div>
   <% }%>
@@ -34,8 +34,8 @@
 <div class="row app-container poiview-section">
   <% 
     var group, icon, flag;
-    for (var groupId in flagGroups) {
-      group = flagGroups[groupId];
+    for (var groupId in tpl.flagGroups) {
+      group = tpl.flagGroups[groupId];
   %>
     <div class="col-xs-12 flag-group">
       <span class="flag-group-line collapsed" data-toggle="collapse" data-target="#flags-container-{{group.id}}">
