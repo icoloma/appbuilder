@@ -30,7 +30,7 @@ jsonData._pois_dev = require('./mock/pois-json.js')(poiNumber);
 
 // Genera la configuración de menús
 console.log(' * Configuración de menús.');
-jsonData.menuConfig = require('./mock/menu.js')(jsonData._pois_dev);
+_.extend(jsonData, require('./mock/menu.js')(jsonData._pois_dev));
 
 jsonData.schema = require('./mock/schema.js');
 

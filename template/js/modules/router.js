@@ -157,12 +157,8 @@ define(
         });
       },
 
-      renderSearch: function(query) {
-        if (query) {
-
-        } else {
-          this.setView(Page.SearchView);
-        }
+      renderSearch: function(prevQuery) {
+        this.setView(Page.SearchView, JSON.parse(prevQuery || null));
       }
     });
   }

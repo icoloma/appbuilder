@@ -1,7 +1,11 @@
 
 @searchIconCode: '\e809';
 
-.search-section {
+.search-form {
+  display: block;
+}
+
+.search-input-section {
   text-align: center;
   background: black;
 }
@@ -23,10 +27,6 @@
   }
 }
 
-.search-form {
-  display: inline-block;
-}
-
 .search-input {
   font-size: @smallFontSize;
   width: 200px;
@@ -34,4 +34,14 @@
   border: none;
   height: @baseLineHeight;
   line-height: @baseLineHeight;
+}
+
+.search-categories {
+  padding: 0;
+}
+
+.category-line {
+  display: inline-block;
+  line-height: @baseLineHeight;
+  margin-top: (@rowHeight - @baseLineHeight)/2;
 }

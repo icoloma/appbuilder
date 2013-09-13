@@ -4,7 +4,7 @@
   Pequeña librería para dar soporte a eventos táctiles
   Soporta: evento 'tap'
   AVISO: el evento 'click' se elimina, pero la acción por defecto en los <a> se
-  simula al tiempo que se dispara el 'tap', para poder usar enlaces como siempre
+  simula al tiempo que se dispara el 'tap', para poder usar enlaces *externos* como siempre
 
 */
 
@@ -17,7 +17,7 @@ define(['jquery', 'underscore'], function() {
   }
 
   // Namespace para la gestión del elemento activo.
-  // Se espera que el proceso de activación use una trancisión de CSS
+  // Se espera que el proceso de activación use una transición de CSS
   , Active = {
 
     // Elemento activo
@@ -26,6 +26,17 @@ define(['jquery', 'underscore'], function() {
     transitioning: false,
 
     DELAY: 200,
+
+    // Activa un elemento '.activable' a partir de un evento 'touchstart' sobre @$source
+    init: function($source) {
+      var $activable = $source.closest('.activable');
+
+      if ($activable.length) {
+        this.$el = $activable;
+        var self = this;
+        _.delay(_.bind(this.launchTransition, this), this.DELAY);
+      }
+    },
 
     // Inicia la transición
     launchTransition: function() {
@@ -40,19 +51,6 @@ define(['jquery', 'underscore'], function() {
                 .data('active', true)
                 .trigger('activatedByTouch');
       });
-    },
-
-    // Activa un elemento '.activable' a partir de un evento 'touchstart' sobre @$source
-    init: function($source) {
-      var $activable = $source.closest('.activable');
-
-      if ($activable.length) {
-        this.$el = $activable;
-        var self = this;
-        _.delay(function() {
-          self.launchTransition();
-        }, this.DELAY);
-      }
     },
 
     // Llama a @callback tras terminar el proceso de activación. Si es necesario, se salta
@@ -141,7 +139,7 @@ define(['jquery', 'underscore'], function() {
         // Simulamos un click instantáneo en caso de que
         // sea un enlace <a>
         // AVISO: no funcionará para elementos *dentro* de un <a>
-        // AVISO: no debería usarse con el router.cache, salvo para enlaces externos quizá?
+        // AVISO: no debería usarse con el router.cache, *salvo para enlaces externos*
         if (e.target.tagName === 'A') {
           window.location = e.target.href;
         }

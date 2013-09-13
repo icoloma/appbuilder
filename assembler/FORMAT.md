@@ -64,10 +64,12 @@ El formato esperado para `catalog-metadata.json` es:
         },
         ...
       },
-      // Schema de los POIs, ver abajo
-      "schema": <schema de un POI>,
       // Configuración de menús, ver abajo
       "menuConfig": <menu config>
+      // Configuración de la búsqueda, ver abajo
+      "searchConfig": <search config>
+      // Schema de los POIs, ver abajo
+      "schema": <schema de un POI>,
     }
 
 En `appbuilder/template` puede generarse un ejemplo con `grunt mock`.
@@ -145,6 +147,33 @@ El campo `menu` tiene valor cuando se salta a otro submenú. El campo `query` ti
 ```
 // Ejemplo
 "queryConditions": "(type=\"<id de un type>\")"
+```
+
+#### Búsqueda
+La estructura de la entrada `searchConfig` en los metadatos es como sigue:
+
+* Configuración global:
+
+```
+"searchConfig": {
+  // Categorías de búsqueda
+  "categories": {
+    <ID única>: {
+      "id": <ID única>,
+      "label": <string, i18n>,
+      "desc": <string, i18n>,
+      "categoryConditions": <categoryQueryStr>
+    },
+    ...
+  }
+}
+```
+
+* `<categoryQueryStr>`: las condiciones a aplicar en una query SQL para esta "categoría"
+
+```
+// Ejemplo
+"categoryConditions": "(type=\"<id de un type>\") OR (type=\"<id de un type>\") OR (type=\"<id de un type>\")"
 ```
 
 #### Schema

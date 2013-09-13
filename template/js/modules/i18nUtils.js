@@ -42,14 +42,13 @@ define(['globals'], function() {
       window.res = i18nStrings[appConfig.locale];
 
       _.each([
-        metadata.types, metadata.flags, metadata.flagGroups,
-        metadata.menuConfig.menus, metadata.menuConfig.entries, metadata.data
+        metadata.types, metadata.flags, metadata.flagGroups, metadata.menuConfig.menus,
+        metadata.menuConfig.entries, metadata.data, metadata.searchConfig.categories
       ], function(collection) {
         _.each(collection, filterJSON);
       });
 
       window.res._metadata = metadata;
-      // window.res._metadata.data = metadata.data[appConfig.locale];
     },
     filterJSON: filterJSON,
     localizeJSON: localizeJSON
