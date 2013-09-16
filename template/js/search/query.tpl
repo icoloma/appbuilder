@@ -1,1 +1,1 @@
-( ( (name_{{tpl.locale}} GLOB "*{{tpl.text}}*") OR (desc_{{tpl.locale}} GLOB "*{{tpl.text}}*") ) <% if (tpl.categoryConditions) { %> AND ({{tpl.categoryConditions}}) ) <% } %>
+( ( (name_{{tpl.locale}} GLOB "*{{tpl.text}}*") OR (desc_{{tpl.locale}} GLOB "*{{tpl.text}}*") ) <% if (tpl.categoryConditions) { %> AND ({{tpl.categoryConditions}}) <% } %> )
