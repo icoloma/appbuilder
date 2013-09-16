@@ -1,7 +1,11 @@
 $(function(){
 	
-	// Disable form submit on Enter
+	var showMessage = function( level, message){
+		var alertDiv = '<div class="alert alert-' + level + '"><button type="button" class="close" data-dismiss="alert">x</button><span>'+message+'</span></div>';
+		$(alertDiv).appendTo('div#alerts');
+	};
 	
+	// Disable form submit on Enter
 	$("form :input").on("keypress", function(e) {
 		if (this.type != "textarea" && !$(this).hasClass("search-query"))
 			return (e.keyCode != 13);
@@ -57,6 +61,17 @@ $(function(){
 			
 	});
 	
+	// submitButton
+	$('input.saveButton').click( function(e){
+		var form = $(this).parents("form:first")[0];
+		var isValid = form.checkValidity();
+		if (!isValid) {
+			// muestra el tab que contiene el error
+			var tabId = $($(':invalid')[0]).closest('.tab-pane').attr('id');
+			var tab = $( 'a[href$="' + tabId + '"]');
+			tab && tab.trigger('click');
+		}
+	});
 	
 	
 	
