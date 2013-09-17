@@ -13,7 +13,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
     assets: 'assets/',
     dbName: 'appData',
     // Estos campos solo son necesarios en desarrollo para un browser
-    data: 'test/data/',
+    data: 'test/mocked-data/',
     configFolder: 'config/'
   };
 
@@ -77,7 +77,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
       platform: 'Android',
       locale: 'es',
       // Sobrescribimos la carpeta de assets
-      assets: 'test/assets/'
+      assets: 'test/mocked-data/assets/'
     });
 
     // Shim para el API de notificaciones de Phonegap

@@ -5,4 +5,5 @@ build/
 bower_components
 js/lib/components
 less/components
-test/data/
+test/mocked-data/*.json
+test/mocked-data/*.db

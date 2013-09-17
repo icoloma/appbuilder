@@ -52,15 +52,9 @@ grunt.initConfig({
     },
     testData: {
       expand: true,
-      cwd: '../template/test/data',
+      cwd: '../template/test/mocked-data',
       src: ['**'],
       dest: 'tmp-app-data'
-    },
-    testAssets: {
-      expand: true,
-      cwd: '../template/test/',
-      src: ['assets/**'],
-      dest: 'tmp-app-data/www'
     },
     appData: {
       expand: true,
@@ -179,7 +173,7 @@ grunt.registerTask('android-install', 'Instala la app mediante adb.\n', function
 });
 
 grunt.registerTask('mock', 'Genera unos datos de prueba aleatorios para "tmp-app-data".\n', function() {
-  grunt.task.run(['hub:mock', 'copy:testData', 'copy:testAssets']);
+  grunt.task.run(['hub:mock', 'copy:testData']);
 });
 
 grunt.registerTask('build',

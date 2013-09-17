@@ -82,7 +82,7 @@ grunt.initConfig({
       expand: true
     },
     data: {
-      src: 'test/**',
+      src: 'test/mocked-data/**',
       dest: 'build/',
     },
     css: {
@@ -183,7 +183,7 @@ grunt.registerTask('mock', 'Prepara datos de prueba.\n', function() {
   var done = this.async();
   grunt.util.spawn({
     cmd: 'node',
-    args: [ './test/mock.js' ],
+    args: [ './test/mock/mock.js' ],
     opts: {
       stdio: 'inherit'
     }
