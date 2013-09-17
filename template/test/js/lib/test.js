@@ -1,5 +1,6 @@
 require.baseUrl = '/js';
 require.deps = ['globals'];
+require.paths.mocksql = '/test/js/lib/mocksql';
 
 var touchstart = new CustomEvent('touchstart', {bubbles: true})
 , touchmove = new CustomEvent('touchmove', {bubbles: true})
