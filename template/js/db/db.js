@@ -33,9 +33,9 @@ define(['modules/i18nUtils'], function(i18nUtils) {
       this.transaction(function(tx) {
         tx.executeSql(sqlStr, params, function(tx, results) {
           callback(null, parseAndLocalizeResults(results.rows));
+        }, function(tx, err) {
+         callback(err, null);
         });
-      }, function(err) {
-        callback(err, null);
       });
     },
 
