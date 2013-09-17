@@ -3,7 +3,7 @@
   
   Pequeña librería para dar soporte a eventos táctiles
   Soporta: evento 'tap'
-  AVISO: el evento 'click' se elimina, pero la acción por defecto en los <a> se
+  AVISO: el evento 'click' no dispara acciones por defecto, pero en el caso de los enlaces <a> se
   simula al tiempo que se dispara el 'tap', para poder usar enlaces *externos* como siempre
 
 */
@@ -33,7 +33,6 @@ define(['jquery', 'underscore'], function() {
 
       if ($activable.length) {
         this.$el = $activable;
-        var self = this;
         _.delay(_.bind(this.launchTransition, this), this.DELAY);
       }
     },
@@ -110,8 +109,8 @@ define(['jquery', 'underscore'], function() {
   $doc.on('touchstart', function(e) {
 
     // Cancela el tap al entrar con más de un punto de contacto
-    // AVISO: no siempre soportado (e.g. Android 2.3.6)
-    if (e.originalEvent.touches.length > 1) {
+    // AVISO: TouchEvent.touches no siempre soportado (e.g. Android 2.3.6)
+    if (Tap.state == true || e.originalEvent.touches.length > 1) {
       Tap.state = false;
       Active.cancel();
       return false;

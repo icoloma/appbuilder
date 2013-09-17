@@ -11,7 +11,7 @@ module.exports = {
   flags: 'JSON',
   imgs: 'JSON',
   address: 'TEXT',
-  created: 'DATE', lastModified: 'DATE',
+  created: 'REAL', lastModified: 'REAL',
   lat: 'REAL', lon: 'REAL', normLon: 'REAL',
   thumb: 'TEXT',
   starred: 'BOOLEAN'

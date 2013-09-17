@@ -8,15 +8,18 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
 
     // Parsea los campos con tipos "especiales"
     parse: function(attrs, opt) {
-      // Los campos JSON y BOOLEAN llegan como strings
+      attrs = _.clone(attrs);
+
+      // Los campos JSON llegan como strings
       _.each(this.constructor.schema.json, function(field) {
         if (_.isString(attrs[field])) {
           attrs[field] = JSON.parse(attrs[field]);
         }
       });
+      // Los campos BOOLEAN llegan como ints
       _.each(this.constructor.schema.bool, function(field) {
         if (_.isString(attrs[field])) {
-          attrs[field] = attrs[field] === 'true' ? true : false;
+          attrs[field] = attrs[field] ? true : false;
         }
       });
 
@@ -44,6 +47,9 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
       var json = this.toJSON();
       _.each(this.constructor.schema.json, function(field) {
         json[field] = JSON.stringify(json[field]);
+      });
+      _.each(this.constructor.schema.boolean, function(field) {
+        json[field] = json[field] ? 0 : 1;
       });
       return json;
     },

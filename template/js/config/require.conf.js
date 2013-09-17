@@ -36,7 +36,7 @@ var require = {
     'config/config': 'config/config-dev',
   }, libPaths),
   shim: {
-    'backbone': {
+    backbone: {
       deps: ['jquery', 'underscore']
     },
     swipe: {

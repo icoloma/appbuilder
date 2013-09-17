@@ -177,7 +177,7 @@ La estructura de la entrada `searchConfig` en los metadatos es como sigue:
 ```
 
 #### Schema
-El campo `schema` especifica las columnas que trae la BDD `appData.db`, con notación especial para los **campos i18n y JSON**. Por ejemplo:
+El campo `schema` especifica las columnas que trae la BDD `appData.db`, con notación especial para los **campos i18n, BOOLEAN y JSON**. Por ejemplo:
 
     {
       "id": "VARCHAR(32) PRIMARY KEY",
@@ -197,5 +197,7 @@ El campo `schema` especifica las columnas que trae la BDD `appData.db`, con nota
       
       ...
     }
+
+Los campos *JSON* son campos de texto con el JSON "stringificado". Los campos *i18n* corresponen a una columna de `TEXT` por idioma. Un *BOOLEAN* es un `INTEGER`, 0 o 1.
 
 Véase `appbuilder/template/test/mock/schema.js`.
