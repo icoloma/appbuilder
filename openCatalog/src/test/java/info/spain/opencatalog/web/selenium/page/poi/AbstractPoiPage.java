@@ -29,18 +29,22 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	}
 	
 	public void setName(String value){
+		log.trace("name: " + value);
 		fillById("name.es", value);
 	}
 	
 	public void setDescription(String value){
+		log.trace("description: " + value);
 		fillById("description.es", value);
 	}
 
 	public void setData(String id, String value){
+		log.trace("data[" + id + "]:"+ value);
 		fillById(id, value);
 	}
 	
 	public void searchLocation(String location){
+		log.trace("location : " + location);
 		fillAutocomplete("gsearcher", location);
 	}
 	
@@ -72,6 +76,7 @@ public abstract class AbstractPoiPage extends AbstractPage {
 		List<WebElement> entries = driver.findElements(By.cssSelector("table.timetable tbody tr td input"));
 		WebElement lastInput = entries.get(entries.size() - 1);
 		lastInput.sendKeys(period);
+		log.trace("timetable: " + period);
 	}
 	
 	public void addPrice( String price, String priceType, String period, String observations){
@@ -82,6 +87,7 @@ public abstract class AbstractPoiPage extends AbstractPage {
 		selectOption(lastRow.findElement(By.className("priceType")), priceType);
 		lastRow.findElement(By.className("period")).sendKeys(period);
 		lastRow.findElement(By.cssSelector(".priceObservation.es")).sendKeys(observations);
+		log.trace("price: " + price + ", " + priceType + ", " + period + ", " + observations);
 	}
 	
 	

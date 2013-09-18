@@ -27,14 +27,17 @@ public class ZonePage extends AbstractPage {
 		
 		fillAutocomplete("gsearcher", name);
 		
-		log.trace("filling description");
+		log.trace("filling description : " + description);
 		driver.findElement(By.id("description")).sendKeys(description);
 		
 		if (adminArea1 != null){
+			log.trace("filling adminArea1: " + adminArea1);
 			driver.findElement(By.id("adminArea1")).sendKeys(adminArea1);
 		}
 		
 		if (adminArea2 != null){
+			log.trace("filling adminArea2: " + adminArea2);
+
 			driver.findElement(By.id("adminArea2")).sendKeys(adminArea2);
 		}
 	}

@@ -6,13 +6,14 @@ import info.spain.opencatalog.web.selenium.page.ZonePage;
 
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.springframework.test.context.ActiveProfiles;
 
 public class ZoneIntegrationTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void CRUDZone(){
-		driver.get(config.getProperty("baseUrl") + "/admin/zone/new");
+		String url = config.getProperty("baseUrl") + "/admin/zone/new";
+		log.trace("url:" + url);
+		driver.get(url);
 		createZone(driver);
 		updateZone(driver);
 		deleteZone(driver);
@@ -24,6 +25,7 @@ public class ZoneIntegrationTest extends AbstractIntegrationTest {
 	}
 	
 	private void createZone(WebDriver driver){
+		log.trace("create ZONE");
 		ZonePage page = new ZonePage(driver);
 		fillData(page,"Tenerife", "Isla de Tenerife", null, null);
 		page.save();
@@ -31,6 +33,7 @@ public class ZoneIntegrationTest extends AbstractIntegrationTest {
 	}
 	
 	private void updateZone(WebDriver driver){
+		log.trace("update ZONE");
 		ZonePage page = new ZonePage(driver);
 		fillData(page,"Gran Canaria", "Isla de Gran Canaria", null, null);
 		page.save();
@@ -38,6 +41,7 @@ public class ZoneIntegrationTest extends AbstractIntegrationTest {
 	}
 	
 	private void deleteZone(WebDriver driver){
+		log.trace("delete ZONE");
 		ZonePage page = new ZonePage(driver);
 		ZoneListPage list = page.delete();
 		assertEquals("El elemento se eliminó correctamente.", list.getAlertMessage());

@@ -5,23 +5,27 @@ import static org.junit.Assert.assertEquals;
 import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.BasicPoi;
-import info.spain.opencatalog.web.selenium.page.poi.PoiListPage;
 import info.spain.opencatalog.web.selenium.page.poi.BeachPage;
+import info.spain.opencatalog.web.selenium.page.poi.PoiListPage;
 
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+
 
 public class BeachIntegrationTest extends AbstractPoiIntegrationTest{
 	
 	@Test
 	public void CRUDBeach(){
-		driver.get(config.getProperty("baseUrl") + "/admin/poi/new/BEACH");
+		String url = config.getProperty("baseUrl") + "/admin/poi/new/BEACH";
+		log.trace("URL: " + url);
+		driver.get(url);
 		createBeach(driver);
 		updateBeach(driver);
 		deleteBeach(driver);
 	}
 
 	private void createBeach(WebDriver driver){
+		log.trace("create BEACH");
 		BeachPage page = new BeachPage(driver);
 		BasicPoi beach = DummyPoiFactory.BEACH;
 		fillAllInfo(page, beach);
@@ -31,6 +35,7 @@ public class BeachIntegrationTest extends AbstractPoiIntegrationTest{
 	
 	
 	private void updateBeach(WebDriver driver){
+		log.trace("update BEACH");
 		BeachPage page = new BeachPage(driver);
 		BasicPoi beach = new BasicPoi();
 		beach.setName(new I18nText());
@@ -44,6 +49,7 @@ public class BeachIntegrationTest extends AbstractPoiIntegrationTest{
 	
 	
 	private void deleteBeach(WebDriver driver){
+		log.trace("delete BEACH");
 		BeachPage page = new BeachPage(driver);
 		PoiListPage list = page.delete();
 		assertEquals("El elemento se eliminó correctamente.", list.getAlertMessage());

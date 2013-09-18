@@ -81,17 +81,18 @@ public abstract class AbstractPage {
 		WebElement input = driver.findElement(By.id(id));
 		input.click();
 		
-		log.trace("filling zone name");
+		log.trace("filling zone name :" + text);
 		input.sendKeys(text);
 		
-		log.trace("selecting first google result");
 		selectFirstGoogleAutoCompleteResult();
 	}
 
 	private void selectFirstGoogleAutoCompleteResult(){
 		String firstResultCssSelector = "ul.ui-autocomplete li";
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(firstResultCssSelector)));
-		driver.findElements(By.cssSelector(firstResultCssSelector)).get(0).click();
+		By selector = By.cssSelector(firstResultCssSelector);
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(selector));
+		log.trace("selecting first google result : " + driver.findElement(selector).getText());
+		driver.findElements(selector).get(0).click();
 	}
 	
 	
