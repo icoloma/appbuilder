@@ -76,10 +76,18 @@ test {
 
 
 
-task seleniumTest(type: Test, dependsOn: "testClasses")  {
+task integrationTest(type: Test, dependsOn: "testClasses")  {
+
+	/*  
+	*   Por defecto toma el profile "dev", para especificar otro profile hay que pasarlo como parámetro ej.: 
+	*   $ gradle integrationTest -PspringProfile=test 
+	*/
 	def env = project.hasProperty('springProfiles') ? project.springProfiles : 'dev'
 	systemProperties['spring.profiles.active'] = env;
 	println "spring.profile.active= " + env
  	include '**/*IntegrationTest.*'
+ 	
+ 	testResultsDir = file("$buildDir/integration-test-results")
+    
 }
 
