@@ -29,6 +29,7 @@ grunt.loadNpmTasks('grunt-contrib-requirejs');
 grunt.loadNpmTasks('grunt-regex-replace');
 grunt.loadNpmTasks('grunt-contrib-connect');
 grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-karma');
 
 
 grunt.initConfig({
@@ -143,6 +144,11 @@ grunt.initConfig({
       }
     },
     // No se incluye una tarea para los *.js, en favor de usar las DevTools con Workspaces directamente.
+  },
+  karma: {
+    all: {
+      configFile: 'karma.conf.js'
+    }
   }
 });
 

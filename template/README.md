@@ -11,13 +11,17 @@ grunt
 
 **Comandos disponibles**: `grunt --help`.
 
+### Tests unitarios
+
+`*grunt karma*`
+
 ### Navegadores
 El depurado con navegadores sólo está testado en Chrome (necesariamente tiene que ser un navegador WebKit).
 
-Varias cosas no funcionarán bien si se intenta depurar sin un servidor mediante urls `file:`, como Ajax o el evento `deviceready` de Phonegap.
+Varias cosas no funcionarán bien si se intenta depurar sin un servidor (mediante urls `file:`) como Ajax o el evento `deviceready` de Phonegap.
 
 ### LiveReload
-Las tareas de desarrollo implementan *live reloading*, refrescando el navegador automáticamente cuando ciertos archivos cambian (ver `Gruntfile.js`, tarea `watch`).
+Las tareas de desarrollo implementan *live reloading*, refrescan cdo el navegador automáticamente cuando ciertos archivos cambian (ver `Gruntfile.js`, tarea `watch`).
 
 ### Windows
 El paquete `sqlite3` tiene unas [dependencias](https://github.com/TooTallNate/node-gyp#installation) complicadas en Windows. Sin él, fallará la generación de datos de prueba (solo la parte de generar un `appData.db`).
