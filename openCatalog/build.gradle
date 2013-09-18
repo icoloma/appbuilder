@@ -65,13 +65,24 @@ dependencies {
      		
     testCompile 'junit:junit:4.7',
     			'org.springframework:spring-test:3.2.2.RELEASE',
+    			'org.seleniumhq.selenium:selenium-java:2.35.0',
     			'com.jayway.jsonpath:json-path:0.8.1'
 
 }
 
 test {
-    systemProperties 'property': 'value'
+    //systemProperties 'property': 'value'
+    exclude 'info/spain/opencatalog/web/selenium/**'
 }
+
+
+task seleniumTest(type: Test, dependsOn: "testClasses")  {
+    destinationDir = file("$buildDir/sleniumtest-results")
+	systemProperties['spring.profiles.active'] = 'test'
+ 	include '**/*IntegrationTest.*'
+}
+
+
 
 uploadArchives {
     repositories {

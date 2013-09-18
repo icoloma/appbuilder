@@ -14,7 +14,6 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -52,6 +51,7 @@ public class PoiAPITest {
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+		
 	}
 
 	

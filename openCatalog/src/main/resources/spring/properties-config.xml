@@ -14,8 +14,12 @@
 		<util:properties id="configProps" location="classpath:config-dev.properties" />
 	</beans>
 	
+	<beans profile="test">
+	   	<util:properties id="configProps" location="classpath:config-test.properties" />
+	</beans>
+
 	<beans profile="prod">
-	   	<util:properties id="configProps" location="classpath:config-prod.properties}" />
+	   	<util:properties id="configProps" location="classpath:config-prod.properties" />
 	</beans>
 	
 </beans>

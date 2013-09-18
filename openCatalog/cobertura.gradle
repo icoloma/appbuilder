@@ -15,6 +15,8 @@ def classesCopy="${classes}-copy"
 
 task cobertura(type: Test){
 
+  exclude 'info/spain/opencatalog/web/selenium/**'
+
   jvmArgs '-XX:-UseSplitVerifier' 
   
   dependencies {
@@ -36,6 +38,7 @@ cobertura.doFirst  {
       fileset(dir: classes,
               includes:"**/*.class",
               excludes:"**/*Test.class, **/*Exception.class, info/spain/opencatalog/config/*.class")
+              
     }
   }
 }
@@ -43,10 +46,10 @@ cobertura.doFirst  {
 cobertura.doLast{
   if (new File(classesCopy).exists()) {
     //create html cobertura report
-    ant.'cobertura-report'(destdir:"${project.reportsDir}/cobertura",
+    ant.'cobertura-report'(destdir:"${project.reporting.baseDir}/cobertura",
             format:'html', srcdir:"src/main/java", datafile: serFile)
     //create xml cobertura report
-     ant.'cobertura-report'(destdir:"${project.reportsDir}/cobertura",
+     ant.'cobertura-report'(destdir:"${project.reporting.baseDir}/cobertura",
             format:'xml', srcdir:"src/main/java", datafile: serFile)
     ant.delete(file: classes)
     ant.move(file: classesCopy, tofile: classes)

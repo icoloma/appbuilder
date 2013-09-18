@@ -213,16 +213,27 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setDescription(new I18nText().setEs("Descripción de la playa..."))		
 			.setAddress(new Address().setRoute("Las teresitas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
 			.setFlags(
-				Flag.LIFT_ACCESSIBLE,
-				Flag.ADAPTED_VEHICLE_RENT,
-				Flag.QUALITY_BANDERA_AZUL,
-				Flag.QUALITY_NATURISTA,
+//				Flag.LIFT_ACCESSIBLE,
+//				Flag.ADAPTED_VEHICLE_RENT,
+//				Flag.QUALITY_BANDERA_AZUL,
+//				Flag.QUALITY_NATURISTA,
 				Flag.BEACH_BATH_CONDITION_MODERATE_WAVES,
 				Flag.BEACH_COMPOSITION_VOLCANIC_BLACK_SAND,
 				Flag.BEACH_SAND_TYPE_DARK)
 			.setData("longitude","100.0")
 			.setData("width", "200")
 			.setData("anchorZone", "true")
+			.setPrices(
+				new Price()
+					.setPriceType(PriceType.HANDICAPPED)
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=09:00-13:00,15:00-20:00"))
+					.setPrice(14d),
+				new Price()
+					.setPrice(0d)
+					.setPriceType(PriceType.FREE)
+					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"))
+					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
+			)
 			.validate();
 	}
 		
