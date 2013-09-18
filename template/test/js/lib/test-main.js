@@ -32,7 +32,8 @@ _extendObject(requireConf, {
 });
 
 _extendObject(requireConf.paths, {
-  mocksql: '/base/test/js/lib/mocksql'
+  mocksql: '/base/test/js/lib/mocksql',
+  mocktouch: '/base/test/js/lib/mocktouch'
 });
 
 requirejs.config(requireConf);
