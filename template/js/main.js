@@ -1,4 +1,4 @@
-define(['config/config', 'modules/router'],
+define(['config/config', 'router/router'],
   function(Config, Router) {
     return {
       Router: Router,
