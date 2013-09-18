@@ -7,3 +7,4 @@ js/lib/components
 less/components
 test/mocked-data/*.json
 test/mocked-data/*.db
+test/data
