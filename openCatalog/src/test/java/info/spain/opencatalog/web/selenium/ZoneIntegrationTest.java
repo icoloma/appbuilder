@@ -4,40 +4,11 @@ import static org.junit.Assert.assertEquals;
 import info.spain.opencatalog.web.selenium.page.ZoneListPage;
 import info.spain.opencatalog.web.selenium.page.ZonePage;
 
-import java.util.Properties;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/properties-config.xml")
-@ActiveProfiles("dev")
-public class ZoneIntegrationTest {
-	
-	@Autowired
-	@Qualifier("configProps")
-	Properties config;
-
-	WebDriver driver;
-
-	@Before
-	public void init(){
-		driver = new FirefoxDriver();
-	}
-	
-	@After 
-	public void tearDown(){
-		driver.close();
-	}
+public class ZoneIntegrationTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void CRUDZone(){

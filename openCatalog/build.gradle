@@ -71,24 +71,15 @@ dependencies {
 }
 
 test {
-    //systemProperties 'property': 'value'
     exclude 'info/spain/opencatalog/web/selenium/**'
 }
 
 
+
 task seleniumTest(type: Test, dependsOn: "testClasses")  {
-    destinationDir = file("$buildDir/sleniumtest-results")
-	systemProperties['spring.profiles.active'] = 'test'
+	def env = project.hasProperty('springProfiles') ? project.springProfiles : 'dev'
+	systemProperties['spring.profiles.active'] = env;
+	println "spring.profile.active= " + env
  	include '**/*IntegrationTest.*'
-}
-
-
-
-uploadArchives {
-    repositories {
-       flatDir {
-           dirs 'repos'
-       }
-    }
 }
 

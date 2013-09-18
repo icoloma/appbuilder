@@ -10,45 +10,9 @@ import info.spain.opencatalog.web.selenium.page.poi.AbstractPoiPage;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/properties-config.xml")
-@ActiveProfiles("dev")
-public abstract class AbstractPoiIntegrationTest {
-	
-	protected Logger log = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-	@Qualifier("configProps")
-	protected Properties config;  
-	
-	protected WebDriver driver;
-
-	@Before
-	public void init(){
-		driver = new FirefoxDriver();
-	}
-	
-	@After 
-	public void tearDown(){
-		driver.close();
-	}
-	
+public abstract class AbstractPoiIntegrationTest extends AbstractIntegrationTest {
 	
 	protected void fillAllInfo(AbstractPoiPage page, BasicPoi poi){
 		fillNameData(page, poi);

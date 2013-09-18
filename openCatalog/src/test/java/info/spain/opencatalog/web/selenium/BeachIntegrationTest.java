@@ -11,7 +11,6 @@ import info.spain.opencatalog.web.selenium.page.poi.BeachPage;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
-
 public class BeachIntegrationTest extends AbstractPoiIntegrationTest{
 	
 	@Test
