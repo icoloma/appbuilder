@@ -33,9 +33,9 @@ define(['modules/touch', 'mocktouch'], function(Touch, MockTouch) {
 
 
     _.delay(function() {
-      equal(tap1, true, 'touchstart+touchend == tap');
-      equal(tap2, false, 'touchstart+touchmove+touchend != tap');
-      equal(tap3, false, 'touchstart+touchstart+touchend != tap');
+      strictEqual(tap1, true, 'touchstart+touchend == tap');
+      strictEqual(tap2, false, 'touchstart+touchmove+touchend != tap');
+      strictEqual(tap3, false, 'touchstart+touchstart+touchend != tap');
       start();
     }, 100);
   });

@@ -22,13 +22,15 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
   };
 
   return function(callback) {
-    // Búsqueda *asíncrona* de los metadatos. 
     async.parallel({
       device: function(cb) {
         document.addEventListener('deviceready', function () {
 
           // Obtener la plataforma y el locale
           window.appConfig.platform = device.platform;
+
+          // Inicia la BDD SQLite del dispositivo.
+          Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
 
           navigator.globalization.getLocaleName(function(locale) {
             cb(null, locale);
@@ -38,6 +40,7 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
           });
         });
       },
+      // Búsqueda *asíncrona* de los metadatos. 
       config: function(cb) {
         var req = new XMLHttpRequest();
         req.onload = function() {
@@ -48,8 +51,6 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
         req.send();
       }
     }, function(err, results) {
-      // Inicia la BDD SQLite del dispositivo
-      Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
 
 
       locale = results.device.value.match(/^([a-z]{2})/)[1];
@@ -69,7 +70,7 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
       /*
         Configura el schema de los POIs.
       */
-      PoiModel.initSchema(results.config.schema);
+      PoiModel.initSchema(results.config.metadata.schema);
 
       callback();
     });

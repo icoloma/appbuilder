@@ -1,6 +1,6 @@
 <div class="titlebar app-container">
   <div class="details">
-    <div class="name hideable">{{tpl.name}}</div>
+    <div class="poi-name hideable">{{tpl.name}}</div>
     <address class="small">
       <a href="{{tpl.geoLink}}" class="geo-link">
         {{tpl.address}}&nbsp;<span class="icon-map"></span>

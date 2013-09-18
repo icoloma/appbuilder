@@ -10,7 +10,7 @@ define(
           this.trigger('star');
         },
         'tap .name': function() {
-          this.$('.name').toggleClass('uncovered');
+          this.$('.poi-name').toggleClass('uncovered');
         },
       },
 

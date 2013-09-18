@@ -51,7 +51,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
       , checkedCategories = _.map(this.$('.category-checkbox:checked'), function(input) {
         return res._metadata.searchConfig.categories[$(input).val()];
       })
-      , categoryConditions = null
+      , categoryConditions = ''
       , uri
       ;
 

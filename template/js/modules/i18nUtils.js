@@ -1,6 +1,6 @@
 /*
   Utilidades para la internacionalización.
-  AVISO: estos métodos requieren que appConfig.locale esté definido antes de llamarse
+  AVISO: estos métodos requieren que appConfig.locale *esté definido* para llamarlos
 */
 define(['globals'], function() {
 

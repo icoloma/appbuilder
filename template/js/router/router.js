@@ -16,7 +16,7 @@ define(
         'menu/:menuId': 'renderMenu',
         'pois?(:uri)': 'renderPois',
         'pois/:poiId': 'renderPoi',
-        'search?(:query)': 'renderSearch'
+        'search?(:prevQuery)': 'renderSearch'
       },
 
       initialize: function(options) {
@@ -55,7 +55,7 @@ define(
       },
 
       renderPois: function(uri) {
-        var uriObj = JSON.parse(decodeURIComponent(uri))
+        var uriObj = JSON.parse(uri)
         , self = this
         , queryConditions = uriObj.queryConditions
         , sqlStr = 'SELECT id,thumb,address,name_' + appConfig.locale + ' FROM Poi WHERE ' + queryConditions

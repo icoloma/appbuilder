@@ -12,10 +12,10 @@ define(['db/db', 'mocksql'], function(Db, MockSql) {
 
     mockDb.options = {
       pre: function(sqlStr, params, callback, errback) {
-        equal(sqlStr, args.sqlStr);
-        equal(params, args.params);
-        equal(callback, args.callback);
-        equal(errback, args.errback);
+        strictEqual(sqlStr, args.sqlStr);
+        strictEqual(params, args.params);
+        strictEqual(callback, args.callback);
+        strictEqual(errback, args.errback);
       }
     };
 
@@ -50,7 +50,7 @@ define(['db/db', 'mocksql'], function(Db, MockSql) {
     mockDb.options.error = new Error();
 
     Db.sql('FOO BAR', [], function(err, results) {
-      equal(err, mockDb.options.error, 'Error handling OK');
+      strictEqual(err, mockDb.options.error, 'Error handling OK');
     });
     start();
   });

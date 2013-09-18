@@ -1,12 +1,25 @@
-/*
-  Configuración general del router central de la aplicación
-*/
-/*
-  El router central del app
-*/
 define(['globals'], function() {
 
   return B.Router.extend({
+
+    /*
+
+      Configuración general del router central de la aplicación
+
+      - this.currentView: vista actual
+
+      - this.cache: el historial de navegación. Guarda objetos:
+          {
+            uri,
+            scroll (el scroll con el que se abandonó la página)
+          }
+        Las páginas entran en el historial *justo antes* de cargar una nueva URI mediante
+        el evento 'navigate'.
+
+      - this.direction: indica la dirección de la próxima animación de cambio de vista:
+          normal/hacia la izq. (== 1), o back/hacia la der. (== -1)
+
+    */
 
     initialize: function(options) {
       this.$el = options.$el;
@@ -25,8 +38,9 @@ define(['globals'], function() {
       });
     },
 
+    // Se dispara con un evento 'navigate' en la vista actual
     navigateTo: function(uri, dir) {
-      if (dir < 0) this.direction = -1;
+      this.direction = dir;
       if (dir > 0) {
         _.last(this.cache).scroll = window.pageYOffset;
         this.cache.push({
@@ -41,6 +55,7 @@ define(['globals'], function() {
       }
     },
 
+    // Se dispara con un evento 'updateQuery' en la vista actual
     updateUri: function(uriParams) {
       var oldUri = _.last(this.cache).uri
       , rawQueryMatch = location.hash.match(/(^[^?]+)(\?.+)?/)
