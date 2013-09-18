@@ -98,7 +98,7 @@ module.exports = function(pois) {
           "desc_es": "Sus favoritos",
           "poiCount": null,
           "menu": null,
-          "queryConditions": '(starred="true")'
+          "queryConditions": '(starred=1)'
         },
         'F64F7FC14E674675A67000E4BFCB627A': {
           id: 'F64F7FC14E674675A67000E4BFCB627A',

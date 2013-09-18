@@ -110,7 +110,7 @@ define(['jquery', 'underscore'], function() {
 
     // Cancela el tap al entrar con más de un punto de contacto
     // AVISO: TouchEvent.touches no siempre soportado (e.g. Android 2.3.6)
-    if (Tap.state == true || e.originalEvent.touches.length > 1) {
+    if (Tap.state || e.originalEvent.touches.length > 1) {
       Tap.state = false;
       Active.cancel();
       return false;

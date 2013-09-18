@@ -12,7 +12,8 @@ define(function() {
   /*
     Métodos utiles para geoposicionamiento
     NO son aptos cerca de los polos o del antimeridiano 180º.
-    El error en las distancias es despreciable para su uso en España
+    El error en las distancias es despreciable para su uso dentro de la Península o de un
+    archipiélago
   */
   return {
     // Calcula un valor proporcional al cuadrado de la distancia. 

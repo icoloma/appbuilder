@@ -2,8 +2,8 @@
   Carga los POIs en una BDD SQLite
 */
 var sqlite3 = require('sqlite3').verbose()
-// Schema de un POI. Duplicado de db/schemas/poi
 , poiSchema = require('./schema.js')
+, originalSchema = _.clone(poiSchema)
 ;
 
 _.each(poiSchema, function(value, field) {
@@ -12,8 +12,10 @@ _.each(poiSchema, function(value, field) {
       poiSchema[field + '_' + locale] = 'TEXT';
     });
     delete poiSchema[field];
-  } else if (value == 'JSON') {
+  } else if (value === 'JSON') {
     poiSchema[field] = 'TEXT';
+  } else if (value === 'BOOLEAN'){
+    poiSchema[field] = 'INTEGER';
   }
 });
 
@@ -47,10 +49,12 @@ module.exports = function(pois, dbFile) {
     for (var i = 0; i < pois.length; i++) {
       poi = pois[i];
 
-      _.each([
-      'prices', 'contact', 'timetables', 'languages', 'data', 'flags', 'imgs'
-      ], function(field) {
-        poi[field] = JSON.stringify(poi[field]);
+      _.each(originalSchema, function(type, field) {
+        if (type === 'JSON') {
+          poi[field] = JSON.stringify(poi[field]);
+        } else if (type === 'BOOLEAN') {
+          poi[field] = poi[field] ? 1 : 0;
+        }
       });
 
       smnt.run(

@@ -17,7 +17,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
         }
       });
       // Los campos BOOLEAN llegan como ints
-      _.each(this.constructor.schema.bool, function(field) {
+      _.each(this.constructor.schema.boolean, function(field) {
         if (_.isString(attrs[field])) {
           attrs[field] = attrs[field] ? true : false;
         }
@@ -49,7 +49,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
         json[field] = JSON.stringify(json[field]);
       });
       _.each(this.constructor.schema.boolean, function(field) {
-        json[field] = json[field] ? 0 : 1;
+        json[field] = json[field] ? 1 : 0;
       });
       return json;
     },
@@ -74,7 +74,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
     // Algunos tipos de campos necesitan parsearse de manera especial debido a cómo funciona SQLIT
     schema: {
       json: [],
-      bool: [],
+      boolean: [],
     },
 
     // Campos a pedir a la BDD, omitiendo columnas en otros locales
@@ -90,7 +90,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
           this.sqlFields.push(field);
 
           if (type === 'BOOLEAN') {
-            this.schema.bool.push(field);
+            this.schema.boolean.push(field);
           } else if (type == 'JSON') {
             this.schema.json.push(field);
           }

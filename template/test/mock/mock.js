@@ -7,10 +7,10 @@ _ = require('underscore')
 var random = require('./random-data.js')
 , i18n = require('./i18n-generator.js')
 , poiMetadata = require('./poi-metadata.js')
-, poiNumber = 200
+, poiNumber = 50
 , jsonPois
 , jsonData = {}
-, dataFolder = __dirname + '/../data/'
+, dataFolder = __dirname + '/../mocked-data/'
 , jsonFile = 'catalog-metadata.json'
 , sqliteFile = 'appData.db'
 ;
