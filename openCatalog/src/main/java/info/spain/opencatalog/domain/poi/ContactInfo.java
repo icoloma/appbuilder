@@ -48,8 +48,9 @@ public class ContactInfo {
 	public String getReservation() {
 		return reservation;
 	}
-	public void setReservation(String reservation) {
+	public ContactInfo setReservation(String reservation) {
 		this.reservation = reservation;
+		return this;
 	}
 	@Override
 	public String toString() {

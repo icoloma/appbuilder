@@ -43,7 +43,8 @@
 			<li><a href="#geo" data-toggle="tab" th:text="#{poi.location}">Location</a></li>
 			<li><a href="#flags" data-toggle="tab" th:text="#{poi.tags}">Flags</a></li>
 			<li><a href="#timetable" data-toggle="tab" th:text="#{poi.timetable}">Timetable</a></li>
-						<li><a href="#prices" data-toggle="tab" th:text="#{poi.prices}">Prices</a></li>
+			<li><a href="#prices" data-toggle="tab" th:text="#{poi.prices}">Prices</a></li>
+			<li><a href="#contactInfo" data-toggle="tab" th:text="#{poi.contactInfo}">Contact Info</a></li>
 		</ul>
 			
 		<div class="tab-content">
@@ -122,7 +123,14 @@
 			  		<div th:substituteby="fragments/poi/poiPrices :: poiPricesTag" >
 			  		  Poi prices
 			  		</div>
-			  	</div>		  							  		  	
+			  	</div>
+			  	
+			  <!--  Contact Info -->
+			  	<div class="tab-pane" id="contactInfo">
+			  		<div th:substituteby="fragments/poi/poiContactInfo :: poiContactInfoTag" >
+			  		  Contact info
+			  		</div>
+			  	</div>			  							  		  	
 		</div>
 		
 		<div class="timeTableExamples" th:substituteby="fragments/poi/poiTimeTable :: timeTableExamples">

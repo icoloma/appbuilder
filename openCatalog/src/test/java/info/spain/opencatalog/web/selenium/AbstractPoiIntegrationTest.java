@@ -21,8 +21,15 @@ public abstract class AbstractPoiIntegrationTest extends AbstractIntegrationTest
 		fillFlags(page, poi);
 		fillTimeTable(page,poi);
 		fillPrices(page,poi);
+		fillContactInfo(page,poi);
 	}
 	
+	protected void fillContactInfo(AbstractPoiPage page, BasicPoi poi){
+		page.showContactInfoTab();
+		if (poi.getContactInfo() != null){
+			page.setContactInfo(poi.getContactInfo());
+		}
+	}
 	
 	protected void fillNameData(AbstractPoiPage page, BasicPoi poi){
 		page.setName(poi.getName().getEs());

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+  
+	<!-- 
+		Poi contactInfo 
+	-->      
+	<div th:fragment="poiContactInfoTag">
+	
+		<label th:text="#{poi.contactInfo.phone}">Teléfono</label>
+		<input name="contactInfo.phone"  class="input-xxlarge"  type="text" th:field="*{contactInfo.phone}" placeholder="Enter contact phone" th:placeholder="#{poi.contactInfo.phone.placeholder}"/>
+		
+		<label th:text="#{poi.contactInfo.fax}">Fax</label>
+		<input name="contactInfo.fax"  class="input-xxlarge"  type="text" th:field="*{contactInfo.fax}" placeholder="Enter contact fax" th:placeholder="#{poi.contactInfo.fax.placeholder}"/>
+		  		
+		<label th:text="#{poi.contactInfo.email}">e-mail</label>
+		<input name="contactInfo.email"  class="input-xxlarge"  type="text" th:field="*{contactInfo.email}" placeholder="Enter contact email" th:placeholder="#{poi.contactInfo.email.placeholder}"/>
+	
+		<label th:text="#{poi.contactInfo.url}">URL</label>
+		<input name="contactInfo.url"  class="input-xxlarge"  type="text" th:field="*{contactInfo.url}" placeholder="Enter contact url" th:placeholder="#{poi.contactInfo.url.placeholder}"/>
+
+
+		<label th:text="#{poi.contactInfo.reservation}">Reservation</label>
+		<textarea name="contactInfo.reservation" class="input-xxlarge" th:field="*{contactInfo.reservation}" placeholder="Enter poi description (spanish)" th:placeholder="#{poi.contactInfo.reservation.placeholder}"></textarea>	
+	</div>
+	
+			
+</div>
+</body>
+</html>
+
+
+
+

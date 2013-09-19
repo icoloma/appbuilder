@@ -233,7 +233,11 @@ public class DummyPoiFactory extends AbstractFactory {
 					.setPriceType(PriceType.FREE)
 					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"))
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
-			)
+			).setContactInfo( new ContactInfo()
+				.setUrl("http://www.playadelasteresitas.com")
+				.setPhone("+34922000000")
+				.setReservation("Reservar llamando al teléfono de contacto"))
+			
 			.validate();
 	}
 		

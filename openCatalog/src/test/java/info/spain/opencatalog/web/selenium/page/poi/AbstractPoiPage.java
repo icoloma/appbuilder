@@ -1,5 +1,6 @@
 package info.spain.opencatalog.web.selenium.page.poi;
 
+import info.spain.opencatalog.domain.poi.ContactInfo;
 import info.spain.opencatalog.web.selenium.page.AbstractPage;
 
 import java.util.List;
@@ -27,6 +28,9 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	public void showPricesTab(){
 		driver.findElement(By.partialLinkText("Precios")).click();
 	}
+	public void showContactInfoTab(){
+		driver.findElement(By.partialLinkText("Información de contacto")).click();
+	}
 	
 	public void setName(String value){
 		log.trace("name: " + value);
@@ -46,6 +50,31 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	public void searchLocation(String location){
 		log.trace("location : " + location);
 		fillAutocomplete("gsearcher", location);
+	}
+	
+	public void setContactInfo(ContactInfo contactInfo){
+		if (contactInfo != null){
+			if (contactInfo.getPhone() != null){
+				log.trace("phone: " + contactInfo.getPhone());
+				fillById("contactInfo.phone", contactInfo.getPhone());
+			}
+			if (contactInfo.getFax() != null){
+				log.trace("fax: " + contactInfo.getFax());
+				fillById("contactInfo.fax", contactInfo.getFax());
+			}
+			if (contactInfo.getEmail() != null){
+				log.trace("email: " + contactInfo.getEmail());
+				fillById("contactInfo.email", contactInfo.getEmail());
+			}
+			if (contactInfo.getUrl() != null){
+				log.trace("url: " + contactInfo.getUrl());
+				fillById("contactInfo.url", contactInfo.getUrl());
+			}
+			if (contactInfo.getReservation() != null){
+				log.trace("contactInfo.reserervation: " + contactInfo.getReservation());
+				fillById("contactInfo.reservation", contactInfo.getReservation());
+			}
+		}
 	}
 	
 	/**
