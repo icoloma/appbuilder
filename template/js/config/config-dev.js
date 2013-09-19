@@ -67,7 +67,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
 
     var catalog_metadata = loadJSONResource(appConfig.data + 'catalog-metadata.json')
     , i18n_strings = loadJSONResource(appConfig.configFolder + 'i18n.json')
-    , flag_icons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
+    , flagIcons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
     ;
 
     // Inicializa la BDD
@@ -86,7 +86,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
     };
 
     return function(callback) {
-      i18nUtils.config(i18n_strings, _.extend(catalog_metadata, flag_icons));
+      i18nUtils.config(_.extend(i18n_strings, catalog_metadata, flagIcons));
       PoiModel.initSchema(catalog_metadata.schema);
 
       // Rellenar la BDD SQL del navegador
@@ -123,8 +123,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
           window.appConfig.locale = locale in appMetadata.i18n ? locale : 'en';
 
-          i18nUtils.config(appMetadata.i18n, appMetadata.metadata);
-          PoiModel.initSchema(appMetadata.metadata.schema);
+          i18nUtils.config(appMetadata);
+          PoiModel.initSchema(res.schema);
 
           callback();
         }, function(err) {
@@ -133,8 +133,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
           window.appConfig.locale = 'en';
           window.res = appMetadata.i18n[window.appConfig.locale];
 
-          i18nUtils.config(appMetadata.i18n, appMetadata.metadata);
-          PoiModel.initSchema(appMetadata.metadata.schema);
+          i18nUtils.config(appMetadata);
+          PoiModel.initSchema(res.schema);
 
           callback();
         });

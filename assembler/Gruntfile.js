@@ -86,11 +86,8 @@ grunt.registerTask('_join_config', '[Tarea interna]', function() {
   var catalog_metadata = JSON.parse(fs.readFileSync('tmp-app-data/catalog-metadata.json', 'utf-8'))
   , i18n = JSON.parse(fs.readFileSync('tmp-www/config/i18n.json', 'utf-8'))
   , flag_icons = JSON.parse(fs.readFileSync('tmp-www/config/flag-icons.json', 'utf-8'))
-  , appConfig
+  , appMetadata = _.extend(i18n, flag_icons, catalog_metadata);
   ;
-
-  appMetadata = _.extend({i18n: i18n}, {metadata: catalog_metadata});
-  _.extend(appMetadata.metadata, flag_icons);
 
   fs.writeFileSync('tmp-app-data/www/appMetadata.json', JSON.stringify(appMetadata), 'utf-8');
 });

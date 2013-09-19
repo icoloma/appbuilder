@@ -18,7 +18,8 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
 
     initialize: function() {
       this.topbarView = new TopbarView({
-        title: res._metadata.appName,
+        // TO-DO: añadir appName
+        title: res.appName,
       });
 
       this.pass(this.topbarView, 'navigate');
@@ -26,7 +27,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
       this.options.searchText = this.options.searchText || '';
 
       // Convierte un array de ids en un hash id/checked-status
-      this.options.checked = _.chain(res._metadata.searchConfig.categories)
+      this.options.checked = _.chain(res.searchCategories)
                               .clone()
                               .reduce(function(memo, value, id) {
                                 memo[id] = _.contains(this.options.checked, id) ?
@@ -49,13 +50,13 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
     doSearch: function(searchQuery) {
       var trimmedQuery = $.trim(searchQuery).split(/\s+/).join(' ')
       , checkedCategories = _.map(this.$('.category-checkbox:checked'), function(input) {
-        return res._metadata.searchConfig.categories[$(input).val()];
+        return res.searchCategories[$(input).val()];
       })
       , categoryConditions = ''
       , uri
       ;
 
-      if (checkedCategories.length && checkedCategories.length !== _.size(res._metadata.searchConfig.categories)) {
+      if (checkedCategories.length && checkedCategories.length !== _.size(res.searchCategories)) {
         categoryConditions = _.map(checkedCategories, function(cat) {
           return cat.categoryConditions;
         }).join(' OR ');

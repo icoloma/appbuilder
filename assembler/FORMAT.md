@@ -65,9 +65,11 @@ El formato esperado para `catalog-metadata.json` es:
         ...
       },
       // Configuración de menús, ver abajo
-      "menuConfig": <menu config>
+      "rootMenu": <root menu>,
+      "menus": <menus>,
+      "menuEntries": <menu entries>,
       // Configuración de la búsqueda, ver abajo
-      "searchConfig": <search config>
+      "searchCategories": <search categories>
       // Schema de los POIs, ver abajo
       "schema": <schema de un POI>,
     }
@@ -88,24 +90,22 @@ Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar i
 La aplicación se encarga de cargar en memoria sólo los datos en el idioma apropiado.
 
 #### Menús
-La estructura de la entrada `menuConfig` en los metadatos es como sigue:
+La configuración de los menús en los metadatos viene dada por:
 
 * Configuración global:
 
 ```
-"menuConfig": {
-  "root": {
-    "menu": <id de un menú>,
-    "pois": [ <poiData> ]
-  },
-  // Un hash de menús por ID
-  "menus": {
-    <ID única>: <menu>  
-  },
-  // Un hash de entradas de menús por ID
-  "entries": {
-    <id de una entry>: <entry>
-  }
+"rootMenu": {
+  "menu": <id de un menú>,
+  "pois": [ <poiData> ]
+},
+// Un hash de menús por ID
+"menus": {
+  <ID única>: <menu>  
+},
+// Un hash de entradas de menús por ID
+"menuEntries": {
+  <id de una entry>: <entry>
 }
 ```
 
@@ -150,22 +150,20 @@ El campo `menu` tiene valor cuando se salta a otro submenú. El campo `query` ti
 ```
 
 #### Búsqueda
-La estructura de la entrada `searchConfig` en los metadatos es como sigue:
+La configuración de la búsqueda en los metadatos viene dada por:
 
 * Configuración global:
 
 ```
-"searchConfig": {
-  // Categorías de búsqueda
-  "categories": {
-    <ID única>: {
-      "id": <ID única>,
-      "label": <string, i18n>,
-      "desc": <string, i18n>,
-      "categoryConditions": <categoryQueryStr>
-    },
-    ...
-  }
+// Categorías de búsqueda
+"searchCategories": {
+  <ID única>: {
+    "id": <ID única>,
+    "label": <string, i18n>,
+    "desc": <string, i18n>,
+    "categoryConditions": <categoryQueryStr>
+  },
+  ...
 }
 ```
 

@@ -4,15 +4,14 @@
 */
 define(['globals'], function() {
 
-  // Las regexp para filtrar campos. localePropRegExp se inicia cuando el locale está disponible
+  // Las regexp para filtrar campos.
   var i18nPropRegExp = /(.+)_([a-z]{2})/
-  , localePropRegExp
 
   // Encuentra los campos localizables en un @json en el idioma de la app (tipo 'name_fr')
   // y los copia en la propiedad sin indentificador de idioma (p.ej. 'name')
   , localizeJSON = function(json) {
     _.each(json, function(value, key) {
-      var match = key.match(localePropRegExp);
+      var match = key.match(new RegExp('(.+)_' + appConfig.locale));
       if (match) {
         json[match[1]] = value;
       }
@@ -36,19 +35,20 @@ define(['globals'], function() {
   ;
 
   return {
-    config: function(i18nStrings, metadata) {
-      localePropRegExp = new RegExp('(.+)_' + appConfig.locale);
+    config: function(metadata) {
+      window.res = {};
 
-      window.res = i18nStrings[appConfig.locale];
+      window.res.i18n = metadata.i18n[appConfig.locale];
+      delete metadata.i18n;
 
       _.each([
-        metadata.types, metadata.flags, metadata.flagGroups, metadata.menuConfig.menus,
-        metadata.menuConfig.entries, metadata.data, metadata.searchConfig.categories
+        metadata.types, metadata.flags, metadata.flagGroups, metadata.menus,
+        metadata.menuEntries, metadata.data, metadata.searchCategories
       ], function(collection) {
         _.each(collection, filterJSON);
       });
 
-      window.res._metadata = metadata;
+      _.extend(window.res, metadata);
     },
     filterJSON: filterJSON,
     localizeJSON: localizeJSON

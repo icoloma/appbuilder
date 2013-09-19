@@ -7,8 +7,6 @@ define(
   ],
   function(BaseRouter, Page, Db, Poi, Menu) {
 
-    var menuConfig;
-
     return BaseRouter.extend({
 
       routes: {
@@ -20,30 +18,29 @@ define(
       },
 
       initialize: function(options) {
-        menuConfig = window.res._metadata.menuConfig;
         BaseRouter.prototype.initialize.call(this, options);
       },
 
       renderHome: function() {
-        var menu = menuConfig.menus[menuConfig.root.menu]
+        var menu = res.menus[res.rootMenu.menu]
         , collection = new B.Collection(
           _.map(menu.entries, function(entryID) {
-            return new Menu(menuConfig.entries[entryID]);
+            return new Menu(res.menuEntries[entryID]);
           })
         )
         ;
         this.setView(Page.HomeView, {
           title: menu.title,
           collection: collection,
-          pois: menuConfig.root.pois
+          pois: res.rootMenu.pois
         });
       },
 
       renderMenu: function(menuId) {
-        var menu = menuConfig.menus[menuId]
+        var menu = res.menus[menuId]
         , collection = new B.Collection(
           _.map(menu.entries, function(entryID) {
-            return new Menu(menuConfig.entries[entryID]);
+            return new Menu(res.menuEntries[entryID]);
           })
         )
         ;
@@ -82,7 +79,7 @@ define(
         var self = this;
         Db.sql('SELECT ' + Poi.Model.sqlFields + ' FROM Poi WHERE `id`=?', [poiId], function(err, pois) {
           var poi = new Poi.Model(pois[0], {parse: true})
-          , type = window.res._metadata.types[poi.get('type')]
+          , type = window.res.types[poi.get('type')]
           ;
           self.setView(Page.PoiView, {
             model: poi,

@@ -9,7 +9,7 @@ define(
   function(Db, PoiModel) {
     // Introduce los datos en la BDD.
     var loadData = function(pois, callback) {
-      var poiSchema = _.clone(res._metadata.schema)
+      var poiSchema = _.clone(res.schema)
       , pairs
       ;
 
@@ -17,7 +17,7 @@ define(
         if (type === 'JSON' ) {
           poiSchema[field] = type;
         } else if (type === 'i18n') {
-          _.each(res._metadata._locales_dev, function(locale) {
+          _.each(res._locales_dev, function(locale) {
             poiSchema[field + '_' + locale] = type;
           });
           delete poiSchema[field];

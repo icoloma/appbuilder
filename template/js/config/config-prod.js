@@ -65,12 +65,12 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
           * Los metadatos de la aplicación
           * Las cadenas i18n 
       */
-      i18nUtils.config(results.config.i18n, results.config.metadata);
+      i18nUtils.config(results.config);
 
       /*
         Configura el schema de los POIs.
       */
-      PoiModel.initSchema(results.config.metadata.schema);
+      PoiModel.initSchema(res.schema);
 
       callback();
     });

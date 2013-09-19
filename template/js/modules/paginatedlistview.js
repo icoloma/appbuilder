@@ -38,7 +38,7 @@ function(BaseListView) {
     render: function() {
       this.$el.html('');
       if (this.collection.length === 0) {
-        var message = '<div class="item-row empty-list"><b>' + res.EmptyList + '</b></div>';
+        var message = '<div class="item-row empty-list"><b>' + res.i18n.EmptyList + '</b></div>';
         this.$el.append(message);
       } else {
         _.each(this.collection.toJSON(), function(item, i) {

@@ -56,7 +56,7 @@ define(
           });
         }, function(err) {
           self.topbarView.unblock();
-          navigator.notification.alert(res.geoError, null, res.Error);
+          navigator.notification.alert(res.i18n.geoError, null, res.i18n.Error);
         });
       },
 
@@ -79,7 +79,7 @@ define(
       //     // TO-DO
       //     self.topbarView.unblock();
       //     self.$el.prepend(new DialogView({
-      //       content: '<p>' + res.geoError + '</p>' 
+      //       content: '<p>' + res.i18n.geoError + '</p>' 
       //     }).render().$el);
       //   });
       // },
@@ -88,10 +88,10 @@ define(
     //     var self = this
     //     , options = _.template(
     //       '<ul>' +
-    //         '<li data-distance="1">1 {{res.kilometers}}</li>' +
-    //         '<li data-distance="5">5 {{res.kilometers}}</li>' +
-    //         '<li data-distance="10">10 {{res.kilometers}}</li>' +
-    //         '<li data-distance="20">20 {{res.kilometers}}</li>' +
+    //         '<li data-distance="1">1 {{res.i18n.kilometers}}</li>' +
+    //         '<li data-distance="5">5 {{res.i18n.kilometers}}</li>' +
+    //         '<li data-distance="10">10 {{res.i18n.kilometers}}</li>' +
+    //         '<li data-distance="20">20 {{res.i18n.kilometers}}</li>' +
     //       '</ul>'
     //     , {})
     //     , dialogView = new DialogView({

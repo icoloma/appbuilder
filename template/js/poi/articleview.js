@@ -20,12 +20,12 @@ define(
         ;
 
         _.each(json.flags, function(flag) {
-          var flagObj = res._metadata.flags[flag];
+          var flagObj = res.flags[flag];
           if (!flagGroups[flagObj.group]) {
             var newGroupId = flagObj.group;
-            flagGroups[newGroupId] = _.clone(res._metadata.flagGroups[newGroupId]);
+            flagGroups[newGroupId] = _.clone(res.flagGroups[newGroupId]);
             flagGroups[newGroupId].flags = [];
-            flagGroups[newGroupId].icon = res._metadata.flag_icons[newGroupId];
+            flagGroups[newGroupId].icon = res.flagIcons[newGroupId];
           }
           flagGroups[flagObj.group].flags.push(flagObj);
         });

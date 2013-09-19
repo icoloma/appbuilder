@@ -1,26 +1,28 @@
 {
-  "es": {
-    "Starred": "Favoritos",
-    "bookmarkAdded": "Añadido a favoritos.",
-    "bookmarkRemoved": "Borrado de favoritos.",
-    "geoError": "La geolocalización no funcionó.",
-    "Error": "Error",
-    "Back": "Atrás",
-    "kilometers": "kilómetros",
-    "ShowMore": "Mostrar más",
-    "EmptyList": "¡Nada que mostrar!",
-    "Search": "Buscar"
-  },
-  "en": {
-    "Starred": "Bookmarks",
-    "bookmarkAdded": "Boorkmark added.",
-    "bookmarkRemoved": "Boorkmark removed.",
-    "geoError": "Geolocation didn't work.",
-    "Error": "Error",
-    "Back": "Back",
-    "kilometers": "kilometers",
-    "ShowMore": "Show more",
-    "EmptyList": "Nothing to show!",
-    "Search": "Search"
+  "i18n": {
+    "es": {
+      "Starred": "Favoritos",
+      "bookmarkAdded": "Añadido a favoritos.",
+      "bookmarkRemoved": "Borrado de favoritos.",
+      "geoError": "La geolocalización no funcionó.",
+      "Error": "Error",
+      "Back": "Atrás",
+      "kilometers": "kilómetros",
+      "ShowMore": "Mostrar más",
+      "EmptyList": "¡Nada que mostrar!",
+      "Search": "Buscar"
+    },
+    "en": {
+      "Starred": "Bookmarks",
+      "bookmarkAdded": "Boorkmark added.",
+      "bookmarkRemoved": "Boorkmark removed.",
+      "geoError": "Geolocation didn't work.",
+      "Error": "Error",
+      "Back": "Back",
+      "kilometers": "kilometers",
+      "ShowMore": "Show more",
+      "EmptyList": "Nothing to show!",
+      "Search": "Search"
+    }
   }
 }
