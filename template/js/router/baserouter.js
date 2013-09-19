@@ -40,8 +40,8 @@ define(['globals'], function() {
 
     // Se dispara con un evento 'navigate' en la vista actual
     navigateTo: function(uri, dir) {
-      this.direction = dir;
-      if (dir > 0) {
+      this.direction = dir || 1;
+      if (this.direction > 0) {
         _.last(this.cache).scroll = window.pageYOffset;
         this.cache.push({
           uri: uri
