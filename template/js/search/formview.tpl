@@ -21,18 +21,18 @@
   </div>
   <div class="app-container collectionview">
     <div class="col-xs-12 item-row checkable">
-      <div class="near-line">
+      <div class="geo-line">
         <div class="checkbox-wrapper">
-          <input type="{{tpl.nearPoi ? 'radio' : 'checkbox'}}" {{tpl.near['_near_me_']}} name="near" value="_near_me_">
+          <input type="{{tpl.nearPoi ? 'radio' : 'checkbox'}}" {{tpl.geo['__NEAR_ME']}} name="geo" value="__NEAR_ME">
           <label class="fake-{{tpl.nearPoi ? 'radio' : 'checkbox'}}"></label>
         </div> {{res.i18n.nearMe}}
       </div>
     </div>
     <% if (tpl.nearPoi) { %>
       <div class="col-xs-12 item-row checkable">
-        <div class="near-line near-poi-line hideable">
+        <div class="geo-line near-poi-line hideable">
           <div class="checkbox-wrapper">
-            <input type="radio" {{tpl.near[tpl.nearPoi.id]}} name="near" value="{{tpl.nearPoi.id}}">
+            <input type="radio" {{tpl.geo[tpl.nearPoi.id]}} name="geo" value="{{tpl.nearPoi.id}}">
             <label class="fake-radio"></label>
           </div> {{res.i18n.nearPoi + tpl.nearPoi.name}}
         </div>

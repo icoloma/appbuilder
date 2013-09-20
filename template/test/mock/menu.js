@@ -207,7 +207,7 @@ module.exports = function(pois) {
         "label_es": "Lugares para ver",
         "desc_en": "See stuff in Huesca",
         "desc_es": "Vea cosas en Huesca",
-        "categoryConditions": '(type="' + findByKeyword("MONUMENT") + '") OR ' +
+        "queryConditions": '(type="' + findByKeyword("MONUMENT") + '") OR ' +
                               '(type="' + findByKeyword("PARK_GARDEN") + '") OR '+
                               '(type="' + findByKeyword("MUSEUM") + '")'
       },
@@ -217,7 +217,7 @@ module.exports = function(pois) {
         "label_es": "Lugares para dormir",
         "desc_en": "Take a nap",
         "desc_es": "Eche la siesta",
-        "categoryConditions": '(type="' + findByKeyword("HOTEL") + '") OR ' +
+        "queryConditions": '(type="' + findByKeyword("HOTEL") + '") OR ' +
                               '(type="' + findByKeyword("CAMPING") + '") OR ' +
                               '(type="' + findByKeyword("APARTMENT") + '")'
       },
@@ -227,7 +227,7 @@ module.exports = function(pois) {
         "label_es": "Lugares para hacer algo",
         "desc_en": "Do stuff in Huesca",
         "desc_es": "Haga cosas en Huesca",
-        "categoryConditions": '(type="' + findByKeyword("GOLF") + '") OR ' +
+        "queryConditions": '(type="' + findByKeyword("GOLF") + '") OR ' +
                               '(type="' + findByKeyword("BEACH") + '") OR ' +
                               '(type="' + findByKeyword("ECO_TOURISM") + '")'
       },

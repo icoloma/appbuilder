@@ -30,16 +30,20 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
 
       options.searchText = options.searchText || '';
 
-      // Convierte los arrays de IDs en hashes ID/checked-status
+      // Convierte los arrays de IDs en hashes ID/checked-status para reconstruir el estado del formulario
+
       options.categories = _.reduce(res.searchCategories, function(memo, value, id) {
         memo[id] = _.contains(options.categories, id) ?
                   'checked' : '';
         return memo;
       }, {});
 
-      var nearOptions = options.nearPoi ? [ '_near_me_', options.nearPoi.id] : ['_near_me_'];
-      options.near = _.reduce(nearOptions, function(memo, value, i) {
-        memo[value] = options.near == value ? 'checked' : '';
+      // En el caso de las opciones de geoloc., el número de opciones depende de si se llegó a
+      // #/search a través de un POI. __NEAR_ME es la opción básica "buscar cerca de mí".
+      var geoOptions = options.nearPoi ? [ '__NEAR_ME', options.nearPoi.id] : ['__NEAR_ME'];
+
+      options.geo = _.reduce(geoOptions, function(memo, value, i) {
+        memo[value] = options.geo == value ? 'checked' : '';
         return memo;
       }, {});
 
@@ -62,26 +66,40 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
       var checkedCategories = _.map(this.$('[name="category"]:checked'), function(input) {
         return $(input).val();
       })
-      , checkedNearness = _.map(this.$('[name="near"]:checked'), function(input) {
+      , checkedGeo = _.map(this.$('[name="geo"]:checked'), function(input) {
         return $(input).val();
       })
-      , uriObj = {
-        queryConditions: Search.doSearch({
-          text: searchText,
-          categories: checkedCategories,
-          near: checkedNearness[0]
-        })
-      }
-      , uri = encodeURIComponent(JSON.stringify(uriObj))
       ;
 
       this.trigger('updatequery', {
         searchText: searchText,
         categories: checkedCategories,
-        near: checkedNearness[0]
+        geo: checkedGeo[0]
       });
 
-      this.trigger('navigate', '/pois?' + uri, 1);
+      this.topbarView.block();
+
+      var self = this;
+
+      Search.searchConditions({
+        text: searchText,
+        categories: checkedCategories,
+        geo: checkedGeo.length && checkedGeo[0] !== '__NEAR_ME' ? checkedGeo[0] : Search.NEAR_ME
+      }, function(err, queryConditions) {
+        if (err) {
+          // TO-DO: error handling cuando no es un error de geolocalización
+          self.topbarView.unblock();
+          navigator.notification.alert(res.i18n.geoError);
+          return;
+        } 
+        var uri = encodeURIComponent(JSON.stringify({
+          queryConditions: queryConditions
+        }));
+
+        self.topbarView.unblock();
+
+        self.trigger('navigate', '/pois?' + uri, 1);
+      });
     }
   });
 });

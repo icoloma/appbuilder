@@ -161,7 +161,7 @@ La configuración de la búsqueda en los metadatos viene dada por:
     "id": <ID única>,
     "label": <string, i18n>,
     "desc": <string, i18n>,
-    "categoryConditions": <categoryQueryStr>
+    "queryConditions": <categoryQueryStr>
   },
   ...
 }
@@ -171,7 +171,7 @@ La configuración de la búsqueda en los metadatos viene dada por:
 
 ```
 // Ejemplo
-"categoryConditions": "(type=\"<id de un type>\") OR (type=\"<id de un type>\") OR (type=\"<id de un type>\")"
+"queryConditions": "(type=\"<id de un type>\") OR (type=\"<id de un type>\") OR (type=\"<id de un type>\")"
 ```
 
 #### Schema
