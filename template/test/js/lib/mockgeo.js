@@ -18,24 +18,24 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
   */
 
   GeolocationMock.prototype = {
-    getCurrentLocation: function(callback, errback) {
+    getCurrentPosition: function(callback, errback) {
       if (this.options.error) {
         errback(err);
         if (this.options.failure) this.options.failure();
       } else {
         callback(this.options.coords || {
-          coordinates: {
+          coords: {
             latitude: 40,
             longitude: 0
           }
         });
-        this.options.success();
+        if (this.options.success) this.options.success();
       }
     }
   };
 
   var geolocationMock = new GeolocationMock();
 
-  Geo.getCurrentLocation = _.bind(geolocationMock.getCurrentLocation, geolocationMock);
+  Geo.getCurrentPosition = _.bind(geolocationMock.getCurrentPosition, geolocationMock);
   return geolocationMock;
 })
