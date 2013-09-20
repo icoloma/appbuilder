@@ -1,5 +1,5 @@
-define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
-  function(FormTpl, TopbarView, QueryTpl) {
+define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
+  function(FormTpl, TopbarView, Search) {
 
   return B.View.extend({
 
@@ -10,13 +10,17 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
         e.preventDefault();
         this.doSearch($(e.currentTarget).find('.search-input').val());
       },
-      'tap .search-category': function(e) {
-        var $checkbox = $(e.currentTarget).find('[type="checkbox"]');
-        $checkbox.prop('checked', !$checkbox.prop('checked'));
+      'tap .checkable': function(e) {
+        var $input = $(e.currentTarget).find('input');
+        $input.prop('checked', !$input.prop('checked'));
       }
     },
 
     initialize: function() {
+      var options = this.options
+      ;
+
+
       this.topbarView = new TopbarView({
         // TO-DO: añadir appName
         title: res.appName,
@@ -24,58 +28,59 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'tpl!search/query.tpl'],
 
       this.pass(this.topbarView, 'navigate');
 
-      this.options.searchText = this.options.searchText || '';
+      options.searchText = options.searchText || '';
 
-      // Convierte un array de ids en un hash id/checked-status
-      this.options.checked = _.chain(res.searchCategories)
-                              .clone()
-                              .reduce(function(memo, value, id) {
-                                memo[id] = _.contains(this.options.checked, id) ?
-                                          'checked' : '';
-                                return memo;
-                              }, {}, this)
-                              .value();
+      // Convierte los arrays de IDs en hashes ID/checked-status
+      options.categories = _.reduce(res.searchCategories, function(memo, value, id) {
+        memo[id] = _.contains(options.categories, id) ?
+                  'checked' : '';
+        return memo;
+      }, {});
+
+      var nearOptions = options.nearPoi ? [ '_near_me_', options.nearPoi.id] : ['_near_me_'];
+      options.near = _.reduce(nearOptions, function(memo, value, i) {
+        memo[value] = options.near == value ? 'checked' : '';
+        return memo;
+      }, {});
+
+      options.flags = _.reduce(res.flags, function(memo, value, id) {
+        memo[id] = _.contains(options.flags, id) ?
+                  'checked' : '';
+        return memo;
+      }, {});
+
     },
 
     render: function() {
       this.$el.html(this.topbarView.render().$el);
 
-      this.$el.append(FormTpl({
-        searchText: this.options.searchText,
-        checked: this.options.checked
-      }));
+      this.$el.append(FormTpl(this.options));
       return this;
     },
 
-    doSearch: function(searchQuery) {
-      var trimmedQuery = $.trim(searchQuery).split(/\s+/).join(' ')
-      , checkedCategories = _.map(this.$('.category-checkbox:checked'), function(input) {
-        return res.searchCategories[$(input).val()];
+    doSearch: function(searchText) {
+      var checkedCategories = _.map(this.$('[name="category"]:checked'), function(input) {
+        return $(input).val();
       })
-      , categoryConditions = ''
-      , uri
+      , checkedNearness = _.map(this.$('[name="near"]:checked'), function(input) {
+        return $(input).val();
+      })
+      , uriObj = {
+        queryConditions: Search.doSearch({
+          text: searchText,
+          categories: checkedCategories,
+          near: checkedNearness[0]
+        })
+      }
+      , uri = encodeURIComponent(JSON.stringify(uriObj))
       ;
 
-      if (checkedCategories.length && checkedCategories.length !== _.size(res.searchCategories)) {
-        categoryConditions = _.map(checkedCategories, function(cat) {
-          return cat.categoryConditions;
-        }).join(' OR ');
-      }
-
-      uri = encodeURIComponent(JSON.stringify({
-        queryConditions: QueryTpl({
-          locale: appConfig.locale,
-          text: trimmedQuery,
-          categoryConditions: categoryConditions
-        })
-      }));
-
       this.trigger('updatequery', {
-        searchText: trimmedQuery,
-        checked: checkedCategories.map(function(cat) {
-          return cat.id;
-        })
+        searchText: searchText,
+        categories: checkedCategories,
+        near: checkedNearness[0]
       });
+
       this.trigger('navigate', '/pois?' + uri, 1);
     }
   });

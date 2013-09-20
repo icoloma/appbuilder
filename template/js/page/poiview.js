@@ -31,7 +31,13 @@ define(
         });
         this.listenTo(this.modelView, 'star', this.star);
         this.listenTo(this.topbarView, 'search', function() {
-          this.trigger('navigate', '/search?', 1);
+          var uri = encodeURIComponent(JSON.stringify({
+            nearPoi:{
+              id: this.model.get('id'),
+              name: this.model.get('name')
+            }
+          }));
+          this.trigger('navigate', '/search?' + uri, 1);
         });
       },
 

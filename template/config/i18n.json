@@ -10,7 +10,9 @@
       "kilometers": "kilómetros",
       "ShowMore": "Mostrar más",
       "EmptyList": "¡Nada que mostrar!",
-      "Search": "Buscar"
+      "Search": "Buscar",
+      "nearMe": "Buscar cerca de mí",
+      "nearPoi": "Buscar cerca de "
     },
     "en": {
       "Starred": "Bookmarks",
@@ -22,7 +24,9 @@
       "kilometers": "kilometers",
       "ShowMore": "Show more",
       "EmptyList": "Nothing to show!",
-      "Search": "Search"
+      "Search": "Search",
+      "nearMe": "Search near my location",
+      "nearMe": "Search near "
     }
   }
 }

@@ -3,6 +3,14 @@
 
 .search-form {
   display: block;
+
+  .collectionview {
+    padding: 0;
+  }
+
+  .item-row:last-child {
+    border-bottom: 1px solid #aaa;
+  }
 }
 
 .search-input-section {
@@ -36,12 +44,12 @@
   line-height: @baseLineHeight;
 }
 
-.search-categories {
-  padding: 0;
-}
-
-.category-line {
+.near-line, .category-line {
   display: inline-block;
   line-height: @baseLineHeight;
   margin-top: (@rowHeight - @baseLineHeight)/2;
+}
+
+.near-poi-line {
+  width: 100%;
 }
