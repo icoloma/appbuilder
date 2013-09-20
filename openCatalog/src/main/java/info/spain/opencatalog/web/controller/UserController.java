@@ -98,6 +98,14 @@ public class UserController extends AbstractUIController {
 	 */
 	@RequestMapping( value="/{id}", method=RequestMethod.PUT)
 	public String update(@Valid @ModelAttribute("user") UserForm userForm,BindingResult errors,  Model model, @PathVariable("id") String id) {
+
+		User dbUser = userRepository.findOne(id);
+		
+		// No queremos sobreescribir el APIKey
+		userForm.setApiKey(dbUser.getApiKey());
+		
+		// No queremos sobreescribir el email
+		userForm.setEmail(dbUser.getEmail());
 		
 		// FIXME: automatizar custom validation
 		new UserFormValidator().validate(userForm, errors);
@@ -105,15 +113,9 @@ public class UserController extends AbstractUIController {
 		if (errors.hasErrors()){
 			return "admin/user/user";
 		}
-		User dbUser = userRepository.findOne(id);
 		
 		User user = userForm.getUser().setId(id);
 		
-		// No queremos sobreescribir el APIKey
-		user.setApiKey(dbUser.getApiKey());
-
-		// No queremos sobreescribir el email
-		user.setEmail(dbUser.getEmail());
 
 		if (Strings.isNullOrEmpty(user.getPassword())){
 			// No queremos sobreescribir el password si no se ha especificado

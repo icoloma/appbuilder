@@ -1,9 +1,9 @@
 package info.spain.opencatalog.repository;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.assertFalse;
 
 import java.util.Random;
 
@@ -34,6 +34,10 @@ public class StorageServiceTest {
 	@Autowired
 	private GridFsOperations gridFsTemplate;
 	
+	@Test
+	public void testGetNull(){
+		assertNull(storageService.getByFilename(null));
+	}
 	
 	@Test
 	public void testSaveGetDelete() throws Exception {

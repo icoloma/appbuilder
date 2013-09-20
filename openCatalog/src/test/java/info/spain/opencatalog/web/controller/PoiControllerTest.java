@@ -52,6 +52,13 @@ public class PoiControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 	
+	@Test
+	public void testNewForm() throws Exception{
+		this.mockMvc.perform( get("/admin/poi/new/BASIC"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("admin/poi/poi"));
+	}	
+	
 	
 	@Test
 	public void testPoiNotFound()  throws Exception {

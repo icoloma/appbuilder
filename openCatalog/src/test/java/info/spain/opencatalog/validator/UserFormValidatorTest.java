@@ -3,6 +3,7 @@ package info.spain.opencatalog.validator;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import info.spain.opencatalog.web.form.UserForm;
+
 import org.junit.Test;
 import org.springframework.validation.BindException;
 
@@ -13,6 +14,14 @@ public class UserFormValidatorTest {
 	private static final String CORRECT_PASSWORD = Strings.repeat("x", UserFormValidator.MIN_PASSWORD_LENGTH);
 	
 	@Test
+	public void supportTest(){
+		UserFormValidator validator = new UserFormValidator();
+		assertTrue(validator.supports(UserForm.class));
+		assertFalse(validator.supports(getClass()));
+	}
+	
+	
+	@Test
 	public void testPasswordsMatchs(){
 		UserFormValidator validator = new UserFormValidator();
 		UserForm userForm = new UserForm();
@@ -21,6 +30,28 @@ public class UserFormValidatorTest {
 		BindException errors = new BindException(userForm, "user");
 		validator.validatePasswordsMatch(userForm, errors);
 		assertFalse(errors.hasErrors());
+	}
+	
+	@Test 
+	public void testNullPasswordValid(){
+		UserFormValidator validator = new UserFormValidator();
+		UserForm userForm = new UserForm();
+		userForm.setPassword(null);
+		userForm.setRepassword(null);
+		BindException errors = new BindException(userForm, "user");
+		validator.validatePasswordsMatch(userForm, errors);
+		assertFalse(errors.hasErrors());
+	}
+	
+	@Test 
+	public void testNullPasswordNotValid(){
+		UserFormValidator validator = new UserFormValidator();
+		UserForm userForm = new UserForm();
+		userForm.setPassword(null);
+		userForm.setRepassword("---");
+		BindException errors = new BindException(userForm, "user");
+		validator.validatePasswordsMatch(userForm, errors);
+		assertTrue(errors.hasErrors());
 	}
 	
 	@Test
@@ -55,4 +86,15 @@ public class UserFormValidatorTest {
 		assertTrue(errors.hasErrors());
 	}
 
+	@Test
+	public void testViaValidateMethod(){
+		UserFormValidator validator = new UserFormValidator();
+		UserForm userForm = new UserForm();
+		userForm.setPassword(CORRECT_PASSWORD);
+		userForm.setRepassword("--");
+		BindException errors = new BindException(userForm, "user");
+		validator.validate(userForm, errors);
+		assertTrue(errors.getErrorCount() != 0);
+	}
+	
 }

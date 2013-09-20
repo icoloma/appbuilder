@@ -12,13 +12,10 @@ public class User {
 	@Id
 	private String id;
 	
-	@NotNull
 	@Indexed(unique=true)
 	private String email;
 	private String name;
 	private String password;
-	
-	@NotNull
 	private String apiKey;
 	
 	@CreatedDate

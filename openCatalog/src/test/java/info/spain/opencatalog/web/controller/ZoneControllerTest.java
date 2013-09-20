@@ -49,12 +49,45 @@ public class ZoneControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 	
+
+	@Test
+	public void testNewForm() throws Exception{
+		this.mockMvc.perform( get("/admin/zone/new"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("admin/zone/zone"));
+	}	
+	
+	@Test
+	public void testSearchWithQuery() throws Exception {
+		// With query
+		this.mockMvc.perform( get("/admin/zone").param("q", "some criteria"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("admin/zone/zoneList"));
+	}
+	
+	@Test
+	public void testSearchWithoutQuery() throws Exception {
+		// without query
+		this.mockMvc.perform( get("/admin/zone"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("admin/zone/zoneList"));
+	}
+	
+
+	@Test
+	public void notFound() throws Exception {
+		this.mockMvc.perform( get("/admin/zone/notFound"))
+		.andExpect(status().isInternalServerError());
+	}
+	
+
+		
 	/**
 	 * Test CRUD of a Zone
 	 * @throws Exception
 	 */
 	@Test
-	public void test_POST_GET_UPDATE_DELETE() throws Exception {
+	public void zoneCRUD() throws Exception {
 		repo.deleteAll();
 		Zone zone = ZoneFactory.newZone("zoneTest");
 		zone.setPath(ZoneFactory.ZONE_MADRID_CENTRO.getPath());
@@ -82,6 +115,13 @@ public class ZoneControllerTest {
 		result = this.mockMvc.perform( get("/admin/zone/{id}", id))
 				.andExpect(status().isOk())
 				.andExpect(view().name("admin/zone/zone"))
+				.andReturn();
+		
+		
+		// Show Pois 
+		result = this.mockMvc.perform( get("/admin/zone/{id}/poi", id))
+				.andExpect(status().isOk())
+				.andExpect(view().name("admin/zone/zonePoi"))
 				.andReturn();
 		
 		// Test UPDATE 
