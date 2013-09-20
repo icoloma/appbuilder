@@ -15,30 +15,39 @@ public class ZonePage extends AbstractPage {
 		super(driver,HEADER); 
 	}
 	
+	// Page input fields
+	private WebElement location  = driver.findElement(By.id("gsearcher"));
+	private WebElement description  = driver.findElement(By.id("description"));
+	private WebElement adminArea1  = driver.findElement(By.id("adminArea1"));
+	private WebElement adminArea2  = driver.findElement(By.id("adminArea2"));
+	
+	// Page buttons
+	private WebElement saveButton = driver.findElement(By.className("saveButton"));
+	private WebElement deleteButton = driver.findElement(By.className("deleteButton"));
+	
+	
 	/**
-	 * 
 	 * @param name
-	 * @param description
-	 * @param adminArea1
-	 * @param adminArea2
+	 * @param desc
+	 * @param aera1
+	 * @param area2
 	 */
-	public void fillData( String name, String description, String adminArea1, String adminArea2){
+	public void fillData( String name, String desc, String area1, String area2){
 		log.trace("filling zone data");
 		
-		fillAutocomplete("gsearcher", name);
+		fillAutocomplete(location, name);
 		
-		log.trace("filling description : " + description);
-		driver.findElement(By.id("description")).sendKeys(description);
+		log.trace("filling description : " + desc);
+		description.sendKeys(desc);
 		
 		if (adminArea1 != null){
-			log.trace("filling adminArea1: " + adminArea1);
-			driver.findElement(By.id("adminArea1")).sendKeys(adminArea1);
+			log.trace("filling adminArea1: " + area1);
+			adminArea1.sendKeys(area1);
 		}
 		
 		if (adminArea2 != null){
-			log.trace("filling adminArea2: " + adminArea2);
-
-			driver.findElement(By.id("adminArea2")).sendKeys(adminArea2);
+			log.trace("filling adminArea2: " + area2);
+			adminArea2.sendKeys(area2);
 		}
 	}
 	
@@ -69,14 +78,14 @@ public class ZonePage extends AbstractPage {
 	 * save
 	 */
 	public void save(){
-		driver.findElement(By.className("saveButton")).click();
+		saveButton.click();
 	}
 	
 	/**
 	 * delete
 	 */
 	public ZoneListPage delete(){
-		driver.findElement(By.className("deleteButton")).click();
+		deleteButton.click();
 		return new ZoneListPage(driver);
 	}
 	

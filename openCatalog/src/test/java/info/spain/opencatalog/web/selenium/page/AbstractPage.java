@@ -51,6 +51,14 @@ public abstract class AbstractPage {
 		}
 	}
 	
+	protected void fill(WebElement element, String value) {
+		if (element.getTagName().equals("select")){
+			selectOption(element,value);
+		} else {
+			element.sendKeys(value);
+		}
+	}
+	
 	
 	/**
 	 * Selects an option of a select input 
@@ -77,10 +85,8 @@ public abstract class AbstractPage {
 	/**
 	 *  Fill a google autocomplete field and select the first result
 	 */
-	public void fillAutocomplete(String id, String text){
-		WebElement input = driver.findElement(By.id(id));
+	public void fillAutocomplete(WebElement input, String text){
 		input.click();
-		
 		log.trace("filling zone name :" + text);
 		input.sendKeys(text);
 		

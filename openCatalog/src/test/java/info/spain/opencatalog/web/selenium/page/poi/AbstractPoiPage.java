@@ -15,31 +15,56 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	public AbstractPoiPage(WebDriver driver, String header) {
 		super(driver, header);
 	}
+	
+	// Page Tabs
+	private WebElement locationTab = driver.findElement(By.partialLinkText("Ubicación"));
+	private WebElement flagsTab = driver.findElement(By.partialLinkText("Etiquetas"));
+	private WebElement timeTableTab = driver.findElement(By.partialLinkText("Horarios"));
+	private WebElement preciosTab = driver.findElement(By.partialLinkText("Precios"));
+	private WebElement contactInfoTab = driver.findElement(By.partialLinkText("Información de contacto"));
+	
+	// Common page inputs fields
+	private WebElement name_ES = driver.findElement(By.id("name.es"));
+	private WebElement description_ES = driver.findElement(By.id("description.es"));
+	private WebElement contactInfo_phone = driver.findElement(By.id("contactInfo.phone"));
+	private WebElement contactInfo_fax = driver.findElement(By.id("contactInfo.fax"));
+	private WebElement contactInfo_url = driver.findElement(By.id("contactInfo.url"));
+	private WebElement contactInfo_email = driver.findElement(By.id("contactInfo.email"));
+	private WebElement contactInfo_reservation = driver.findElement(By.id("contactInfo.reservation"));
+	private WebElement location  = driver.findElement(By.id("gsearcher"));
+	
+	// Buttons
+	private WebElement addTimeTableButton = driver.findElement(By.className("addTimeTableEntry"));
+	private WebElement addPriceButton = driver.findElement(By.className("addPrice"));
+	private WebElement saveButton = driver.findElement(By.className("saveButton"));
+	private WebElement deleteButton = driver.findElement(By.className("deleteButton"));
+	
+	
 
 	public void showLocationTab(){
-		driver.findElement(By.partialLinkText("Ubicación")).click();
+		locationTab.click();
 	}
 	public void showFlagsTab(){
-		driver.findElement(By.partialLinkText("Etiquetas")).click();
+		flagsTab.click();
 	}
 	public void showTimeTableTab(){
-		driver.findElement(By.partialLinkText("Horarios")).click();
+		timeTableTab.click();
 	}
 	public void showPricesTab(){
-		driver.findElement(By.partialLinkText("Precios")).click();
+		preciosTab.click();
 	}
 	public void showContactInfoTab(){
-		driver.findElement(By.partialLinkText("Información de contacto")).click();
+		contactInfoTab.click();
 	}
 	
 	public void setName(String value){
 		log.trace("name: " + value);
-		fillById("name.es", value);
+		fill(name_ES, value);
 	}
 	
 	public void setDescription(String value){
 		log.trace("description: " + value);
-		fillById("description.es", value);
+		fill(description_ES, value);
 	}
 
 	public void setData(String id, String value){
@@ -47,32 +72,32 @@ public abstract class AbstractPoiPage extends AbstractPage {
 		fillById(id, value);
 	}
 	
-	public void searchLocation(String location){
-		log.trace("location : " + location);
-		fillAutocomplete("gsearcher", location);
+	public void searchLocation(String locationText){
+		log.trace("location : " + locationText);
+		fillAutocomplete(location, locationText);
 	}
 	
 	public void setContactInfo(ContactInfo contactInfo){
 		if (contactInfo != null){
 			if (contactInfo.getPhone() != null){
 				log.trace("phone: " + contactInfo.getPhone());
-				fillById("contactInfo.phone", contactInfo.getPhone());
+				fill(contactInfo_phone, contactInfo.getPhone());
 			}
 			if (contactInfo.getFax() != null){
 				log.trace("fax: " + contactInfo.getFax());
-				fillById("contactInfo.fax", contactInfo.getFax());
+				fill(contactInfo_fax, contactInfo.getFax());
 			}
 			if (contactInfo.getEmail() != null){
 				log.trace("email: " + contactInfo.getEmail());
-				fillById("contactInfo.email", contactInfo.getEmail());
+				fill(contactInfo_email, contactInfo.getEmail());
 			}
 			if (contactInfo.getUrl() != null){
 				log.trace("url: " + contactInfo.getUrl());
-				fillById("contactInfo.url", contactInfo.getUrl());
+				fill(contactInfo_url, contactInfo.getUrl());
 			}
 			if (contactInfo.getReservation() != null){
 				log.trace("contactInfo.reserervation: " + contactInfo.getReservation());
-				fillById("contactInfo.reservation", contactInfo.getReservation());
+				fill(contactInfo_reservation, contactInfo.getReservation());
 			}
 		}
 	}
@@ -101,7 +126,7 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	 * add Timetable Entry
 	 */
 	public void addTimeTableEntry(String period){
-		driver.findElement(By.className("addTimeTableEntry")).click();
+		addTimeTableButton.click();
 		List<WebElement> entries = driver.findElements(By.cssSelector("table.timetable tbody tr td input"));
 		WebElement lastInput = entries.get(entries.size() - 1);
 		lastInput.sendKeys(period);
@@ -109,7 +134,7 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	}
 	
 	public void addPrice( String price, String priceType, String period, String observations){
-		driver.findElement(By.className("addPrice")).click();
+		addPriceButton.click();
 		List<WebElement> rows = driver.findElements(By.cssSelector("table.prices tbody tr"));
 		WebElement lastRow = rows.get(rows.size() - 1);
 		lastRow.findElement(By.className("price")).sendKeys(price);
@@ -124,7 +149,7 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	 * save
 	 */
 	public AbstractPoiPage save(){
-		driver.findElement(By.className("saveButton")).click();
+		saveButton.click();
 		return this;
 	}
 	
@@ -132,7 +157,7 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	 * delete
 	 */
 	protected void deletePoi(){
-		driver.findElement(By.className("deleteButton")).click();
+		deleteButton.click();
 	}
 	
 
