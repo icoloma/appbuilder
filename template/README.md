@@ -13,7 +13,7 @@ grunt
 
 ### Tests unitarios
 
-`*grunt karma*`
+`*grunt test*`
 
 ### Navegadores
 El depurado con navegadores sólo está testado en Chrome (necesariamente tiene que ser un navegador WebKit).

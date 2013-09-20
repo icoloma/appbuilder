@@ -146,9 +146,14 @@ grunt.initConfig({
     // No se incluye una tarea para los *.js, en favor de usar las DevTools con Workspaces directamente.
   },
   karma: {
-    all: {
-      configFile: 'karma.conf.js'
-    }
+    dev: {
+      configFile: 'karma.conf.js',
+      singleRun: false,
+      reporters: ['progress'],
+      junitReporter: {
+        outputFile: 'template-tests-results.xml'
+      }
+    },
   }
 });
 
@@ -197,5 +202,7 @@ grunt.registerTask('mock', 'Prepara datos de prueba.\n', function() {
     done();
   });
 });
+
+grunt.registerTask('test', 'Lanza los test en Chrome en modo "autoWatch".\n', ['karma:dev']);
 
 };
