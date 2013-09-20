@@ -13,7 +13,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
       // Los campos JSON llegan como strings
       _.each(this.constructor.schema.json, function(field) {
         if (_.isString(attrs[field])) {
-          attrs[field] = JSON.parse(attrs[field]);
+          attrs[field] = JSON.parse(attrs[field] || null);
         }
       });
       // Los campos BOOLEAN llegan como ints
@@ -21,6 +21,12 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
         if (_.isString(attrs[field])) {
           attrs[field] = attrs[field] ? true : false;
         }
+      });
+
+      // Android SDK <=11 guarda todo como strings
+      // TO-DO: dejar esto como un override solo para Android
+      _.each(this.constructor.schema.real, function(field) {
+        attrs[field] = attrs[field] && Number(attrs[field]);
       });
 
       return attrs;
@@ -75,6 +81,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
     schema: {
       json: [],
       boolean: [],
+      real: []
     },
 
     // Campos a pedir a la BDD, omitiendo columnas en otros locales
@@ -93,6 +100,8 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
             this.schema.boolean.push(field);
           } else if (type == 'JSON') {
             this.schema.json.push(field);
+          } else if (type === 'REAL') {
+            this.schema.real.push(field);
           }
         }
       }, this);

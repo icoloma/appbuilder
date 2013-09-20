@@ -26,7 +26,7 @@
       "EmptyList": "Nothing to show!",
       "Search": "Search",
       "nearMe": "Search near my location",
-      "nearMe": "Search near "
+      "nearPoi": "Search near "
     }
   }
 }
