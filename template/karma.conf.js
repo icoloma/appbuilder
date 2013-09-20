@@ -1,6 +1,32 @@
 // Karma configuration
 // Generated on Wed Sep 18 2013 10:52:24 GMT-0400 (EDT)
 
+var _ = require('underscore')
+, fs = require('fs')
+, path = require('path')
+
+// Para no incluir todos los js/lib/components, leemos a mano la carpeta /js y 
+// construimos la lista de ficheros a incluir
+// No parece que se pueda hacer con patrones minimatchs a lo Grunt (i.e. !/pattern) 
+, jsDirs = _.filter(fs.readdirSync('js'), function(filename) {
+  return filename !== 'lib' && 
+    fs.statSync(path.join('js', filename)).isDirectory(); 
+})
+, files = [
+  'js/config/require.conf.js',
+  'test/js/lib/test-main.js',
+  {pattern: 'js/*.js', included: false},
+  {pattern: 'js/lib/*.js', included: false},
+  {pattern: 'js/lib/components/**/*.js', included: false, watched: false},
+  {pattern: 'test/js/**/*.js', included: false}
+].concat(_.map(jsDirs, function(dir) {
+  return {
+    pattern: 'js/' + dir + '/**/*.js',
+    included: false
+  }
+}))
+;
+
 module.exports = function(config) {
   config.set({
 
@@ -13,17 +39,10 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
-    files: [
-      'js/config/require.conf.js',
-      'test/js/lib/test-main.js',
-      {pattern: 'js/**/*.js', included: false},
-      {pattern: 'test/js/**/*.js', included: false}
-    ],
-
+    files: files,
 
     // list of files to exclude
     exclude: [
-      
     ],
 
 

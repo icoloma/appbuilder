@@ -16,6 +16,7 @@ define(['globals'], function() {
 
   /*
     @options: las opciones para ejecutar la transacción.
+
       @options.pre: un callback a ejecutar *antes* de hacer ninguna "llamada a BDD".
       
       @options.results: el resultado de la tx, por defecto un resultado vacío.
