@@ -66,7 +66,9 @@ define(['globals'], function() {
         min_normLon: normLon - angle,
         max_normLon: normLon + angle,
       };
-    }
+    },
+
+    getCurrentPosition: _.bind(navigator.geolocation.getCurrentPosition, navigator.geolocation)
 
   };
 });

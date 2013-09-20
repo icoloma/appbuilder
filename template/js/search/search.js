@@ -61,7 +61,7 @@ define(['modules/geo', 'db/db', 'poi/model'], function(Geo, Db, Poi) {
       }
 
       if (queryObj.geo === this.NEAR_ME) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        Geo.getCurrentPosition(function(position) {
           var bounds = Geo.bounds({
             lat: position.coords.latitude,
             lon: position.coords.longitude

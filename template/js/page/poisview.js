@@ -42,7 +42,7 @@ define(
         var self = this
         , collection = this.collectionView.collection
         ;
-        navigator.geolocation.getCurrentPosition(function(position) {
+        Geo.getCurrentPosition(function(position) {
           self.topbarView.unblock();
           var coords = position.coords;
           collection.comparator = PoiCollection.sortByDistanceTo(coords.latitude,
@@ -65,7 +65,7 @@ define(
       //   , collection = this.collectionView.collection
       //   ;
 
-      //   navigator.geolocation.getCurrentPosition(function(position) {
+      //   Geo.getCurrentPosition(function(position) {
       //     self.topbarView.unblock();
 
       //     var coords = position.coords;
