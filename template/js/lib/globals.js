@@ -11,7 +11,10 @@ define(
     _.templateSettings = {
       interpolate : /\{\{([\s\S]+?)\}\}/g,
       escape      : /\{\{-([\s\S]+?)\}\}/g,
-      evaluate      : /<%([\s\S]+?)%>/g
+      evaluate      : /<%([\s\S]+?)%>/g,
+
+      // Pasar un nombre de variable a _.template mejora el rendimiento
+      variable: 'tpl'
     };
 
     Backbone.View.prototype.pass = function(obj, event) {

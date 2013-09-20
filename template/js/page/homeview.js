@@ -12,7 +12,7 @@ define(
       },
 
       poiTmpl: _.template(
-        '<div class="homepois" data-url={{url}} style="background-image: url({{src}})"></div>'
+        '<div class="homepois" data-url={{tpl.url}} style="background-image: url({{tpl.src}})"></div>'
       ),
 
       initialize: function() {

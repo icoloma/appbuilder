@@ -5,6 +5,10 @@
 <div class="actionbar">
   <span class="bar-button icon-menu menu-button {{tpl.hideMenuButton}}"></span>
   <div class="action-menu {{tpl.wrapActions}}">
-    {{tpl.actions}}
+    <% for (var i in tpl.actions) { 
+        var action = tpl.actions[i];
+    %>
+      <span data-action="{{action}}" class="titlesize icon-{{action}} bar-button"></span>
+    <% } %>
   </div>
 </div>

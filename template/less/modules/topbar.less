@@ -25,6 +25,7 @@
   position: absolute;
   right: 0;
   top: 0;
+  width: @barButtonWidth;
 }
 
 h1.pagetitle {
@@ -44,6 +45,10 @@ span.bar-button {
   text-align: center;
 }
 
+.action-menu {
+  overflow: hidden;
+}
+
 .wrapped-action-menu {
   display: none;
 
@@ -59,10 +64,10 @@ span.bar-button {
 }
 
 .blocked {
-  &.menu-button, &.action-menu {
-    // TO-DO: añadir un spinner
-    background: url(http://www.wizzy.ch/static/images/spinning-wheel.gif) no-repeat 50% 50%;
-    background-size: 40px;
+  // TO-DO: añadir un spinner
+  background: url(http://www.wizzy.ch/static/images/spinning-wheel.gif) no-repeat 50% 50%;
+  background-size: 40px;
+  .menu-button, .bar-button {
     &:before {
       content: '';
       width: 0;
