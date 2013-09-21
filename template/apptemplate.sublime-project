@@ -17,7 +17,7 @@
   [
     {
       "path": ".",
-      "file_exclude_patterns": ["*.sublime-workspace"],
+      "file_exclude_patterns": ["*.sublime-workspace", "tests.html"],
       "folder_exclude_patterns": [
         "node_modules",
         "bower_components",
@@ -42,7 +42,8 @@
       "path": "config"
     },
     {
-      "path": "test"
+      "path": "test",
+      "file_exclude_patterns": ["js/*-test.html"]
     }
   ],
   "settings":

@@ -1,4 +1,5 @@
-define(['search/search', 'mocksql', 'mockgeo'], function(Search, MockSql, MockGeo) {
+define(['search/search', 'test/mocksql', 'test/mockgeo'], function(Search, MockSql, MockGeo) {
+
 
   asyncTest('Recortar texto', 1, function() {
     var text = ' \u000B \u000C foo \u00A0   bar  \u2028 \n baz \t \r  \u2029 ';

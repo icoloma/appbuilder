@@ -1,5 +1,6 @@
 var _ = require('underscore')
-
+, fs = require('fs')
+, path = require('path')
 /* Configuración para el build de require.js */
 , rjsConf = require('./js/config/require.conf.js')
 , rjsBasicConf = _.extend(rjsConf.basic, rjsConf.build)
@@ -16,6 +17,15 @@ var _ = require('underscore')
 , buildRegex = function(opt) {
   return new RegExp(buildOpenTag(opt) + '[\\s\\S]+' + buildCloseTag(opt));
 }
+
+, testFiles = _(fs.readdirSync('./test/js')).chain()
+                .filter(function(filename) {
+                  return /\.js$/.test(filename);
+                })
+                .map(function(filename) {
+                  return filename.slice(0, -3);
+                })
+                .value()
 ;
 
 
@@ -95,7 +105,7 @@ grunt.initConfig({
     config: {
       src: 'config/*',
       dest: 'build/'
-    }
+    },
   },
   'regex-replace': {
     css: {
@@ -118,7 +128,7 @@ grunt.initConfig({
         search: buildRegex('SCRIPTS'),
         replace: '<script src="js/scripts.js"></script>'
       }]  
-    }
+    },
   },
   connect: {
     all: {
@@ -143,6 +153,10 @@ grunt.initConfig({
         livereload: true
       }
     },
+    tests: {
+      files: ['test/js/*-test.js'],
+      tasks: ['_build_html_tests']
+    }
     // No se incluye una tarea para los *.js, en favor de usar las DevTools con Workspaces directamente.
   },
   karma: {
@@ -159,7 +173,7 @@ grunt.initConfig({
 
 /* Tareas internas */
 grunt.registerTask('_prepare_project',
-  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint']);
+  ['copy:cssComponents', 'copy:jsComponents', 'less:dev', 'jshint', '_build_html_tests']);
 grunt.registerTask('_prepare_dev',
   ['_prepare_project', 'mock']);
 grunt.registerTask('_css_build_dev', ['less:dev', 'copy:css', 'regex-replace:css']);
@@ -180,6 +194,25 @@ grunt.registerTask('_optimized', '[Assembler] Efectúa un build juntando todos l
 // Producción (necesita ensamblarse con los datos del catálogo)
 grunt.registerTask('_prod', '[Assembler] Efectúa un build listo para producción,.',
   ['_basic_build', '_css_build_prod', '_rjs_prod', 'regex-replace:debug', 'copy:config']);
+
+grunt.registerTask('_build_html_tests', function() {
+  var testsPath = 'test/js/' 
+  , basicTest = fs.readFileSync('./test/js/unit-test.template', 'utf-8')
+  , centralTest = fs.readFileSync('./test/js/qunit-tests.template', 'utf-8')
+  , optionTpl = _.template('<option value="<%=name%>"><%=name%></option>')
+  , options = ''
+  ;
+
+  _.each(testFiles, function(file) {
+    var text = basicTest.replace(/UNIT_TEST/, file)
+    , htmlFile = path.join(testsPath, file + '.html');
+    ;
+
+    options += optionTpl({name: file});
+    fs.writeFileSync(htmlFile, text, 'utf-8');
+  });
+  fs.writeFileSync('./tests.html', centralTest.replace(/TESTS_OPTIONS/, options, 'utf-8'));
+});
 
 /*  */
 

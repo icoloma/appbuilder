@@ -1,22 +1,21 @@
-// Tests unitarios
-var tests = [];
-for (var file in window.__karma__.files) {
-  if (window.__karma__.files.hasOwnProperty(file)) {
-    if (/\/test\/js\/[^\/]+-test\.js$/.test(file)) {
-      tests.push(file);
+/*
+  Configuración para los tests unitarios
+  Entornos: Karma y navegador con QUnit
+*/
+
+// Dependencias de require para Karma
+if (window.__karma__) {
+  var tests = [];
+  for (var file in window.__karma__.files) {
+    if (window.__karma__.files.hasOwnProperty(file)) {
+      if (/\/test\/js\/[^\/]+-test\.js$/.test(file)) {
+        tests.push(file);
+      }
     }
   }
 }
 
-
-// Eventos touch para depurar
-var touchstart = new CustomEvent('touchstart', {bubbles: true})
-, touchmove = new CustomEvent('touchmove', {bubbles: true})
-, touchend = new CustomEvent('touchend', {bubbles: true})
-;
-touchstart.touches = touchend.touches = [];
-
-// Configuración del app para tests
+// Configuración del app
 window.appConfig = {
   locale: 'en',
   platform: 'Android',
@@ -24,17 +23,29 @@ window.appConfig = {
   dbName: 'appData'
 };
 
-// Cambios en la configuración de requirejs por defecto
-_extendObject(requireConf, {
-  baseUrl: '/base/js',
-  callback: window.__karma__.start,
-  deps: tests
-});
+/*
+  Configuración de requirejs para los tests
+*/
 
-_extendObject(requireConf.paths, {
-  mocksql: '/base/test/js/lib/mocksql',
-  mocktouch: '/base/test/js/lib/mocktouch',
-  mockgeo: '/base/test/js/lib/mockgeo'
-});
+// Karma
+if (window.__karma__) {
+  _extendObject(requireConf, {
+    baseUrl: '/base/js',
+    callback: window.__karma__.start,
+    deps: tests
+  });
+
+  _extendObject(requireConf.paths, {
+    'test': '/base/test/js/lib'
+  });
+
+// Navegador
+} else {
+  _extendObject(requireConf.paths, {
+    'test': '/test/js/lib',
+    'unit-test': '/test/js'
+  });
+  QUnit.config.autostart = false;
+}
 
 requirejs.config(requireConf);

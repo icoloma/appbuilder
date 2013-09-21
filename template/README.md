@@ -6,14 +6,15 @@ TEMPLATE
 npm install
 bower install
 grunt
-# Aplicación corriendo en el puerto 7000 con LiveReload activado
+# Aplicación corriendo en localhost:7000 con LiveReload activado (sin extensiones)
 ```
 
 **Comandos disponibles**: `grunt --help`.
 
 ### Tests unitarios
 
-`*grunt test*`
+* `*grunt test*` para dejarlos corriendo en modo "watch".
+* `localhost:7000/tests.html` para modo "a ojo".
 
 ### Navegadores
 El depurado con navegadores sólo está testado en Chrome (necesariamente tiene que ser un navegador WebKit).

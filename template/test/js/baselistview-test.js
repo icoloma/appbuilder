@@ -1,4 +1,4 @@
-define(['modules/baselistview', 'mocktouch'], function(ListView, MockTouch) {
+define(['modules/baselistview', 'test/mocktouch'], function(ListView, MockTouch) {
 
   var trView = function(json) {
     return '<div class="item-row" data-url="' + json.url + '">' +

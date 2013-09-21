@@ -1,4 +1,4 @@
-define(['modules/touch', 'mocktouch'], function(Touch, MockTouch) {
+define(['modules/touch', 'test/mocktouch'], function(Touch, MockTouch) {
   $('body').append('<div class="touch-test"></div>');
   $('.touch-test')
     .append($('<div class="touch-1">Touch me</div>'))

@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/less/style.css">
+  <link href="/bower_components/qunit/qunit/qunit.css" rel="stylesheet">
+</head>
+<body>
+  <div id="qunit"></div>
+
+  <script src="/bower_components/qunit/qunit/qunit.js"></script>
+  <script src="/bower_components/requirejs/require.js"></script>
+  <script src="/js/config/require.conf.js"></script>
+  <script src="/test/js/lib/test-main.js"></script>
+  <script>
+    require(['unit-test/UNIT_TEST'], function() {
+      QUnit.start();
+    })
+  </script>
+</body>
+</html>

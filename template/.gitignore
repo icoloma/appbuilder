@@ -8,3 +8,5 @@ less/components
 test/mocked-data/*.json
 test/mocked-data/*.db
 test/data
+test/js/*-test.html
+tests.html

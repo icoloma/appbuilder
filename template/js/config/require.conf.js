@@ -1,7 +1,7 @@
 /*
   Configuración de require.js
-    * Desarrollo y producción se mantienen aquí: Gruntfile importa este fichero.
-    * También actúa como configuración al depurar en un navegador 
+  Desarrollo, producción y tests se mantienen aquí
+
 */
 (function() {
   var comp = 'lib/components/'
@@ -29,7 +29,7 @@
 
   // Configuración básica en desarrollo *en un navegador*
   , requireConf = {
-    baseUrl: './js',
+    baseUrl: '/js',
     paths: _extendObject({
       globals: 'lib/globals',
       'config/config': 'config/config-dev',
@@ -52,16 +52,19 @@
   ;
 
   /*
-    Exporta la configuración de distintas:
-     * module.exports para el Gruntfile
-     * require global para desarrollo en el navegador
-     * requireConf global para test
+    Exporta la configuración:
+     * module.exports para el Gruntfile, junto con las opciones de build
+     * "require" y "requireConf" como globales para configurar requirejs en un navegador.
+        (Los tests modifican y cargan la configuración *después* de cargar requirejs)
   */
   if ( typeof module === "object" && typeof module.exports === "object" ) {
+    // Gruntfile
+
     module.exports = {
       basic: requireConf,
       // Opciones para la build de r.js
       build: {
+        baseUrl: './js',
         name: 'main',
         include: [ 'almond' ],
         out: 'build/js/scripts.js',
@@ -84,12 +87,13 @@
     };
 
   } else if ( typeof requirejs === 'function' ) {
+    // Tests: requirejs ya definido
 
     window.requireConf = requireConf;
     window._extendObject = _extendObject;
   } else {
+    // Desarrollo en navegador
 
     window.require = requireConf;
-
   }
 })();

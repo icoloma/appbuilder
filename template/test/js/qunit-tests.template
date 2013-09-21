@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    iframe {
+      display: block;
+      width: 100%;
+      min-height: 500px;
+    }
+    .wrapper {
+      max-width: 900px;
+      margin: auto;
+    }
+    select {
+      display: block;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <select id="test-selector">
+      TESTS_OPTIONS
+    </select>
+    <iframe id="test-frame"></iframe>
+  </div>
+
+  <script>
+    var selector = document.querySelector('#test-selector')
+    , frame = document.querySelector('#test-frame')
+    , changeTest = function() {
+      frame.src = '/test/js/' + window.location.hash.slice(1) + '.html';
+    }
+    ;
+
+    window.addEventListener('hashchange', changeTest);
+
+    selector.addEventListener('change', function() {
+      window.location.hash = selector.value;
+    });
+
+    window.onload = function() {
+      if (window.location.hash) {
+        changeTest();
+        selector.value = window.location.hash.slice(1);
+      } else {
+        window.location.hash = selector.value;
+      }
+    }
+
+  </script>
+</body>
+</html>
