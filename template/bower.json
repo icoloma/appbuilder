@@ -5,7 +5,7 @@
     "underscore": "~1.5.1",
     "requirejs": "~2.1.8",
     "almond": "~0.2.5",
-    "PG-SQLitePlugin-Android": "https://github.com/lite4mobi/Cordova-SQLitePlugin.git#r2013.05",
+    "Cordova-SQLitePlugin": "https://github.com/lite4mobi/Cordova-SQLitePlugin.git#r2013.05",
     "swiper": "https://github.com/nolimits4web/Swiper.git#7e4558f897d4a5bb64d8c0db7bbfd6da14d25436",
     "bootstrap": "~3.0.0",
     "qunit": "~1.12.0"

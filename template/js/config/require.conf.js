@@ -18,7 +18,7 @@
     jquery: 'lib/jquery',
     async: 'lib/async',
     swipe: comp + 'swiper/dist/idangerous.swiper-2.0',
-    SQLitePlugin: comp + 'PG-SQLitePlugin-Android/Android/assets/www/SQLitePlugin',
+    SQLitePlugin: comp + 'Cordova-SQLitePlugin/www/SQLitePlugin',
     backbone: comp + 'backbone/backbone',
     underscore: comp + 'underscore/underscore',
     almond: comp + 'almond/almond',
