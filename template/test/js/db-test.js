@@ -1,5 +1,8 @@
 define(['db/db', 'test/mocksql'], function(Db, MockSql) {
 
+  var mockDb = new MockSql.Database();
+  Db.initDb(mockDb);
+
   asyncTest('Proxy BDD', 4, function() {
     var args = {
       sqlStr: 'FOO BAR',
