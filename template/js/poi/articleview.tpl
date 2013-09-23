@@ -23,10 +23,10 @@
   %>
     <div class="row data-item">
       <div class="col-xs-8 data-item-name">
-        {{res.data[key].label}} 
+        {{tpl.data[key].label}} 
       </div>
       <div class="col-xs-4 data-item-value">
-        {{tpl.data[key]}}
+        {{tpl.data[key].value}}
       </div>
     </div>
   <% }%>

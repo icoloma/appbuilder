@@ -68,7 +68,12 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
     var catalog_metadata = loadJSONResource(appConfig.data + 'catalog-metadata.json')
     , i18n_strings = loadJSONResource(appConfig.configFolder + 'i18n.json')
     , flagIcons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
+    , appMetadata = _.extend(i18n_strings, catalog_metadata)
     ;
+
+    _.each(appMetadata.flagGroups, function(group, id) {
+      group.icon = flagIcons.flagIcons[id] || flagIcons.flagIcons.COMMON;
+    });
 
     // Inicializa la BDD
     Db.initDb(openDatabase(appConfig.dbName, 1, 'foobar', 5*1024*1024));
