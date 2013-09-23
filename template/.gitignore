@@ -9,4 +9,5 @@ test/mocked-data/*.json
 test/mocked-data/*.db
 test/data
 test/js/*-test.html
+karma-test-results.xml
 tests.html
