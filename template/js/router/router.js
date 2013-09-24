@@ -55,7 +55,7 @@ define(
         var uriObj = JSON.parse(uri)
         , self = this
         , queryConditions = uriObj.queryConditions
-        , sqlStr = 'SELECT id,thumb,address,name_' + appConfig.locale + ' FROM Poi WHERE ' + queryConditions
+        , sqlStr = 'SELECT id,thumb,address,name_' + res.locale + ' FROM Poi WHERE ' + queryConditions
         ;
         Db.sql(sqlStr, [], function(err, pois) {
           pois = new Poi.Collection(_.map(pois, function(poi) {

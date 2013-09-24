@@ -1,46 +1,63 @@
 
 _ = require('underscore')
 , locales = ['en', 'es', 'it', 'de', 'fr']
+, path = require('path')  
 , fs = require('fs')  
 ;
 
 var random = require('./random-data.js')
 , i18n = require('./i18n-generator.js')
-, poiMetadata = require('./poi-metadata.js')
+, catalogConfig = require('./catalogconfig-mocker.js')
 , poiNumber = 50
 , jsonPois
 , jsonData = {}
-, dataFolder = __dirname + '/../mocked-data/'
-, jsonFile = 'catalog-metadata.json'
-, sqliteFile = 'appData.db'
+, configFolder = path.join(__dirname, '/../mocked-data')
+, dumpFolder = path.join(configFolder, '/dump')
+, jsonFile = 'catalog-dump-config.json'
+, sqliteFile = 'catalog-dump.db'
+, metadataFolder = path.join(configFolder, 'app-metadata')
+, metadataFile = 'app-metadata.json'
 ;
 
 // Exporta los metadatos
-jsonData.flags = poiMetadata.flags;
-jsonData.flagGroups = poiMetadata.flagGroups;
-jsonData.types = poiMetadata.types;
-jsonData.data = poiMetadata.data;
+jsonData.flags = catalogConfig.flags;
+jsonData.flagGroups = catalogConfig.flagGroups;
+jsonData.types = catalogConfig.types;
+jsonData.data = catalogConfig.data;
 
-if (!fs.existsSync(dataFolder)) fs.mkdirSync(dataFolder);
+if (!fs.existsSync(configFolder)) fs.mkdirSync(configFolder);
+
+if (!fs.existsSync(dumpFolder)) fs.mkdirSync(dumpFolder);
 
 // Genera los POIs
 console.log('Generando ' + poiNumber + ' pois...');
-if (fs.existsSync(dataFolder + jsonFile)) fs.unlinkSync(dataFolder + jsonFile);
-jsonData._pois_dev = require('./pois-json.js')(poiNumber);
+if (fs.existsSync(path.join(dumpFolder, jsonFile))) fs.unlinkSync(path.join(dumpFolder, jsonFile));
+jsonData._pois_dev = require('./catalog-json-mocker.js')(poiNumber);
 
 // Genera la configuración de menús
 console.log(' * Configuración de menús.');
-_.extend(jsonData, require('./menu.js')(jsonData._pois_dev));
+_.extend(jsonData, require('./appconfig-mocker.js')(jsonData._pois_dev));
 
-jsonData.schema = require('./schema.js');
-
-jsonData._locales_dev = locales;
+_.extend(jsonData, {
+  schema: require('./schema.js'),
+  _locales_dev: locales,
+});
 
 // Exporta el JSON
 console.log(' * ' + jsonFile);
-fs.writeFileSync(dataFolder + jsonFile, JSON.stringify(jsonData, null, 2));
+fs.writeFileSync(path.join(dumpFolder, jsonFile), JSON.stringify(jsonData, null, 2));
+
+// Exporta metadatos
+console.log(' * ' + metadataFile);
+if (!fs.existsSync(metadataFolder)) fs.mkdirSync(metadataFolder);
+if (fs.existsSync(path.join(metadataFolder, metadataFile)))
+  fs.unlinkSync(path.join(metadataFolder, metadataFile)); 
+fs.writeFileSync(path.join(metadataFolder, metadataFile), JSON.stringify({
+  name: 'Visite Huesca',
+  version: '0.1.0'
+}, null, 2), 'utf-8');
 
 // Genera una BDD SQLite
 console.log(' * ' + sqliteFile);
-if (fs.existsSync(dataFolder + sqliteFile)) fs.unlinkSync(dataFolder + sqliteFile);
-require('./pois-sqlite.js')(jsonData._pois_dev, dataFolder + sqliteFile);
+if (fs.existsSync(path.join(dumpFolder, sqliteFile))) fs.unlinkSync(path.join(dumpFolder, sqliteFile));
+require('./catalog-sqlite-mocker.js')(jsonData._pois_dev, path.join(dumpFolder, sqliteFile));

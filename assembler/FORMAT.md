@@ -3,33 +3,44 @@
 La app en producción espera la siguiente estructura dentro de `assets`:
 
     assets/
-    ├── appData.db
+    ├── catalog-dump.db
     └── www
-        ├── appMetadata.json
-        ├── assets/
+        ├── app-config.json
+        ├── resources/
         ├── (aplicación web)
         └── ...
 
-* `appData.db` es la base de datos de POIs.
-* `assets/` es la carpeta con las imágenes y demás.
-* `appMetadata.json` son los metadatos.
+* `catalog-dump.db` es la base de datos de POIs.
+* `resources/` es la carpeta con las imágenes y demás.
+* `app-config.json` contiene toda la configuración de la aplicación.
 
-## Metadatos
-Los metadatos `appMetadata.json` son una combinación de configuración estática del `template` (cadenas i18n, etc.) con configuración dinámica proveniente de `openCatalog`: información sobre *types*, *flags* y los menús.
+## Configuración
+El fichero `app-config.json` es una combinación de configuración estática del `template` (cadenas i18n, etc.) con configuración dinámica proveniente de `openCatalog`: información sobre *types*, *flags* y los menús.
 
-Para realizar dicha combinación, `assembler` espera el siguiente formato en la carpeta `assembler/tmp-app-data`:
+Para realizar dicha combinación, `assembler` espera el siguiente formato en la carpeta `assembler/tmp/catalog`:
 
-    tmp-app-data/
-    ├── appData.db
-    ├── catalog-metadata.json
-    └── www
-        └── assets/
+    tmp/catalog/
+    ├── app-metadata/
+    │   ├── app-metadata.json
+    │   └── (TO-DO: splash screen, icons, merges)
+    ├── dump/
+    │   ├── catalog-dump.db
+    │   └── catalog-dump-config.json
+    └── resources/
 
-### Formato
-El formato esperado para `catalog-metadata.json` es:
+### Formato: metadatos del app
+El formato de `app-metadata.json` es el siguiente:
 
     {
-      // Metadatos de los FlagGroups
+      "name": <nombre de la aplicación>,
+      "version": <version de la aplicación>,
+    }
+
+### Formato: configuración del catálogo
+El formato esperado para `catalog-dump-config.json` es:
+
+    {
+      // Configuración de los FlagGroups
       "flagGroups": {
         <ID única>: {
           "id": <ID única>,
@@ -45,7 +56,7 @@ El formato esperado para `catalog-metadata.json` es:
         },
         ...
       },
-      // Metadatos de las Flags
+      // Configuración de las Flags
       "flags": { 
         <ID única>: {
           "id": <ID única>,
@@ -55,7 +66,7 @@ El formato esperado para `catalog-metadata.json` es:
         },
         ...
       },
-      // Metadatos de los Types
+      // Configuración de los Types
       "types": {
         <ID única>: {
           "id": <ID única>,
@@ -76,7 +87,7 @@ El formato esperado para `catalog-metadata.json` es:
 
 En `appbuilder/template` puede generarse un ejemplo con `grunt mock`.
 
-#### Campos i18n en metadatos
+#### Campos i18n en la configuración
 Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar internacionalizados. Los campos «i18n» en realidad requieren una copia por idioma, algo como:
 
     {
@@ -90,7 +101,7 @@ Varios objetos, como los *flags*, las entradas de menú, etc. tienen que estar i
 La aplicación se encarga de cargar en memoria sólo los datos en el idioma apropiado.
 
 #### Menús
-La configuración de los menús en los metadatos viene dada por:
+La configuración de los menús en la configuración viene dada por:
 
 * Configuración global:
 
@@ -150,7 +161,7 @@ El campo `menu` tiene valor cuando se salta a otro submenú. El campo `query` ti
 ```
 
 #### Búsqueda
-La configuración de la búsqueda en los metadatos viene dada por:
+La configuración de la búsqueda en los configuración viene dada por:
 
 * Configuración global:
 

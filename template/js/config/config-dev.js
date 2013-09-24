@@ -9,15 +9,15 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
 
   console.log('Configurando aplicación...'); //DEBUG
 
-  window.appConfig = {
-    assets: 'assets/',
-    dbName: 'appData',
+  window.res = {
+    resources: 'resources/',
+    dbName: 'catalog-dump',
     // Estos campos solo son necesarios en desarrollo para un browser
-    data: 'test/mocked-data/',
-    configFolder: 'config/'
+    _data_dev: 'test/mocked-data/',
+    _configFolder_dev: 'config/'
   };
 
-  // Búsqueda *síncrona* de los metadatos y los recursos i18n
+  // Búsqueda *síncrona* de la configuración y los recursos i18n
   var loadJSONResource = function(url) {
     var req = new XMLHttpRequest()
     , result
@@ -42,11 +42,6 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
     var tapEvent = new CustomEvent('tap', {bubbles: true});
     document.addEventListener('click', function(e) {
       e.target.dispatchEvent(tapEvent);
-
-      // AVISO: esto no debería usarse con la history del router
-      if (e.target.tagName === 'A') {
-        window.location = e.target.href;
-      }
     });
   }
 
@@ -65,24 +60,27 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
       'color: #c00; font-weight: bold'); //DEBUG
 
 
-    var catalog_metadata = loadJSONResource(appConfig.data + 'catalog-metadata.json')
-    , i18n_strings = loadJSONResource(appConfig.configFolder + 'i18n.json')
-    , flagIcons = loadJSONResource(appConfig.configFolder + 'flag-icons.json')
-    , appMetadata = _.extend(i18n_strings, catalog_metadata)
+    var catalog_config = loadJSONResource(res._data_dev + 'dump/catalog-dump-config.json')
+    , appMetadata = loadJSONResource(res._data_dev + 'app-metadata/app-metadata.json')
+    , i18n_strings = loadJSONResource(res._configFolder_dev + 'i18n.json')
+    , flagIcons = loadJSONResource(res._configFolder_dev + 'flag-icons.json')
+    , appConfig = _.extend(i18n_strings, catalog_config)
     ;
 
-    _.each(appMetadata.flagGroups, function(group, id) {
+    _.each(appConfig.flagGroups, function(group, id) {
       group.icon = flagIcons.flagIcons[id] || flagIcons.flagIcons.COMMON;
     });
 
     // Inicializa la BDD
-    Db.initDb(openDatabase(appConfig.dbName, 1, 'foobar', 5*1024*1024));
+    Db.initDb(openDatabase(res.dbName, 1, 'foobar', 5*1024*1024));
 
-    _.extend(window.appConfig, {
+    _.extend(window.res, {
       platform: 'Android',
       locale: 'es',
-      // Sobrescribimos la carpeta de assets
-      assets: 'test/mocked-data/assets/'
+      // Sobrescribimos la carpeta de resources
+      resources: 'test/mocked-data/resources/',
+      name: appMetadata.name,
+      version: appMetadata.version
     });
 
     // Shim para el API de notificaciones de Phonegap
@@ -91,11 +89,11 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
     };
 
     return function(callback) {
-      i18nUtils.config(_.extend(i18n_strings, catalog_metadata, flagIcons));
-      PoiModel.initSchema(catalog_metadata.schema);
+      i18nUtils.config(_.extend(i18n_strings, catalog_config, flagIcons));
+      PoiModel.initSchema(catalog_config.schema);
 
       // Rellenar la BDD SQL del navegador
-      LoadDb(catalog_metadata._pois_dev, callback);
+      LoadDb(catalog_config._pois_dev, callback);
     };
 
   } else {
@@ -113,32 +111,31 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
 
         console.log('deviceready nativo disparado!'); //DEBUG
 
-        var appMetadata = loadJSONResource('appMetadata.json');
+        var appConfig = loadJSONResource('app-config.json');
 
         // Inicia la BDD SQLite del dispositivo
-        Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
+        Db.initDb(window.sqlitePlugin.openDatabase({name: res.dbName}));
 
         // Obtener la plataforma y el locale
-        window.appConfig.platform = device.platform;
+        window.res.platform = device.platform;
 
         navigator.globalization.getLocaleName(function(locale) {
           locale = locale.value.match(/^([a-z]{2})/)[1];
 
           // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
           // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
-          window.appConfig.locale = locale in appMetadata.i18n ? locale : 'en';
+          window.res.locale = locale in appConfig.i18n ? locale : 'en';
 
-          i18nUtils.config(appMetadata);
+          i18nUtils.config(appConfig);
           PoiModel.initSchema(res.schema);
 
           callback();
         }, function(err) {
           // TO-DO: mejor error handling
 
-          window.appConfig.locale = 'en';
-          window.res = appMetadata.i18n[window.appConfig.locale];
+          window.res.locale = 'en';
 
-          i18nUtils.config(appMetadata);
+          i18nUtils.config(appConfig);
           PoiModel.initSchema(res.schema);
 
           callback();

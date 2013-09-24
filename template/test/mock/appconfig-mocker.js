@@ -1,7 +1,7 @@
 /*
   Configuración de menús y menús de búsqueda
 */
-var poiMetadata = require('./poi-metadata.js')
+var poiMetadata = require('./catalogconfig-mocker.js')
 , types = poiMetadata.types
 , findByKeyword = function(keyword) {
   return _.find(types, function(type) {

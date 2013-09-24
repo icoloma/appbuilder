@@ -47,7 +47,7 @@ define(['modules/geo', 'db/db', 'poi/model'], function(Geo, Db, Poi) {
         }
 
         callback(null, QueryTpl({
-          locale: appConfig.locale,
+          locale: res.locale,
           text: trimmedText,
           conditions: conditions
         }));

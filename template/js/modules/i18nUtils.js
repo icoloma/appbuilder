@@ -1,6 +1,6 @@
 /*
   Utilidades para la internacionalización.
-  AVISO: estos métodos requieren que appConfig.locale *esté definido* para llamarlos
+  AVISO: estos métodos requieren que res.locale *esté definido* para llamarlos
 */
 define(['globals'], function() {
 
@@ -11,7 +11,7 @@ define(['globals'], function() {
   // y los copia en la propiedad sin indentificador de idioma (p.ej. 'name')
   , localizeJSON = function(json) {
     _.each(json, function(value, key) {
-      var match = key.match(new RegExp('(.+)_' + appConfig.locale));
+      var match = key.match(new RegExp('(.+)_' + res.locale));
       if (match) {
         json[match[1]] = value;
       }
@@ -26,7 +26,7 @@ define(['globals'], function() {
     _.each(json, function(value, key) {
       var match = key.match(i18nPropRegExp);
       if (match) {
-        if (match[2] === appConfig.locale) json[match[1]] = value;
+        if (match[2] === res.locale) json[match[1]] = value;
         delete json[key];
       }
     });
@@ -36,9 +36,8 @@ define(['globals'], function() {
 
   return {
     config: function(metadata) {
-      window.res = {};
 
-      window.res.i18n = metadata.i18n[appConfig.locale];
+      window.res.i18n = metadata.i18n[res.locale];
       delete metadata.i18n;
 
       _.each([

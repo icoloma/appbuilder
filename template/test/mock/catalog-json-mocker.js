@@ -3,7 +3,7 @@
 */
 var random = require('./random-data.js')
 , i18n = require('./i18n-generator.js')
-, poiMetadata = require('./poi-metadata.js')
+, poiMetadata = require('./catalogconfig-mocker.js')
 , flags = poiMetadata.flags, types = poiMetadata.types, data = poiMetadata.data
 // Funciones para escoger type y flags aleatoriamente
 , randomType = random.fixedAmountChooser(_.pluck(types, 'id'), 1)

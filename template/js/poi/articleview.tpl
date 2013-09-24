@@ -11,7 +11,7 @@
 </div>
 <div class="poi-imgs swiper-container">
   <div class="swiper-wrapper">
-    <div class="swiper-slide" style="background-image: url({{appConfig.assets+tpl.thumb}})"></div>
+    <div class="swiper-slide" style="background-image: url({{res.resources+tpl.thumb}})"></div>
   </div>
 </div>
 <div class="row app-container poiview-section">

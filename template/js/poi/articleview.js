@@ -68,7 +68,7 @@ define(
 
       imgTmpl: function(img) {
         return '<div class="swiper-slide" style="background-image: url(' +
-                appConfig.assets+img + ')"></div>';
+                res.resources+img + ')"></div>';
       },
 
       swipe: function() {

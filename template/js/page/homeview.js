@@ -37,7 +37,7 @@ define(
         this.$el.html(this.topbarView.render().$el);
         // TO-DO: añadir una vista para esto
         this.$el.append(this.poiTmpl({
-          src: appConfig.assets + this.options.pois[0].thumb,
+          src: res.resources + this.options.pois[0].thumb,
           url: '#/pois/' + this.options.pois[0].id
         }));
         this.$el.append(this.collectionView.render().$el);

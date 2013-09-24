@@ -16,11 +16,11 @@ if (window.__karma__) {
 }
 
 // Configuración del app
-window.appConfig = {
+window.res = {
   locale: 'en',
   platform: 'Android',
-  assets: 'assets/',
-  dbName: 'appData'
+  resources: 'resources/',
+  appData: 'catalog-dump.db'
 };
 
 /*

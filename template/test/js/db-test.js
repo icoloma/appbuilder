@@ -44,7 +44,7 @@ define(['db/db', 'test/mocksql'], function(Db, MockSql) {
         return Object.getOwnPropertyDescriptor(this, key).writable;
       }, results[0]), 'Plain Old JS Objects');
       ok(_.every(results, function(result, i) {
-        return result.name === result['name_' + appConfig.locale];
+        return result.name === result['name_' + res.locale];
       }), 'localización OK');
     });
 

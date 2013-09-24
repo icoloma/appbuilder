@@ -5,8 +5,8 @@ build/
 bower_components
 js/lib/components
 less/components
-test/mocked-data/*.json
-test/mocked-data/*.db
+test/mocked-data/app-metadata
+test/mocked-data/dump
 test/data
 test/js/*-test.html
 karma-test-results.xml

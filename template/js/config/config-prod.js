@@ -9,14 +9,18 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
   */
 
   /*
-    window.appConfig contiene:
-    - assets: la carpeta de assets (imágenes y demás)
-    - locale: el idioma de la aplicación
-    - platform: la plataforma en la que corre la app
+    window.res contiene toda la configuración de la aplicación, suma de:
+      * La configuración "estática" en los config/*.json
+      * La configuración del catálogo, 'catalog-dump-config.json'.
+      * Los siguientes campos extra:
+        - resources: la carpeta de resources (imágenes y demás)
+        - dbName: el nombre de la BDD
+        - locale: el idioma de la aplicación
+        - platform: la plataforma en la que corre la app
   */
-  window.appConfig = {
-    assets: 'assets/',
-    dbName: 'appData',
+  window.res = {
+    resources: 'resources/',
+    dbName: 'catalog-dump',
     locale: null,
     platform: null
   };
@@ -27,10 +31,10 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
         document.addEventListener('deviceready', function () {
 
           // Obtener la plataforma y el locale
-          window.appConfig.platform = device.platform;
+          window.res.platform = device.platform;
 
           // Inicia la BDD SQLite del dispositivo.
-          Db.initDb(window.sqlitePlugin.openDatabase({name: appConfig.dbName}));
+          Db.initDb(window.sqlitePlugin.openDatabase({name: res.dbName}));
 
           navigator.globalization.getLocaleName(function(locale) {
             cb(null, locale);
@@ -47,7 +51,7 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
           // TO-DO: mejor error handling
           cb(null, JSON.parse(this.responseText));
         };
-        req.open('get', 'appMetadata.json', true);
+        req.open('get', 'app-config.json', true);
         req.send();
       }
     }, function(err, results) {
@@ -57,7 +61,7 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
 
       // i18n: se busca el idioma del dispositivo en los locales del app, tomando inglés como
       // fallback. AVISO: se asume que los locales del app y de los datos del catálogo son los mismos
-      window.appConfig.locale = locale in results.config.i18n ? locale : 'en';
+      window.res.locale = locale in results.config.i18n ? locale : 'en';
 
       /*
         Configura el global 'res'.

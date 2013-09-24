@@ -26,7 +26,7 @@ var random = require('./random-data.js')
 , dataIds = []
 ;
 
-console.log('Generando metadatos de POIs...');
+console.log('Generando configuración del catálogo...');
 
 // Genera los types
 _.each(raw_types, function(raw_type, i) {

@@ -36,7 +36,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
       return Geo.propDistance(this.get('lat'), this.get('lon'), lat, lon);
     },
     geoLink: function() {
-      if (window.appConfig.platform.match(/ios/i)) {
+      if (window.res.platform.match(/ios/i)) {
         // TO-DO: testear!!
         return 'http//:maps.apple.com/?ll=' + this.get('lat') + ',' + this.get('lon') + '&z=17';
       } else {
@@ -91,7 +91,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
     initSchema: function(schema) {
       _.each(schema, function(type, field) {
         if (type === 'i18n') {
-          this.sqlFields.push(field + '_' + appConfig.locale);
+          this.sqlFields.push(field + '_' + res.locale);
         } else {
 
           this.sqlFields.push(field);

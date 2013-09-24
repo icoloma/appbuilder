@@ -25,7 +25,7 @@ Varias cosas no funcionarán bien si se intenta depurar sin un servidor (mediant
 Las tareas de desarrollo implementan *live reloading*, refrescando el navegador automáticamente cuando ciertos archivos cambian (ver `Gruntfile.js`, tarea `watch`).
 
 ### Windows
-El paquete `sqlite3` tiene unas [dependencias](https://github.com/TooTallNate/node-gyp#installation) complicadas en Windows. Sin él, fallará la generación de datos de prueba (solo la parte de generar un `appData.db`).
+El paquete `sqlite3` tiene unas [dependencias](https://github.com/TooTallNate/node-gyp#installation) complicadas en Windows. Sin él, fallará la generación de datos de prueba (solo la parte de generar un `catalog-dump.db`).
 
 ### Dev Tools en mobile
 Para acceder a unas dev tools cuando se depura en un dispositivo móvil (requiere dispositivo y desktop conectados a una red local):

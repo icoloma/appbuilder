@@ -36,41 +36,53 @@ grunt.initConfig({
       cwd: '../template/build/',
       expand: true,
       src: ['**'],
-      dest: 'tmp-www'
+      dest: 'tmp/template'
     },
     plugin: {
       expand: true,
       cwd: 'node_modules/pgsqlite-android/Android/src',
       src: [ '**' ],
-      dest: 'apps/segittur/src/'
+      dest: 'app/segittur/src/'
     },
     www: {
       expand: true,
-      cwd: 'tmp-www',
-      src: ['**', '!config/**'],
-      dest: 'apps/segittur/assets/www/'
+      cwd: 'tmp/',
+      src: ['www/**'],
+      dest: 'app/segittur/assets/'
     },
     testData: {
       expand: true,
       cwd: '../template/test/mocked-data',
       src: ['**'],
-      dest: 'tmp-app-data'
+      dest: 'tmp/catalog'
     },
-    appData: {
+    appSrc: {
       expand: true,
-      cwd: 'tmp-app-data',
-      src: [ '**' , '!catalog_metadata.json' ],
-      dest: 'apps/segittur/assets/'
+      cwd: 'tmp/template',
+      src: [ '**' , '!config/**', '!test/**' ],
+      dest: 'tmp/www'
     },
+    appConfigAndResources: {
+      expand: true,
+      cwd: 'tmp/catalog',
+      src: [ 'resources/**', 'app-config.json' ],
+      dest: 'tmp/www'
+    },
+    appDatabase: {
+      expand: true,
+      cwd: 'tmp/catalog/dump',
+      src: [ 'catalog-dump.db' ],
+      dest: 'app/segittur/assets/'
+    }
   },
   clean: {
-    app: ['apps/segittur'],
-    tmpWWW: ['tmp-www'],
-    www: ['apps/segittur/assets/www/*', '!apps/segittur/assets/www/cordova.js']
+    app: ['app/segittur'],
+    src: ['tmp/template', 'tmp/www'],
+    www: ['app/segittur/assets/www/*', '!app/segittur/assets/www/cordova.js']
   },
   'regex-replace': {
     androidConfig: {
-      src: 'apps/segittur/res/xml/config.xml',
+      src: 'app/segittur/res/xml/config.xml',
       actions: [{
         search: '<plugins>',
         replace: '<plugins>\n<plugin name="SQLitePlugin" value="com.phonegap.plugin.sqlitePlugin.SQLitePlugin"/>'
@@ -83,18 +95,19 @@ grunt.initConfig({
 // Se encarga de unir la configuración que viene del openCatalog con la configuración propia
 // del template
 grunt.registerTask('_join_config', '[Tarea interna]', function() {
-  var catalog_metadata = JSON.parse(fs.readFileSync('tmp-app-data/catalog-metadata.json', 'utf-8'))
-  , i18n = JSON.parse(fs.readFileSync('tmp-www/config/i18n.json', 'utf-8'))
-  , flag_icons = JSON.parse(fs.readFileSync('tmp-www/config/flag-icons.json', 'utf-8'))
-  , appMetadata = _.extend(i18n, catalog_metadata);
+  var catalog_config = JSON.parse(fs.readFileSync('tmp/catalog/dump/catalog-dump-config.json', 'utf-8'))
+  , appMetadata = JSON.parse(fs.readFileSync('tmp/catalog/app-metadata/app-metadata.json', 'utf-8'))
+  , i18n = JSON.parse(fs.readFileSync('tmp/template/config/i18n.json', 'utf-8'))
+  , flag_icons = JSON.parse(fs.readFileSync('tmp/template/config/flag-icons.json', 'utf-8'))
+  , appConfig = _.extend(i18n, catalog_config, appMetadata);
   ;
 
   // Añade iconos a los flag groups
-  _.each(appMetadata.flagGroup, function(group, id) {
+  _.each(appConfig.flagGroup, function(group, id) {
     group.icon = flag_icons.flagIcons[id] || flag_icons.flagIcons['COMMON'];
   }); 
 
-  fs.writeFileSync('tmp-app-data/www/appMetadata.json', JSON.stringify(appMetadata), 'utf-8');
+  fs.writeFileSync('tmp/catalog/app-config.json', JSON.stringify(appConfig), 'utf-8');
 });
 
 // Crea el proyecto Android
@@ -116,7 +129,7 @@ grunt.registerTask('_pg_create_android', '[Tarea interna]', function() {
 
   grunt.util.spawn({
     cmd: fullComand,
-    args: [ 'apps/segittur', 'com.segittur', 'Segittur' ],
+    args: [ 'app/segittur', 'com.segittur', 'Segittur' ],
     opts: {
       stdio: 'inherit'
     }
@@ -135,14 +148,14 @@ grunt.registerTask('_template_build', '[Tarea interna]', function(buildMode) {
 grunt.registerTask('_android_deploy', '[Tarea interna]', ['android-build', 'android-install']);
 
 grunt.registerTask('_basic_build', '[Tarea interna]',
-  ['clean:tmpWWW', 'copy:templateBuild', 'copy:plugin', 'regex-replace:androidConfig',
-    'clean:www', 'copy:www', '_join_config', 'copy:appData', '_android_deploy']);
+  ['clean:src', 'copy:templateBuild', 'copy:plugin', 'regex-replace:androidConfig', 'copy:appSrc',
+    '_join_config', 'copy:appConfigAndResources', 'clean:www', 'copy:www', 'copy:appDatabase', '_android_deploy']);
 
 grunt.registerTask('android-build', 'Compila la app con Ant.\n', function() {
   var done = this.async();
   grunt.util.spawn({
     cmd: 'ant',
-    args: [ 'debug', '-f', 'apps/segittur/build.xml' ],
+    args: [ 'debug', '-f', 'app/segittur/build.xml' ],
     opts: {
       stdio: 'inherit'
     }
@@ -163,7 +176,7 @@ grunt.registerTask('android-install', 'Instala la app mediante adb.\n', function
     grunt.log.writeln('Instalando el apk.');
     grunt.util.spawn({
       cmd: 'adb',
-      args: [ 'install', 'apps/segittur/bin/Segittur-debug.apk' ],
+      args: [ 'install', 'app/segittur/bin/Segittur-debug.apk' ],
       opts: {
         stdio: 'inherit'
       }
@@ -174,7 +187,7 @@ grunt.registerTask('android-install', 'Instala la app mediante adb.\n', function
   });
 });
 
-grunt.registerTask('mock', 'Genera unos datos de prueba aleatorios para "tmp-app-data".\n', function() {
+grunt.registerTask('mock', 'Genera unos datos de prueba aleatorios para "tmp/catalog".\n', function() {
   grunt.task.run(['hub:mock', 'copy:testData']);
 });
 
