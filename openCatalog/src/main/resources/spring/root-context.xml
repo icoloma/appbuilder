@@ -24,9 +24,7 @@
 	</bean>
 	
 	<!-- used by API and UI  -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	    <property name="maxUploadSize" value="100000"/>
-	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	
 	<bean id="poiImageUtils" class="info.spain.opencatalog.image.PoiImageUtilsImpl" />
 	

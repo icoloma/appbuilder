@@ -76,7 +76,7 @@ public class UserControllerTest {
 	public void userNotFound() throws Exception {
 		// without query
 		this.mockMvc.perform( get("/admin/user/notFound"))
-		.andExpect(status().isInternalServerError());
+		.andExpect(status().isNotFound());
 	}
 	
 	

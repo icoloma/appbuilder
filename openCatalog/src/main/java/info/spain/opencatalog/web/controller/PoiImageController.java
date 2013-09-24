@@ -54,20 +54,5 @@ public class PoiImageController extends AbstractUIController {
 		 ImageResource img = poiImageUtils.getPoiImageResource(filename);
 		 return super.getInputStreamAsHttpEntity(img.getInputStream(), img.getContentType(), img.getContentLenght(), img.getFilename());
 	  }
-	 
-//	 /**
-//	  * List of Images
-//	  * @param id
-//	  * @return
-//	  * @throws IOException
-//	  */
-//	 @RequestMapping( method = RequestMethod.GET)
-//	 public @ResponseBody List<String> listImages(@PathVariable (value="idPoi") String idPoi) throws IOException {
-//		 List<String> result = Lists.newArrayList();
-//		 
-//	//	 ImageResource img = poiImageUtils.getPoiImageResource(id);
-//		 return null;
-//		 
-//	  }
 
 }

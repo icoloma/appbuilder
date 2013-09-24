@@ -77,7 +77,7 @@ public class ZoneControllerTest {
 	@Test
 	public void notFound() throws Exception {
 		this.mockMvc.perform( get("/admin/zone/notFound"))
-		.andExpect(status().isInternalServerError());
+		.andExpect(status().isNotFound());
 	}
 	
 

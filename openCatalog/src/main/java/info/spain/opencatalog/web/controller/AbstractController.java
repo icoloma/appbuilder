@@ -2,6 +2,8 @@ package info.spain.opencatalog.web.controller;
 
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriTemplate;
 
 public abstract class AbstractController {
 	
@@ -29,6 +32,12 @@ public abstract class AbstractController {
     
 	}
 	 
+	 
+	protected String getLocationForChildResource(HttpServletRequest request,  Object childIdentifier) {
+		 StringBuffer url = request.getRequestURL();
+		 UriTemplate template = new UriTemplate(url.append("/{childId}").toString());
+		 return template.expand(childIdentifier).toASCIIString();
+	 }
 
 
 }

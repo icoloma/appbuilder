@@ -1,8 +1,6 @@
 package info.spain.opencatalog.web.controller;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -16,13 +14,19 @@ import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.form.PoiForm;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,6 +48,9 @@ public class PoiControllerTest {
 	
 	@Autowired
 	private PoiRepository repo;
+	
+	@Autowired
+	private PoiImageUtils poiImageUtils;
 
 	private MockMvc mockMvc;
 
@@ -63,8 +70,7 @@ public class PoiControllerTest {
 	@Test
 	public void testPoiNotFound()  throws Exception {
 		this.mockMvc.perform( get("/admin/poi/notExists"))
-			.andExpect(status().isInternalServerError())
-			.andExpect(view().name("notFoundError"))
+			.andExpect(status().isNotFound())
 			.andReturn();
 	}
 	/**
@@ -130,6 +136,7 @@ public class PoiControllerTest {
 		update.setTimetable(new TimeTableEntry("0112="));
 				
 
+		
 		result = this.mockMvc.perform(fileUpload("/admin/poi/" + id)
 				.param("name.es", update.getName().getEs())
 				.param("description.es", update.getDescription().getEs())
@@ -142,7 +149,7 @@ public class PoiControllerTest {
 				.param("flags", Flag.WC.toString())
 				.param("flags", Flag.HANDICAPPED.toString())
 				.param("timetable", "0112=")
-			    )
+				)
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();
 		
@@ -160,6 +167,66 @@ public class PoiControllerTest {
     }
 	
 	
+	
+	@Test
+	public void testUpdatePoiWithImages() throws Exception {
+		repo.deleteAll();
+		BasicPoi saved = repo.save(DummyPoiFactory.BEACH);
+		MockMultipartFile image1 = new MockMultipartFile("files", "0.jpg", MediaType.IMAGE_JPEG_VALUE, new ClassPathResource("img/0.jpg").getInputStream());
+		MockMultipartFile image2 = new MockMultipartFile("files", "1.jpg", MediaType.IMAGE_JPEG_VALUE, new ClassPathResource("img/1.jpg").getInputStream());
+		this.mockMvc.perform(fileUpload("/admin/poi/{poiId}", saved.getId())
+			.file(image1)
+			.file(image2)
+			.param("name.es", saved.getName().getEs()))
+			.andExpect(status().isMovedTemporarily());
+		
+		List<String> images = poiImageUtils.getPoiImageFilenames(saved.getId());
+		assertEquals(2, images.size());
+		
+		// Get the image
+		MvcResult result = this.mockMvc.perform( get("/admin/poi/{id}/image/{idImage}", saved.getId(), images.get(0)))
+			.andExpect(status().isOk())
+			.andReturn();
+		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
+			
+		// Get the default image
+		result = this.mockMvc.perform( get("/admin/poi/{id}/image/default", saved.getId()))
+			.andExpect(status().isOk())
+			.andReturn();
+		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
+		
+		//set Default Image
+		String defaultImage = images.get(1);
+		this.mockMvc.perform(fileUpload("/admin/poi/{poiId}", saved.getId())
+			.param("defaultImageFilename", defaultImage)
+			.param("name.es", saved.getName().getEs()))
+			.andExpect(status().isMovedTemporarily());
+				
+		// Get the default image
+		result = this.mockMvc.perform( get("/admin/poi/{id}/image/default", saved.getId()))
+			.andExpect(status().isOk())
+			.andReturn();
+		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
+		assertTrue(defaultImage, result.getResponse().getHeader("Content-Disposition").contains("filename=\"" + defaultImage + "\""));
+		
+		//Delete Default Image
+		this.mockMvc.perform(fileUpload("/admin/poi/{poiId}", saved.getId())
+			.param("name.es", saved.getName().getEs())
+			.param("deleteFile", defaultImage))
+			.andExpect(status().isMovedTemporarily());
+		
+		images = poiImageUtils.getPoiImageFilenames(saved.getId());
+		assertEquals(1, images.size());
+		
+		// Get the default image
+		result = this.mockMvc.perform( get("/admin/poi/{id}/image/default", saved.getId()))
+			.andExpect(status().isOk())
+			.andReturn();
+		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
+		assertTrue(defaultImage, result.getResponse().getHeader("Content-Disposition").contains("filename=\"" + images.get(0) + "\""));
+	
+	
+	}
 	
 	
 	private void testEquals(BasicPoi expected, BasicPoi actual){
@@ -182,10 +249,7 @@ public class PoiControllerTest {
 		}
 		
 	}
-	
 
-
-	
 	
 
 }

@@ -89,8 +89,9 @@ public class BasicPoiType {
 							+ " is not allowed for this type");
 		} else {
 			Preconditions.checkArgument(
-					actualValues == null
-							|| allowedValues.containsAll(actualValues),
+					actualValues == null 
+						|| actualValues.size() == 0
+						|| allowedValues.containsAll(actualValues),
 					"Invalid " + name + " found: " + actualValues + 
 					".\n Allowed flags: " + allowedValues);
 		}

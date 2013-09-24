@@ -181,8 +181,6 @@ public class PoiController extends AbstractUIController {
 
 		BasicPoi dbPoi = poiRepository.findOne(id);
 		poiForm.setType(dbPoi.getType());  // Always override with db type
-
-		assignPrices(poiForm, errors);
 		
 		if (timetable != null){
 			poiForm.setTimetable(convertTimeTable(timetable,errors));
@@ -213,39 +211,6 @@ public class PoiController extends AbstractUIController {
 		return "redirect:/admin/poi/" + id;
 	}
 	
-	private void assignPrices( PoiForm poiForm,  BindingResult errors){
-		/*
-		Set<String> keys = values.keySet();
-		for (String key : keys) {
-			Price p = new Price();
-			try {
-				p.setPrice(Double.valueOf((String)values.get(key)));
-				errors.reject("invalidValue", "invalid price value");
-			} catch( Exception e){
-				System.out.print(e.getStackTrace());
-			}
-			/*
-			try {
-				p.setTimetable(new TimeTableEntry((String) periods.get(key)));
-			} catch( Exception e){
-				errors.rejectValue("price_period" + key, "invalidValue", "invalid period value");
-			}
-			
-			try {
-				p.setPriceType( PriceType.valueOf((String) types.get(key)));
-			} catch( Exception e){
-				errors.rejectValue("prices" + key + ".price", "invalidValue", "invalid type value");
-			}
-			poiForm.getPrices().add(p);
-*/
-	
-	}
-	
-	
-	
-	
-
-
 	private void updatePoiImages(BasicPoi poi, List<MultipartFile> addFiles,  String[] deleteFiles) throws IOException {
 		
 		// Save new files
@@ -258,7 +223,7 @@ public class PoiController extends AbstractUIController {
 		if (deleteFiles != null) {
 			for (int i = 0; i < deleteFiles.length; i++) {
 				poiImageUtils.deleteImage(deleteFiles[i]);
-				if (poi.getDefaultImageFilename().equals(deleteFiles[i])){
+				if (deleteFiles[i].equals(poi.getDefaultImageFilename())){
 					poi.setDefaultImageFilename(null);
 				}
 			}

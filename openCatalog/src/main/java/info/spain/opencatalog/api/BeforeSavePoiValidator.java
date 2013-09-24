@@ -1,4 +1,4 @@
-package info.spain.opencatalog.rest;
+package info.spain.opencatalog.api;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
 

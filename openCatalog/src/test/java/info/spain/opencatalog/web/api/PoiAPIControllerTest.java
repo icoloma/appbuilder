@@ -1,6 +1,8 @@
-package info.spain.opencatalog.web.rest;
+package info.spain.opencatalog.web.api;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -14,12 +16,15 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,9 +37,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:PoiAPITest-config.xml"})
+@ContextConfiguration({ "classpath:APITest-config.xml"})
 @ActiveProfiles("dev")
-public class PoiAPITest {
+public class PoiAPIControllerTest {
 	
 	public static final String NO_RESULTS = "{\n  \"links\" : [ ],\n  \"content\" : [ ]\n}";
 	
@@ -54,9 +59,6 @@ public class PoiAPITest {
 		
 	}
 
-	
-	// TODO: Test POI images
-	
 	/**
 	 * Test discover and GET of POI
 	 * @throws Exception
@@ -87,10 +89,18 @@ public class PoiAPITest {
 			.andReturn(); //FIXME: delete when fixed #8
 	    
 	    content = result.getResponse().getContentAsString();
-	    log.debug("result /poi/:\n" + content);
 	    
+	    // check Poi Images
+	    result = this.mockMvc.perform(get("/poi/" + saved.getId() + "/image")
+				.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(jsonPath("$.links").isArray())
+				.andReturn();    
+	    content = result.getResponse().getContentAsString();
     }
-
+	
+	
 	/**
 	 * Test POST of POI
 	 * @throws Exception
@@ -124,16 +134,28 @@ public class PoiAPITest {
 		json = json.replaceAll("'", "\"");
 		
 		System.out.println( "POI:" + json);
-	    this.mockMvc.perform(post("/poi")
+		 MvcResult result = this.mockMvc.perform(post("/poi")
 	    	.param("type", type)
 	    	.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
 			.content(json))
-			.andExpect(status().isCreated());
-    }
+			.andExpect(status().isCreated())
+			.andReturn();
+		 
+		String id= getIdFromLocation(result);
+	}
+	
+	private String getIdFromLocation(MvcResult result){
+		String location = result.getResponse().getHeader("Location");
+		assertNotNull(location);
+		String id = location.substring( location.lastIndexOf('/') + 1);
+		assertNotNull(id);
+		log.trace("id from Location:" + id);
+		return id;
+	}
 	
 
 	@Test
-	public void tesFindByName() throws Exception {
+	public void testFindByName() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.newPoi("tesFindByName");
 		BasicPoi saved = repo.save(poi);
@@ -148,7 +170,7 @@ public class PoiAPITest {
 	}
 	
 	@Test
-	public void tesFindByLocationWithIn() throws Exception {
+	public void testFindByLocationWithIn() throws Exception {
 		repo.deleteAll();
 		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
 		BasicPoi poi = DummyPoiFactory.POI_TEIDE;
@@ -178,7 +200,7 @@ public class PoiAPITest {
 	}
 	
 	@Test
-	public void tesFindByLocationNear() throws Exception {
+	public void testFindByLocationNear() throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.POI_TEIDE;
 		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
