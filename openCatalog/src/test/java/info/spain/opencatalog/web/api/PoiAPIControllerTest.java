@@ -144,7 +144,7 @@ public class PoiAPIControllerTest {
 	@Test
 	public void testSyncFlags() throws Exception{
 		repo.deleteAll();
-		BasicPoi poi= DummyPoiFactory.beach();
+		BasicPoi poi= DummyPoiFactory.monument();
 		BasicPoi saved = repo.save(poi);
 		
 		// let's change 
