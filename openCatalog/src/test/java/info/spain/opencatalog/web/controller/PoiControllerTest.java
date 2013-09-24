@@ -107,6 +107,9 @@ public class PoiControllerTest {
 		
 		BasicPoi repoPoi = repo.findOne(id);
 		testEquals(poi, repoPoi);
+		assertFalse(repoPoi.isImported());
+		assertFalse(repoPoi.isSync());
+		assertNull(repoPoi.getOriginalId());
 		
 		// Test GET
 		result = this.mockMvc.perform( get("/admin/poi/{id}", id))
@@ -135,8 +138,6 @@ public class PoiControllerTest {
 		update.setFlags(Flag.WC, Flag.HANDICAPPED);
 		update.setTimetable(new TimeTableEntry("0112="));
 				
-
-		
 		result = this.mockMvc.perform(fileUpload("/admin/poi/" + id)
 				.param("name.es", update.getName().getEs())
 				.param("description.es", update.getDescription().getEs())
@@ -149,13 +150,18 @@ public class PoiControllerTest {
 				.param("flags", Flag.WC.toString())
 				.param("flags", Flag.HANDICAPPED.toString())
 				.param("timetable", "0112=")
+				.param("sync", "false")  // will be ignored
+				.param("imported", "false")  // will be ignored
+				.param("originalId", "Fooo")  // will be ignored
 				)
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();
 		
 		repoPoi = repo.findOne(id);
 		testEquals(update, repoPoi);
-		
+		assertFalse(repoPoi.isImported());
+		assertFalse(repoPoi.isSync());
+		assertNull(repoPoi.getOriginalId());
 		
 		// TEST DELETE
 		result = this.mockMvc.perform(post("/admin/poi/" + id + "/delete"))
@@ -166,6 +172,53 @@ public class PoiControllerTest {
 		assertNull(repoPoi);
     }
 	
+	
+	@Test
+	public void testSyncFlags() throws Exception {
+		repo.deleteAll();
+		BasicPoi poi= DummyPoiFactory.beach();
+		BasicPoi saved = repo.save(poi);
+		
+		// let's change sync flags and see how they're ignored
+		this.mockMvc.perform(fileUpload("/admin/poi/" + saved.getId())
+			.param("name.es", saved.getName().getEs())
+			.param("location.lat", saved.getLocation().getLat().toString())
+			.param("location.lng", saved.getLocation().getLng().toString())
+			.param("sync", "false")  // will be ignored
+			.param("imported", "true")  // will be ignored
+			.param("originalId", "Fooo")  // will be ignored
+			)
+		    .andExpect(status().isMovedTemporarily())
+		    .andReturn();
+		
+		BasicPoi repoPoi = repo.findOne(saved.getId());
+		assertFalse(repoPoi.isImported());
+		assertFalse(repoPoi.isSync());
+		assertNull(repoPoi.getOriginalId());
+		
+		// change the poi in db
+		repoPoi.setImported(true);
+		repoPoi.setOriginalId("original");
+		repo.save(repoPoi);
+		
+		// let's change sync flags again and see 
+		this.mockMvc.perform(fileUpload("/admin/poi/" + saved.getId())
+			.param("name.es", saved.getName().getEs())
+			.param("location.lat", saved.getLocation().getLat().toString())
+			.param("location.lng", saved.getLocation().getLng().toString())
+			.param("sync", "true")  // will not be ignored
+			.param("imported", "false")  // will be ignored
+			.param("originalId", "Fooo")  // will be ignored
+			)
+		    .andExpect(status().isMovedTemporarily())
+		    .andReturn();
+			
+		repoPoi = repo.findOne(saved.getId());
+		assertTrue(repoPoi.isImported());
+		assertTrue(repoPoi.isSync());
+		assertEquals("original", repoPoi.getOriginalId());
+			
+	}
 	
 	
 	@Test
@@ -224,8 +277,6 @@ public class PoiControllerTest {
 			.andReturn();
 		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
 		assertTrue(defaultImage, result.getResponse().getHeader("Content-Disposition").contains("filename=\"" + images.get(0) + "\""));
-	
-	
 	}
 	
 	

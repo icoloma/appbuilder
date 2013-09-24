@@ -213,10 +213,6 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setDescription(new I18nText().setEs("Descripción de la playa..."))		
 			.setAddress(new Address().setRoute("Las teresitas").setAdminArea1("Canarias").setAdminArea2("Tenerife"))
 			.setFlags(
-//				Flag.LIFT_ACCESSIBLE,
-//				Flag.ADAPTED_VEHICLE_RENT,
-//				Flag.QUALITY_BANDERA_AZUL,
-//				Flag.QUALITY_NATURISTA,
 				Flag.BEACH_BATH_CONDITION_MODERATE_WAVES,
 				Flag.BEACH_COMPOSITION_VOLCANIC_BLACK_SAND,
 				Flag.BEACH_SAND_TYPE_DARK)
@@ -237,7 +233,9 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setUrl("http://www.playadelasteresitas.com")
 				.setPhone("+34922000000")
 				.setReservation("Reservar llamando al teléfono de contacto"))
-			
+			.setImported(true)
+			.setSync(true)
+			.setOriginalId("xxxx-yyyy")
 			.validate();
 	}
 		

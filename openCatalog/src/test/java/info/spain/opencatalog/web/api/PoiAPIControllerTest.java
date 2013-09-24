@@ -1,10 +1,10 @@
 package info.spain.opencatalog.web.api;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static junit.framework.Assert.*;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,15 +16,12 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -144,14 +141,88 @@ public class PoiAPIControllerTest {
 		assertNotNull(getIdFromLocation(result));
 	}
 	
-	private String getIdFromLocation(MvcResult result){
-		String location = result.getResponse().getHeader("Location");
-		assertNotNull(location);
-		String id = location.substring( location.lastIndexOf('/') + 1);
-		assertNotNull(id);
-		log.trace("id from Location:" + id);
-		return id;
+	@Test
+	public void testSyncFlags() throws Exception{
+		repo.deleteAll();
+		BasicPoi poi= DummyPoiFactory.beach();
+		BasicPoi saved = repo.save(poi);
+		
+		// let's change 
+		//    sync = true        ---> will be ignored
+		//    imported = true    ---> will be ignored
+		//    originalId = "XXX" ---> will be ignored
+		String json = "{" +
+				"'type': '" + poi.getType().getId() + "'," +
+				"'name':{" +
+					"'es':'some other value'" +
+				"}," +
+				"'location':{" +
+					"'lat':40.45259106740161," +
+					"'lng':-3.7391396261243433" +
+				"}," +
+				"'sync' : 'true'," +
+				"'imported' : 'true'," +
+				"'originalId' : 'XXX'," +
+				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
+				"}";
+		
+		this.mockMvc.perform(put("/poi/" + saved.getId())
+			.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+			.content(json))
+			.andExpect(status().isNoContent())
+		    .andReturn();
+		
+		BasicPoi repoPoi = repo.findOne(saved.getId());
+		
+		// No se puede cambiar si no es un poi importado
+		assertFalse(repoPoi.isSync());
+		assertFalse(repoPoi.isImported());
+		assertNull(repoPoi.getOriginalId());
+
+		// Modificamos directamente la base de datos
+		repoPoi
+			.setImported(true)
+			.setSync(true)
+			.setOriginalId("original");
+		
+		saved = repo.save(repoPoi);
+		
+		// let's change 
+		//    sync = false
+		//    imported = false     ----> will be ignored
+		//    originalId = "changed" ---> will be ignored
+		json = "{" +
+				"'type': '" + poi.getType().getId() + "'," +
+				"'name':{" +
+					"'es':'changing the name again'" +
+				"}," +
+				"'location':{" +
+					"'lat':40.45259106740161," +
+					"'lng':-3.7391396261243433" +
+				"}," +
+				"'sync' : 'false'," +
+				"'imported' : 'false'," + // será ignorado
+				"'originalId' : 'changed'," + // será ignorado
+				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
+				"}";
+		
+		this.mockMvc.perform(put("/poi/" + saved.getId())
+			.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+			.content(json))
+			.andExpect(status().isNoContent())
+		    .andReturn();
+
+		
+		// Comprobamos los casos en que se puede modificar
+		repoPoi = repo.findOne(saved.getId());
+		assertTrue(repoPoi.isImported());
+		assertEquals("original", repoPoi.getOriginalId());
+		assertFalse(repoPoi.isSync());  
+
+		
+		
 	}
+	
 	
 
 	@Test
@@ -228,6 +299,14 @@ public class PoiAPIControllerTest {
 	    repo.delete(saved);
 	}
 	
+	private String getIdFromLocation(MvcResult result){
+		String location = result.getResponse().getHeader("Location");
+		assertNotNull(location);
+		String id = location.substring( location.lastIndexOf('/') + 1);
+		assertNotNull(id);
+		log.trace("id from Location:" + id);
+		return id;
+	}
 	
 
 }

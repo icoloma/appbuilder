@@ -2,6 +2,7 @@ package info.spain.opencatalog.api;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.web.controller.AbstractController;
@@ -68,6 +69,10 @@ public class PoiApiController extends AbstractController {
 		Class<? extends BasicPoi> clazz = PoiTypeID.valueOf(jsonType).getPoiClass();
 		
 		BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
+		
+		poi.setImported(false);   // Always override 
+		poi.setOriginalId(null);  // Always override 
+		poi.setSync(false);       // Always override 
 		savePoi(poi, req,res);
 	 }
 	
@@ -83,6 +88,32 @@ public class PoiApiController extends AbstractController {
 		 poi = poiRepository.save(poi);
 		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));
 	 }	
+	 
+	 
+	 @ResponseStatus(HttpStatus.NO_CONTENT)
+	 @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	 public void updateBasic( @PathVariable("id") String idPoi, HttpServletRequest req, HttpServletResponse res) throws IOException, JSONException {
+			
+		 	BasicPoi dbPoi = poiRepository.findOne(idPoi);
+		 	if (dbPoi == null) {
+		 		throw new NotFoundException("poi", idPoi);
+		 	}
+			
+		 	JSONObject json = getJSON(req.getInputStream());
+			
+			Class<? extends BasicPoi> clazz = dbPoi.getType().getId().getPoiClass();
+			
+			BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
+			// Always override
+			poi.setId(dbPoi.getId());
+			poi.setImported(dbPoi.isImported());
+			poi.setOriginalId(dbPoi.getOriginalId());  
+			if (!dbPoi.isImported()){
+				poi.setSync(false);
+			}
+			
+			savePoi(poi, req,res);
+		 }
 	 
 	 
 	 /**
