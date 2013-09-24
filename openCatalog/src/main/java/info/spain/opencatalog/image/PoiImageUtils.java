@@ -13,5 +13,6 @@ public interface PoiImageUtils {
 	public void deleteImage(String filename);
 	public String saveImage(String idPoi,InputStream inputStream, String contentType) throws IOException;
 	public ImageResource getPoiImageResource(String filename);
+	public void deleteAllImages();
 		
 }

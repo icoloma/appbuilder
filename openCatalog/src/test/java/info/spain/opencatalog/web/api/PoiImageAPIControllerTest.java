@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.poi.BasicPoi;
+import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
 
 import org.junit.Before;
@@ -45,6 +46,9 @@ public class PoiImageAPIControllerTest {
 	
 	@Autowired
 	private PoiRepository repo;
+	
+	@Autowired
+	private PoiImageUtils poiImageUtils;
 	
 	private MockMvc mockMvc;
 	
@@ -122,6 +126,29 @@ public class PoiImageAPIControllerTest {
 			.andReturn();
 	}
 	
+	
+	@Test 
+	public void testCascadeDelete() throws Exception {
+		repo.deleteAll();
+		poiImageUtils.deleteAllImages();
+		
+		BasicPoi saved = repo.save(DummyPoiFactory.POI_TEIDE);
+		
+		// Add Image
+	    this.mockMvc.perform(fileUpload("/poi/{id}/image", saved.getId()).file(sampleImage))
+			.andExpect(status().isCreated())
+			.andReturn();
+	    assertEquals(1, poiImageUtils.getPoiImageFilenames(saved.getId()).size());
+	    
+	    
+	    // Delete Poi
+	    this.mockMvc.perform(delete("/poi/{id}", saved.getId()))
+			.andExpect(status().isNoContent())
+			.andReturn();
+	    
+	    assertEquals(0, poiImageUtils.getPoiImageFilenames(saved.getId()).size());
+	    
+	}
 	
 	private String getIdFromLocation(MvcResult result){
 		String location = result.getResponse().getHeader("Location");

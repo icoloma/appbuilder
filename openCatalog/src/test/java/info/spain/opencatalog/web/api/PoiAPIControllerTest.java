@@ -141,7 +141,7 @@ public class PoiAPIControllerTest {
 			.andExpect(status().isCreated())
 			.andReturn();
 		 
-		String id= getIdFromLocation(result);
+		assertNotNull(getIdFromLocation(result));
 	}
 	
 	private String getIdFromLocation(MvcResult result){

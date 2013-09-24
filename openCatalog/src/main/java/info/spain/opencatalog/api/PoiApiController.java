@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -82,6 +83,20 @@ public class PoiApiController extends AbstractController {
 		 poi = poiRepository.save(poi);
 		 res.addHeader("Location", getLocationForChildResource(req, poi.getId()));
 	 }	
-
+	 
+	 
+	 /**
+	  * Delete 
+	  */
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+	public void deletePoi(@PathVariable("id") String idPoi){
+		BasicPoi poi = poiRepository.findOne(idPoi);
+		if (poi != null){
+			poiImageUtils.deletePoiImages(idPoi);
+			poiRepository.delete(idPoi);
+		}
+		
+	}
 
 }

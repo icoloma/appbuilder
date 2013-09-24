@@ -76,6 +76,12 @@ public class PoiImageUtilsImpl implements PoiImageUtils {
 	}
 	
 	
+	@Override
+	public void deleteAllImages() {
+		storageService.deleteAll();
+	}
+
+
 	public String getImageFileName(String idPoi, String idImg ){
 		StringBuilder result = new StringBuilder(idPoi);
 		result.append(SEPARATOR);

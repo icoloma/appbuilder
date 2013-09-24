@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 
@@ -29,6 +30,12 @@ public class StorageServiceImpl implements StorageService {
 	@Autowired
 	private GridFsOperations gridFSTemplate;
 	
+	
+
+	@Override
+	public void deleteAll() {
+		gridFSTemplate.delete(query(new Criteria()));
+	}
 
 	@Override
 	public GridFSFile saveFile(InputStream inputStream, String filename, String contentType){
@@ -50,7 +57,7 @@ public class StorageServiceImpl implements StorageService {
 
 	@Override
 	public void deleteFile(String filename) {
-		// OJO, parece que solo está borrando de db.fs.chunks y asingando length=0 en db.fs.files
+		// TODO: OJO, parece que solo está borrando de db.fs.chunks y asingando length=0 en db.fs.files
 		gridFSTemplate.delete(query(whereFilename().is(filename)));
 	}
 

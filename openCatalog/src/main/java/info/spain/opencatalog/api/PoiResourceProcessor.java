@@ -3,8 +3,6 @@ package info.spain.opencatalog.api;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.image.PoiImageUtils;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -24,20 +22,12 @@ public class PoiResourceProcessor implements ResourceProcessor<Resource<BasicPoi
 	
 	@Override
 	public Resource<BasicPoi> process(Resource<BasicPoi> resource) {
-		addImageLinks(resource);
+		addImageLink(resource);
 		return resource;
 	}
 	
-	
-	
-	private void addImageLinks(Resource<BasicPoi> resource){
+	private void addImageLink(Resource<BasicPoi> resource){
 		BasicPoi poi = resource.getContent();
 		resource.add( new Link("poi/" + poi.getId() + "/image" , "image"));
-		//List<String> poiImages = poiImageUtils.getPoiImageFilenames(poi.getId());
-//		for (int i=0; i<poiImages.size(); i++) {
-//			String image = poiImages.get(i);
-//			resource.add( new Link("poi/" + poi.getId() + "/image/" + image, "image[" + i + "]"));
-//			
-//		}
 	}
 }

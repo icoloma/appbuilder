@@ -13,6 +13,7 @@ public interface StorageService {
 	public GridFSFile saveFile(InputStream inputStream, String filename, String contentType);
 	public GridFsResource getByFilename(String filename);
 	public void deleteFile(String filename);
+	public void deleteAll();
 	public boolean existsFile(String filename);
 	public List<String> getFilenamesLike(String filename);
 

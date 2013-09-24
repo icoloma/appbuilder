@@ -49,6 +49,11 @@ public class PoiImageUtilsMock implements PoiImageUtils {
 		return null;
 	}
 
+	@Override
+	public void deleteAllImages() {
+		// do nothing
+	}
+
 	
 	
 
