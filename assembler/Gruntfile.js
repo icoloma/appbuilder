@@ -104,7 +104,7 @@ grunt.registerTask('_join_config', '[Tarea interna]', function() {
   ;
 
   // Añade iconos a los flag groups
-  _.each(appConfig.flagGroup, function(group, id) {
+  _.each(appConfig.flagGroups, function(group, id) {
     group.icon = flag_icons.flagIcons[id] || flag_icons.flagIcons['COMMON'];
   }); 
 
