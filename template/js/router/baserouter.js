@@ -27,6 +27,8 @@ define(['globals'], function() {
       this.cache = [ {uri: ''} ];
 
       var self = this;
+
+      // TO-DO: incluir esto como un 'merge' sólo para Android
       $(document).on('backbutton', function(e) {
         if (location.hash) {
           e.preventDefault();
@@ -35,6 +37,9 @@ define(['globals'], function() {
           // AVISO: esto NO es cross-platform
           navigator.app.exitApp();
         }
+      });
+      $(document).on('searchbutton', function(e) {
+        self.navigateTo('/search?', 1);
       });
     },
 
