@@ -10,16 +10,11 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
         e.preventDefault();
         this.doSearch($(e.currentTarget).find('.search-input').val());
       },
-      'tap .checkable': function(e) {
-        var $input = $(e.currentTarget).find('input');
-        $input.prop('checked', !$input.prop('checked'));
-      }
     },
 
     initialize: function() {
       var options = this.options
       ;
-
 
       this.topbarView = new TopbarView({
         // TO-DO: añadir appName

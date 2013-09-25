@@ -229,6 +229,14 @@ define(['jquery', 'underscore'], function() {
     });
   };
 
+  // Activa los elementos checkables
+  $doc.on('tap.checkable', function(e) {
+    var $checkable = $(e.target).closest('.checkable');
+    if ($checkable.length) {
+      var $el = $checkable.find('[type="checkbox"], [type="radio"]');
+      $el.prop('checked', !$el.prop('checked'));
+    }
+  });
 
   // return {
   //   delegateScroll: function(el) {
