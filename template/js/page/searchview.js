@@ -84,7 +84,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
       Search.searchConditions({
         text: searchText,
         categories: checkedCategories,
-        geo: checkedGeo.length && checkedGeo[0] !== '__NEAR_ME' ? checkedGeo[0] : Search.NEAR_ME
+        geo: checkedGeo.length && (checkedGeo[0] !== '__NEAR_ME' ? checkedGeo[0] : Search.NEAR_ME)
       }, function(err, queryConditions) {
         if (err) {
           // TO-DO: error handling cuando no es un error de geolocalización

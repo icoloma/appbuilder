@@ -4,8 +4,8 @@
 define(['modules/geo', 'db/db', 'poi/model'], function(Geo, Db, Poi) {
 
   var QueryTpl = _.template(
-    '( ( (name_{{tpl.locale}} GLOB "*{{tpl.text}}*") OR ' +
-    '(desc_{{tpl.locale}} GLOB "*{{tpl.text}}*") ) {{tpl.conditions}} )'
+    '( ( (name_{{tpl.locale}} LIKE "%{{tpl.text}}%") OR ' +
+    '(desc_{{tpl.locale}} LIKE "%{{tpl.text}}%") ) {{tpl.conditions}} )'
   )
   
   // Distancia para búsquedas geolocalizadas (km)
