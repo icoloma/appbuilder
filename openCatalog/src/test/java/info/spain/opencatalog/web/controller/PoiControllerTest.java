@@ -191,7 +191,7 @@ public class PoiControllerTest {
 			.param("sync", "false")  // will be ignored
 			.param("imported", "true")  // will be ignored
 			.param("originalId", "Fooo")  // will be ignored
-			.param("syncInfo.lastUpdate", "01/01/2013 00:00")  // will be ignored
+			.param("syncInfo.lastUpdate", "01/01/2013 00:00:00")  // will be ignored
 			)
 		    .andExpect(status().isMovedTemporarily())
 		    .andReturn();
@@ -220,7 +220,7 @@ public class PoiControllerTest {
 			.param("syncInfo.sync", "true")  // will not be ignored
 			.param("syncInfo.imported", "false")  // will be ignored
 			.param("syncInfo.originalId", "Fooo")  // will be ignored
-			.param("syncInfo.lastUpdate", "01/01/2013 00:00")  // will be ignored
+			.param("syncInfo.lastUpdate", "01/01/2013 00:00:00")  // will be ignored
 			)
 		    .andExpect(status().isMovedTemporarily())
 		    .andReturn();
