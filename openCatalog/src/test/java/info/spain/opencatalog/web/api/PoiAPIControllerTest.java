@@ -81,23 +81,20 @@ public class PoiAPIControllerTest {
 	    log.debug( "result /poi/" + saved.getId() + ":\n" + content);
 	    
 	    // test discover
-	    result = this.mockMvc.perform(get("/poi/" )
+	    this.mockMvc.perform(get("/poi/" )
 			.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType("application/json;charset=UTF-8"))
 			.andExpect(jsonPath("$.content[0].name.es").value(poi.getName().getEs()))
-			.andReturn(); //FIXME: delete when fixed #8
-	    
-	    content = result.getResponse().getContentAsString();
+			; //FIXME: delete when fixed #8
 	    
 	    // check Poi Images
-	    result = this.mockMvc.perform(get("/poi/" + saved.getId() + "/image")
+	    this.mockMvc.perform(get("/poi/" + saved.getId() + "/image")
 				.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json;charset=UTF-8"))
 				.andExpect(jsonPath("$.links").isArray())
-				.andReturn();    
-	    content = result.getResponse().getContentAsString();
+				;    
     }
 	
 	

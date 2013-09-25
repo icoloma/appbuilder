@@ -66,7 +66,7 @@ public class ZoneFactory extends AbstractFactory {
 			new GeoLocation().setLat(40.38524).setLng(-3.71905)   // Metro Intercambiador de Plaza Elíptica (SW)
 			));  
 	
-	public static ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES, ZONE_COMPLEX, ZONE_PROVINCIA_STA_CRUZ);
+	public static final ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES, ZONE_COMPLEX, ZONE_PROVINCIA_STA_CRUZ);
 
 	
 
