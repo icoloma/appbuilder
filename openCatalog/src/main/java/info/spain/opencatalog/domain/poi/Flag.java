@@ -378,14 +378,14 @@ public enum Flag {
 		this.group = group;
 	}
 
-	private static final SetMultimap<FlagGroup, Flag> flagsByGroup;
+	private static final SetMultimap<FlagGroup, Flag> FLAGS_BY_GROUP;
 	
 	public FlagGroup getGroup() {
 		return group;
 	}
 
 	static Set<Flag> getFlags(FlagGroup group) {
-		return flagsByGroup.get(group);
+		return FLAGS_BY_GROUP.get(group);
 	}
 
 	static {
@@ -393,7 +393,7 @@ public enum Flag {
 		for (Flag flag : Flag.values()) {
 			flags.put(flag.getGroup(), flag);
 		}
-		flagsByGroup = ImmutableSetMultimap.copyOf(flags);
+		FLAGS_BY_GROUP = ImmutableSetMultimap.copyOf(flags);
 	}
 	
 	

@@ -22,12 +22,8 @@ public abstract class AbstractUIController extends AbstractController {
 	 */
 	@ModelAttribute(value=INFO_MESSAGE)
 	public void messages(@RequestParam(required=false) String infoMessage, Locale locale, Model model){
-		try {
-			messageSource.getMessage(infoMessage, new Object[]{} , locale);
-			model.addAttribute(INFO_MESSAGE, infoMessage);
-		} catch( Exception e ){
-			// do nothing, not valid key
-		}
+		messageSource.getMessage(infoMessage, new Object[]{}, infoMessage, locale);
+		model.addAttribute(INFO_MESSAGE, infoMessage);
 	}
 	
 	/** Normaliza un texto para poder compararlo en las ordenaciones */ 

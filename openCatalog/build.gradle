@@ -9,6 +9,7 @@ apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'jetty'
+apply plugin: 'checkstyle'
 apply from: 'cobertura.gradle'
 
  
@@ -28,8 +29,9 @@ jar {
 
 repositories {
     mavenCentral()
-    mavenRepo name: 'spring-milestone', url: 'http://repo.springsource.org/libs-milestone'
-    
+    maven {
+        url 'http://repo.springsource.org/libs-milestone'  // spring-milestones
+    }
 }
 
 
@@ -75,6 +77,10 @@ test {
 }
 
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}
+
 
 task integrationTest(type: Test, dependsOn: "testClasses")  {
 
@@ -87,7 +93,8 @@ task integrationTest(type: Test, dependsOn: "testClasses")  {
 	println "spring.profile.active= " + env
  	include '**/*IntegrationTest.*'
  	
- 	testResultsDir = file("$buildDir/integration-test-results")
+ 	integrationTest.getReports().getJunitXml().setDestination(file("$buildDir/integration-test-results"))
+ 	
     
 }
 

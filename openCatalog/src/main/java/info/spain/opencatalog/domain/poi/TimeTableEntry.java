@@ -41,7 +41,7 @@ public class TimeTableEntry implements Comparable<TimeTableEntry> {
 	public static final String PERIOD_REGEX = "((" + DATE_RANGE + "|" + DAYS + "|" + DATE_RANGE + DAYS +")=" + "(" + HOUR_RANGE + "(," + HOUR_RANGE + ")*?)?)?";
 	
 	@Transient
-	private static final Pattern pattern = Pattern.compile(TimeTableEntry.PERIOD_REGEX);
+	private static final Pattern PATTERN = Pattern.compile(TimeTableEntry.PERIOD_REGEX);
 	
 	/** Expresión regular que indica el periodo que aplica */
 	private String period;
@@ -78,7 +78,7 @@ public class TimeTableEntry implements Comparable<TimeTableEntry> {
 	}
 	
 	public static void validate(String period){
-		if (!pattern.matcher(period).matches()) {
+		if (!PATTERN.matcher(period).matches()) {
 			throw new IllegalArgumentException("Invalid format");
 		}
 	}

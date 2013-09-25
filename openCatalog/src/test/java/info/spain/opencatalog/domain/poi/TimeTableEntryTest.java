@@ -1,6 +1,7 @@
 package info.spain.opencatalog.domain.poi;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import java.util.regex.Pattern;
 
