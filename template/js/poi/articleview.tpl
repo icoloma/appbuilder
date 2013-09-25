@@ -32,26 +32,6 @@
   <% }%>
 </div>
 <div class="row app-container poiview-section">
-  <% 
-    var group, icon, flag;
-    for (var groupId in tpl.flagGroups) {
-      group = tpl.flagGroups[groupId];
-  %>
-    <div class="col-xs-12 flag-group">
-      <span class="flag-group-line collapsed" data-toggle="collapse" data-target="#flags-container-{{group.id}}">
-        <span class="flag-group-icon icon-flag-{{group.icon}}"></span>
-        <span class="flag-group-name">
-          {{group.name}} 
-        </span>
-          <span class="icon-custom open-close"></span>
-      </span>
-      <ul class="flags-container collapse" id="flags-container-{{group.id}}">
-        <% for (var flagId in group.flags) {
-            flag = group.flags[flagId];
-        %>
-          <li class="flag-name">{{flag.name}}</li>
-        <%  } %>
-      </ul>
-    </div>
-  <% } %>
+  <div class="col-xs-12 poi-flags">
+  </div>
 </div>

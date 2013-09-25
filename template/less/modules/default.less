@@ -96,6 +96,18 @@ a, a:focus, a:hover, a:active, a:visited {
 .activable.active {
 }
 
+// Iconos customizados usando el CSS de Fontello
+.icon-custom {}
+
+.open-close:before {
+  &:extend(.icon-up-dir:before);
+}
+
+.collapsed .open-close:before {
+  &:extend(.icon-down-dir:before);
+}
+
+
 .hideable {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,10 +119,9 @@ a, a:focus, a:hover, a:active, a:visited {
 
 .checkbox-wrapper {
   display: inline-block;
-  position: relative;
 }
 
-[type="checkbox"] {
+[type="checkbox"], [type="radio"]  {
   display: none;
   @checkboxSize: 14px;
   & + .fake-checkbox {
@@ -129,6 +140,7 @@ a, a:focus, a:hover, a:active, a:visited {
 
     vertical-align: middle;
     margin-right: 2px;
+    position: relative;
   }
   &:checked + .fake-checkbox:after {
     content: '';
@@ -140,39 +152,9 @@ a, a:focus, a:hover, a:active, a:visited {
     position: absolute;
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
-    top: 5px;
-  }
-}
-
-[type="radio"] {
-  display: none;
-  @radioSize: 16px;
-  & + .fake-radio {
-
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-
-    display: inline-block;
-    width: @radioSize;
-    height: @radioSize;
-
-    line-height: @radioSize;
-
-    border: 2px solid #444;
-    border-radius: @radioSize/2;
-
-    vertical-align: middle;
-    margin-right: 2px;
-  }
-  &:checked + .fake-radio:after {
-    content: '';
-    height: 8px;
-    width: 8px;
-    border: 1px solid black;
-    background-color: black;
-    border-radius: 9px;
-    position: absolute;
-    top: 8px;
-    left: 3px;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    top: 4px;
+    left: -2px;
   }
 }

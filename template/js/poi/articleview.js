@@ -1,6 +1,6 @@
 define(
-  ['globals', 'tpl!poi/articleview.tpl'],
-  function(Globals, Tmpl) {
+  ['globals', 'tpl!poi/articleview.tpl', 'tpl!flag/groupcollapseview.tpl'],
+  function(Globals, Tmpl, FlagGroupTmpl) {
     return B.View.extend({
 
       className: 'articleview',
@@ -14,35 +14,13 @@ define(
         },
       },
 
+      FlagTmpl: _.template('<li class="flag-name">{{tpl.name}}</li>'),
+
       render: function() {
         var json = this.model.toJSON()
-        , flagGroups = {}
         , data = {}
         ;
 
-        /*
-          Para mostrar las flags, pasamos un hash flagGroups que contiene los flag groups relevantes
-          para este POI sacados de res.flagGroup, y los extendemos:
-            flagGroupID: {
-              flags: (las flags del POI dentro de este group, copiadas de res.flags)
-              (resto de campos de un flag group)
-            }
-          AVISO: se ignoran los flags desconocidos.
-        */
-        _.each(json.flags, function(flag) {
-          var flagObj = res.flags[flag];
-          if (!flagObj) return;
-
-          if (!flagGroups[flagObj.group]) {
-            var newGroupId = flagObj.group;
-
-            // AVISO: asume que el flagGroup correspondiente existe
-            flagGroups[newGroupId] = _.clone(res.flagGroups[newGroupId]);
-            flagGroups[newGroupId].flags = [];
-          }
-
-          flagGroups[flagObj.group].flags.push(flagObj);
-        });
 
         /*
           Pasamos los data como un hash dataId/label-value
@@ -58,11 +36,48 @@ define(
         _.extend(json, {
           isStarred: json.starred ? 'star' : 'star-empty',
           geoLink: this.model.geoLink(),
-          flagGroups: flagGroups,
           data: data
         });
 
         this.$el.html(Tmpl(json));
+
+        /*
+          Añade la vista de flags
+        */
+        var $flagsGroupsEl = this.$('.poi-flags');
+
+        _(json.flags).chain()
+          // Construye un hash de grupos de flags, incluyendo un campo con
+          // las flags de este POI en cada grupo
+          .reduce(function(memo, flagId) {
+            var flag = res.flags[flagId];
+
+            // Se ignoran las flags desconocidas 
+            if (!flag) return;
+
+            if (!memo[flag.group]) {
+              // AVISO: asume que el grupo flag.group existe
+              memo[flag.group] = _.clone(res.flagGroups[flag.group]);
+              memo[flag.group].flags = [];
+            }
+            memo[flag.group].flags.push(flag);
+            return memo;
+          }, {}, this)
+          // Añade las vistas de flag groups
+          .each(function(group) {
+            var flags = $();
+
+            _.each(group.flags, function(flag) {
+              flags = flags.add($(this.FlagTmpl(flag)));
+            }, this);
+
+            var $groupEl = $(FlagGroupTmpl(_.extend({
+              open: false
+            }, group)));
+            $groupEl.find('.flags-container').append(flags);
+            $flagsGroupsEl.append($groupEl);
+          }, this);
+
         return this;
       },
 

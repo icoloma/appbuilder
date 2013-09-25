@@ -82,29 +82,24 @@
 .data-item-value {
 }
 
-.flag-group-line {
-  line-height: @largeLineHeight;
+.poiview {
+  .flag-group-line {
+    line-height: @largeLineHeight;
+  }
+
+  .flags-container {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 5px 2em;
+  }
+
+  .flag-name {
+    line-height: @largeLineHeight;
+  }
+
+  .flag-group-icon:before {
+    line-height: @largeLineHeight + 2px;
+    vertical-align: bottom;
+  }
 }
 
-.flags-container {
-  list-style: none;
-  padding: 0;
-  margin: 5px 0 5px 2em;
-}
-
-.flag-name {
-  line-height: @largeLineHeight;
-}
-
-.open-close:before {
-  &:extend(.icon-up-dir:before);
-}
-
-.collapsed .open-close:before {
-  &:extend(.icon-down-dir:before);
-}
-
-.flag-group-icon:before {
-  line-height: @largeLineHeight + 2px;
-  vertical-align: bottom;
-}
