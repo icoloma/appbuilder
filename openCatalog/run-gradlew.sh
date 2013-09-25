@@ -8,5 +8,5 @@ then
    cd $WORKSPACE/openCatalog
 fi
 
-./gradlew clean check cobertura war
+./gradlew $@
 
