@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.poi.FlagGroup;
 import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.PriceType;
 import info.spain.opencatalog.domain.poi.Score;
+import info.spain.opencatalog.domain.poi.SyncInfo;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
 import info.spain.opencatalog.domain.poi.lodging.Meal;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -233,9 +235,12 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setUrl("http://www.playadelasteresitas.com")
 				.setPhone("+34922000000")
 				.setReservation("Reservar llamando al teléfono de contacto"))
-			.setImported(true)
-			.setSync(true)
-			.setOriginalId("xxxx-yyyy")
+			.setSyncInfo(new SyncInfo()
+				.setImported(true)
+				.setSync(true)
+				.setOriginalId("xxxx-yyyy")
+				.setLastUpdate(new DateTime())
+				)
 			.validate();
 	}
 		

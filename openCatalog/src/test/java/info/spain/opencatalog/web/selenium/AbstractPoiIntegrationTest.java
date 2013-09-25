@@ -22,6 +22,13 @@ public abstract class AbstractPoiIntegrationTest extends AbstractIntegrationTest
 		fillTimeTable(page,poi);
 		fillPrices(page,poi);
 		fillContactInfo(page,poi);
+		fillSyncInfo(page,poi);
+	}
+	
+	protected void fillSyncInfo(AbstractPoiPage page, BasicPoi poi){
+		if (page.showSyncInfoTab()) {
+			page.checkSyncCheckBox();
+		}
 	}
 	
 	protected void fillContactInfo(AbstractPoiPage page, BasicPoi poi){

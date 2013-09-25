@@ -70,9 +70,11 @@ public class PoiApiController extends AbstractController {
 		
 		BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
 		
-		poi.setImported(false);   // Always override 
-		poi.setOriginalId(null);  // Always override 
-		poi.setSync(false);       // Always override 
+		poi.getSyncInfo()
+			.setLastUpdate(null)  // Always override
+			.setImported(false)   // Always override 
+			.setOriginalId(null)  // Always override 
+			.setSync(false);      // Always override 
 		savePoi(poi, req,res);
 	 }
 	
@@ -106,10 +108,12 @@ public class PoiApiController extends AbstractController {
 			BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
 			// Always override
 			poi.setId(dbPoi.getId());
-			poi.setImported(dbPoi.isImported());
-			poi.setOriginalId(dbPoi.getOriginalId());  
-			if (!dbPoi.isImported()){
-				poi.setSync(false);
+			poi.getSyncInfo()
+				.setLastUpdate(dbPoi.getSyncInfo().getLastUpdate())  	// always override
+				.setImported(dbPoi.getSyncInfo().isImported())  		// always override
+				.setOriginalId(dbPoi.getSyncInfo().getOriginalId());	// always override  
+			if (!dbPoi.getSyncInfo().isImported()){
+				poi.getSyncInfo().setSync(false);
 			}
 			
 			savePoi(poi, req,res);

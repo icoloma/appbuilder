@@ -1,7 +1,10 @@
 package info.spain.opencatalog.web.api;
 
-import static junit.framework.Assert.*;
-
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -160,9 +163,12 @@ public class PoiAPIControllerTest {
 					"'lat':40.45259106740161," +
 					"'lng':-3.7391396261243433" +
 				"}," +
-				"'sync' : 'true'," +
-				"'imported' : 'true'," +
-				"'originalId' : 'XXX'," +
+				"'syncInfo' : {" +
+					"'sync' : 'true'," +
+					"'imported' : 'true'," +
+					"'originalId' : 'XXX'," +
+					"'lastUpdate' : '20130101'" +
+				"}," +
 				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
 				"}";
 		
@@ -175,12 +181,12 @@ public class PoiAPIControllerTest {
 		BasicPoi repoPoi = repo.findOne(saved.getId());
 		
 		// No se puede cambiar si no es un poi importado
-		assertFalse(repoPoi.isSync());
-		assertFalse(repoPoi.isImported());
-		assertNull(repoPoi.getOriginalId());
+		assertFalse(repoPoi.getSyncInfo().isSync());
+		assertFalse(repoPoi.getSyncInfo().isImported());
+		assertNull(repoPoi.getSyncInfo().getOriginalId());
 
 		// Modificamos directamente la base de datos
-		repoPoi
+		repoPoi.getSyncInfo()
 			.setImported(true)
 			.setSync(true)
 			.setOriginalId("original");
@@ -200,9 +206,12 @@ public class PoiAPIControllerTest {
 					"'lat':40.45259106740161," +
 					"'lng':-3.7391396261243433" +
 				"}," +
-				"'sync' : 'false'," +
-				"'imported' : 'false'," + // será ignorado
-				"'originalId' : 'changed'," + // será ignorado
+				"'syncInfo' : {" +	
+					"'sync' : 'false'," +
+					"'imported' : 'false'," + // será ignorado
+					"'originalId' : 'changed'," + // será ignorado
+					"'lastUpdate' : '20130101'" + // será ignorado
+				"}," + 
 				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
 				"}";
 		
@@ -215,9 +224,9 @@ public class PoiAPIControllerTest {
 		
 		// Comprobamos los casos en que se puede modificar
 		repoPoi = repo.findOne(saved.getId());
-		assertTrue(repoPoi.isImported());
-		assertEquals("original", repoPoi.getOriginalId());
-		assertFalse(repoPoi.isSync());  
+		assertTrue(repoPoi.getSyncInfo().isImported());
+		assertEquals("original", repoPoi.getSyncInfo().getOriginalId());
+		assertFalse(repoPoi.getSyncInfo().isSync());  
 
 		
 		

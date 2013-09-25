@@ -46,6 +46,7 @@ public class ApiConfig extends RepositoryRestMvcConfiguration {
 			private void addDeserializers(SetupContext context){
 				SimpleDeserializers deserializers = new SimpleDeserializers();
 				deserializers.addDeserializer(BasicPoiType.class, new PoiTypeDeserializer());
+				deserializers.addDeserializer(DateTime.class, new CustomDateTimeDeserializer());
 				context.addDeserializers(deserializers);
 			}
 			

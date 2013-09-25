@@ -1,6 +1,9 @@
 package info.spain.opencatalog.web.controller;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,6 +23,7 @@ import info.spain.opencatalog.web.form.PoiForm;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,9 +111,9 @@ public class PoiControllerTest {
 		
 		BasicPoi repoPoi = repo.findOne(id);
 		testEquals(poi, repoPoi);
-		assertFalse(repoPoi.isImported());
-		assertFalse(repoPoi.isSync());
-		assertNull(repoPoi.getOriginalId());
+		assertFalse(repoPoi.getSyncInfo().isImported());
+		assertFalse(repoPoi.getSyncInfo().isSync());
+		assertNull(repoPoi.getSyncInfo().getOriginalId());
 		
 		// Test GET
 		result = this.mockMvc.perform( get("/admin/poi/{id}", id))
@@ -150,18 +154,18 @@ public class PoiControllerTest {
 				.param("flags", Flag.WC.toString())
 				.param("flags", Flag.HANDICAPPED.toString())
 				.param("timetable", "0112=")
-				.param("sync", "false")  // will be ignored
-				.param("imported", "false")  // will be ignored
-				.param("originalId", "Fooo")  // will be ignored
+				.param("syncInfo.sync", "false")  // will be ignored
+				.param("syncInfo.imported", "false")  // will be ignored
+				.param("syncInfo.originalId", "Fooo")  // will be ignored
 				)
 			    .andExpect(status().isMovedTemporarily())
 			    .andReturn();
 		
 		repoPoi = repo.findOne(id);
 		testEquals(update, repoPoi);
-		assertFalse(repoPoi.isImported());
-		assertFalse(repoPoi.isSync());
-		assertNull(repoPoi.getOriginalId());
+		assertFalse(repoPoi.getSyncInfo().isImported());
+		assertFalse(repoPoi.getSyncInfo().isSync());
+		assertNull(repoPoi.getSyncInfo().getOriginalId());
 		
 		// TEST DELETE
 		result = this.mockMvc.perform(post("/admin/poi/" + id + "/delete"))
@@ -187,18 +191,25 @@ public class PoiControllerTest {
 			.param("sync", "false")  // will be ignored
 			.param("imported", "true")  // will be ignored
 			.param("originalId", "Fooo")  // will be ignored
+			.param("syncInfo.lastUpdate", "01/01/2013 00:00")  // will be ignored
 			)
 		    .andExpect(status().isMovedTemporarily())
 		    .andReturn();
 		
 		BasicPoi repoPoi = repo.findOne(saved.getId());
-		assertFalse(repoPoi.isImported());
-		assertFalse(repoPoi.isSync());
-		assertNull(repoPoi.getOriginalId());
+		assertFalse(repoPoi.getSyncInfo().isImported());
+		assertFalse(repoPoi.getSyncInfo().isSync());
+		assertNull(repoPoi.getSyncInfo().getOriginalId());
+		assertNull(repoPoi.getSyncInfo().getLastUpdate());
+		
 		
 		// change the poi in db
-		repoPoi.setImported(true);
-		repoPoi.setOriginalId("original");
+		DateTime lastUpdate = new DateTime();
+		repoPoi.getSyncInfo()
+			.setImported(true)
+			.setOriginalId("original")
+			.setSync(false)
+			.setLastUpdate(lastUpdate);
 		repo.save(repoPoi);
 		
 		// let's change sync flags again and see 
@@ -206,17 +217,20 @@ public class PoiControllerTest {
 			.param("name.es", saved.getName().getEs())
 			.param("location.lat", saved.getLocation().getLat().toString())
 			.param("location.lng", saved.getLocation().getLng().toString())
-			.param("sync", "true")  // will not be ignored
-			.param("imported", "false")  // will be ignored
-			.param("originalId", "Fooo")  // will be ignored
+			.param("syncInfo.sync", "true")  // will not be ignored
+			.param("syncInfo.imported", "false")  // will be ignored
+			.param("syncInfo.originalId", "Fooo")  // will be ignored
+			.param("syncInfo.lastUpdate", "01/01/2013 00:00")  // will be ignored
 			)
 		    .andExpect(status().isMovedTemporarily())
 		    .andReturn();
 			
 		repoPoi = repo.findOne(saved.getId());
-		assertTrue(repoPoi.isImported());
-		assertTrue(repoPoi.isSync());
-		assertEquals("original", repoPoi.getOriginalId());
+		assertTrue(repoPoi.getSyncInfo().isImported());
+		assertTrue(repoPoi.getSyncInfo().isSync());
+		assertEquals("original", repoPoi.getSyncInfo().getOriginalId());
+		assertEquals( lastUpdate, repoPoi.getSyncInfo().getLastUpdate());
+		
 			
 	}
 	

@@ -57,6 +57,15 @@ public abstract class AbstractPoiPage extends AbstractPage {
 		contactInfoTab.click();
 	}
 	
+	public boolean showSyncInfoTab(){
+		By by = By.partialLinkText("Sincronización");
+		if (driver.findElements(by).size() == 1) {
+			driver.findElement(by).click();
+			return true;
+		} 
+		return false;
+	}
+	
 	public void setName(String value){
 		log.trace("name: " + value);
 		fill(name_ES, value);
@@ -75,6 +84,10 @@ public abstract class AbstractPoiPage extends AbstractPage {
 	public void searchLocation(String locationText){
 		log.trace("location : " + locationText);
 		fillAutocomplete(location, locationText);
+	}
+	
+	public void checkSyncCheckBox(){
+		driver.findElement(By.id("sync")).click();
 	}
 	
 	public void setContactInfo(ContactInfo contactInfo){

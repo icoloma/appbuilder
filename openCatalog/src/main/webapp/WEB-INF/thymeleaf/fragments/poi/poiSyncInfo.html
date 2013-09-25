@@ -25,10 +25,13 @@
 	<div th:fragment="poiSyncInfoTag">
 	
 		<label th:text="#{poi.syncInfo.originalId}">Id original</label>
-		<input type="text" class="input-xxlarge" disabled="disabled" th:value="${poi.originalId}" />
+		<input type="text" class="input-xxlarge" disabled="disabled" th:value="${poi.syncInfo.originalId}" value="xxx-xxxxx"/>
+
+		<label th:text="#{poi.syncInfo.lastUpdate}">Última actualización</label>
+		<input type="text" class="input-xxlarge" disabled="disabled" th:field="*{syncInfo.lastUpdate}"/>
 
 		<div>		
-			<input type="checkbox" th:field="*{sync}" value="true"/>
+			<input type="checkbox" th:field="*{syncInfo.sync}" value="true" id="sync"/>
 			<span th:text="#{poi.syncInfo.sync}">Sincronizar con Spain.info</span>
 		</div>
 		

@@ -119,9 +119,11 @@ public class PoiController extends AbstractUIController {
 			@RequestParam(value="flags", required=false) String[] strFlags,
 			@RequestParam(value="timetable", required=false) String[] timetable) {
 	
-		poiForm.setImported(false);   // Always override 
-		poiForm.setOriginalId(null);  // Always override 
-		poiForm.setSync(false);  // Always override 
+		poiForm.getSyncInfo()
+			.setLastUpdate(null)  // Always override
+			.setImported(false)   // Always override 
+			.setOriginalId(null)  // Always override 
+			.setSync(false);  	  // Always override 
 		
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
@@ -185,8 +187,10 @@ public class PoiController extends AbstractUIController {
 		BasicPoi dbPoi = poiRepository.findOne(id);
 		
 		poiForm.setType(dbPoi.getType());  		       // Always override with db type
-		poiForm.setImported(dbPoi.isImported());  	   // Always override with db value
-		poiForm.setOriginalId(dbPoi.getOriginalId());  // Always override with db value
+		poiForm.getSyncInfo()
+			.setLastUpdate(dbPoi.getSyncInfo().getLastUpdate())  // Always override with db value   
+			.setImported(dbPoi.getSyncInfo().isImported()) 		 // Always override with db value
+			.setOriginalId(dbPoi.getSyncInfo().getOriginalId()); // Always override with db value
 		
 		if (timetable != null){
 			poiForm.setTimetable(convertTimeTable(timetable,errors));

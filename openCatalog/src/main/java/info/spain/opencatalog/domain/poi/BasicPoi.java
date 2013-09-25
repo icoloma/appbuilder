@@ -81,17 +81,10 @@ public class BasicPoi {
     /** Imagen por defecto */
     protected String defaultImageFilename;
     
-    /** El Poi ha sido importado */
-    protected boolean imported;   // default = false
-    
-    /** El Poi debe sincronizarse */
-    protected boolean sync;  // default = false
-    
-    /** Si el poi fue importado, cual es su id original */
-    protected String originalId;
-    
-    
-    @CreatedDate
+    /** Información de sincronización */
+    protected SyncInfo syncInfo = new SyncInfo();
+
+	@CreatedDate
 	private DateTime created;
 	
 	@LastModifiedDate
@@ -134,9 +127,7 @@ public class BasicPoi {
         this.prices = source.prices;
         this.defaultImageFilename=source.defaultImageFilename;
         this.data= deleteEmptyEntries(source.data);
-        this.imported = source.imported;
-        this.sync = source.sync;
-        this.originalId = source.originalId;
+        this.syncInfo = source.getSyncInfo();
         return this;
     }	
 	
@@ -297,27 +288,6 @@ public class BasicPoi {
 		return this;
 	}
 	
-	public boolean isImported() {
-		return imported;
-	}
-	public BasicPoi setImported(boolean imported) {
-		this.imported = imported;
-		return this;
-	}
-	public boolean isSync() {
-		return sync;
-	}
-	public BasicPoi setSync(boolean sync) {
-		this.sync = sync;
-		return this;
-	}
-	public String getOriginalId() {
-		return originalId;
-	}
-	public BasicPoi setOriginalId(String originalId) {
-		this.originalId = originalId;
-		return this;
-	}
 	public String getDefaultImageFilename() {
 		return defaultImageFilename;
 	}
@@ -325,6 +295,15 @@ public class BasicPoi {
 		this.defaultImageFilename = defaultImageFilename;
 	}
 	
+	
+	
+	public SyncInfo getSyncInfo() {
+		return syncInfo;
+	}
+	public BasicPoi setSyncInfo(SyncInfo syncInfo) {
+		this.syncInfo = syncInfo;
+		return this;
+	}
 	@Override
 	public String toString() {
 		return toStringHelper().toString();
@@ -347,9 +326,8 @@ public class BasicPoi {
 				.add("enviroment",enviroment)
 				.add("created", created)
 				.add("lastModified", lastModified)
-				.add("imported", imported)
-				.add("sync", sync)
-				.add("originalId",originalId);
+				.add("syncInfo", syncInfo)
+				;
 	}
     
 }
