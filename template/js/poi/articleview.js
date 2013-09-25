@@ -24,9 +24,9 @@ define(
 
         /*
           Pasamos los data como un hash dataId/label-value
-          AVISO: Se ignoran los data que no estén presentes en los metadatos
         */
         _.each(json.data, function(value, dataId) {
+          // Se ignoran los data que no estén presentes en los metadatos
           if (res.data[dataId]) {
             data[dataId] = _.clone(res.data[dataId]);
             data[dataId].value = value;
