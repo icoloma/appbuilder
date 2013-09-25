@@ -1,5 +1,6 @@
-define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
-  function(FormTpl, TopbarView, Search) {
+define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search',
+  'tpl!flag/groupcollapseview.tpl', 'tpl!flag/formview.tpl'],
+  function(FormTpl, TopbarView, Search, FlagGroupTmpl, FlagTmpl) {
 
   return B.View.extend({
 
@@ -10,6 +11,15 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
         e.preventDefault();
         this.doSearch($(e.currentTarget).find('.search-input').val());
       },
+      'tap .clear-all': function() {
+        this.$('.flag-groups [type="checkbox"]:checked').each(function(i, checkbox) {
+          $(checkbox).prop('checked', false);
+        });
+        this.$('.in').each(function(i, el) {
+          $(el).collapse('hide');
+        });
+        this.$('[data-toggle="collapse"]').addClass('collapsed');
+      }
     },
 
     initialize: function() {
@@ -17,8 +27,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
       ;
 
       this.topbarView = new TopbarView({
-        // TO-DO: añadir appName
-        title: res.appName,
+        title: res.name
       });
 
       this.pass(this.topbarView, 'navigate');
@@ -42,23 +51,75 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
         return memo;
       }, {});
 
-      options.flags = _.reduce(res.flags, function(memo, value, id) {
-        memo[id] = _.contains(options.flags, id) ?
-                  'checked' : '';
-        return memo;
-      }, {});
+      options.openFlags = (options.flags && options.flags.length) ? 'in' : '';
+      options.collapsedFlags = (options.flags && options.flags.length) ? '' : 'collapsed';
 
+      options.flagsView = _.map(res.flagGroups, function(group) {
+        var isOpen = false;
+
+        var flags = _.map(res.flags, function(flag) {
+          if (flag.group !== group.id) return '';
+
+          var isChecked = _.contains(options.flags, flag.id);
+
+          flag.checked = isChecked ? 'checked' : '';
+
+          if (isChecked) isOpen = true;
+
+          return FlagTmpl(flag);
+        }).join('');
+        group = _.clone(group);
+        group.flags = flags;
+        group.open = isOpen;
+
+        return FlagGroupTmpl(group);
+
+      }).join(''); 
     },
 
     render: function() {
       this.$el.html(this.topbarView.render().$el);
 
       this.$el.append(FormTpl(this.options));
+
+      var $flagGroupsEl = this.$('.flag-groups');
+
+      _.each(res.flagGroups, function(group) {
+        var flags = $()
+        , isOpen = false
+        ;
+
+        _(res.flags).chain().filter(function(flag) {
+          return flag.group === group.id;
+        })
+        .each(function(flag) {
+          var isChecked = _.contains(this.options.flags, flag.id)
+          , $flag
+          ;
+          if (isChecked) isOpen = true;
+
+          flag = _.extend({
+            checked: isChecked ? 'checked' : ''
+          }, flag);
+          flags = flags.add($(FlagTmpl(flag)));
+        }, this);
+
+        var $groupEl = $(FlagGroupTmpl(_.extend({
+          open: isOpen
+        }, group)));
+        $groupEl.find('.flags-container').append(flags);
+
+        $flagGroupsEl.append($groupEl);
+      }, this);
+
       return this;
     },
 
     doSearch: function(searchText) {
       var checkedCategories = _.map(this.$('[name="category"]:checked'), function(input) {
+        return $(input).val();
+      })
+      , checkedFlags = _.map(this.$('[name="flag"]:checked'), function(input) {
         return $(input).val();
       })
       , checkedGeo = _.map(this.$('[name="geo"]:checked'), function(input) {
@@ -69,6 +130,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
       this.trigger('updatequery', {
         searchText: searchText,
         categories: checkedCategories,
+        flags: checkedFlags,
         geo: checkedGeo[0]
       });
 
@@ -79,6 +141,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search'],
       Search.searchConditions({
         text: searchText,
         categories: checkedCategories,
+        flags: checkedFlags,
         geo: checkedGeo.length && (checkedGeo[0] !== '__NEAR_ME' ? checkedGeo[0] : Search.NEAR_ME)
       }, function(err, queryConditions) {
         if (err) {

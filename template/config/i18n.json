@@ -12,7 +12,9 @@
       "EmptyList": "¡Nada que mostrar!",
       "Search": "Buscar",
       "nearMe": "Buscar cerca de mí",
-      "nearPoi": "Buscar cerca de "
+      "nearPoi": "Buscar cerca de ",
+      "SearchByFlags": "Buscar por flags",
+      "ClearFlags": "Limpiar"
     },
     "en": {
       "Starred": "Bookmarks",
@@ -26,7 +28,9 @@
       "EmptyList": "Nothing to show!",
       "Search": "Search",
       "nearMe": "Search near my location",
-      "nearPoi": "Search near "
+      "nearPoi": "Search near ",
+      "SearchByFlags": "Search by flags",
+      "ClearFlags": "Clear"
     }
   }
 }

@@ -60,6 +60,12 @@ define(['modules/geo', 'db/db', 'poi/model'], function(Geo, Db, Poi) {
         }).join(' OR '));
       }
 
+      if (queryObj.flags && queryObj.flags.length) {
+        conditions.push(_.map(queryObj.flags, function(flagId) {
+          return 'flags GLOB "*' + flagId + '*"';
+        }).join('OR'));
+      }
+
       if (queryObj.geo === this.NEAR_ME) {
         Geo.getCurrentPosition(function(position) {
           var bounds = Geo.bounds({

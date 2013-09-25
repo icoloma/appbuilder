@@ -24,7 +24,7 @@
       <div class="geo-line">
         <div class="checkbox-wrapper">
           <input type="{{tpl.nearPoi ? 'radio' : 'checkbox'}}" {{tpl.geo['__NEAR_ME']}} name="geo" value="__NEAR_ME">
-          <label class="fake-{{tpl.nearPoi ? 'radio' : 'checkbox'}}"></label>
+          <label class="fake-checkbox"></label>
         </div> {{res.i18n.nearMe}}
       </div>
     </div>
@@ -33,10 +33,23 @@
         <div class="geo-line near-poi-line hideable">
           <div class="checkbox-wrapper">
             <input type="radio" {{tpl.geo[tpl.nearPoi.id]}} name="geo" value="{{tpl.nearPoi.id}}">
-            <label class="fake-radio"></label>
+            <label class="fake-checkbox"></label>
           </div> {{res.i18n.nearPoi + tpl.nearPoi.name}}
         </div>
       </div>
     <% } %>
+  </div>
+  <div class="app-container collectionview">
+    <div class="col-xs-12 item-row">
+      <span data-toggle="collapse" data-target="#search-flag-groups" class="{{tpl.collapsedFlags}} search-by-flags">
+        {{res.i18n.SearchByFlags}}
+        <span class="icon-custom open-close"></span>
+      </span>
+      <span class="clear-all">
+        {{res.i18n.ClearFlags}}
+      </span>
+    </div>
+  </div>
+  <div class="col-xs-12 flag-groups collapse {{tpl.openFlags}}" id="search-flag-groups">
   </div>
 </form>
