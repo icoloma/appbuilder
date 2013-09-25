@@ -6,6 +6,7 @@ import info.spain.opencatalog.domain.poi.FlagGroup;
 import info.spain.opencatalog.domain.poi.Score;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.base.Preconditions;
@@ -70,15 +71,18 @@ public class BasicPoiType {
 			return;
 		}
 		Set<String> validKeys = allowedDataValidators.keySet();
-		for (String key : data.keySet()) {
+		
+		for (Entry<String,String> entry: data.entrySet()){
+			String key = entry.getKey();
 			Preconditions.checkArgument(validKeys.contains(key), key
 					+ " is not a valid data for this type. Allowed data :"
 					+ validKeys);
 			DataValidator validator = allowedDataValidators.get(key);
 			if (validator != null) {
-				validator.validate(data.get(key));
+				validator.validate(entry.getValue());
 			}
 		}
+		
 	}
 
 	protected <T> void validateSet(String name, Set<T> allowedValues,

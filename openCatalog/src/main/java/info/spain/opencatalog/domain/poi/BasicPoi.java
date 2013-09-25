@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -139,11 +140,12 @@ public class BasicPoi {
 	private Map<String,String> deleteEmptyEntries(Map<String,String> source){
 		Map<String,String> result = Maps.newLinkedHashMap();
 		if (source != null) {
-			for (String key : source.keySet()) {
-				String value = source.get(key);
+			for(Entry<String, String> entry: source.entrySet()){
+				String value = entry.getValue();
 				if (!Strings.isNullOrEmpty(value)){
-					result.put(key, value);
+					result.put(entry.getKey(), value);
 				}
+				
 			}
 		}
 		return result;

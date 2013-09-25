@@ -11,6 +11,7 @@ import info.spain.opencatalog.domain.poi.lodging.RoomType;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 /**
@@ -28,6 +29,7 @@ public class LodgingType extends BasicPoiType {
 	@Override
     public void validate(BasicPoi poi) {
         super.validate(poi);
+        Preconditions.checkArgument(poi instanceof Lodging);
         Lodging lp = (Lodging) poi;
         validateSet("room type", allowedRoomTypes, lp.getRoomTypes());
         List<Price> prices = lp.getPrices();

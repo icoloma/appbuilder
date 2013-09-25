@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class RequestWrapperFilter implements Filter {
 	
-	public class CustomHttpServletRequestWrapper extends HttpServletRequestWrapper {
+	public static class CustomHttpServletRequestWrapper extends HttpServletRequestWrapper {
 		
 		Map<String,String[]> params = new HashMap<String,String[]>();
 

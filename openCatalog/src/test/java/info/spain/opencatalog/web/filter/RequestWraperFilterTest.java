@@ -28,7 +28,7 @@ public class RequestWraperFilterTest {
 		String reqParamName  = "param1";
 		String reqParamValue = "value1";
 		req.addParameter(reqParamName, reqParamValue);
-		RequestWrapperFilter.CustomHttpServletRequestWrapper wrapper = filter.new CustomHttpServletRequestWrapper(req);
+		RequestWrapperFilter.CustomHttpServletRequestWrapper wrapper = new RequestWrapperFilter.CustomHttpServletRequestWrapper(req);
 
 		
 		

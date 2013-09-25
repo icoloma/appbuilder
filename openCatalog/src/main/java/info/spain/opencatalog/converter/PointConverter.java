@@ -24,7 +24,7 @@ public class PointConverter implements  Converter<String[],Point>{
 	@Override
 	public Point convert(String[] source) {
 		String json = source[0];
-		GeoLocation geoLocation = new GeoLocation();
+		GeoLocation geoLocation;
 		try {
 			json = URLDecoder.decode(json, "UTF-8").replaceFirst("lat=", "\"lat\":").replaceFirst("lng=", "\"lng\":");
 			
