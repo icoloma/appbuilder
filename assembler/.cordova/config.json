@@ -1,0 +1,10 @@
+{
+  "lib": {
+    "www": {
+      "id":"phonegap",
+      "version":"3.0.0"
+    }
+  },
+  "id":"com.segittur.test",
+  "name":"Segittur"
+}

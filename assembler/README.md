@@ -22,7 +22,7 @@ grunt mock
 # Generar e instalar un apk de testeo
 grunt build
 
-# El código se genera en 'apps/segittur'.
+# El código se genera en 'app/segittur'.
 ```
 
 **Comandos disponibles:** `grunt --help`.

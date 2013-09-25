@@ -3,8 +3,9 @@
 La app en producción espera la siguiente estructura dentro de `assets`:
 
     assets/
-    ├── catalog-dump.db
     └── www
+        ├── sqliteplugin/ (*)
+        │   └── catalog-dump.db
         ├── app-config.json
         ├── resources/
         ├── (aplicación web)
@@ -13,6 +14,8 @@ La app en producción espera la siguiente estructura dentro de `assets`:
 * `catalog-dump.db` es la base de datos de POIs.
 * `resources/` es la carpeta con las imágenes y demás.
 * `app-config.json` contiene toda la configuración de la aplicación.
+
+[ (*): esta disposición es *temporal*, mientras se use el parche de SQLitePlugin ]
 
 ## Configuración
 El fichero `app-config.json` es una combinación de configuración estática del `template` (cadenas i18n, etc.) con configuración dinámica proveniente de `openCatalog`: información sobre *types*, *flags* y los menús.
