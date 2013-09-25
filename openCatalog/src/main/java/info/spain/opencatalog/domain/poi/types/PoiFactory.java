@@ -12,7 +12,7 @@ public class PoiFactory {
 	
 
     /** ids que deben de ser Lodging */
-    public static  Set<PoiTypeID> LODGING_TYPES = lodgingTypes();
+    public static final Set<PoiTypeID> LODGING_TYPES = lodgingTypes();
 
 	/**
 	 * Crea una nueva isntancia de un poi en función del PoiTypeID

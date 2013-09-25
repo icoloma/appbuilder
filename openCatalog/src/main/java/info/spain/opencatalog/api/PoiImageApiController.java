@@ -99,7 +99,7 @@ public class PoiImageApiController extends AbstractController {
 			 HttpEntity<byte[]> result = new ResponseEntity<byte[]>(headers, HttpStatus.CREATED);
 			 return result;
 		 } catch (Exception e) {
-			 return new ResponseEntity<byte[]>(e.getMessage().getBytes(), HttpStatus.INTERNAL_SERVER_ERROR);
+			 return new ResponseEntity<byte[]>(e.getMessage().getBytes("UTF-8"), HttpStatus.INTERNAL_SERVER_ERROR);
 		 }
 	 }
 	

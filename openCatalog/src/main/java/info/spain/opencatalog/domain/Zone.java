@@ -1,7 +1,6 @@
 package info.spain.opencatalog.domain;
 
 import java.awt.Polygon;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +20,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author ehdez
  */
 @Document
-public class Zone implements Serializable {
+public class Zone  {
 
-	
-	
-	private static final long serialVersionUID = 5722653798168373056L;
-	
 	public Zone(){}
 	
 	public Zone(Zone other){

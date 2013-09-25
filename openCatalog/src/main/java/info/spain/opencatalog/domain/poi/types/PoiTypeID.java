@@ -37,19 +37,19 @@ public enum PoiTypeID {
 	SKI_STATION;
 
 
-  public static  Set<PoiTypeID> LODGING_TYPES = Sets.immutableEnumSet(
+  public static final Set<PoiTypeID> LODGING_TYPES = Sets.immutableEnumSet(
 		HOTEL, 
 		APARTMENT, 
 		CAMPING);
 
 
-   public static  Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(
+   public static final  Set<PoiTypeID> CULTURE_TYPES = Sets.immutableEnumSet(
 		MUSEUM, 
 		MONUMENT, 
 		PARK_GARDEN);
 
     /** Agrupación lógica de Business */
-    public static  Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
+    public static final  Set<PoiTypeID> BUSINESS_TYPES  = Sets.immutableEnumSet(
 		ECO_TOURISM, 
 		GOLF, 
 		NAUTICAL_STATION, 

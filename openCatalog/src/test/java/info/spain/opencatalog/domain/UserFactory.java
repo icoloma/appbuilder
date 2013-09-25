@@ -26,8 +26,8 @@ public class UserFactory extends AbstractFactory {
 	}
 	
 	
-	public static User ROOT = UserFactory.newUser("").setEmail("root@example.com").setPassword("root").setApiKey("1234");
-	public static ImmutableSet<User> WELL_KNOWN_USERS= ImmutableSet.of(ROOT);
+	public static final User ROOT = UserFactory.newUser("").setEmail("root@example.com").setPassword("root").setApiKey("1234");
+	public static final ImmutableSet<User> WELL_KNOWN_USERS= ImmutableSet.of(ROOT);
 
 	
 
