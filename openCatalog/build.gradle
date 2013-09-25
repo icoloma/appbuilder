@@ -10,6 +10,8 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'jetty'
 apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+
 apply from: 'cobertura.gradle'
 
  
@@ -97,4 +99,16 @@ task integrationTest(type: Test, dependsOn: "testClasses")  {
  	
     
 }
+
+
+findbugs {
+  ignoreFailures = true
+}
+
+checkstyle {
+  ignoreFailures = true
+}
+
+
+
 
