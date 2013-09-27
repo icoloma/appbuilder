@@ -24,14 +24,12 @@ public class UserFormValidator implements Validator {
     }
 	
 	protected void validatePasswordsMatch(UserForm userForm, Errors errors){
-		boolean isValid;
+		boolean isValid = false;
 		String repassword = userForm.getRepassword();
 		String password = userForm.getPassword();
 		if (repassword != null) {
 			isValid = repassword.equals(password);
-		} else {
-			isValid = password == null;
-		}
+		} 
 		
 		if (!isValid){
 			errors.rejectValue("password", "user.password.error.mismatch", "Password doesn't mismatch");
@@ -39,10 +37,10 @@ public class UserFormValidator implements Validator {
 	}
 	
 	protected void validatePasswordLength(UserForm userForm, Errors errors){
-		if (!Strings.isNullOrEmpty(userForm.getPassword()) &&  userForm.getPassword().length() < MIN_PASSWORD_LENGTH ){
+		String password = userForm.getPassword();
+		if (password == null || password.length() < MIN_PASSWORD_LENGTH) {
 			errors.rejectValue("password", "user.password.error.length", "Password lenght minmun is " + MIN_PASSWORD_LENGTH);
 		}
-		
 	}
 		
 	

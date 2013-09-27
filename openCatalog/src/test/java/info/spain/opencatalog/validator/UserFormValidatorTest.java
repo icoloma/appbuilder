@@ -33,14 +33,14 @@ public class UserFormValidatorTest {
 	}
 	
 	@Test 
-	public void testNullPasswordValid(){
+	public void testNullPasswordInValid(){
 		UserFormValidator validator = new UserFormValidator();
 		UserForm userForm = new UserForm();
 		userForm.setPassword(null);
 		userForm.setRepassword(null);
 		BindException errors = new BindException(userForm, "user");
 		validator.validatePasswordsMatch(userForm, errors);
-		assertFalse(errors.hasErrors());
+		assertTrue(errors.hasErrors());
 	}
 	
 	@Test 
@@ -53,6 +53,8 @@ public class UserFormValidatorTest {
 		validator.validatePasswordsMatch(userForm, errors);
 		assertTrue(errors.hasErrors());
 	}
+	
+	
 	
 	@Test
 	public void testPasswordsDoesntMatchs(){
@@ -80,10 +82,20 @@ public class UserFormValidatorTest {
 	public void testPasswordLengthError(){
 		UserFormValidator validator = new UserFormValidator();
 		UserForm userForm = new UserForm();
+		
+		// no enough lenght
 		userForm.setPassword(Strings.repeat("x", UserFormValidator.MIN_PASSWORD_LENGTH - 1 ));
 		BindException errors = new BindException(userForm, "user");
 		validator.validatePasswordLength(userForm, errors);
 		assertTrue(errors.hasErrors());
+		
+		//password is null or empty
+		userForm.setPassword(null);
+		errors = new BindException(userForm, "user");
+		validator.validatePasswordLength(userForm, errors);
+		assertTrue(errors.hasErrors());
+		
+		
 	}
 
 	@Test
