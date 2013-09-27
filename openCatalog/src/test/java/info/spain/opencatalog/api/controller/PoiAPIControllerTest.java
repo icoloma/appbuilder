@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.api;
+package info.spain.opencatalog.api.controller;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -8,6 +8,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,6 +97,41 @@ public class PoiAPIControllerTest {
 				.andExpect(jsonPath("$.links").isArray())
 				;    
     }
+	
+	@Test
+	public void testUpdateNonExistingPoi() throws Exception {
+		String json = "{" +
+				"'type': 'BEACH'," +
+				"'name':{" +
+					"'es':'some other value'" +
+				"}," +
+				"'location':{" +
+					"'lat':40.45259106740161," +
+					"'lng':-3.7391396261243433" +
+				"}," +
+				"'syncInfo' : {" +
+					"'sync' : 'true'," +
+					"'imported' : 'true'," +
+					"'originalId' : 'XXX'," +
+					"'lastUpdate' : '20130101'" +
+				"}," +
+				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
+				"}";
+		
+		this.mockMvc.perform(put("/poi/NON_EXISTING_POI")
+			.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+			.content(json))
+			.andExpect(status().isNotFound())
+		    .andReturn();
+	}
+	
+	@Test
+	public void testDeleteNonExistingPoi() throws Exception {
+
+		this.mockMvc.perform(delete("/poi/NON_EXISTING_POI"))
+			.andExpect(status().isNoContent());
+		  
+	}
 	
 	
 	/**

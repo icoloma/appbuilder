@@ -15,6 +15,9 @@ public class AbstractFactory {
 	public static final GeoLocation GEO_SOL = new GeoLocation().setLat(40.416957).setLng(-3.703794);
 	public static final GeoLocation GEO_TEIDE = new GeoLocation().setLat(28.2735).setLng(-16.6427);
 	public static final GeoLocation GEO_PLAYA_TERESITAS= new GeoLocation().setLat(28.50864).setLng(-16.18679);
+	public static final GeoLocation GEO_PLAYA_LA_CONCHA= new GeoLocation().setLat(43.32640).setLng(-1.9753);
+
+	
 	public static final GeoLocation GEO_ROQUE_NUBLO= new GeoLocation().setLat(27.970201).setLng(-15.612573);
 	public static final GeoLocation GEO_ALASKA = new GeoLocation().setLng(-149.9).setLat(65.9);
 	

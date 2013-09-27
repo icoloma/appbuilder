@@ -39,6 +39,13 @@ public class ZoneFactory extends AbstractFactory {
 		return result;
 	}
 	
+	public static final Zone ZONE_NORTE  = ZoneFactory.newZone("Norte de España").setPath( ImmutableList.of(
+			new GeoLocation().setLat(43.93).setLng(-8.23),
+			new GeoLocation().setLat(43.85).setLng(-1.57),
+			new GeoLocation().setLat(43.20).setLng(-1.72),
+			new GeoLocation().setLat(43.13).setLng(-8.51)
+			));
+	
 	public static final Zone ZONE_MADRID_CENTRO  = ZoneFactory.newZone("Madrid").setPath( ImmutableList.of(
 			new GeoLocation().setLat(40.5021).setLng(-3.797),
 			new GeoLocation().setLat(40.4752).setLng(-3.591),
@@ -64,6 +71,14 @@ public class ZoneFactory extends AbstractFactory {
 			new GeoLocation().setLat(40.38190).setLng(-3.66829),  // Renfe Asamblea Madrid - Entrevias ( SE )
 			new GeoLocation().setLat(40.43001).setLng(-3.64116),  // Metro Ascao (NE)
 			new GeoLocation().setLat(40.38524).setLng(-3.71905)   // Metro Intercambiador de Plaza Elíptica (SW)
+			));  
+	
+	public static final Zone ZONE_EMPTY = ZoneFactory.newZone("Zone without POIS").setPath( ImmutableList.of(
+			// Un único punto en mitad del atlántico
+			new GeoLocation().setLat(54.29).setLng(-33.31),
+			new GeoLocation().setLat(54.29).setLng(-33.31),
+			new GeoLocation().setLat(54.29).setLng(-33.31)
+			
 			));  
 	
 	public static final ImmutableSet<Zone> WELL_KNOWN_ZONES= ImmutableSet.of(ZONE_MADRID_CENTRO,ZONE_ALCALA_HENARES, ZONE_COMPLEX, ZONE_PROVINCIA_STA_CRUZ);

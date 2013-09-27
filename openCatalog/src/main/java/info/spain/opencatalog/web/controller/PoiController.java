@@ -185,6 +185,9 @@ public class PoiController extends AbstractUIController {
 		) throws IOException {
 
 		BasicPoi dbPoi = poiRepository.findOne(id);
+		if (dbPoi == null) {
+			throw new NotFoundException("poi", id);
+		}
 		
 		poiForm.setType(dbPoi.getType());  		       // Always override with db type
 		poiForm.getSyncInfo()

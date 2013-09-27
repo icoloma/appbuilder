@@ -1,4 +1,4 @@
-package info.spain.opencatalog.api;
+package info.spain.opencatalog.api.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;

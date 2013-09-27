@@ -1,4 +1,4 @@
-package info.spain.opencatalog.api;
+package info.spain.opencatalog.api.controller;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;

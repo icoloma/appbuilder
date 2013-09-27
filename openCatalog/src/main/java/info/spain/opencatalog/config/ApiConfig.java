@@ -1,13 +1,11 @@
 package info.spain.opencatalog.config;
 
-import info.spain.opencatalog.api.BeforeSavePoiValidator;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.rest.repository.context.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,11 +18,7 @@ import com.fasterxml.jackson.databind.module.SimpleSerializers;
 @ComponentScan(basePackages = "info.spain.opencatalog.api")
 public class ApiConfig extends RepositoryRestMvcConfiguration {
 	
-	@Override 
-	protected void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener v) {
-		  v.addValidator("beforeSave", new BeforeSavePoiValidator());
-	}
-
+	
 	@Override
 	protected void configureJacksonObjectMapper(ObjectMapper objectMapper) {
 		objectMapper.registerModule(new SimpleModule("MyCustomModule") {

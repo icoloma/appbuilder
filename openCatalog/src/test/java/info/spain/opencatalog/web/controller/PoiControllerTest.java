@@ -176,6 +176,15 @@ public class PoiControllerTest {
 		assertNull(repoPoi);
     }
 	
+	@Test 
+	public void testUpdateNonExistentPoi() throws Exception {
+		this.mockMvc.perform(fileUpload("/admin/poi/-----")
+			.param("name.es", "someName")
+		)
+	    .andExpect(status().isNotFound());
+	
+	}
+	
 	
 	@Test
 	public void testSyncFlags() throws Exception {

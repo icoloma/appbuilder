@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.api;
+package info.spain.opencatalog.api.controller;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

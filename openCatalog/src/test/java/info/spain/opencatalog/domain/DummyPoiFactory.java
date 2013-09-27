@@ -108,6 +108,11 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static final BasicPoi NAUTICAL_STATION = nauticalStation();
 	public static final BasicPoi SKI_STATION = skiStation();
 	
+	
+	public static final BasicPoi PLAYA_TERESITAS = BEACH;
+	public static final BasicPoi PLAYA_LA_CONCHA = playaLaConcha();
+	
+	
 
 	
 	// Hotel
@@ -242,6 +247,21 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setLastUpdate(new DateTime())
 				)
 			.validate();
+	}
+	
+	
+	private static BasicPoi playaLaConcha(){
+		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.BEACH))
+				.setName(new I18nText().setEs("Playa de las Concha"))			// required
+				.setLocation(AbstractFactory.GEO_PLAYA_LA_CONCHA)					// required
+				.setDescription(new I18nText().setEs("Descripción de la playa..."))		
+				.setAddress(new Address().setRoute("San Sebastián").setAdminArea1("Donostia").setAdminArea2("País Vasco"))
+				.setFlags(
+					Flag.BEACH_BATH_CONDITION_STRONG_WAVES,
+					Flag.BEACH_COMPOSITION_SAND,
+					Flag.BEACH_SAND_TYPE_GOLDEN)
+				.validate();
+
 	}
 		
 
