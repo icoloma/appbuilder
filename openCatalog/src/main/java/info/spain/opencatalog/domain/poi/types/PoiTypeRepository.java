@@ -207,7 +207,7 @@ public class PoiTypeRepository {
     	return new BasicPoiType(PoiTypeID.MUSEUM)
 		.setAllowedFlags(
 	    	new FlagSetBuilder()
-			.add(FlagGroup.COMMON)
+			.add(FlagGroup.COMMON).without(Flag.NO_CHILDS)
 			.add(FlagGroup.FAMILY)
 			.add(FlagGroup.ACCESSIBILITY)
 			.add(FlagGroup.CULTURE_ARTISTIC)

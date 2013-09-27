@@ -5,8 +5,6 @@ import info.spain.opencatalog.web.form.UserForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.google.common.base.Strings;
-
 public class UserFormValidator implements Validator {
 	
 	protected static final int MIN_PASSWORD_LENGTH = 7;

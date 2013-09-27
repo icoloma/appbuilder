@@ -1,6 +1,9 @@
 package info.spain.opencatalog.web.filter;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertEquals;
+
+import info.spain.opencatalog.web.filter.RequestWrapperFilter.CustomHttpServletRequestWrapper;
 
 import java.io.IOException;
 
@@ -28,7 +31,7 @@ public class RequestWraperFilterTest {
 		String reqParamName  = "param1";
 		String reqParamValue = "value1";
 		req.addParameter(reqParamName, reqParamValue);
-		RequestWrapperFilter.CustomHttpServletRequestWrapper wrapper = new RequestWrapperFilter.CustomHttpServletRequestWrapper(req);
+		CustomHttpServletRequestWrapper wrapper = new CustomHttpServletRequestWrapper(req);
 
 		
 		
@@ -49,6 +52,15 @@ public class RequestWraperFilterTest {
 		assertEquals(2, wrapper.getParameterMap().size());
 		
 		filter.destroy();
+		
+	}
+	
+	@Test
+	public void testgetNonExistingParapeters(){
+		MockHttpServletRequest req = new MockHttpServletRequest();
+		CustomHttpServletRequestWrapper wrapper = new CustomHttpServletRequestWrapper(req);
+		assertNull(wrapper.getParameter("none"));
+		assertNull(wrapper.getParameterValues("none"));
 		
 	}
 	

@@ -127,6 +127,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setEmail("info@hotelpuertadelsol.com")	
 				.setUrl("http://www.hotelpuertadelsol.com")
 				.setPhone("+34 000000000")
+				.setFax("+34 000000000")
 			)
 			.setFlags(
 				Flag.EXCHANGE,
@@ -421,7 +422,11 @@ public class DummyPoiFactory extends AbstractFactory {
 	// Golf
 	public static BasicPoi golf(){
 		return((BasicPoi) PoiFactory.newInstance(PoiTypeID.GOLF))
-			.setName(new I18nText().setEs("Campo de golf")) 	// required
+			.setName(new I18nText()
+				.setEs("Campo de golf") // required
+				.setEn("Golf camp")
+				.setIt("Campo da golf")
+				.setFr("Cours de golf")) 	
 			.setLocation(randomLocation())					// required
 			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
 			.setFlags(
