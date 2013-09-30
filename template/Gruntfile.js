@@ -81,7 +81,7 @@ grunt.initConfig({
       dest: 'build/'
     },
     jsComponents: {
-      src: ['**/*.js'],
+      src: ['**/*.js', '*.js', '!*/test/**', '!*/tests/**'],
       cwd: 'bower_components',
       dest: 'js/lib/components/',
       expand: true
