@@ -55,7 +55,7 @@ function(BaseListView) {
 
       this.cursor += Math.floor(this.pageCount);
       this.cursor = Math.min(this.cursor, this.collection.length);
-      this.trigger('updatequery', {cursor: this.cursor});
+      this.trigger('updatecursor', this.cursor);
 
       _.each(this.collection.toJSON(), function(item, i) {
         if (i < this.cursor && i >= currentCount) {

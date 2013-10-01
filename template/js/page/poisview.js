@@ -1,7 +1,7 @@
 define(
   ['modules/paginatedlistview', 'tpl!poi/trview.tpl', 'ui/topbarview', 'modules/geo',
    'poi/collection'],
-  function(ListView, TrView, TopbarView, Geo, PoiCollection) {
+  function(PaginatedListView, TrView, TopbarView, Geo, PoiCollection) {
 
     return B.View.extend({
       className: 'pageview poisview',
@@ -22,13 +22,13 @@ define(
         // this.listenTo(this.topbarView, 'map', ...);
         this.pass(this.topbarView, 'navigate');
 
-        this.collectionView = new ListView({
+        this.collectionView = new PaginatedListView({
           className: 'collectionview poicollectionview',
           collection: this.collection,
           trView: TrView,
           cursor: this.options.cursor
         });
-        this.pass(this.collectionView, 'updatequery');
+        this.listenTo(this.collectionView, 'updatecursor', this.updateCursor);
         this.pass(this.collectionView, 'navigate');
       },
 
@@ -38,6 +38,9 @@ define(
         return this;
       },
 
+      updateCursor: function(cursor) {
+        this.trigger('updatequery', {cursor: cursor});
+      }
     });
   }
 );
