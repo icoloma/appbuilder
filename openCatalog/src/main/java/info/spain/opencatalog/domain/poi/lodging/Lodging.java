@@ -9,7 +9,7 @@ import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.Score;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
-import info.spain.opencatalog.domain.poi.types.BasicPoiType;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 
 import java.util.Set;
 
@@ -32,7 +32,7 @@ public class Lodging extends BasicPoi {
     public Lodging() {
     	super(null); 
     }
-    public Lodging(BasicPoiType type) {
+    public Lodging(PoiTypeID type) {
         super(type);
     }
 
@@ -95,12 +95,12 @@ public class Lodging extends BasicPoi {
 		return roomTypes;
 	}
 
-	@Override
+   @Override
 	public Lodging validate() {
+		// TODO Auto-generated method stub
 		return (Lodging) super.validate();
 	}
-
-		@Override
+	@Override
 	protected ToStringHelper toStringHelper() {
 		return super.toStringHelper()
 			.add("roomTypes", roomTypes)

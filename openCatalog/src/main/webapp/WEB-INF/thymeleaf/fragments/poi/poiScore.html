@@ -22,12 +22,12 @@
 	<!-- 
 		Poi Score
 	-->      
-	<div th:fragment="poiScoreTag" th:if="${poi.type.allowedScores}">
+	<div th:fragment="poiScoreTag" th:if="${poi.poiType.allowedScores}">
 		<legend  th:text="#{poi.score}">Score</legend>
 		<select th:field="*{score}" >
 			<option value="">--</option>)
 			<option
-				th:each="score : ${poi.type.allowedScores}"
+				th:each="score : ${poi.poiType.allowedScores}"
 				value="--" 
 				th:value="${score}" 
 				th:text="#{'poi.score.' + ${score}}">--</option>

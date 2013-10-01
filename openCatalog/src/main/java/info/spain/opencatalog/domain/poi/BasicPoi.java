@@ -4,6 +4,8 @@ import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +41,12 @@ public class BasicPoi {
 	@Id
 	protected String id;
 
-	/** Tipo de POI específico: Hotel, Monumento, Playa, ... */
+	/** 
+	 * Tipo de POI específico: Hotel, Monumento, Playa, ... 
+	 * Usado para mapear en MongoDB el tipo a un String en lugar de a un objeto 
+	 */
 	@NotNull
-	protected BasicPoiType type;
+	protected PoiTypeID type;
 	
 	@Indexed
 	protected I18nText name;
@@ -62,7 +67,7 @@ public class BasicPoi {
     protected Score score;
     
     /** Entorno: El generalife, ... */
-    protected I18nText enviroment;
+    protected I18nText enviroment;                 // TODO: Revisar dónde se está usando
     
     /** Datos específicos del poi: longitud(playa), nº pistas verdes(estación esquí) ... */
     protected Map<String,String> data;
@@ -93,16 +98,14 @@ public class BasicPoi {
 	
 	public BasicPoi(){
 	}
-	public BasicPoi(BasicPoiType type){
+	public BasicPoi(PoiTypeID type){
 		this.type = type;
     }
-
-	/** Permite definir las validaciones en función del tipo */
-	public BasicPoi validate(){
-        type.validate(this);
-        return this;
-	}
 	
+	public BasicPoiType getPoiType(){
+		return PoiTypeRepository.getType(type);
+	}
+
 	/** Initialize all Collections */ 
 	protected void initCollections(){
 		this.flags= new HashSet<Flag>();
@@ -131,6 +134,10 @@ public class BasicPoi {
         this.syncInfo = source.getSyncInfo();
         return this;
     }	
+	
+	public BasicPoi validate(){
+		return PoiTypeRepository.validate(this);
+	}
 	
 	/**
 	 * Elimina los elementos vacíos
@@ -245,11 +252,9 @@ public class BasicPoi {
 		return lastModified;
 	}
 
-	
-	public BasicPoiType getType() {
+	public PoiTypeID getType() {
 		return type;
 	}
-
 	public List<Price> getPrices() {
 		return prices;
 	}
@@ -297,8 +302,6 @@ public class BasicPoi {
 		this.defaultImageFilename = defaultImageFilename;
 	}
 	
-	
-	
 	public SyncInfo getSyncInfo() {
 		return syncInfo;
 	}
@@ -306,6 +309,7 @@ public class BasicPoi {
 		this.syncInfo = syncInfo;
 		return this;
 	}
+	
 	@Override
 	public String toString() {
 		return toStringHelper().toString();
@@ -314,7 +318,7 @@ public class BasicPoi {
 	protected com.google.common.base.Objects.ToStringHelper toStringHelper(){
 		return Objects.toStringHelper(getClass())
 				.add("id", id)
-				.add("type", type.getId())
+				.add("type", type)
 				.add("name", name)
 				.add("description", description)
 				.add("location", location)

@@ -23,14 +23,14 @@
 		Poi DATA
 	 -->      
       <div th:fragment="poiDataTag">
-         <legend th:if="${poi.type.allowedDataValidators}" th:text="#{poi.data.other}">Other Data</legend>
+         <legend th:if="${poi.poiType.allowedDataValidators}" th:text="#{poi.data.other}">Other Data</legend>
         
         <div id="poiData">
 			<div class="group-base"></div>
 			<div class="group-sub"></div>
 		</div>
 		
-     	 <div th:each="data: ${poi.type.allowedDataValidators}"
+     	 <div th:each="data: ${poi.poiType.allowedDataValidators}"
      	 	  class="poiData" 
      	 	  
      	 	  th:with="

@@ -14,6 +14,10 @@ public class AbstractFactory {
 	public static final GeoLocation GEO_RETIRO = new GeoLocation().setLat(40.4170).setLng(-3.6820);
 	public static final GeoLocation GEO_SOL = new GeoLocation().setLat(40.416957).setLng(-3.703794);
 	public static final GeoLocation GEO_TEIDE = new GeoLocation().setLat(28.2735).setLng(-16.6427);
+	public static final GeoLocation GEO_TIMANFAYA = new GeoLocation().setLat(28.9988).setLng(-13.8288);
+	public static final GeoLocation GEO_JARDIN_BOTANICO_CORDOBA= new GeoLocation().setLat(37.86988).setLng(-4.78582);
+	
+	
 	public static final GeoLocation GEO_PLAYA_TERESITAS= new GeoLocation().setLat(28.50864).setLng(-16.18679);
 	public static final GeoLocation GEO_PLAYA_LA_CONCHA= new GeoLocation().setLat(43.32640).setLng(-1.9753);
 

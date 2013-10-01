@@ -35,6 +35,6 @@ public class PoiJsonDeserializerTest {
 	private void assertPoi(BasicPoi poi, BasicPoiType type ){
 		assertNotNull(poi);
 		assertNotNull(poi.getType());
-		assertEquals( type.getId() , poi.getType().getId());
+		assertEquals( type.getId() , poi.getType());
 	}
 }

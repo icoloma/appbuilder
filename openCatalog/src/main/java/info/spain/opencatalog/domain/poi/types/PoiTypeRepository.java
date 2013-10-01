@@ -1,5 +1,6 @@
 package info.spain.opencatalog.domain.poi.types;
 
+import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.FlagGroup;
 import info.spain.opencatalog.domain.poi.FlagSetBuilder;
@@ -33,6 +34,11 @@ public class PoiTypeRepository {
 		}
 		return result;
 	}
+   
+   public static BasicPoi validate(BasicPoi poi){
+	   getType(poi.getType()).validate(poi);
+	   return poi;
+   }
    
    static {
 	   

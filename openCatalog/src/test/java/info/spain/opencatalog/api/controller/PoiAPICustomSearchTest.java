@@ -90,7 +90,7 @@ public class PoiAPICustomSearchTest {
 		SearchQuery query = new SearchQuery()
 			//.setUpdatedAfter(DATE_PAST)
 			.setFlagList(Lists.newArrayList(playaTeresitas.getFlags().iterator().next().toString()))
-			.setPoiTypeIdList(Lists.newArrayList(playaTeresitas.getType().getId().toString()))
+			.setPoiTypeIdList(Lists.newArrayList(playaTeresitas.getType().toString()))
 			.setIdZone(zonaTenerife.getId())  
 			;
 	
@@ -115,7 +115,7 @@ public class PoiAPICustomSearchTest {
 		SearchQuery query = new SearchQuery()
 			.setUpdatedAfter(DATE_FUTURE)
 			.setFlagList(Lists.newArrayList(playaTeresitas.getFlags().iterator().next().toString()))
-			.setPoiTypeIdList(Lists.newArrayList(playaTeresitas.getType().getId().toString()))
+			.setPoiTypeIdList(Lists.newArrayList(playaTeresitas.getType().toString()))
 			.setIdZone(zonaTenerife.getId())  
 			;
 	

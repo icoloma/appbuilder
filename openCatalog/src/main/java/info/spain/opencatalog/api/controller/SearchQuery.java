@@ -20,7 +20,6 @@ public class SearchQuery {
 	
 	private List<String> poiTypeIdList;
 	private List<String> flagList;
-	
 	private String idZone;
 	private String updatedAfter; // ISO8601
 	

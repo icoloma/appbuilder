@@ -31,10 +31,9 @@ import com.google.common.collect.Sets;
 
 public class DummyPoiFactory extends AbstractFactory {
 	
-	
 	public static BasicPoi newPoi(String key){
 		key = key + "-" + getRandom().nextInt();
-		return  PoiFactory.newInstance(PoiTypeID.BASIC)
+		return PoiFactory.newInstance(PoiTypeID.BASIC)
 			.setName( new I18nText()
 				.setEs("es-"+key+"-name")
 				.setEn("en-"+key+"-name")
@@ -49,7 +48,8 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setAdminArea2( "adminArea2-" + getRandom().nextInt(10))
 				.setZipCode(key+"-zipCode"))
 			.setLocation(randomLocation())
-			.setFlags(randomFlags());
+			.setFlags(randomFlags())
+			.validate();
 		}
 	
 	private static Flag[] randomFlags(){
@@ -368,14 +368,14 @@ public class DummyPoiFactory extends AbstractFactory {
 	// GARDEN 
 	public static BasicPoi garden() {
 		return ((BasicPoi)PoiFactory.newInstance(PoiTypeID.PARK_GARDEN))
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
-			.setName(new I18nText().setEs("Parque andalusí"))			// required
-			.setLocation(AbstractFactory.GEO_TEIDE)								// required
+			.setAddress(new Address().setRoute("Av Linneo, 1").setAdminArea1("Córdoba").setAdminArea2("Andalucía"))
+			.setName(new I18nText().setEs("Jardín Botánico de Córdoba"))					// required
+			.setLocation(AbstractFactory.GEO_JARDIN_BOTANICO_CORDOBA)								// required
 			.setDescription(new I18nText().setEs("Descripción del parque"))			
 			.setFlags(
 					Flag.QUALITY_PATRIMONIO_HUMANIDAD,
 					Flag.PARKING_ACCESSIBLE,
-					Flag.CULTURE_PERIOD_ANDALUSI)
+					Flag.CULTURE_PERIOD_MODERN)
 			.validate();
 	}
 		

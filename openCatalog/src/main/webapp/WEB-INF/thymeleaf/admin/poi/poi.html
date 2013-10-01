@@ -26,9 +26,9 @@
   	</div>
   	
 	
-	<h1 th:text="#{'poiType.' + ${poi.type.id}}">Genérico</h1>
+	<h1 th:text="#{'poiType.' + ${poi.poiType.id}}">Genérico</h1>
 
-	<form id="poiForm" name="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.type.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
+	<form id="poiForm" name="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.poiType.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
 		<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
 		  	<ul >
 			  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>

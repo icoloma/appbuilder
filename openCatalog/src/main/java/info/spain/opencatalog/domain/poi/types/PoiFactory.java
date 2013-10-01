@@ -22,9 +22,9 @@ public class PoiFactory {
 	public static BasicPoi newInstance(PoiTypeID id ) {
 		
 		if (LODGING_TYPES.contains(id)) {
-			return new Lodging(PoiTypeRepository.getType(id));
+			return new Lodging(id);
 		} else {
-			return new BasicPoi(PoiTypeRepository.getType(id));
+			return new BasicPoi(id);
 		}
 
 	}

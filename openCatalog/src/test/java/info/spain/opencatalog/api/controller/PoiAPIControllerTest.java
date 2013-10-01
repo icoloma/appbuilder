@@ -188,7 +188,7 @@ public class PoiAPIControllerTest {
 		//    imported = true    ---> will be ignored
 		//    originalId = "XXX" ---> will be ignored
 		String json = "{" +
-				"'type': '" + poi.getType().getId() + "'," +
+				"'type': '" + poi.getType() + "'," +
 				"'name':{" +
 					"'es':'some other value'" +
 				"}," +
@@ -231,7 +231,7 @@ public class PoiAPIControllerTest {
 		//    imported = false     ----> will be ignored
 		//    originalId = "changed" ---> will be ignored
 		json = "{" +
-				"'type': '" + poi.getType().getId() + "'," +
+				"'type': '" + poi.getType() + "'," +
 				"'name':{" +
 					"'es':'changing the name again'" +
 				"}," +

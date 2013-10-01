@@ -2,9 +2,7 @@ package info.spain.opencatalog.web.form;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
-import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
-import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,9 +25,9 @@ public class PoiForm extends Lodging {
 	 * @return
 	 */
 	public BasicPoi getPoi(){
-		if (PoiTypeID.HOTEL.equals(this.getType().getId()) ||
-			PoiTypeID.CAMPING.equals(this.getType().getId()) ||
-			PoiTypeID.APARTMENT.equals(this.getType().getId())) {
+		if (PoiTypeID.HOTEL.toString().equals(this.getType()) ||
+			PoiTypeID.CAMPING.toString().equals(this.getType()) ||
+			PoiTypeID.APARTMENT.toString().equals(this.getType())) {
 			return getLodging();
 		} else {
 			return getBasicPoi();
@@ -68,20 +66,19 @@ public class PoiForm extends Lodging {
 		this.file = file;
 	}
 	
-	public void setType(BasicPoiType type){
-		this.type = type;
-	}
-
-	
 	
 	public PoiForm(PoiTypeID typeId){
-		super(PoiTypeRepository.getType(typeId));
+		super(typeId);
 		super.initCollections();
 	}
 	
 	public PoiForm(){
-		super(PoiTypeRepository.getType(PoiTypeID.BASIC));
+		super(PoiTypeID.BASIC);
 		super.initCollections();
+	}
+	
+	public void setType(PoiTypeID type){
+		this.type = type;
 	}
 	
 	

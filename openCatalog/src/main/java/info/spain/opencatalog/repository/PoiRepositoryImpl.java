@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.geo.Circle;
 import org.springframework.data.mongodb.core.geo.Point;
@@ -27,6 +29,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.StringUtils;
 
+import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
@@ -89,31 +92,33 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	 */
 	@Override
 	public Page<BasicPoi> findCustom( SearchQuery searchQuery, Pageable pageable) {
-		
-		Criteria criteria;
-		
-		List<Criteria> andCriterias = new ArrayList<Criteria>();
-		addCriteriaIfNotNull( andCriterias, getCriteriaUpatedAfter(searchQuery));
-		addCriteriaIfNotNull( andCriterias, getCriteriaZone(searchQuery));
-		addCriteriaIfNotNull( andCriterias, getValueInArrayCriteria("flags", searchQuery.getFlagList()));
-		addCriteriaIfNotNull( andCriterias, getValueInArrayCriteria("type.id", searchQuery.getPoiTypeIdList()));
-		
-		if (andCriterias.size() == 0){
+ 		
+ 		Criteria criteria;
+ 		List<Criteria> andCriterias = new ArrayList<Criteria>();
+ 		addCriteriaIfNotNull( andCriterias, getCriteriaUpatedAfter(searchQuery));
+ 		addCriteriaIfNotNull( andCriterias, getCriteriaZone(searchQuery));
+ 		addCriteriaIfNotNull( andCriterias, getCriteriaValueInArrayCriteria("flags", searchQuery.getFlagList()));
+ 		addCriteriaIfNotNull( andCriterias, getCriteriaValueInArrayCriteria("type", searchQuery.getPoiTypeIdList()));
+ 		
+ 		if (andCriterias.size() == 0){
 			// No criterias, no result
 			return new PageImpl<BasicPoi>( new ArrayList<BasicPoi>());
-		} else if ( andCriterias.size() == 1){
-			// Only one criteria; do not use AND
-			criteria = andCriterias.get(0);
-		} else {
-			criteria = new Criteria().andOperator(andCriterias.toArray(new Criteria[]{}));
-		}
-		
-		Query query = query(criteria);
+ 		} else if ( andCriterias.size() == 1){
+ 			// Only one criteria; do not use AND
+ 			criteria = andCriterias.get(0);
+ 		} else {
+ 			criteria = new Criteria().andOperator(andCriterias.toArray(new Criteria[]{}));
+ 		}
+ 		
+		Query query = query(criteria)
+				.with(pageable)
+				.with(new Sort(Direction.ASC, "lastModified"));;
 	
 		log.trace(query.toString());
 		List<BasicPoi> result = mongoTemplate.find(query, BasicPoi.class);
 		return new PageImpl<BasicPoi>(result, pageable, result.size());
-	}
+ 	}
+
 	
 	/**
 	 * @param idZone
@@ -121,6 +126,10 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	 */
 	private Criteria getCriteriaByZone(String idZone) {
 		Zone zone = mongoTemplate.findOne(query(where("_id").is(idZone)), Zone.class);
+		return getCriteriaByZone(zone);
+	}
+	
+	Criteria getCriteriaByZone(Zone zone) {
 		if (zone != null){
 			List<GeoLocation> path = zone.getPath();
 			Point p1 = asPoint(path.get(0));
@@ -135,6 +144,9 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 		}
 		return null;
 	}
+	
+	
+	
 	
 	/**
 	 * Convierte un GeoLocation a un Point de mongo
@@ -153,7 +165,7 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	}
 	
 	/** criteria a usar con SearchQuery.updateAfter */
-	private Criteria getCriteriaUpatedAfter(SearchQuery searchQuery){
+	Criteria getCriteriaUpatedAfter(SearchQuery searchQuery){
 		String since = searchQuery.getUpdatedAfter();
 		if (!StringUtils.isEmpty(since)){
 			return where("lastModified").gt( new DateTime(since).toDate()); 
@@ -171,7 +183,7 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	}
 		
 	/** Criteria a usar para un valor en un array */
-	private Criteria getValueInArrayCriteria(String key,  List<String> values ){
+	Criteria getCriteriaValueInArrayCriteria(String key,  List<String> values ){
 		if (values != null && values.size() > 0 ){
 			return where(key).in( values);
 		}

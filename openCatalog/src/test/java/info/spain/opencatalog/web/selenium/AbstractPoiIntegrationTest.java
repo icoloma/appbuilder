@@ -6,6 +6,7 @@ import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 import info.spain.opencatalog.domain.poi.types.DataValidator;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.web.selenium.page.poi.AbstractPoiPage;
 
 import java.util.List;
@@ -65,7 +66,6 @@ public abstract class AbstractPoiIntegrationTest extends AbstractIntegrationTest
 	
 	protected void fillFlags(AbstractPoiPage page, BasicPoi poi){
 		page.showFlagsTab();
-		poi.getType().getAllowedFlags();
 		for (Flag flag : poi.getFlags()) {
 			log.trace("Selecting flag " + flag);
 			page.selectFlag(flag.toString());
@@ -78,8 +78,7 @@ public abstract class AbstractPoiIntegrationTest extends AbstractIntegrationTest
 	}
 	
 	protected void fillData(AbstractPoiPage page, BasicPoi poi){
-		BasicPoiType type = poi.getType();
-		Map<String, DataValidator> dataValidators = type.getAllowedDataValidators();
+		Map<String, DataValidator> dataValidators = poi.getPoiType().getAllowedDataValidators();
 		Set<String> keys = dataValidators.keySet();
 		for (String key : keys) {
 			String value = poi.getData().get(key);

@@ -76,7 +76,7 @@ public class PoiController extends AbstractUIController {
 			throw new NotFoundException("poi", id);
 		}
 		//PoiForm poiForm = new PoiForm(poi.getType().getId());
-		PoiForm poiForm = new PoiForm(poi.getType().getId());
+		PoiForm poiForm = new PoiForm(poi.getType());
 		poiForm.copyData(poi);
 			
 		//poiForm.setHasImage(poiImageUtils.hasImage(id));
@@ -92,7 +92,8 @@ public class PoiController extends AbstractUIController {
 	 * 
 	 * Ej. para Hotel :   QUALITY -> [ QUALITY_ACCESIBILIDAD, QUALITY_MICHELIN, ...]
 	 */
-	private Map<String,List<String>> getMapFlags(BasicPoiType type){
+	private Map<String,List<String>> getMapFlags(PoiTypeID idType){
+		BasicPoiType type = PoiTypeRepository.getType(idType);
 		Map<String,List<String>> result = Maps.newLinkedHashMap();
 		
 		for (FlagGroup flagGroup : type.getFlagGroups()) {
@@ -134,7 +135,7 @@ public class PoiController extends AbstractUIController {
 		if (strFlags != null){
 			poiForm.setFlags(convertFlags(strFlags, errors));
 		}
-		BasicPoi poi = poiRepository.save( new BasicPoi(PoiTypeRepository.getType(type)).copyData(poiForm));
+		BasicPoi poi = poiRepository.save( new BasicPoi(PoiTypeID.valueOf(type)).copyData(poiForm));
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
 		return "redirect:/admin/poi/" + poi.getId();
@@ -159,7 +160,7 @@ public class PoiController extends AbstractUIController {
 	 */
 	@RequestMapping(value="/new/{type}")
 	public String newPoi(Model model, @PathVariable("type") String type){
-		PoiForm poiForm =  new PoiForm( PoiTypeID.valueOf(type));
+		PoiForm poiForm =  new PoiForm(PoiTypeID.valueOf(type));
 		model.addAttribute("poi", poiForm );
 		model.addAttribute("flags", getMapFlags(poiForm.getType()));
 		return "admin/poi/poi";
