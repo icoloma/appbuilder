@@ -14,7 +14,8 @@ define(
         'menu/:menuId': 'renderMenu',
         'pois?(:uri)': 'renderPois',
         'pois/:poiId': 'renderPoi',
-        'search?(:prevQuery)': 'renderSearch'
+        'search?(:prevQuery)': 'renderSearch',
+        'bookmarks': 'renderBookmarks'
       },
 
       initialize: function(options) {
@@ -91,7 +92,25 @@ define(
 
       renderSearch: function(prevQuery) {
         this.setView(Page.SearchView, JSON.parse(prevQuery || null));
+      },
+
+      renderBookmarks: function() {
+        var sqlStr = 'SELECT id,thumb,address,name_' + res.locale +
+        ' FROM Poi WHERE starred > -1'
+        , self = this
+        ;
+        Db.sql(sqlStr, [], function(err, pois) {
+          pois = new Poi.Collection(_.map(pois, function(poi) {
+            return new Poi.Model(poi, {parse: true});
+          }));
+
+          self.setView(Page.FavoritesView, {
+            collection: pois,
+            title: res.i18n.Starred
+          });
+        });
       }
+
     });
   }
 );
