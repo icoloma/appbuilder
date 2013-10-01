@@ -29,6 +29,10 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
         attrs[field] = attrs[field] && Number(attrs[field]);
       });
 
+      _.each(this.constructor.schema.integer, function(field) {
+        attrs[field] = attrs[field] && Number(attrs[field]);
+      });
+
       return attrs;
     },
 
@@ -81,7 +85,8 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
     schema: {
       json: [],
       boolean: [],
-      real: []
+      real: [],
+      integer: []
     },
 
     // Campos a pedir a la BDD, omitiendo columnas en otros locales
@@ -102,6 +107,8 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
             this.schema.json.push(field);
           } else if (type === 'REAL') {
             this.schema.real.push(field);
+          } else if (type === 'INTEGER') {
+            this.schema.integer.push(field);
           }
         }
       }, this);

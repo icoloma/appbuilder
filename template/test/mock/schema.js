@@ -14,5 +14,5 @@ module.exports = {
   created: 'REAL', lastModified: 'REAL',
   lat: 'REAL', lon: 'REAL', normLon: 'REAL',
   thumb: 'TEXT',
-  starred: 'BOOLEAN'
+  starred: 'INTEGER'
 } 

@@ -56,7 +56,7 @@ module.exports = function(poiNumber) {
       flags: randomFlags().split(' '),
       thumb: imgs.splice(random.randomInt(0, imgs.length -1 ), 1)[0],
       imgs: imgs,
-      starred: false
+      starred: -1
     };
     _.extend(poi,
       i18n.object({

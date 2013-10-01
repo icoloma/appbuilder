@@ -49,8 +49,8 @@ define(
 
       star: function() {
         var self = this;
-        this.model.set('starred', !this.model.get('starred'));
-        var message = this.model.get('starred') ? res.i18n.bookmarkAdded : res.i18n.bookmarkRemoved;
+        this.model.set('starred', this.model.get('starred') > -1 ? -1 : 0);
+        var message = this.model.get('starred') > -1 ? res.i18n.bookmarkAdded : res.i18n.bookmarkRemoved;
         this.model.persist(function() {
           navigator.notification.alert(message, null, res.i18n.Starred);
 

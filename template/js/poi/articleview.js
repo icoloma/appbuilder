@@ -34,7 +34,7 @@ define(
         });
 
         _.extend(json, {
-          isStarred: json.starred ? 'star' : 'star-empty',
+          isStarred: json.starred > -1 ? 'star' : 'star-empty',
           geoLink: this.model.geoLink(),
           data: data
         });
