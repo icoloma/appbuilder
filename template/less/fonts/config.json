@@ -3,6 +3,10 @@
   "css_prefix_text": "icon-",
   "css_use_suffix": false,
   "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "copyright": "undefined",
+  "fullname": "undefined",
   "glyphs": [
     {
       "uid": "9bd60140934a1eb9236fd7a8ab1ff6ba",
@@ -93,6 +97,12 @@
       "css": "filter",
       "code": 59394,
       "src": "fontawesome"
+    },
+    {
+      "uid": "87d337fee4866c2c28f6082994ce0f41",
+      "css": "planner",
+      "code": 59417,
+      "src": "typicons"
     },
     {
       "uid": "f886d2d6cc8cb1b1117e26819a7bc282",
