@@ -3,9 +3,7 @@ function() {
   return B.Model.extend({
     toJSON: function() {
       var json = B.Model.prototype.toJSON.apply(this);
-      if (json.menu) {
-        json.url = '#/menu/' + json.menu;
-      } else {
+      if (!json.url) {
         var uriObj = {
           queryConditions: json.queryConditions,
           title: json.label

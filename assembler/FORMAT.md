@@ -150,11 +150,11 @@ La configuración de los menús en la configuración viene dada por:
   "label": <string, i18n>,
   "desc": <string, i18n>,
   "poiCount": <number>,
-  "menu": <id de un menú>,
+  "url": <url>,
   "queryConditions": <queryStr>
 }
 ```
-El campo `menu` tiene valor cuando se salta a otro submenú. El campo `query` tiene valor cuando se muestra una lista de POIs según algún criterio. **Ambos deben estar presentes**, el que no aplique con valor `null`.
+El campo `url` tiene valor cuando se salta a otro submenú. El campo `query` tiene valor cuando se muestra una lista de POIs según algún criterio. **Ambos deben estar presentes**, el que no aplique con valor `null`.
 
 * `<queryStr>`: las condiciones para una query SQL.
 

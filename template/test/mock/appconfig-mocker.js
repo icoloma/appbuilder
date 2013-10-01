@@ -75,7 +75,7 @@ module.exports = function(pois) {
         "label_es": "Ver",
         "desc_en": "See stuff in Huesca",
         "desc_es": "Vea cosas en Huesca",
-        "menu": "AE9D636326734A7F8A921E902F1515B8",
+        "url": "/menu/AE9D636326734A7F8A921E902F1515B8",
         "queryConditions": null,
         "poiCount": null
       },
@@ -86,7 +86,7 @@ module.exports = function(pois) {
         "desc_en": "Take a nap",
         "desc_es": "Eche la siesta",
         "poiCount": null,
-        "menu": "FC8A6A5A1CDC46DB854FAD0EE57BA706",
+        "url": "/menu/FC8A6A5A1CDC46DB854FAD0EE57BA706",
         "queryConditions": null,
       },
       'A9784B92F0184E488A9500BB53B8D0F3': {
@@ -96,8 +96,8 @@ module.exports = function(pois) {
         "desc_en": "Your favorite places",
         "desc_es": "Sus favoritos",
         "poiCount": null,
-        "menu": null,
-        "queryConditions": '(starred=1)'
+        "url": "/bookmarks",
+        "queryConditions": null
       },
       'F64F7FC14E674675A67000E4BFCB627A': {
         id: 'F64F7FC14E674675A67000E4BFCB627A',
@@ -106,7 +106,7 @@ module.exports = function(pois) {
         "desc_en": "Do stuff in Huesca",
         "desc_es": "Haga cosas en Huesca",
         "poiCount": null,
-        "menu": '92551F8B3C3F4D3BBF12C53D1A59798C',
+        "url": "/menu/92551F8B3C3F4D3BBF12C53D1A59798C",
         "queryConditions": null
       },
       '3F8B5F76B9F94D368D07B951EC9167B6': {
@@ -116,7 +116,7 @@ module.exports = function(pois) {
         "desc_en": "Old rocks",
         "desc_es": "Piedras antiguas",
         "poiCount": 70,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("MONUMENT") + '")'
       },
       'B7227578EED94855904A3F60BFF7F390': {
@@ -126,7 +126,7 @@ module.exports = function(pois) {
         "desc_en": "Get wet!",
         "desc_es": "Mójese!",
         "poiCount": 30,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("PARK_GARDEN") + '")'
       },
       '0F9781FAAF6D4E218F767297030C685A': {
@@ -136,7 +136,7 @@ module.exports = function(pois) {
         "desc_es": "Rollazo",
         "desc_en": "Booring",
         "poiCount": 15,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("MUSEUM") + '")'
       },
       '4635D82B3AEA44EA922C9E9A2DB99DD8': {
@@ -146,7 +146,7 @@ module.exports = function(pois) {
         "desc_en": "So fancy...",
         "desc_es": "Qué fancy...",
         "poiCount": 210,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("HOTEL") + '")'
       },
       'EAF934E4CE944011A0751BBDF23F1A01': {
@@ -156,7 +156,7 @@ module.exports = function(pois) {
         "desc_en": "Squirrels!",
         "desc_es": "Ardillas!",
         "poiCount": 90,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("CAMPING") + '")'
       },
       '88A223C80158475DAF2AFA4598F84BE2': {
@@ -166,7 +166,7 @@ module.exports = function(pois) {
         "desc_es": "Con vecinos!",
         "desc_en": "With neighbours!",
         "poiCount": 45,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("APARTMENT") + '")'
       },
       '11F4667E110446D78666A2FDD5B62624': {
@@ -176,7 +176,7 @@ module.exports = function(pois) {
         "desc_es": "Ese swing!",
         "desc_en": "Watch your swing",
         "poiCount": 5,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("GOLF") + '")'
       },
       '17BA689093354DA48E76AFB83CA86F68': {
@@ -186,7 +186,7 @@ module.exports = function(pois) {
         "desc_es": "Arena gratis",
         "desc_en": "Free sand",
         "poiCount": 20,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("BEACH") + '")'
       },
       'F32958AE046F4F19873DBFA52644AE54': {
@@ -196,7 +196,7 @@ module.exports = function(pois) {
         "desc_es": "P'al campo",
         "desc_en": "Country-side",
         "poiCount": 25,
-        "menu": null,
+        "url": null,
         "queryConditions": '(type="' + findByKeyword("ECO_TOURISM") + '")'
       },
     },
