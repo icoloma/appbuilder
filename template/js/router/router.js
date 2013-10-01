@@ -62,11 +62,12 @@ define(
             return new Poi.Model(poi, {parse: true});
           }));
 
-          if (uriObj.sort) {
-            pois.comparator = 
-              PoiCollection.sortByDistanceTo(uriObj.sort.lat, uriObj.sort.lon);
-            pois.sort();
-          }
+          // if (uriObj.sort) {
+          //   pois.comparator = 
+          //     PoiCollection.sortByDistanceTo(uriObj.sort.lat, uriObj.sort.lon);
+          //   pois.sort();
+          // }
+
           self.setView(Page.PoisView, {
             collection: pois,
             title: uriObj.title,

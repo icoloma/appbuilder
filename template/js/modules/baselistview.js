@@ -19,7 +19,7 @@ define(['globals'],
 
       initialize: function(options) {
         this.trView = options.trView;
-        this.listenTo(this.collection, 'sort', this.render);
+        // this.listenTo(this.collection, 'sort', this.render);
       },
 
       render: function() {

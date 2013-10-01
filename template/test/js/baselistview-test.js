@@ -25,20 +25,21 @@ define(['modules/baselistview', 'test/mocktouch'], function(ListView, MockTouch)
   });
 
 
-  test('Sorting', 1, function() {
+  // El sorting no se usa
+  // test('Sorting', 1, function() {
 
-    collection.comparator = function(model) {
-      return model.get('name');
-    };
+  //   collection.comparator = function(model) {
+  //     return model.get('name');
+  //   };
 
-    collection.sort();
-    var rows = listView.$('.item-row');
+  //   collection.sort();
+  //   var rows = listView.$('.item-row');
 
-    ok(collection.every(function(model, i) {
-      return model.get('name') === $(rows[i]).text();
-    }), 'Sorting OK');
+  //   ok(collection.every(function(model, i) {
+  //     return model.get('name') === $(rows[i]).text();
+  //   }), 'Sorting OK');
 
-  });
+  // });
 
   asyncTest('Navigation', 1, function() {
     $('body').append(listView.render().$el);
