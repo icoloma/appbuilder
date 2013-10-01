@@ -2,7 +2,6 @@ package info.spain.opencatalog.api.controller;
 
 import java.util.List;
 
-import org.hibernate.validator.util.privilegedactions.GetClassLoader;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

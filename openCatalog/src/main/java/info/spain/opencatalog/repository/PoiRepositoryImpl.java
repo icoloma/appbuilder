@@ -29,7 +29,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.StringUtils;
 
-import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
@@ -166,28 +165,35 @@ public class PoiRepositoryImpl implements PoiRepositoryCustom {
 	
 	/** criteria a usar con SearchQuery.updateAfter */
 	Criteria getCriteriaUpatedAfter(SearchQuery searchQuery){
-		String since = searchQuery.getUpdatedAfter();
-		if (!StringUtils.isEmpty(since)){
-			return where("lastModified").gt( new DateTime(since).toDate()); 
+		Criteria result = null;
+		if (searchQuery != null) {
+			String since = searchQuery.getUpdatedAfter();
+			if (!StringUtils.isEmpty(since)){
+				result = where("lastModified").gt( new DateTime(since).toDate()); 
+			}
 		}
-		return null;
+		return result;
 	}
 	
 	/** Criteria a usar con  SearchQuery.updateAfter */
 	private Criteria getCriteriaZone(SearchQuery searchQuery){
-		String idZone = searchQuery.getIdZone();
-		if (idZone == null || idZone.length() == 0) {
-			return null;
+		Criteria result = null;
+		if (searchQuery != null) {
+			String idZone = searchQuery.getIdZone();
+			if (!StringUtils.isEmpty(idZone)) {
+				result = getCriteriaByZone(idZone);
+			} 
 		} 
-		return getCriteriaByZone(idZone);
+		return result;
 	}
 		
 	/** Criteria a usar para un valor en un array */
 	Criteria getCriteriaValueInArrayCriteria(String key,  List<String> values ){
+		Criteria result = null;
 		if (values != null && values.size() > 0 ){
-			return where(key).in( values);
+			result = where(key).in( values);
 		}
-		return null;
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")

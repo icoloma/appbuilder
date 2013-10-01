@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import info.spain.opencatalog.domain.Address;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.DummyZoneFactory;
 import info.spain.opencatalog.repository.ZoneRepository;
 
 import org.junit.Before;
@@ -32,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-config.xml"})
+@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
 @ActiveProfiles("dev")
 public class ZoneControllerTest {
 	
@@ -89,8 +89,8 @@ public class ZoneControllerTest {
 	@Test
 	public void zoneCRUD() throws Exception {
 		repo.deleteAll();
-		Zone zone = ZoneFactory.newZone("zoneTest");
-		zone.setPath(ZoneFactory.ZONE_MADRID_CENTRO.getPath());
+		Zone zone = DummyZoneFactory.newZone("zoneTest");
+		zone.setPath(DummyZoneFactory.ZONE_MADRID_CENTRO.getPath());
 		
 		// Test POST
 		MockHttpServletRequestBuilder thePost = post("/admin/zone")
@@ -129,7 +129,7 @@ public class ZoneControllerTest {
 			.setName("xxx")
 			.setDescription("xxx")
 			.setAddress(new Address().setAdminArea1("xxx").setAdminArea2("xxx"))
-			.setPath(ZoneFactory.ZONE_ALCALA_HENARES.getPath());
+			.setPath(DummyZoneFactory.ZONE_ALCALA_HENARES.getPath());
 
 		
 		MockHttpServletRequestBuilder thePut = put("/admin/zone/" + id)

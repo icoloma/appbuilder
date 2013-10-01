@@ -7,7 +7,7 @@ import info.spain.opencatalog.api.controller.SearchQuery;
 import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.MongoDbPopulator;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.DummyZoneFactory;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 
@@ -49,8 +49,8 @@ public class CustomQueryCriteriasTest {
 	
 	@Before
 	public void init() throws Exception{
-		MongoDbPopulator.main(null);
-		tenerife = zoneRepository.save(ZoneFactory.ZONE_PROVINCIA_STA_CRUZ);
+		MongoDbPopulator.main(new String[]{});
+		tenerife = zoneRepository.save(DummyZoneFactory.ZONE_PROVINCIA_STA_CRUZ);
 	}
 	
 	

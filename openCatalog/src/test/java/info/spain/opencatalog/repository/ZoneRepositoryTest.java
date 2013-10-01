@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.DummyZoneFactory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ public class ZoneRepositoryTest {
 	 */
 	@Test
 	public void testCreate() {
-		Zone zone = ZoneFactory.newZone("testCreate");
+		Zone zone = DummyZoneFactory.newZone("testCreate");
 		Zone result = zoneRepository.save(zone);
 		String id = result.getId();
 		assertNotNull(id);
@@ -45,7 +45,7 @@ public class ZoneRepositoryTest {
 
 	@Test
 	public void testFindByName(){
-		Zone zone = ZoneFactory.newZone("findByName");
+		Zone zone = DummyZoneFactory.newZone("findByName");
 		mongoTemplate.save(zone);
 		Pageable pageable = new PageRequest(0, 10);
 		Page<Zone> result = zoneRepository.findByNameIgnoreCaseLike(zone.getName(), pageable);

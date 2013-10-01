@@ -25,9 +25,9 @@ public class PoiForm extends Lodging {
 	 * @return
 	 */
 	public BasicPoi getPoi(){
-		if (PoiTypeID.HOTEL.toString().equals(this.getType()) ||
-			PoiTypeID.CAMPING.toString().equals(this.getType()) ||
-			PoiTypeID.APARTMENT.toString().equals(this.getType())) {
+		if (PoiTypeID.HOTEL.equals(this.getType()) ||
+			PoiTypeID.CAMPING.equals(this.getType()) ||
+			PoiTypeID.APARTMENT.equals(this.getType())) {
 			return getLodging();
 		} else {
 			return getBasicPoi();

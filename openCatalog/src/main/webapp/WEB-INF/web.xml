@@ -17,7 +17,7 @@
 	</listener>
 
 
-	<!-- API Dispatcher Servlet -->
+	<!-- API Dispatcher Servlet
 	<servlet>
 		<servlet-name>apiServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -27,7 +27,7 @@
         </init-param>
        	<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>info.spain.opencatalog.config.ApiConfig</param-value>
+			<param-value>info.spain.opencatalog.config.ApiMvcConfig</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -35,7 +35,7 @@
 		<servlet-name>apiServlet</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
-
+ -->
 
 	<!-- UI Dispatcher Servlet -->
 	<servlet>
@@ -43,7 +43,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring/mvc-config.xml</param-value>
+			<param-value>classpath:spring/mvc-ui-config.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -51,7 +51,23 @@
 		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
+
+	<!-- API Dispatcher Servlet -->
+	<servlet>
+		<servlet-name>dispatcherAPIServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/mvc-api-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcherAPIServlet</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
 	<!-- Converts POST with _method param into PUT or DELETE -->
 	<filter>
 		<filter-name>hiddenMethodFilter</filter-name>

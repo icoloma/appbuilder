@@ -7,8 +7,6 @@ import java.util.Iterator;
 
 public class ZoneForm extends Zone {
 
-	private static final long serialVersionUID = -1840729485123148004L;
-
 	/** 
 	 * Obtenemos el Zone del ZoneForm y le
 	 * añadimos los Tags correspondientes

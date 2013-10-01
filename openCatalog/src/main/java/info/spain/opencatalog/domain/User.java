@@ -1,7 +1,5 @@
 package info.spain.opencatalog.domain;
 
-import javax.validation.constraints.NotNull;
-
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;

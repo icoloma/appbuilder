@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 
-public class BeachIntegrationTest extends AbstractPoiIntegrationTest{
+public class PoiIntegrationTest extends AbstractPoiIntegrationTest{
 	
 	@Test
 	public void CRUDBeach(){

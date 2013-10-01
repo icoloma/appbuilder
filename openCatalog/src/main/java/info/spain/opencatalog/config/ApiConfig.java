@@ -3,23 +3,40 @@ package info.spain.opencatalog.config;
 import info.spain.opencatalog.domain.poi.types.BasicPoiType;
 
 import org.joda.time.DateTime;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+import org.springframework.format.support.DefaultFormattingConversionService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleDeserializers;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.module.SimpleSerializers;
 
 @Configuration
-@Import(ApiMvcConfig.class)
-@ComponentScan(basePackages = "info.spain.opencatalog.api")
-public class ApiConfig extends RepositoryRestMvcConfiguration {
+public class ApiConfig {
+
+	@Bean 
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		// Configure custom Modules
+		configureJacksonObjectMapper(objectMapper);
+		return objectMapper;
+	}
 	
 	
-	@Override
+	
+	@Bean 
+	public DefaultFormattingConversionService defaultConversionService() {
+		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+//		conversionService.addConverter(UUIDConverter.INSTANCE);
+//		conversionService.addConverter(ISO8601DateConverter.INSTANCE);
+		return conversionService;
+	}
+	
+	
+	
 	protected void configureJacksonObjectMapper(ObjectMapper objectMapper) {
 		objectMapper.registerModule(new SimpleModule("MyCustomModule") {
 			private static final long serialVersionUID = -786299906589974831L;
@@ -46,9 +63,5 @@ public class ApiConfig extends RepositoryRestMvcConfiguration {
 			
 		});
 	}
-
 	
-
-
-
 }

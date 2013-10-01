@@ -5,10 +5,10 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +18,7 @@ import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
+import net.minidev.json.JSONArray;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +43,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("dev")
 public class PoiAPIControllerTest {
 	
-	public static final String NO_RESULTS = "{\n  \"links\" : [ ],\n  \"content\" : [ ]\n}";
+	private static final MediaType JSON_UTF8 = MediaType.parseMediaType("application/json;charset=UTF-8");
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -72,28 +73,34 @@ public class PoiAPIControllerTest {
 		
 		// test poi
 	    MvcResult result = this.mockMvc.perform(get("/poi/" + saved.getId())
-			.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+			.accept(JSON_UTF8))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType("application/json;charset=UTF-8"))
+			.andExpect(content().contentType(JSON_UTF8.toString()))
 			.andExpect(jsonPath("$.name.es").value(poi.getName().getEs()))
 			.andReturn();     //FIXME: delete when fixed #8 
 	    
 	    String content = result.getResponse().getContentAsString();
 	    log.debug( "result /poi/" + saved.getId() + ":\n" + content);
 	    
+	    
+	    JSONArray links = new JSONArray();
+	    links.add("byName");
+	    links.add("byLocationNear");
+	    links.add("custom");
+	    
 	    // test discover
 	    this.mockMvc.perform(get("/poi/" )
-			.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+			.accept(JSON_UTF8))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType("application/json;charset=UTF-8"))
-			.andExpect(jsonPath("$.content[0].name.es").value(poi.getName().getEs()))
-			; //FIXME: delete when fixed #8
+			.andExpect(content().contentType(JSON_UTF8.toString()))
+			.andExpect(jsonPath("$links[*].rel").value( links))
+			;
 	    
 	    // check Poi Images
 	    this.mockMvc.perform(get("/poi/" + saved.getId() + "/image")
-				.accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+				.accept(JSON_UTF8))
 				.andExpect(status().isOk())
-				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(content().contentType(JSON_UTF8.toString()))
 				.andExpect(jsonPath("$.links").isArray())
 				;    
     }
@@ -119,7 +126,7 @@ public class PoiAPIControllerTest {
 				"}";
 		
 		this.mockMvc.perform(put("/poi/NON_EXISTING_POI")
-			.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+			.contentType(JSON_UTF8)
 			.content(json))
 			.andExpect(status().isNotFound())
 		    .andReturn();
@@ -127,7 +134,6 @@ public class PoiAPIControllerTest {
 	
 	@Test
 	public void testDeleteNonExistingPoi() throws Exception {
-
 		this.mockMvc.perform(delete("/poi/NON_EXISTING_POI"))
 			.andExpect(status().isNoContent());
 		  
@@ -169,7 +175,7 @@ public class PoiAPIControllerTest {
 		System.out.println( "POI:" + json);
 		 MvcResult result = this.mockMvc.perform(post("/poi")
 	    	.param("type", type)
-	    	.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+	    	.contentType(JSON_UTF8)
 			.content(json))
 			.andExpect(status().isCreated())
 			.andReturn();
@@ -206,7 +212,7 @@ public class PoiAPIControllerTest {
 				"}";
 		
 		this.mockMvc.perform(put("/poi/" + saved.getId())
-			.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+			.contentType(JSON_UTF8)
 			.content(json))
 			.andExpect(status().isNoContent())
 		    .andReturn();
@@ -249,7 +255,7 @@ public class PoiAPIControllerTest {
 				"}";
 		
 		this.mockMvc.perform(put("/poi/" + saved.getId())
-			.contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+			.contentType(JSON_UTF8)
 			.content(json))
 			.andExpect(status().isNoContent())
 		    .andReturn();
@@ -260,9 +266,6 @@ public class PoiAPIControllerTest {
 		assertTrue(repoPoi.getSyncInfo().isImported());
 		assertEquals("original", repoPoi.getSyncInfo().getOriginalId());
 		assertFalse(repoPoi.getSyncInfo().isSync());  
-
-		
-		
 	}
 	
 	
@@ -274,41 +277,11 @@ public class PoiAPIControllerTest {
 		BasicPoi saved = repo.save(poi);
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byName").param("name", poi.getName().getEs()))
 			.andExpect(status().isOk())
-			.andExpect(content().contentType("application/json"))
+			.andExpect(content().contentType(JSON_UTF8.toString()))
 			.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
 			.andReturn();
 		String content = result.getResponse().getContentAsString();
 	    log.debug("result /poi/search/byName_es:\n" + content);
-	    repo.delete(saved);
-	}
-	
-	@Test
-	public void testFindByLocationWithIn() throws Exception {
-		repo.deleteAll();
-		GeoLocation alaska = DummyPoiFactory.POI_ALASKA.getLocation();
-		BasicPoi poi = DummyPoiFactory.POI_TEIDE;
-		BasicPoi saved = repo.save(poi); 
-		
-		MvcResult result = this.mockMvc.perform(get("/poi/search/locationWithin")
-				.param("lat", poi.getLocation().getLat().toString())
-				.param("lng", poi.getLocation().getLng().toString())
-				.param("radius", "5"))
-	    	.andExpect(status().isOk())
-	    	.andExpect(content().contentType("application/json"))
-	    	.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
-	    	.andReturn();
-		String content = result.getResponse().getContentAsString();
-	    log.debug("result /poi/search/name/locationWithin:\n" + content);
-	    
-	    // Test not found
-	    result = this.mockMvc.perform(get("/poi/search/locationWithin")
-				.param("lat", alaska.getLat().toString())
-				.param("lng", alaska.getLng().toString())
-				.param("radius", "5"))
-	    	.andExpect(status().isOk())
-	    	.andReturn();
-	 	content = result.getResponse().getContentAsString();	 	 
-	 	assertEquals(NO_RESULTS, content);
 	    repo.delete(saved);
 	}
 	
@@ -321,23 +294,23 @@ public class PoiAPIControllerTest {
 		
 		// Test found
 		MvcResult result = this.mockMvc.perform(get("/poi/search/byLocationNear")
-				.param("location", "{\"lat\":" + poi.getLocation().getLat() + ", \"lng\":" + poi.getLocation().getLng() + "}")
-				.param("distance", "5"))
+				.param("lat",  poi.getLocation().getLat().toString())
+				.param("lng",  poi.getLocation().getLng().toString())
+				.param("radius", "5"))
 	    	.andExpect(status().isOk())
-	    	.andExpect(content().contentType("application/json"))
+	    	.andExpect(content().contentType(JSON_UTF8.toString()))
 	    	.andExpect(jsonPath("$content[*].name.es").value(poi.getName().getEs()))
 	    	.andReturn();
 		String content = result.getResponse().getContentAsString();
 	    log.debug("result /poi/search/locationNear:\n" + content);
 	    
 	    // Test Not found
-	 	result = this.mockMvc.perform(get("/poi/search/byLocationNear")
-				.param("location", "{\"lat\":" + alaska.getLat() + ", \"lng\":" + alaska.getLng() + "}")
-				.param("distance", "5"))
+	 	this.mockMvc.perform(get("/poi/search/byLocationNear")
+				.param("lat", alaska.getLat().toString())
+				.param("lng", alaska.getLng().toString())
+				.param("radius", "5"))
 	    	.andExpect(status().isOk())
-	    	.andReturn();
-	 	content = result.getResponse().getContentAsString();	 	 
-	 	assertEquals(NO_RESULTS, content);
+	    	.andExpect(jsonPath("$totalElements").value(0));
 	    repo.delete(saved);
 	}
 	

@@ -43,7 +43,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-config.xml"})
+@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
 @ActiveProfiles("dev")
 public class PoiControllerTest {
 	
@@ -117,21 +117,21 @@ public class PoiControllerTest {
 		
 		// Test GET
 		result = this.mockMvc.perform( get("/admin/poi/{id}", id))
-				.andExpect(status().isOk())
-				.andExpect(view().name("admin/poi/poi"))
-				.andReturn();
+			.andExpect(status().isOk())
+			.andExpect(view().name("admin/poi/poi"))
+			.andReturn();
 		
 		// Test Search all
-				result = this.mockMvc.perform( get("/admin/poi"))
-						.andExpect(status().isOk())
-						.andExpect(view().name("admin/poi/poiList"))
-						.andReturn();
+		result = this.mockMvc.perform( get("/admin/poi"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("admin/poi/poiList"))
+			.andReturn();
 				
 		// Test Search by name
 		result = this.mockMvc.perform( get("/admin/poi").param("q", poi.getName().getEs()))
-				.andExpect(status().isOk())
-				.andExpect(view().name("admin/poi/poiList"))
-				.andReturn();
+			.andExpect(status().isOk())
+			.andExpect(view().name("admin/poi/poiList"))
+			.andReturn();
 				
 		// Test UPDATE 
 		PoiForm update = new PoiForm(PoiTypeID.BASIC);
@@ -143,23 +143,23 @@ public class PoiControllerTest {
 		update.setTimetable(new TimeTableEntry("0112="));
 				
 		result = this.mockMvc.perform(fileUpload("/admin/poi/" + id)
-				.param("name.es", update.getName().getEs())
-				.param("description.es", update.getDescription().getEs())
-				.param("address.route", update.getAddress().getRoute())
-				.param("address.adminArea1", update.getAddress().getAdminArea1())
-				.param("address.adminArea2", update.getAddress().getAdminArea2())
-				.param("address.zipCode", update.getAddress().getZipCode())
-				.param("location.lat", update.getLocation().getLat().toString())
-				.param("location.lng", update.getLocation().getLng().toString())
-				.param("flags", Flag.WC.toString())
-				.param("flags", Flag.HANDICAPPED.toString())
-				.param("timetable", "0112=")
-				.param("syncInfo.sync", "false")  // will be ignored
-				.param("syncInfo.imported", "false")  // will be ignored
-				.param("syncInfo.originalId", "Fooo")  // will be ignored
-				)
-			    .andExpect(status().isMovedTemporarily())
-			    .andReturn();
+			.param("name.es", update.getName().getEs())
+			.param("description.es", update.getDescription().getEs())
+			.param("address.route", update.getAddress().getRoute())
+			.param("address.adminArea1", update.getAddress().getAdminArea1())
+			.param("address.adminArea2", update.getAddress().getAdminArea2())
+			.param("address.zipCode", update.getAddress().getZipCode())
+			.param("location.lat", update.getLocation().getLat().toString())
+			.param("location.lng", update.getLocation().getLng().toString())
+			.param("flags", Flag.WC.toString())
+			.param("flags", Flag.HANDICAPPED.toString())
+			.param("timetable", "0112=")
+			.param("syncInfo.sync", "false")  // will be ignored
+			.param("syncInfo.imported", "false")  // will be ignored
+			.param("syncInfo.originalId", "Fooo")  // will be ignored
+			)
+		    .andExpect(status().isMovedTemporarily())
+		    .andReturn();
 		
 		repoPoi = repo.findOne(id);
 		testEquals(update, repoPoi);

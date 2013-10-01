@@ -7,7 +7,7 @@ import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.ZoneFactory;
+import info.spain.opencatalog.domain.DummyZoneFactory;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
@@ -120,7 +120,7 @@ public class PoiRepositoryTest {
 		mongoTemplate.save(DummyPoiFactory.POI_TEIDE);
 		mongoTemplate.save(DummyPoiFactory.POI_ALASKA);
 		
-		Zone madrid = ZoneFactory.ZONE_MADRID_CENTRO;
+		Zone madrid = DummyZoneFactory.ZONE_MADRID_CENTRO;
 		mongoTemplate.save(madrid);
 		
 		List<BasicPoi> pois = poiRepository.findWithInZone(madrid.getId());
@@ -142,7 +142,7 @@ public class PoiRepositoryTest {
 		mongoTemplate.save(DummyPoiFactory.POI_SOL);
 		mongoTemplate.save(DummyPoiFactory.POI_CASA_CAMPO);
 		
-		Zone complex = ZoneFactory.ZONE_COMPLEX;
+		Zone complex = DummyZoneFactory.ZONE_COMPLEX;
 		mongoTemplate.save(complex);
 		
 		List<BasicPoi> pois = poiRepository.findWithInZone(complex.getId());

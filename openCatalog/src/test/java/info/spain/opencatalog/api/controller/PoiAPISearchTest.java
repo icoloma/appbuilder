@@ -2,10 +2,11 @@ package info.spain.opencatalog.api.controller;
 
 import static junit.framework.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import info.spain.opencatalog.domain.DummyPoiFactory;
+import info.spain.opencatalog.domain.DummyZoneFactory;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.ZoneFactory;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.repository.PoiRepository;
 import info.spain.opencatalog.repository.ZoneRepository;
@@ -39,7 +40,7 @@ import com.jayway.jsonpath.JsonPath;
 @WebAppConfiguration()
 @ContextConfiguration({ "classpath:APITest-config.xml"})
 @ActiveProfiles("dev")
-public class PoiAPICustomSearchTest {
+public class PoiAPISearchTest {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -77,13 +78,22 @@ public class PoiAPICustomSearchTest {
 		playaTeresitas = poiRepo.save(DummyPoiFactory.PLAYA_TERESITAS);
 		playaLaConcha = poiRepo.save(DummyPoiFactory.PLAYA_LA_CONCHA);
 		
-		zonaNorte = zoneRepo.save(ZoneFactory.ZONE_NORTE);
-		zonaTenerife = zoneRepo.save(ZoneFactory.ZONE_PROVINCIA_STA_CRUZ);
-		zonaVacia = zoneRepo.save(ZoneFactory.ZONE_EMPTY);
+		zonaNorte = zoneRepo.save(DummyZoneFactory.ZONE_NORTE);
+		zonaTenerife = zoneRepo.save(DummyZoneFactory.ZONE_PROVINCIA_STA_CRUZ);
+		zonaVacia = zoneRepo.save(DummyZoneFactory.ZONE_EMPTY);
 	}
 	
 	
-
+	@Test
+	public void testFindById() throws Exception {
+		this.mockMvc.perform(
+			get("/poi/{0}",playaTeresitas.getId().toString() )
+				.accept(MediaType.valueOf("application/json;charset=UTF-8"))
+			)
+			.andExpect(jsonPath("name.es").value(playaTeresitas.getName().getEs()))
+			.andExpect(status().isOk())
+			.andReturn();
+	}
 	
 	@Test
 	public void test_match_AND_criterias_OK_with_LasTeresitas() throws Exception {
@@ -96,7 +106,7 @@ public class PoiAPICustomSearchTest {
 	
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
@@ -122,7 +132,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -146,7 +156,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("query:" + query);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -164,7 +174,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -181,7 +191,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -198,7 +208,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -216,7 +226,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -232,7 +242,7 @@ public class PoiAPICustomSearchTest {
 		String jsonQuery = objectMapper.writeValueAsString(query);
 		log.trace("jsonQuery:" + jsonQuery);
 		
-		MvcResult mvcResult = sendRequest(jsonQuery);
+		MvcResult mvcResult = sendCustomSearchRequest(jsonQuery);
 		String response = mvcResult.getResponse().getContentAsString();
 		log.trace("Response:" + response);
 
@@ -247,13 +257,14 @@ public class PoiAPICustomSearchTest {
 	 * @param jsonQuery
 	 * @return
 	 */
-	private MvcResult sendRequest(String jsonQuery) throws Exception {
+	private MvcResult sendCustomSearchRequest(String jsonQuery) throws Exception {
 		log.trace("Query: " + jsonQuery);
 		MvcResult mvcResult = this.mockMvc.perform(
 			get("/poi/search/custom")
+				.contentType(MediaType.valueOf("application/json;charset=UTF-8"))
+				.content(jsonQuery)
 				.accept(MediaType.valueOf("application/json;charset=UTF-8"))
-				.param("q", jsonQuery)
-				.param("limit", "10")
+				
 			)
 			.andExpect(status().isOk())
 			.andReturn();
