@@ -29,6 +29,9 @@ define(['modules/geo', 'db/db', 'poi/model'], function(Geo, Db, Poi) {
       requerir otras llamadas a BDD o geolocalización.
         * @queryObj: {
             geo: ID del POI para buscar por cercanía, o "__NEAR_ME" cuando se trata de buscar 
+            categories: ids de categorías de búsqueda
+            flags: ids de flags para buscar
+            text: texto de la búsqueda
           }
     */
     searchConditions: function(queryObj, callback) {

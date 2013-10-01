@@ -7,7 +7,7 @@ define(['search/search', 'test/mocksql', 'test/mockgeo'], function(Search, MockS
     Search.searchConditions({
       text: text,
     }, function(err, queryConditions) {
-      ok(/foo bar baz/.exec(queryConditions).length, 'Espacios en blanco eliminados.');
+      ok(/foo bar baz/.test(queryConditions), 'Espacios en blanco eliminados.');
       start();
     });
   });
@@ -25,41 +25,67 @@ define(['search/search', 'test/mocksql', 'test/mockgeo'], function(Search, MockS
     }, function(err, queryConditions) {
       // TO-DO: testar algo decente
       ok(
-        /lat >/.exec(queryConditions).length && 
-        /lat </.exec(queryConditions).length && 
-        /normLon >/.exec(queryConditions).length && 
-        /normLon </.exec(queryConditions).length
+        /lat >/.test(queryConditions) &&
+        /lat </.test(queryConditions) &&
+        /normLon >/.test(queryConditions) &&
+        /normLon </.test(queryConditions)
       );
-      start();      
+      start();
     });
   });
 
-  // TO-DO: arreglar dependencia con Db
-  // asyncTest('Cercanía a un POI', 1, function() {
-  //   MockSql.options = {
-  //     results: [
-  //       {
-  //         id: '123fooBAR',
-  //         lat: '20',
-  //         normLon: '5'
-  //       }
-  //     ] 
-  //   };
-  //   Search.searchConditions({
-  //     text: 'foobar',
-  //     geo: '123fooBAR'
-  //   }, function(err, queryConditions) {
-  //     // TO-DO: testar algo decente
-  //     ok(
-  //       /lat >/.exec(queryConditions).length && 
-  //       /lat </.exec(queryConditions).length && 
-  //       /normLon >/.exec(queryConditions).length && 
-  //       /normLon </.exec(queryConditions).length
-  //     );
-  //     start();     
-  //   });
-  // });
+  asyncTest('Cercanía a un POI', 1, function() {
+    MockSql.options = {
+      results: [
+        {
+          id: '123fooBAR',
+          lat: '20',
+          normLon: '5'
+        }
+      ]
+    };
+    Search.searchConditions({
+      text: 'foobar',
+      geo: '123fooBAR'
+    }, function(err, queryConditions) {
+      // TO-DO: testar algo decente
+      ok(
+        /lat >/.test(queryConditions) &&
+        /lat </.test(queryConditions) &&
+        /normLon >/.test(queryConditions) &&
+        /normLon </.test(queryConditions)
+      );
+      start();
+    });
+  });
 
-  //TO-DO: testar category conditions
+  // asyncTest('Búsqueda por categorías', 2, function() {
+  //   window.res.searchCategories = {
+  //     '1234foobar': {
+  //       id: '1234foobar',
+  //       queryConditions: 'foo=FOO AND bar=BAZ'
+  //     },
+  //     '345guau': {
+  //       id: '345guau',
+  //       queryConditions: 'some conditions'
+  //     }
+  //   };
+
+  //   Search.searchConditions({
+  //     text: 'foo',
+  //     categories: ['1234foobar']
+  //   }, function(err, queryConditions) {
+  //     ok(/foo=FOO AND bar=BAZ/.test(queryConditions), 'Categoría incluida.');
+  //   });
+
+  //   Search.searchConditions({
+  //     text: 'foo',
+  //     categories: ['1234foobar', '345guau']
+  //   }, function(err, queryConditions) {
+  //     ok(!/AND/.test(queryConditions), 'Sin restricciones por categoría.');
+  //     start();
+  //   });
+
+  // });
 
 });
