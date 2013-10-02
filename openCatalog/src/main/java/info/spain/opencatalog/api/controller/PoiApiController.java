@@ -23,7 +23,6 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +32,9 @@ import org.springframework.data.mongodb.core.geo.Distance;
 import org.springframework.data.mongodb.core.geo.Metrics;
 import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.hateoas.ExposesResourceFor;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 
 @Controller
 @ExposesResourceFor(BasicPoi.class)
@@ -65,36 +68,8 @@ public class PoiApiController extends AbstractController {
 	PoiResourceAssembler poiResourceAssembler;
 	
 	
-	
-	
-	// TODO: HEAD que devuelva los valores validos/permitidos para un PoiType concreto
-	// Ej.: BEACH --> data.width, data.longitude, ...
-	
-	@RequestMapping(value="/search", method = RequestMethod.GET)
-	public @ResponseBody ResourceSupport search() throws Exception {
-		return getPoiHateoasLinks();
-	}
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody ResourceSupport find() throws Exception {
-		return getPoiHateoasLinks();
-	}
-	
-	private ResourceSupport getPoiHateoasLinks() throws Exception {
-		ResourceSupport resource = new ResourceSupport(){};
-		resource.add(linkTo(PoiApiController.class).slash("search").slash("byName").withRel("byName"));
-		resource.add(linkTo(PoiApiController.class).slash("search").slash("byLocationNear").withRel("byLocationNear"));
-		resource.add(linkTo(PoiApiController.class).slash("search").slash("custom").withRel("custom"));
-		return resource;
-	}
-	
-	
-	
 	/**
 	 * Create
-	 *  
-	 * @throws IOException 
-	 * @throws JSONException 
 	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST)
@@ -162,6 +137,38 @@ public class PoiApiController extends AbstractController {
 			poiRepository.delete(idPoi);
 		}
 		
+	}
+	
+	/**
+	 * Search Links
+	 */
+	@RequestMapping(value="/search", method = RequestMethod.GET)
+	public @ResponseBody ResourceSupport search() throws Exception {
+		ResourceSupport resource = new ResourceSupport(){};
+		resource.add(getSearchLinks());
+		return resource;
+	}
+	
+	/**
+	 * FindAll
+	 */
+	@RequestMapping(method = RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody PagedResources<PoiResource> findAll(@RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue=DEFAULT_API_PAGE_SIZE) int size) throws Exception {
+		Pageable pageable = new PageRequest(page,size,new Sort("lastModified"));
+		Page<BasicPoi> pois = poiRepository.findAll(pageable);
+		Page<PoiResource> result = new PageImpl<>(convertToPoiResourceList(pois), pageable, pois.getTotalElements());
+		PageMetadata metadata = new PagedResources.PageMetadata(result.getSize(), result.getNumber(), result.getTotalElements());
+		PagedResources<PoiResource> pagedResources = new PagedResources<PoiResource>(result.getContent(), metadata);
+		pagedResources.add(getSearchLinks());
+		return pagedResources;
+	}
+	
+	private Iterable<Link> getSearchLinks(){
+		List<Link> result = Lists.newArrayList();
+		result.add(linkTo(PoiApiController.class).slash("search").slash("byName").withRel("byName"));
+		result.add(linkTo(PoiApiController.class).slash("search").slash("byLocationNear").withRel("byLocationNear"));
+		result.add(linkTo(PoiApiController.class).slash("search").slash("custom").withRel("custom"));
+		return result;
 	}
 	
 	/**

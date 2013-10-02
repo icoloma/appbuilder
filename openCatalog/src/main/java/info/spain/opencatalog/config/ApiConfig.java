@@ -30,8 +30,6 @@ public class ApiConfig {
 	@Bean 
 	public DefaultFormattingConversionService defaultConversionService() {
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-//		conversionService.addConverter(UUIDConverter.INSTANCE);
-//		conversionService.addConverter(ISO8601DateConverter.INSTANCE);
 		return conversionService;
 	}
 	

@@ -9,7 +9,7 @@ import com.google.common.base.Strings;
  * 
  * @author ehdez
  * 
- * FIXME: change for a HashMap implementation when fixed #8
+ * TODO: Cambiar a una implementación basada en Map
  */
 
 public class I18nText {
