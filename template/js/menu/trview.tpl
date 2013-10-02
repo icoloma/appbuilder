@@ -1,4 +1,4 @@
-<div class="row item-row activable" 
+<div class="row item-row" data-activable 
   data-url="{{tpl.url}}" >
   <div class="menu-tr-name col-xs-{{tpl.poiCount ? 10 : 12}}">{{tpl.label}}</div>
   <% if(tpl.poiCount) { %>

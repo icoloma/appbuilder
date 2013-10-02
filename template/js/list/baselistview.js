@@ -12,7 +12,7 @@ define(['globals'],
       className: 'collectionview',
 
       events: {
-        'tap .item-row': function(e) {
+        'activableTap .item-row': function(e) {
           this.trigger('navigate', $(e.currentTarget).data('url'), 1);
         }
       },

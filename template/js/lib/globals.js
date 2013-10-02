@@ -1,7 +1,7 @@
 define(
   [ 
     'jquery', 'underscore', 'backbone',
-    'modules/touch', 'SQLitePlugin', 'async', 'swipe',
+    'ui/touch', 'hammer', 'SQLitePlugin', 'async', 'swipe',
     'bootstrap/transition', 'bootstrap/collapse'
   ],
   function() {

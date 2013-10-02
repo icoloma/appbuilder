@@ -25,6 +25,7 @@
     almond: comp + 'almond/almond',
     'bootstrap/transition': comp + 'bootstrap/js/transition',
     'bootstrap/collapse': comp + 'bootstrap/js/collapse',
+    hammer: comp + 'hammerjs/dist/jquery.hammer',
     tpl: 'modules/tpl'
   }
 
@@ -48,6 +49,9 @@
       'bootstrap/collapse': {
         deps: ['jquery']
       },
+      hammer: {
+        deps: ['jquery']
+      }
     }
   }
   ;
