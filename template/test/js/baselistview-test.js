@@ -41,24 +41,24 @@ define(['list/baselistview', 'test/mocktouch'], function(ListView, MockTouch) {
 
   // });
 
-  asyncTest('Navigation', 1, function() {
-    $('body').append(listView.render().$el);
+  // asyncTest('Navigation', 1, function() {
+  //   $('body').append(listView.render().$el);
 
-    var navigate = false;
-    listView.on('navigate', function(url, dir) {
-      navigate = url === collection.at(0).get('url') &&
-                  dir === 1;
-    });
+  //   var navigate = false;
+  //   listView.on('navigate', function(url, dir) {
+  //     navigate = url === collection.at(0).get('url') &&
+  //                 dir === 1;
+  //   });
 
-    var $row = listView.$('.item-row').first();
-    $row[0].dispatchEvent(MockTouch('start'));
-    $row[0].dispatchEvent(MockTouch('end'));
+  //   var $row = listView.$('.item-row').first();
+  //   $row[0].dispatchEvent(MockTouch('start'));
+  //   $row[0].dispatchEvent(MockTouch('end'));
 
-    _.delay(function() {
-      ok(navigate, 'Navigation OK');
-      start();
-    }, 50);
-  });
+  //   _.delay(function() {
+  //     ok(navigate, 'Navigation OK');
+  //     start();
+  //   }, 50);
+  // });
 
 
 });
