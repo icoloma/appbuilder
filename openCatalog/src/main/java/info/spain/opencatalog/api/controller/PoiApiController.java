@@ -23,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +51,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping(value = "/poi")
 public class PoiApiController extends AbstractController {
 	
+	
 	@Autowired 
 	PoiRepository poiRepository;
 	
@@ -61,6 +63,8 @@ public class PoiApiController extends AbstractController {
 	
 	@Autowired
 	PoiResourceAssembler poiResourceAssembler;
+	
+	
 	
 	
 	// TODO: HEAD que devuelva los valores validos/permitidos para un PoiType concreto
@@ -176,7 +180,7 @@ public class PoiApiController extends AbstractController {
 	 * FindByName
 	 */
 	@RequestMapping(value="/search/byName", method=RequestMethod.GET)
-	public @ResponseBody Page<PoiResource>  findByName(@RequestParam("name") String name, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue="5") int size){
+	public @ResponseBody Page<PoiResource>  findByName(@RequestParam("name") String name, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue=DEFAULT_API_PAGE_SIZE) int size){
 		Pageable pageable = new PageRequest(page,size,new Sort("lastModified"));
 		Page<BasicPoi> pois = poiRepository.findByNameEsLikeIgnoreCase(name, pageable);
 		Page<PoiResource> result = new PageImpl<>(convertToPoiResourceList(pois), pageable, pois.getTotalElements());
@@ -206,7 +210,7 @@ public class PoiApiController extends AbstractController {
 	 * Custom Search
 	 */
 	@RequestMapping(value="/search/custom")
-	public @ResponseBody Page<PoiResource> customSearch(@RequestBody(required=false) SearchQuery searchQuery, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue="5") int size) {
+	public @ResponseBody Page<PoiResource> customSearch(@RequestBody(required=false) SearchQuery searchQuery, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue=DEFAULT_API_PAGE_SIZE) int size) {
 		Pageable pageable = new PageRequest(page,size,new Sort("lastModified"));
 		if (searchQuery == null) {
 			searchQuery = new SearchQuery();

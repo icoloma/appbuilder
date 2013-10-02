@@ -90,7 +90,7 @@ public class ZoneApiController extends AbstractController {
 	 * FindByName
 	 */
 	@RequestMapping(value="/search/byName", method=RequestMethod.GET)
-	public @ResponseBody Page<ZoneResource>  findByName(@RequestParam("name") String name, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue="5") int size){
+	public @ResponseBody Page<ZoneResource>  findByName(@RequestParam("name") String name, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="size", defaultValue=DEFAULT_API_PAGE_SIZE) int size){
 		Pageable pageable = new PageRequest(page,size,new Sort("lastModified"));
 		Page<Zone> zones= zoneRepository.findByNameIgnoreCaseLike(name, pageable);
 		Page<ZoneResource> result = new PageImpl<>(convertToZoneResourceList(zones), pageable, zones.getTotalElements());
