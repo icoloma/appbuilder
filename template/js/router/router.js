@@ -96,7 +96,7 @@ define(
 
       renderBookmarks: function() {
         var sqlStr = 'SELECT id,thumb,address,name_' + res.locale +
-        ' FROM Poi WHERE starred > -1'
+        ' FROM Poi WHERE starred > -1 ORDER BY starred'
         , self = this
         ;
         Db.sql(sqlStr, [], function(err, pois) {

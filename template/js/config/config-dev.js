@@ -88,6 +88,9 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
       alert: _.bind(alert, window)
     };
 
+    // Favoritos mockeados
+    localStorage.setItem('starredCount', catalog_config._starredCount_dev);
+
     return function(callback) {
       i18nUtils.config(_.extend(i18n_strings, catalog_config, flagIcons));
       PoiModel.initSchema(catalog_config.schema);
@@ -115,6 +118,9 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
 
         // Inicia la BDD SQLite del dispositivo
         Db.initDb(window.sqlitePlugin.openDatabase({name: res.dbName}));
+
+        // Favoritos mockeados
+        localStorage.setItem('starredCount', appConfig._starredCount_dev);
 
         // Obtener la plataforma y el locale
         window.res.platform = device.platform;

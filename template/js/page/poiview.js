@@ -48,10 +48,17 @@ define(
       },
 
       star: function() {
-        var self = this;
-        this.model.set('starred', this.model.get('starred') > -1 ? -1 : 0);
-        var message = this.model.get('starred') > -1 ? res.i18n.bookmarkAdded : res.i18n.bookmarkRemoved;
-        this.model.persist(function() {
+        var self = this
+        , starredCount = Number(localStorage.getItem('starredCount'))
+        , starring = this.model.get('starred') < 0
+        ;
+        this.model.set('starred', starring ? starredCount + 1 : -1);
+        var message = starring ? res.i18n.bookmarkAdded : res.i18n.bookmarkRemoved;
+        this.model.persist(function(err) {
+          // TO-DO: error handling
+          if (starring) {
+            localStorage.setItem('starred', starredCount + 1);
+          }
           navigator.notification.alert(message, null, res.i18n.Starred);
 
           self.modelView.render();

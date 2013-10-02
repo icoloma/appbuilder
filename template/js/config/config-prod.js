@@ -25,6 +25,10 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
     platform: null
   };
 
+  if (!localStorage.getItem('starredCount')) {
+    localStorage.setItem('starredCount', 0);
+  }
+
   return function(callback) {
     async.parallel({
       device: function(cb) {

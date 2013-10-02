@@ -75,8 +75,7 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
       }).join('').slice(0, -1)
       ;
       Db.sql('UPDATE Poi SET ' + sqlStr + ' WHERE `id`="' + this.get('id') + '"', [], function(err, results) {
-        // TO-DO: error handling
-        callback();
+        callback(err);
       });
     }
   }, {

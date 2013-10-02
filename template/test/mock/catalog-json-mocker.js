@@ -18,6 +18,7 @@ var random = require('./random-data.js')
   }
   return result;
 }
+, starredCount = 0
 ;
 
 module.exports = function(poiNumber) {
@@ -56,7 +57,7 @@ module.exports = function(poiNumber) {
       flags: randomFlags().split(' '),
       thumb: imgs.splice(random.randomInt(0, imgs.length -1 ), 1)[0],
       imgs: imgs,
-      starred: -1
+      starred: random.randomInt(1, 20) > 1 ? -1 : starredCount++
     };
     _.extend(poi,
       i18n.object({
