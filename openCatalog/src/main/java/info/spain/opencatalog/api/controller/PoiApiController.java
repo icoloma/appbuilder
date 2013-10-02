@@ -8,7 +8,6 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
-import info.spain.opencatalog.web.controller.AbstractController;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +30,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.geo.Distance;
 import org.springframework.data.mongodb.core.geo.Metrics;
 import org.springframework.data.mongodb.core.geo.Point;
-import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.PagedResources.PageMetadata;
@@ -50,9 +48,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 @Controller
-@ExposesResourceFor(BasicPoi.class)
 @RequestMapping(value = "/poi")
-public class PoiApiController extends AbstractController {
+public class PoiApiController extends AbstractApiController {
 	
 	
 	@Autowired 

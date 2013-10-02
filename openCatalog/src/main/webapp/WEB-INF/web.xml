@@ -16,27 +16,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-
-	<!-- API Dispatcher Servlet
-	<servlet>
-		<servlet-name>apiServlet</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-            <param-name>contextClass</param-name>
-            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-        </init-param>
-       	<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>info.spain.opencatalog.config.ApiMvcConfig</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>apiServlet</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
- -->
-
 	<!-- UI Dispatcher Servlet -->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>

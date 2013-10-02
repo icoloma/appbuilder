@@ -7,8 +7,7 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import org.springframework.web.multipart.MultipartFile;
 
 /*
- * FIXME: 
- * Actualmente extendemos de Lodging para poderlo usar tanto como BasicPoi como Lodging
+ * FIXME: Actualmente extendemos de Lodging para poderlo usar tanto como BasicPoi como Lodging
  * Si chiciera falta habría que mirar si se necesita crear una jerarquía de Forms o utilizar uno único genérico
  * 
  */

@@ -77,7 +77,7 @@ public class PoiAPIControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(JSON_UTF8.toString()))
 			.andExpect(jsonPath("$.name.es").value(poi.getName().getEs()))
-			.andReturn();     //FIXME: delete when fixed #8 
+			.andReturn();
 	    
 	    String content = result.getResponse().getContentAsString();
 	    log.debug( "result /poi/" + saved.getId() + ":\n" + content);
@@ -192,7 +192,7 @@ public class PoiAPIControllerTest {
 		// let's change 
 		//    sync = true        ---> will be ignored
 		//    imported = true    ---> will be ignored
-		//    originalId = "XXX" ---> will be ignored
+		//    originalId = "aaa" ---> will be ignored
 		String json = "{" +
 				"'type': '" + poi.getType() + "'," +
 				"'name':{" +

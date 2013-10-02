@@ -4,10 +4,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import info.spain.opencatalog.api.ZoneResource;
 import info.spain.opencatalog.api.ZoneResourceAssembler;
 import info.spain.opencatalog.domain.Zone;
-import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.ZoneRepository;
-import info.spain.opencatalog.web.controller.AbstractController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.PagedResources.PageMetadata;
@@ -42,9 +39,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 @Controller
-@ExposesResourceFor(BasicPoi.class)
 @RequestMapping(value = "/zone")
-public class ZoneApiController extends AbstractController {
+public class ZoneApiController extends AbstractApiController {
 	
 	@Autowired 
 	ZoneRepository zoneRepository;

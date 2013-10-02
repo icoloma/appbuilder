@@ -161,7 +161,7 @@ public class ZoneAPIControllerTest {
 //		// let's change 
 //		//    sync = true        ---> will be ignored
 //		//    imported = true    ---> will be ignored
-//		//    originalId = "XXX" ---> will be ignored
+//		//    originalId = "aaa" ---> will be ignored
 //		String json = "{" +
 //				"'type': '" + zone.getType() + "'," +
 //				"'name':{" +
@@ -174,7 +174,7 @@ public class ZoneAPIControllerTest {
 //				"'syncInfo' : {" +
 //					"'sync' : 'true'," +
 //					"'imported' : 'true'," +
-//					"'originalId' : 'XXX'," +
+//					"'originalId' : 'aaa'," +
 //					"'lastUpdate' : '20130101'" +
 //				"}," +
 //				"'flags':['" + Flag.GUIDED_TOUR+ "']" +

@@ -7,11 +7,9 @@ import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.ImageResource;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
-import info.spain.opencatalog.web.controller.AbstractController;
 
 import java.io.IOException;
 import java.util.List;
-
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @ExposesResourceFor(BasicPoi.class)
 @RequestMapping(value = "/poi/{idPoi}/image")
-public class PoiImageApiController extends AbstractController {
+public class PoiImageApiController extends AbstractApiController {
 
 	@Autowired 
 	PoiRepository poiRepository;

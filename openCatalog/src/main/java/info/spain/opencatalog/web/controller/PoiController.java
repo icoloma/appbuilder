@@ -144,8 +144,6 @@ public class PoiController extends AbstractUIController {
 
 	/**
 	 * DELETE
-	 * 
-	 * FIXME: Parece que no funciona el _method=DELETE con multipart
 	 */
 	@RequestMapping( value="/{id}/delete")
 	public String delete( @PathVariable("id") String idPoi, Model model) {
@@ -170,8 +168,7 @@ public class PoiController extends AbstractUIController {
 	
 	/**
 	 * UPDATE
-	 * 
-	 * FIXME: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
+	 * Nota: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
 	 * @throws IOException 
 	 */
 	@RequestMapping( value="/{id}", method=RequestMethod.POST) 

@@ -17,9 +17,6 @@ import org.springframework.web.util.UriTemplate;
 
 public abstract class AbstractController {
 	
-	protected static final String DEFAULT_API_PAGE_SIZE = "10";
-
-	
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
 	protected HttpEntity<byte[]> getInputStreamAsHttpEntity(InputStream is, String contentType, long contentLength, String filename)  {
@@ -46,6 +43,9 @@ public abstract class AbstractController {
 		 UriTemplate template = new UriTemplate(url.append("/{childId}").toString());
 		 return template.expand(childIdentifier).toASCIIString();
 	 }
+	
+	
+	
 
 
 }
