@@ -1,4 +1,4 @@
-define(['modules/baselistview'],
+define(['list/baselistview'],
 function(BaseListView) {
   return BaseListView.extend({
     /*

@@ -1,5 +1,5 @@
 define(
-  ['modules/paginatedlistview', 'tpl!poi/trview.tpl', 'ui/topbarview', 'modules/geo',
+  ['list/paginatedlistview', 'tpl!poi/trview.tpl', 'ui/topbarview', 'modules/geo',
    'poi/collection'],
   function(PaginatedListView, TrView, TopbarView, Geo, PoiCollection) {
 
