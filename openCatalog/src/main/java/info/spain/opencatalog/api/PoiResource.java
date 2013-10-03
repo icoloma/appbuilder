@@ -171,16 +171,8 @@ public class PoiResource extends ResourceSupport {
 		return created;
 	}
 
-	public void setCreated(String created) {
-		this.created = created;
-	}
-
 	public String getLastModified() {
 		return lastModified;
-	}
-
-	public void setLastModified(String lastModified) {
-		this.lastModified = lastModified;
 	}
 
 	@Override

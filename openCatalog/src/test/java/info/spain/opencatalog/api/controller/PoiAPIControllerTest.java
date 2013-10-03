@@ -16,7 +16,6 @@ import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
-import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 import net.minidev.json.JSONArray;

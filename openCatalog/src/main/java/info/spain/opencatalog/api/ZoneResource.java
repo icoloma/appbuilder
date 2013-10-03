@@ -44,10 +44,7 @@ public class ZoneResource extends ResourceSupport {
 	public String getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	public void setLastModifiedDate(String lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-	public Address getAddress() {
+		public Address getAddress() {
 		return address;
 	}
 	public void setAddress(Address address) {
@@ -62,10 +59,6 @@ public class ZoneResource extends ResourceSupport {
 	public String getCreated() {
 		return created;
 	}
-	public void setCreated(String created) {
-		this.created = created;
-	}
-	
 	@Override
 	public int hashCode() {
 		return super.hashCode();
