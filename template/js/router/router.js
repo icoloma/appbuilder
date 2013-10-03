@@ -15,7 +15,7 @@ define(
         'pois?(:uri)': 'renderPois',
         'pois/:poiId': 'renderPoi',
         'search?(:prevQuery)': 'renderSearch',
-        'bookmarks': 'renderBookmarks'
+        'bookmarks(?:uri)': 'renderBookmarks',
       },
 
       initialize: function(options) {
@@ -63,12 +63,6 @@ define(
             return new Poi.Model(poi, {parse: true});
           }));
 
-          // if (uriObj.sort) {
-          //   pois.comparator = 
-          //     PoiCollection.sortByDistanceTo(uriObj.sort.lat, uriObj.sort.lon);
-          //   pois.sort();
-          // }
-
           self.setView(Page.PoisView, {
             collection: pois,
             title: uriObj.title,
@@ -94,11 +88,13 @@ define(
         this.setView(Page.SearchView, JSON.parse(prevQuery || null));
       },
 
-      renderBookmarks: function() {
+      renderBookmarks: function(uri) {
         var sqlStr = 'SELECT id,thumb,address,name_' + res.locale +
         ' FROM Poi WHERE starred > -1 ORDER BY starred'
         , self = this
+        , uriObj = uri ? JSON.parse(decodeURIComponent(uri)) : {}
         ;
+
         Db.sql(sqlStr, [], function(err, pois) {
           pois = new Poi.Collection(_.map(pois, function(poi) {
             return new Poi.Model(poi, {parse: true});
@@ -106,7 +102,8 @@ define(
 
           self.setView(Page.FavoritesView, {
             collection: pois,
-            title: res.i18n.Starred
+            title: res.i18n.Starred,
+            cursor: uriObj.cursor
           });
         });
       }
