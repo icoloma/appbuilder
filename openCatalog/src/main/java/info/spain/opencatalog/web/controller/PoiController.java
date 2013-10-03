@@ -206,8 +206,6 @@ public class PoiController extends AbstractUIController {
 		
 		poiForm.validate(); 
 		
-		
-
 		BasicPoi poi = poiForm.getPoi();
 		poi.setId(id);
 		

@@ -18,6 +18,10 @@ public class RoomPrice extends Price {
 	private Meal meal;
 	
 
+	public RoomPrice() {
+		super();
+	}
+	
 	public RoomPrice(RoomType roomType,  Meal meal, Double price) {
 		super();
 		this.roomType = roomType;
@@ -33,8 +37,6 @@ public class RoomPrice extends Price {
 	public void setRoomType(RoomType roomType) {
 		this.roomType = roomType;
 	}
-
-
 
 	public Meal getMeal() {
 		return meal;

@@ -80,16 +80,28 @@ public class PoiControllerTest {
 	/**
 	 * Test CRUD of a POI
 	 * @throws Exception
+	 * 
+	 * 
 	 */
+	
 	@Test
-	public void test_POST_GET_SEARCH_UPDATE_DELETE() throws Exception {
+	public void test_CRUD_Basic() throws Exception {
+		test_CRUD(PoiTypeID.BASIC);
+	}
+
+	@Test
+	public void test_CRUD_Hotel() throws Exception {
+		test_CRUD(PoiTypeID.HOTEL);
+	}
+
+	private void test_CRUD(PoiTypeID type) throws Exception {
 		repo.deleteAll();
 		BasicPoi poi = DummyPoiFactory.newPoi("poiTest");
 		poi.setFlags( Flag.AIR_CONDITIONED, Flag.GUIDE_DOG_ALLOWED);
 		poi.setTimetable(new TimeTableEntry("2412="));
 		
 		// Test POST
-		MvcResult result = this.mockMvc.perform(post("/admin/poi/new/BASIC")
+		MvcResult result = this.mockMvc.perform(post("/admin/poi/new/" + type)
 				.param("name.es", poi.getName().getEs())
 				.param("description.es", poi.getDescription().getEs())
 				.param("address.route", poi.getAddress().getRoute())

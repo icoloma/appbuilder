@@ -70,11 +70,13 @@ public class PoiApiController extends AbstractApiController {
 	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST)
-	public void saveBacic( HttpServletRequest req, HttpServletResponse res) throws IOException, JSONException {
+	public void create( HttpServletRequest req, HttpServletResponse res) throws IOException, JSONException {
 		JSONObject json = getJSON(req.getInputStream());
 		String jsonType= json.getString("type");
+		
 		Class<? extends BasicPoi> clazz = PoiTypeID.valueOf(jsonType).getPoiClass();
 		BasicPoi poi = objectMapper.readValue(json.toString(), clazz);
+		
 		poi.getSyncInfo()
 			.setLastUpdate(null)  // Always override
 			.setImported(false)   // Always override 

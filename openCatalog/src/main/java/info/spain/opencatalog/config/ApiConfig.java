@@ -20,7 +20,6 @@ public class ApiConfig {
 	public ObjectMapper objectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		// Configure custom Modules
 		configureJacksonObjectMapper(objectMapper);
 		return objectMapper;
 	}

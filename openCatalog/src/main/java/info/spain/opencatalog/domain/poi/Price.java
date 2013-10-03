@@ -1,7 +1,10 @@
 package info.spain.opencatalog.domain.poi;
 
 import info.spain.opencatalog.domain.I18nText;
+import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.base.Objects;
 
 /**
@@ -12,6 +15,12 @@ import com.google.common.base.Objects;
  *   - Horarios aplicados a este precio: Lunes-Viernes de 18:00 a 20:00
  *   - Texto adicional: "La Entrada es gratuíta para miembros de ... " 
  */
+
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type", defaultImpl=Price.class)
+@JsonSubTypes({
+	@JsonSubTypes.Type(value=Price.class, name="BASE"),
+    @JsonSubTypes.Type(value=RoomPrice.class, name="ROOM")
+})
 public class Price {
 	
 	protected Double price;

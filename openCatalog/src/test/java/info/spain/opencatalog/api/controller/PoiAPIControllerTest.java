@@ -16,6 +16,7 @@ import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.GeoLocation;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
+import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.repository.PoiRepository;
 import net.minidev.json.JSONArray;
@@ -146,7 +147,7 @@ public class PoiAPIControllerTest {
 	 */
 	@Test
 	public void testPOST() throws Exception {
-		String type = PoiTypeID.HOTEL.toString();
+		String type = PoiTypeID.MUSEUM.toString();
 		repo.deleteAll();
 		String json = "{" +
 				"'type': '" + type + "'," +
@@ -168,7 +169,12 @@ public class PoiAPIControllerTest {
 					"'lat':40.45259106740161," +
 					"'lng':-3.7391396261243433" +
 				"}," +
-				"'flags':['" + Flag.GUIDED_TOUR+ "']" +
+				"'flags':['" + Flag.GUIDED_TOUR+ "']," +
+				"'prices': [{" +
+						"'price' : 25, " +
+						"'timeTable' : { }," +
+						"'observations' : { 'es' : 'Temporada media' } " +
+					"}]" +
 				"}";
 		json = json.replaceAll("'", "\"");
 		
