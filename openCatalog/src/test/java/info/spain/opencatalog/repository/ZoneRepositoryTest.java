@@ -1,10 +1,13 @@
 package info.spain.opencatalog.repository;
-
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.DummyZoneFactory;
+import info.spain.opencatalog.domain.Zone;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +19,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.collect.Lists;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,6 +57,26 @@ public class ZoneRepositoryTest {
 	
 		assertEquals(result.getContent().get(0).getName(), zone.getName());
 		mongoTemplate.remove(zone);
+	}
+	
+	
+	@Test
+	public void testFindByIds(){
+		Zone zone1 = zoneRepository.save(DummyZoneFactory.newZone("zone1"));
+		Zone zone2 = zoneRepository.save(DummyZoneFactory.newZone("zone2"));
+		Zone zone3 = zoneRepository.save(DummyZoneFactory.newZone("zone3"));
+		
+		String[] ids = new String[] { zone1.getId(), zone2.getId() };
+		
+		List<Zone> dbZones = zoneRepository.findByIds(ids);
+		assertEquals( 2, dbZones.size());
+
+		List<String> dbIds = Lists.newArrayList(dbZones.get(0).getId(), dbZones.get(1).getId());
+		
+		assertTrue( dbIds.contains(zone1.getId()));
+		assertTrue( dbIds.contains(zone2.getId()));
+		assertFalse( dbIds.contains(zone3.getId()));
+		
 	}
 
 

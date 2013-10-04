@@ -33,48 +33,29 @@
 			th:action="@{'/admin/user/' + ${user.id?:''}}" 
 			th:object="${user}" 
 			data:id="${user.id?:''}" >
+			
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#data" data-toggle="tab" th:text="#{user.data}" >Data</a></li>
+				<li><a href="#zones" data-toggle="tab" th:text="#{user.zones}">Zones</a></li>
+			</ul>
 		 	
-		 	<input th:if="${user.id}" type="hidden" name="_method" value="PUT" />
-		
-			<div>
-				<label th:text="#{user.email}">Email</label>
-		  		<div class="alert alert-error" th:if="${#fields.hasErrors('email')}">
-			  		<ul>
-					  <li th:each="err : ${#fields.errors('email')}" th:text="${err}">Input is incorrect</li>
-					</ul>
-		  		</div>
-		  		<input th:unless="${user.id}" name="email" type="text" th:field="*{email}" placeholder="Enter email" th:placeholder="#{user.email.placeholder}" class="input-xxlarge" required="required" value="root"/>
-				<input th:if="${user.id}"     name="email" type="text" th:field="*{email}" class="input-xxlarge" required="required" readonly="readonly" value="root"/>
+		 	<div class="tab-content">
+			
+				<!--  Data -->
+				<div th:substituteby="admin/user/fragments/userData :: dataTag" class="tab-pane active" id="data">
+					Sample user data
+				</div>
 				
-		 	
-				<label th:text="#{user.name}">Name</label>
-		  		<div class="alert alert-error" th:if="${#fields.hasErrors('name')}">
-			  		<ul>
-					  <li th:each="err : ${#fields.errors('name')}" th:text="#{${err}}">Input is incorrect</li>
-					</ul>
-		  		</div>
-		  		<input name="name" type="text" th:field="*{name}" placeholder="Enter user real name" th:placeholder="#{user.name.placeholder}" class="input-xxlarge" required="required" value="Administrator"/>
-			
-			
-				<label th:text="#{user.password}">Password</label>
-		  		<div class="alert alert-error" th:if="${#fields.hasErrors('password')}">
-			  		<ul>
-					  <li th:each="err : ${#fields.errors('password')}" th:text="${err}">Input is incorrect</li>
-					</ul>
-		  		</div>
-		  		
-		  		<input name="password" 	 type="password"  class="input-xxlarge" placeholder="Enter password"  th:placeholder="#{user.password.placeholder}" />
-				<input name="repassword" type="password"  class="input-xxlarge" placeholder="Retype password" th:placeholder="#{user.repassword.placeholder}" />
-			
-			
-				<label th:text="#{user.apiKey}">API KEY</label>
-		  		<input name="apiKey" type="text" th:field="*{apiKey}" class="input-xxlarge" value="xxxxxx" readonly="readonly"/>
-				
-				
-			</div>
-		
+				<!-- Zones -->				
+				<div th:substituteby="admin/user/fragments/userZones :: zonesTag" class="tab-pane" id="zones">
+					Sample user zones
+				</div>
+		    </div>
+
 	  		<hr/>
+
 			<div class="well">
+				
 				<input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
 	  		 	<a href="./userList.html" th:href="@{/admin/user/}" th:text="#{button.cancel}">Cancel</a>
 	  		 	<button class="btn btn-danger pull-right deleteButton"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
@@ -99,7 +80,8 @@
 	</div>
 	
 	<div>
-		<div th:remove="all"><!-- PAGE SCRIPTS --></div>
+		<script src="../../../../resources/js/user/user-zones.js" th:src="@{/resources/js/user/user-zones.js}"></script>
+		
 		
 	</div>
 

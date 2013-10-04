@@ -94,19 +94,45 @@ public class UserFormValidatorTest {
 		errors = new BindException(userForm, "user");
 		validator.validatePasswordLength(userForm, errors);
 		assertTrue(errors.hasErrors());
-		
-		
 	}
 
 	@Test
 	public void testViaValidateMethod(){
 		UserFormValidator validator = new UserFormValidator();
 		UserForm userForm = new UserForm();
+		userForm.setName("validName");
+		userForm.setEmail("foo@example.com");
 		userForm.setPassword(CORRECT_PASSWORD);
 		userForm.setRepassword("--");
 		BindException errors = new BindException(userForm, "user");
 		validator.validate(userForm, errors);
 		assertTrue(errors.getErrorCount() != 0);
+	}
+	
+	@Test 
+	public void testPasswordContentEmail(){
+		UserFormValidator validator = new UserFormValidator();
+		UserForm userForm = new UserForm();
+		userForm.setName("valid name");
+		userForm.setEmail(CORRECT_PASSWORD + "@example.com");
+		userForm.setPassword(CORRECT_PASSWORD);
+		userForm.setRepassword(CORRECT_PASSWORD);
+		BindException errors = new BindException(userForm, "user");
+		validator.validatePasswordContent(userForm, errors);
+		assertTrue(errors.hasErrors());
+	}
+	
+	@Test 
+	public void testPasswordContentName(){
+		UserFormValidator validator = new UserFormValidator();
+		UserForm userForm = new UserForm();
+		userForm.setName(CORRECT_PASSWORD + " something more");
+		userForm.setEmail("validEmail@example.com");
+		userForm.setPassword(CORRECT_PASSWORD);
+		userForm.setRepassword(CORRECT_PASSWORD);
+		BindException errors = new BindException(userForm, "user");
+		validator.validatePasswordContent(userForm, errors);
+		assertTrue(errors.hasErrors());
 	}
 	
 }

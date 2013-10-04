@@ -12,6 +12,8 @@
 .item { padding: 0.5em; margin: 0 0 2em; }
 .rounded { border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; -khtml-border-radius: 8px; }
 
+input.repassword { display:block; }
+
 .poiImage { 
 	max-width: 400px;
 	display: inline-block;

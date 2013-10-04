@@ -19,9 +19,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 	public User findByEmail(@Param("email") String username);
 	
 	@Query( value="{'email':{'$regex':?0, '$options': 'i'}}")
-	public Page<User> findByEmailIgnoreCaseLike(String name, Pageable pageable);
+	public Page<User> findByEmailIgnoreCaseLike(String email, Pageable pageable);
 	
-
-	
+		
 
 }

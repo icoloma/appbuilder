@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import info.spain.opencatalog.domain.User;
-import info.spain.opencatalog.domain.UserFactory;
+import info.spain.opencatalog.domain.DummyUserFactory;
 import info.spain.opencatalog.repository.UserRepository;
 
 import org.junit.Before;
@@ -83,7 +83,7 @@ public class UserControllerTest {
 	@Test
 	public void createDuplicate() throws Exception {
 		
-		User user = UserFactory.newUser("userTest");
+		User user = DummyUserFactory.newUser("userTest");
 		
 		// POST ONCE
 		MockHttpServletRequestBuilder post1 = post("/admin/user")
@@ -117,7 +117,7 @@ public class UserControllerTest {
 	@Test
 	public void userCRUD() throws Exception {
 		repo.deleteAll();
-		User user = UserFactory.newUser("userTest");
+		User user = DummyUserFactory.newUser("userTest");
 		
 		// Test POST
 		MockHttpServletRequestBuilder thePost = post("/admin/user")
@@ -146,15 +146,11 @@ public class UserControllerTest {
 				.andExpect(view().name("admin/user/user"))
 				.andReturn();
 		
-		
-		
 		// Test UPDATE 
 		User update = new User()
 			.setName("xxx")
-			.setPassword(user.getPassword() + "-modified")
-			;
+			.setPassword(user.getPassword() + "-modified");
 
-		
 		MockHttpServletRequestBuilder thePut = put("/admin/user/" + id)
 				.param("name", update.getName())
 				.param("password", update.getPassword())
@@ -179,8 +175,6 @@ public class UserControllerTest {
 		
 		repoUser = repo.findOne(id);
 		assertNull(repoUser);
-		
-		
     }
 	
 	private void testEquals(User expected, User actual){

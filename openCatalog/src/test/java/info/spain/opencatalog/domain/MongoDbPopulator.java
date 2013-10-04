@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 public class MongoDbPopulator {
 
@@ -17,6 +18,8 @@ public class MongoDbPopulator {
 	
 	private MongoOperations mongoTemplate;
 	private GridFsOperations gridFsTemplate;
+	
+	private Zone zoneTenerife;
 
 	public MongoDbPopulator(ApplicationContext context) {
 		mongoTemplate = context.getBean(MongoOperations.class);
@@ -50,9 +53,13 @@ public class MongoDbPopulator {
 	
 	private void populateUsers(){
 		// well known
-		mongoTemplate.insertAll(ImmutableList.copyOf(UserFactory.WELL_KNOWN_USERS));
+		mongoTemplate.insertAll(ImmutableList.copyOf(DummyUserFactory.WELL_KNOWN_USERS));
+		
+		User userTenerife = DummyUserFactory.newUser("userTenerife").setPassword("1234567890").setIdZones(Lists.newArrayList(zoneTenerife.getId()));
+		mongoTemplate.insert(userTenerife);
+		
 		// random
-		mongoTemplate.insertAll(UserFactory.generateUsers(NUM_RANDOM_USERS));
+		//mongoTemplate.insertAll(DummyUserFactory.generateUsers(NUM_RANDOM_USERS));
 
 	}
 	
@@ -60,7 +67,8 @@ public class MongoDbPopulator {
 		mongoTemplate.insert(DummyZoneFactory.ZONE_ALCALA_HENARES);
 		mongoTemplate.insert(DummyZoneFactory.ZONE_MADRID_CENTRO);
 		mongoTemplate.insert(DummyZoneFactory.ZONE_NORTE);
-		mongoTemplate.insert(DummyZoneFactory.ZONE_PROVINCIA_STA_CRUZ);
+		zoneTenerife = DummyZoneFactory.ZONE_PROVINCIA_STA_CRUZ;
+		mongoTemplate.insert(zoneTenerife);
 	}
 
 	private void populatePois()	{

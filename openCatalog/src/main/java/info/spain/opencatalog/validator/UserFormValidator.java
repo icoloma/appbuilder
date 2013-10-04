@@ -19,6 +19,7 @@ public class UserFormValidator implements Validator {
 	    UserForm userForm = (UserForm) target;
 	    validatePasswordsMatch(userForm, errors);
 	    validatePasswordLength(userForm, errors);
+	    validatePasswordContent(userForm, errors);
     }
 	
 	protected void validatePasswordsMatch(UserForm userForm, Errors errors){
@@ -41,6 +42,18 @@ public class UserFormValidator implements Validator {
 		}
 	}
 		
+	/**
+	 * El password no puede ser parte del nombre ni del email
+	 */
+	protected void validatePasswordContent(UserForm userForm, Errors errors){
+		String password = userForm.getPassword();
+		String email = userForm.getEmail();
+		String name = userForm.getName();
+		if (email.contains(password) || name.contains(password)){
+			errors.rejectValue("password", "user.password.error.content");
+		}
+		
+	}
 	
 
 }

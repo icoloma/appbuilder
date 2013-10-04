@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
 
-public class UserFactory extends AbstractFactory {
+public class DummyUserFactory extends AbstractFactory {
 	
 	public static User newUser(String key){
 		key = key + "-" + getRandom().nextInt();
@@ -26,7 +26,7 @@ public class UserFactory extends AbstractFactory {
 	}
 	
 	
-	public static final User ROOT = UserFactory.newUser("").setEmail("root@example.com").setPassword("root").setApiKey("1234");
+	public static final User ROOT = DummyUserFactory.newUser("").setEmail("root@example.com").setPassword("root").setApiKey("1234");
 	public static final ImmutableSet<User> WELL_KNOWN_USERS= ImmutableSet.of(ROOT);
 
 	
