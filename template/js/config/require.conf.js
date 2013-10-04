@@ -23,8 +23,7 @@
     backbone: comp + 'backbone/backbone',
     underscore: comp + 'underscore/underscore',
     almond: comp + 'almond/almond',
-    'bootstrap/transition': comp + 'bootstrap/js/transition',
-    'bootstrap/collapse': comp + 'bootstrap/js/collapse',
+    'bootstrap': comp + 'bootstrap/js/',
     hammer: comp + 'hammerjs/dist/jquery.hammer',
     tpl: 'modules/tpl'
   }
@@ -47,6 +46,9 @@
         deps: ['jquery']
       },
       'bootstrap/collapse': {
+        deps: ['jquery']
+      },
+      'bootstrap/button': {
         deps: ['jquery']
       },
       hammer: {

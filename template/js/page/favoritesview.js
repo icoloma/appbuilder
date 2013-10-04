@@ -14,7 +14,7 @@ define(['page/poisview'], function(PoisView) {
 
       var self = this;
       this.listenTo(this.topbarView, 'planner', function() {
-        self.trigger('navigate', 'planner', 1);
+        self.trigger('navigate', '/travelplanner/details', 1);
       });
     }
   });

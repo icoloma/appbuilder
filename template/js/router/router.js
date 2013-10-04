@@ -16,6 +16,7 @@ define(
         'pois/:poiId': 'renderPoi',
         'search?(:prevQuery)': 'renderSearch',
         'bookmarks(?:uri)': 'renderBookmarks',
+        'travelplanner/details(?:uri)': 'renderTravelDetails',
       },
 
       initialize: function(options) {
@@ -106,7 +107,16 @@ define(
             cursor: uriObj.cursor
           });
         });
-      }
+      },
+
+      renderTravelDetails: function(uri) {
+        var uriObj = uri ? JSON.parse(decodeURIComponent(uri)) : {};
+
+        this.setView(Page.TravelDetailsView, _.extend(uriObj, {
+          title: res.i18n.TravelPlanner
+        }));
+      },
+
 
     });
   }

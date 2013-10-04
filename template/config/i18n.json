@@ -14,7 +14,8 @@
       "nearMe": "Buscar cerca de mí",
       "nearPoi": "Buscar cerca de ",
       "SearchByFlags": "Buscar por flags",
-      "ClearFlags": "Limpiar"
+      "ClearFlags": "Limpiar",
+      "TravelPlanner": "Travel Planner"
     },
     "en": {
       "Starred": "Bookmarks",
@@ -30,7 +31,8 @@
       "nearMe": "Search near my location",
       "nearPoi": "Search near ",
       "SearchByFlags": "Search by flags",
-      "ClearFlags": "Clear"
+      "ClearFlags": "Clear",
+      "TravelPlanner": "Travel Planner"
     }
   }
 }

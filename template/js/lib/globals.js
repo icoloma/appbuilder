@@ -2,7 +2,7 @@ define(
   [ 
     'jquery', 'underscore', 'backbone',
     'ui/touch', 'hammer', 'SQLitePlugin', 'async', 'swipe',
-    'bootstrap/transition', 'bootstrap/collapse'
+    'bootstrap/transition', 'bootstrap/button', 'bootstrap/collapse'
   ],
   function() {
     window.B = Backbone;
