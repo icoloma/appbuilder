@@ -54,12 +54,12 @@
 				<div class="tab-pane active" id="data">
 				 	
 				 	<!--  name & description -->
-				 	<div th:substituteby="fragments/poi/poiName :: poiNameDescriptionTag" >
+				 	<div th:substituteby="admin/poi/fragments/poiName :: poiNameDescriptionTag" >
 				 			Dummy name and description
 				 	</div>
 				 	
 				 	<!--  Score -->
-				 	<div th:substituteby="fragments/poi/poiScore :: poiScoreTag" >
+				 	<div th:substituteby="admin/poi/fragments/poiScore :: poiScoreTag" >
 				 		<!--  dummy data -->
 				 		<label>Score</label>
 						<select>
@@ -74,7 +74,7 @@
 					
 					
 					<!--  custom Data -->
-				 	<div th:substituteby="fragments/poi/poiData :: poiDataTag" >
+				 	<div th:substituteby="admin/poi/fragments/poiData :: poiDataTag" >
 				 		<legend>Data</legend>
 						<label>label</label>
 						<input type="text"/>
@@ -83,7 +83,7 @@
 				 
 				 <!--  Images -->
 				 <div class="tab-pane" id="images" th:if="${poi.id}">
-					<div th:substituteby="fragments/poi/poiImages :: poiImagesTag" >
+					<div th:substituteby="admin/poi/fragments/poiImages :: poiImagesTag" >
 						<table class="table table-striped">
 							<tr>
 								<td>Some dummy images</td>
@@ -99,21 +99,21 @@
 				 
 				<!--  Geolocation -->
 			  	<div class="tab-pane" id="geo">
-			  		<div th:substituteby="fragments/poi/poiLocation :: poiLocationTag" >
+			  		<div th:substituteby="admin/poi/fragments/poiLocation :: poiLocationTag" >
 			  		  Poi location ...
 			  		</div>
 			  	</div>
 			  	
 				<!--  Flags -->
 			  	<div class="tab-pane" id="flags">
-				  	<div th:substituteby="fragments/poi/poiFlags :: poiFlags" >
+				  	<div th:substituteby="admin/poi/fragments/poiFlags :: poiFlags" >
 				  		Some dummy flags...
 				  	</div>
 				</div>
 				
 				<!--  TimeTable -->
 			  	<div class="tab-pane" id="timetable">
-			  		<div th:substituteby="fragments/poi/poiTimeTable :: poiTimeTableTag" >
+			  		<div th:substituteby="admin/poi/fragments/poiTimeTable :: poiTimeTableTag" >
 			  		  Poi timetable example
 			  		 <input name="timetable" class="input-xxlarge" type="text" value="[0112-3103]=10:00-17:00" pattern="(((\[((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012]))-((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012]))\])|(((Mon|Tue|Wed|Thu|Fri|Sat|Sun)|((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])))(,((Mon|Tue|Wed|Thu|Fri|Sat|Sun)|((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012]))))*)|(\[((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012]))-((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012]))\])(((Mon|Tue|Wed|Thu|Fri|Sat|Sun)|((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])))(,((Mon|Tue|Wed|Thu|Fri|Sat|Sun)|((0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012]))))*))=((([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9])(,(([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9]))*?)?)?" />
 			  		</div>
@@ -121,27 +121,27 @@
 				
 				<!--  Prices -->
 			  	<div class="tab-pane" id="prices">
-			  		<div th:substituteby="fragments/poi/poiPrices :: poiPricesTag" >
+			  		<div th:substituteby="admin/poi/fragments/poiPrices :: poiPricesTag" >
 			  		  Poi prices
 			  		</div>
 			  	</div>
 			  	
 			  <!--  Contact Info -->
 			  	<div class="tab-pane" id="contactInfo">
-			  		<div th:substituteby="fragments/poi/poiContactInfo :: poiContactInfoTag" >
+			  		<div th:substituteby="admin/poi/fragments/poiContactInfo :: poiContactInfoTag" >
 			  		  Contact info
 			  		</div>
 			  	</div>			 
 			  	
 			  <!--  Sync Info -->
 			  <div class="tab-pane" id="syncInfo" th:if="${poi.syncInfo.imported}" >
-			  		<div th:substituteby="fragments/poi/poiSyncInfo :: poiSyncInfoTag" >
+			  		<div th:substituteby="admin/poi/fragments/poiSyncInfo :: poiSyncInfoTag" >
 			  		  Sync info
 			  		</div>
 			  </div>			  						 							  		  	
 		</div>
 		
-		<div class="timeTableExamples modal hide fade" th:substituteby="fragments/poi/poiTimeTable :: timeTableExamples"  tabindex="-1" >
+		<div class="timeTableExamples modal hide fade" th:substituteby="admin/poi/fragments/poiTimeTable :: timeTableExamples"  tabindex="-1" >
 			SomeExamples of Timetable (Hidden)
 		</div>
 
@@ -179,10 +179,10 @@
 		<script src="../../../../resources/js/vendor/jquery.ui.map.js" th:src="@{/resources/js/vendor/jquery.ui.map.js}"></script>
 		<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" th:src="@{/resources/js/vendor/jquery.ui.map.services.js}"></script>
 		<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js" th:src="@{/resources/js/vendor/jquery.ui.map.extensions.js}"></script>
-		<script src="../../../../resources/js/poi-map.js" th:src="@{/resources/js/poi-map.js}"></script>
-		<script src="../../../../resources/js/poi-timetable.js" th:src="@{/resources/js/poi-timetable.js}"></script>
-		<script src="../../../../resources/js/poi-prices.js" th:src="@{/resources/js/poi-prices.js}"></script>
-		<script src="../../../../resources/js/poi-data.js" th:src="@{/resources/js/poi-data.js}"></script>
+		<script src="../../../../resources/js/poi/poi-map.js" th:src="@{/resources/js/poi/poi-map.js}"></script>
+		<script src="../../../../resources/js/poi/poi-timetable.js" th:src="@{/resources/js/poi/poi-timetable.js}"></script>
+		<script src="../../../../resources/js/poi/poi-prices.js" th:src="@{/resources/js/poi/poi-prices.js}"></script>
+		<script src="../../../../resources/js/poi/poi-data.js" th:src="@{/resources/js/poi/poi-data.js}"></script>
 	</div>
 	
 	<script>

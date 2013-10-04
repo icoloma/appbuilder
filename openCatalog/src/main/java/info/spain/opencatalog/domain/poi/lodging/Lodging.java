@@ -97,7 +97,6 @@ public class Lodging extends BasicPoi {
 
    @Override
 	public Lodging validate() {
-		// TODO Auto-generated method stub
 		return (Lodging) super.validate();
 	}
 	@Override

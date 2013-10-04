@@ -49,23 +49,6 @@ public class PoiRepositoryTest {
 	@Qualifier("localValidatorFactoryBean")
 	private  Validator validator;
 
-//	/**
-//	 * Test Validations
-//	 */
-//	@Test(expected = ConstraintViolationException.class)
-//	public void testPoiValidation() {
-//		BasicPoi poi = DummyPoiFactory.newPoi("testJSR303")
-//			.setName(new I18nText().setEn("home")) // no default;
-//			;
-//		
-//		// Test validator directly
-//		Set<ConstraintViolation<BasicPoi>> constraintViolations = validator.validate(poi);
-//		assertTrue(constraintViolations.size() > 0);
-//
-//		// Test that repository use the validator 
-//		poiRepository.save(poi);
-//	}
-//
 	/**
 	 * Test create 
 	 */
