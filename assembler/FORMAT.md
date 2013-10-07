@@ -37,6 +37,7 @@ El formato de `app-metadata.json` es el siguiente:
     {
       "name": <nombre de la aplicación>,
       "version": <version de la aplicación>,
+      "gmaps_api_key": <API key de Google Maps>
     }
 
 ### Formato: configuración del catálogo

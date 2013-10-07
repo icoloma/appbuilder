@@ -1,5 +1,5 @@
-define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
-  function(Db, LoadDb, i18nUtils, PoiModel) {
+define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model', 'modules/gmaps'],
+  function(Db, LoadDb, i18nUtils, PoiModel, GMaps) {
 
   /*
     Configuración de la aplicación en desarrollo.
@@ -79,9 +79,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
       locale: 'es',
       // Sobrescribimos la carpeta de resources
       resources: 'test/mocked-data/resources/',
-      name: appMetadata.name,
-      version: appMetadata.version
-    });
+    }, appMetadata);
 
     // Shim para el API de notificaciones de Phonegap
     navigator.notification = {
@@ -94,6 +92,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
     return function(callback) {
       i18nUtils.config(_.extend(i18n_strings, catalog_config, flagIcons));
       PoiModel.initSchema(catalog_config.schema);
+
+      GMaps.load(function() {});
 
       // Rellenar la BDD SQL del navegador
       LoadDb(catalog_config._pois_dev, callback);
@@ -143,6 +143,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model'],
 
           i18nUtils.config(appConfig);
           PoiModel.initSchema(res.schema);
+
+          GMaps.load(function() {});
 
           callback();
         });

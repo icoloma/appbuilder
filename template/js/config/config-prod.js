@@ -1,5 +1,5 @@
-define(['db/db', 'modules/i18nUtils', 'poi/model'],
-  function(Db, i18nUtils, PoiModel) {
+define(['db/db', 'modules/i18nUtils', 'poi/model', 'modules/gmaps'],
+  function(Db, i18nUtils, PoiModel, GMaps) {
 
   /*
     Configuración de la aplicación.
@@ -79,6 +79,12 @@ define(['db/db', 'modules/i18nUtils', 'poi/model'],
         Configura el schema de los POIs.
       */
       PoiModel.initSchema(res.schema);
+
+      /*
+        Trata de cargar el API de GMaps
+      */
+
+      GMaps.load(function() {});
 
       callback();
     });

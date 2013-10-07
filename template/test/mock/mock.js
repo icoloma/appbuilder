@@ -62,7 +62,8 @@ if (fs.existsSync(path.join(metadataFolder, metadataFile)))
   fs.unlinkSync(path.join(metadataFolder, metadataFile)); 
 fs.writeFileSync(path.join(metadataFolder, metadataFile), JSON.stringify({
   name: 'Visite Huesca',
-  version: '0.1.0'
+  version: '0.1.0',
+  gmaps_api_key: 'AIzaSyCjW-Jr88QxddY_iPdPGquPPfo60pp95_Y'
 }, null, 2), 'utf-8');
 
 // Genera una BDD SQLite
