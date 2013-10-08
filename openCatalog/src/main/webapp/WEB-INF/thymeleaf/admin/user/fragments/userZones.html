@@ -20,7 +20,7 @@
    
 	<div id="table">
 		
-	   	<table class="table zones table-striped table-hover table-bordered">
+	   	<table class="table zones table-striped table-hover table-bordered" data:link="@{'/admin/zone/'}"  data-link="zone.html">
 		  <thead>
 		    <tr>
 		      <th th:text="#{zone.rows.head.name}">Name</th>
@@ -29,8 +29,8 @@
 		  </thead>
 		  <tbody>
 		    <tr th:each="zone,iter : ${zones}">
-		      <td>
-		      	<span th:text="${zone.name}">Tenerife</span>
+		      <td >
+		      	<span th:text="${zone.name}" data:link="@{'/admin/zone/' + ${zone.id}}" class="dataLink" data-link="zone.html">Tenerife</span>
 		      	<input type="hidden" th:field="*{idZones[__${iter.index}__]}" class="idZone"
 					name="idZones[0]"
 					value="1"  
