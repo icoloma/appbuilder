@@ -9,7 +9,7 @@ function(TopbarView, TravelDetailsTpl) {
         var uriObj = {
           startTime: this.$('[name="start-time"]').val(),
           endTime: this.$('[name="end-time"]').val(),
-          transportationType: this.$('[name="transportation-type"]:checked').val(),
+          transportation: this.$('[name="transportation-type"]:checked').val(),
         };
         this.trigger('updatequery', uriObj);
 
@@ -33,7 +33,7 @@ function(TopbarView, TravelDetailsTpl) {
     defaults: {
       startTime: '09:00',
       endTime: '19:00',
-      transportationType: 'car'
+      transportation: 'DRIVING'
     },
 
     render: function() {
@@ -42,7 +42,7 @@ function(TopbarView, TravelDetailsTpl) {
         .append(TravelDetailsTpl(this.options));
 
       this
-        .$('[value="' + this.options.transportationType + '"]')
+        .$('[value="' + this.options.transportation + '"]')
         .prop('checked', true)
         .closest('.btn')
         .addClass('active');

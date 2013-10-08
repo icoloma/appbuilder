@@ -2,16 +2,16 @@
   <div class="app-container transportation-types">
     <div class="transportation-types-group btn-group" data-toggle="buttons">
       <label class="btn btn-default">
-        <input type="radio" name="transportation-type" value="car"> Car
+        <input type="radio" name="transportation-type" value="DRIVING"> Car
       </label>
       <label class="btn btn-default">
-        <input type="radio" name="transportation-type" value="bus"> bus
+        <input type="radio" name="transportation-type" value="TRANSIT"> bus
       </label>
       <label class="btn btn-default">
-        <input type="radio" name="transportation-type" value="bike"> bike
+        <input type="radio" name="transportation-type" value="BICYCLING"> bike
       </label>
       <label class="btn btn-default">
-        <input type="radio" name="transportation-type" value="walk"> walk
+        <input type="radio" name="transportation-type" value="WALKING"> walk
       </label>
     </div>
   </div>
