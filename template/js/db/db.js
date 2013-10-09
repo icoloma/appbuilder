@@ -49,9 +49,9 @@ define(['modules/i18nUtils'], function(i18nUtils) {
     },
 
     /* 
-      Inicializa la BDD.
-      El objeto 'db' devuelto por requirejs es un proxy a la verdadera BDD.
-      De otro modo, este módulo se enreda en dependencias circulares con 'config/config'
+      Inicializa la BDD, de modo que el módulo funciona como un proxy a la verdadera BDD.
+      (De otro modo, este módulo se enreda en dependencias circulares con 'config/config')
+      Este método *sólo tiene efecto una vez*. Para testing, Db.transaction se sobrescribe a mano.
     */
     initDb: _.once(function(dbObject) {
       this.transaction = function() {

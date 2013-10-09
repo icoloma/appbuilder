@@ -1,4 +1,4 @@
-define(['modules/gmaps', 'db/db', 'modules/geo'], function(GMaps, Db, Geo) {
+define(['modules/gmaps', 'db/db', 'modules/geo', 'modules/time'], function(GMaps, Db, Geo, Time) {
 
   // Devuelve la key para almacenar la distancia entre un par de POIs.
   // Es *única* para cada par de POIs
@@ -9,60 +9,6 @@ define(['modules/gmaps', 'db/db', 'modules/geo'], function(GMaps, Db, Geo) {
     var pairId = id1 < id2 ? id1 + '.' + id2 : id2 + '.' + id1;
 
     return window.res.package + '.distance.' + transportation + '.' + pairId;
-  }
-
-  // Helpers para el formato de tiempo utilizado
-  , TIME_REGEX = /([0-9]+):([0-9]{2})/
-
-  , getHours = function(time) {
-    return Number(time.match(TIME_REGEX)[1]);
-  }
-
-  , getMinutes = function(time) {
-    return Number(time.match(TIME_REGEX)[2]);
-  }
-
-  /*
-    Compara dos timestamps en formato "24h", donde las horas pueden ser > 23
-  */
-  , compareTime = function(time1, time2) {
-    var hours1 = getHours(time1)
-    , minutes1 = getMinutes(time1)
-    , hours2 = getHours(time2)
-    , minutes2 = getMinutes(time2)
-    , total1 = hours1*60 + minutes1
-    , total2 = hours2*60 + minutes2
-    , diff = total1 - total2
-    ;
-
-    return diff > 0 ? 1 : (diff < 0 ? -1 : 0);
-  }
-
-  /*
-    Añade una cierta cantidad de tiempo a una hora inicial.
-    *NO* efectúa acarreos: 23:55 + 3600 segundos == 24:55
-    @time es la hora inicial, en formato "24h": H*HH:MM (las horas pueden ser > 23)
-    @duration es la duración en segundos
-    El formato final es igual al de @time
-  */
-  , addTime = function(time, duration) {
-    var minutes = Math.floor(duration/60)%60
-    , hours = Math.floor(duration/3600)
-    , initialHour = getHours(time)
-    , initialMinute = getMinutes(time)
-    , endHour = initialHour + hours
-    , endMinute = minutes + initialMinute
-    ;
-
-    if (endMinute >= 60) {
-      endMinute -= 60;
-      endHour++;
-    }
-    if (endMinute < 10) {
-      endMinute = '0' + endMinute;
-    }
-
-    return endHour + ':' + endMinute;
   }
 
   // Velocidades por defecto en m/s
@@ -222,44 +168,44 @@ define(['modules/gmaps', 'db/db', 'modules/geo'], function(GMaps, Db, Geo) {
     ;
 
     for (var i = 0; i < pois.length; i++) {
-
       // Salvo que sea la primera visita del día, añadir el tiempo de viaje desde el
       // anterior POI
       if (day.length !== 0) {
         day.push({
           startTime: currentTime,
-          endTime: addTime(currentTime, distances[i-1].duration),
+          endTime: Time.add(currentTime, distances[i-1].duration),
           poi: null,
           approx: distances[i-1].approx
         });
-        currentTime = addTime(currentTime, distances[i-1].duration);
+        currentTime = Time.add(currentTime, distances[i-1].duration);
       }
 
       poiDuration = getPoiDuration(pois[i]);
 
       day.push({
         startTime: currentTime,
-        endTime: addTime(currentTime, poiDuration),
+        endTime: Time.add(currentTime, poiDuration),
         poi: pois[i].id,
         name: pois[i].name
       });
 
-      currentTime = addTime(currentTime, poiDuration);
+      currentTime = Time.add(currentTime, poiDuration);
 
       // Si este no es el último POI y la siguiente visita "no cabe" en el día actual,
       // empieza un nuevo día
       if (i < pois.length - 1) {
         poiDuration = getPoiDuration(pois[i+1]);
-        var nextStopEnd = addTime(addTime(currentTime, distances[i].duration), poiDuration);
+        var nextStopEnd = Time.add(currentTime, distances[i].duration, poiDuration);
 
-        if (compareTime(nextStopEnd, options.endTime) > 0) {
+        if (Time.compare(nextStopEnd, options.endTime) > 0) {
           plan.push(day);
           day = [];
           currentTime = options.startTime;
         }
+      } else {
+        plan.push(day);
       }
     }
-
     return plan;
   }
   ;
@@ -298,6 +244,7 @@ define(['modules/gmaps', 'db/db', 'modules/geo'], function(GMaps, Db, Geo) {
             } else {
               // SQL error
             }
+            return callback(err, null);
           }
           callback(null, makeTravelPlan(pois, results[1], options));
         });

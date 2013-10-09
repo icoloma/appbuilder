@@ -38,4 +38,4 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
 
   Geo.getCurrentPosition = _.bind(geolocationMock.getCurrentPosition, geolocationMock);
   return geolocationMock;
-})
+});

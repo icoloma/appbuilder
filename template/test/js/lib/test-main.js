@@ -20,7 +20,8 @@ window.res = {
   locale: 'en',
   platform: 'Android',
   resources: 'resources/',
-  appData: 'catalog-dump.db'
+  appData: 'catalog-dump.db',
+  package: 'test.extrema'
 };
 
 /*

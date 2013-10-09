@@ -56,10 +56,10 @@ define(['globals'], function() {
       Object.defineProperty(result, key, {
         value: value,
         writable: false,
-        configurable: false
+        configurable: false,
+        enumerable: true
       });
     });
-    
     return result;
   }
   ;
@@ -85,6 +85,11 @@ define(['globals'], function() {
   };
 
   return {
-    Database: DatabaseMock
+    Database: DatabaseMock,
+    mockProxy: function(DbModule, DbMock) {
+      DbModule.transaction = function() {
+        DbMock.transaction.apply(DbMock, arguments);
+      }
+    }
   };
 });
