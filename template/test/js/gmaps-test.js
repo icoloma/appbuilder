@@ -1,28 +1,34 @@
 define(['modules/gmaps'], function(GMaps) {
 
-  // Un mock para el DistanceMatrixService
-  var DistanceMatrixServiceProvider = function() {
-    var constructor = function() {
-      return _.extend(this, distanceMatrixService);
-    }
-    ;
-    constructor.setConfig = function(config) {
-      constructor.prototype = {config: config}; 
-    }
-    return constructor;
-  }
-  , distanceMatrixService = {
-    getDistanceMatrix: function(options, callback) {
-      if (this.config.error) {
-        callback(null, this.config.error);
-        if (this.config.failure) {
-          this.config.failure();
+  var DistanceMatrixServiceMock
+
+  // Un generador de mocks para DistanceServiceProvider
+  // No se puede acceder al servicio concreto que se usa, sólo al constructor, al que
+  // se le añade un método setOptions
+  , DistanceMatrixServiceProvider = function() {
+    var ServiceMock = function() {};
+
+    ServiceMock.prototype = {
+      getDistanceMatrix: function(options, callback) {
+        if (this.options.error) {
+          callback(null, this.options.error);
+          if (this.options.failure) {
+            this.options.failure();
+          }
+          return;
         }
-        return;
-      }
-      return callback(this.config.results, 'OK');
-    }
+        return callback(this.options.results, 'OK');
+      }      
+    };
+
+    // @options es similar a lib/mocksql
+    ServiceMock.setOptions = function(options) {
+      ServiceMock.prototype.options = options;
+    };
+
+    return ServiceMock;
   }
+  // Un mock del resto de funcionalidades de google.maps
   , googleMaps = {
     LatLng: function(lat, lon) {
       return {
@@ -50,9 +56,8 @@ define(['modules/gmaps'], function(GMaps) {
     }
     return {rows: rows};
   }
-  ;
 
-  var destinations = [
+  , destinations = [
     { lat: 40, lon: 5 },
     { lat: 39, lon: 2 },
     { lat: 42, lon: 7 }
@@ -70,8 +75,10 @@ define(['modules/gmaps'], function(GMaps) {
     setup: function() {
       GMaps._oldMaps = GMaps.maps;
       GMaps.maps = _.clone(googleMaps);
-      GMaps.maps.DistanceMatrixService = new DistanceMatrixServiceProvider();
+      DistanceMatrixServiceMock = new DistanceMatrixServiceProvider();
+      GMaps.maps.DistanceMatrixService = DistanceMatrixServiceMock;
     },
+
     teardown: function() {
       GMaps.maps = GMaps._oldMaps;
       delete GMaps._oldMaps;
@@ -79,7 +86,7 @@ define(['modules/gmaps'], function(GMaps) {
   });
 
   asyncTest('Error en la petición a GMaps', 1, function() {
-    GMaps.maps.DistanceMatrixService.setConfig({
+    DistanceMatrixServiceMock.setOptions({
       error: 'SOME_ERROR'
     });
 
@@ -90,7 +97,7 @@ define(['modules/gmaps'], function(GMaps) {
   });
 
   asyncTest('Parseo de resultados', 1, function() {
-    GMaps.maps.DistanceMatrixService.setConfig({
+    DistanceMatrixServiceMock.setOptions({
       results: apiResults(results)
     });
 
@@ -104,7 +111,7 @@ define(['modules/gmaps'], function(GMaps) {
     var response = apiResults(results);
     response.rows[1].elements[0].status = 'ERROR';
 
-    GMaps.maps.DistanceMatrixService.setConfig({
+    DistanceMatrixServiceMock.setOptions({
       results: response
     });
 

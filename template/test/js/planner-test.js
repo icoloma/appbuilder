@@ -76,6 +76,7 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modu
       dbMock.options = {
         results: favorites
       };
+
       MockSql.mockProxy(Db, dbMock);
 
       window.res.types = types;
@@ -134,53 +135,54 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modu
       start();
     });
 
-    asyncTest('Cálculo de la ruta.', 5, function() {
-      Planner.getTravelPlan({
-        startTime: '10:00',
-        endTime: '19:00',
-        transportation: 'bicicleta'
-      }, function(err, plan) {
+  });
 
-        equal(plan.length, 3);
+  asyncTest('Cálculo de la ruta.', 5, function() {
 
-        ok(_.every(plan, function(planDay) {
-          return _.every(planDay, function(step, i) {
-            return !i || step.startTime === planDay[i-1].endTime;
-          });
-        }), 'visita[i].endTime === visita[i+1].startTime.');
+    Planner.getTravelPlan({
+      startTime: '10:00',
+      endTime: '19:00',
+      transportation: 'bicicleta'
+    }, function(err, plan) {
+      equal(plan.length, 3);
 
-        ok(_.every(plan, function(planDay) {
-          return _.every(planDay, function(step) {
-            return Time.compare(step.startTime, step.endTime) < 0;
-          });
-        }), 'visita.startTime < visita.endTime.');
+      ok(_.every(plan, function(planDay) {
+        return _.every(planDay, function(step, i) {
+          return !i || step.startTime === planDay[i-1].endTime;
+        });
+      }), 'visita[i].endTime === visita[i+1].startTime.');
 
-        ok(_.every(plan, function(planDay) {
-          return _.every(planDay, function(step, i) {
-            return !(i%2) || step.poi === null;
-          });
-        }), 'Cada visita está separada por un trayecto.');
+      ok(_.every(plan, function(planDay) {
+        return _.every(planDay, function(step) {
+          return Time.compare(step.startTime, step.endTime) < 0;
+        });
+      }), 'visita.startTime < visita.endTime.');
 
-        ok((function() {
-          var test = true;
-          for (var i = 0; i < favorites.length; i++) {
-            var id1 = favorites[i].id;
-            for (var j = i + 1; j < favorites.length; j++) {
-              var id2 = favorites[j].id
-              , key = window.res.package + '.distance.bicicleta.' +
-                (id1 < id2 ? id1 + '.' + id2 : (id2 + '.' + id1))
-              ;
+      ok(_.every(plan, function(planDay) {
+        return _.every(planDay, function(step, i) {
+          return !(i%2) || step.poi === null;
+        });
+      }), 'Cada visita está separada por un trayecto.');
 
-              test = test && _.isEqual(distanceMatrix[i][j],
-                JSON.parse(localStorage.getItem(key))
-              );
-            }
+      ok((function() {
+        var test = true;
+        for (var i = 0; i < favorites.length; i++) {
+          var id1 = favorites[i].id;
+          for (var j = i + 1; j < favorites.length; j++) {
+            var id2 = favorites[j].id
+            , key = window.res.package + '.distance.bicicleta.' +
+              (id1 < id2 ? id1 + '.' + id2 : (id2 + '.' + id1))
+            ;
+
+            test = test && _.isEqual(distanceMatrix[i][j],
+              JSON.parse(localStorage.getItem(key))
+            );
           }
-          return test;
-        })(), 'Las distancias se almacenan en localStorage.')
+        }
+        return test;
+      })(), 'Las distancias se almacenan en localStorage.')
 
-        start();
-      });
+      start();
     });
   });
 
