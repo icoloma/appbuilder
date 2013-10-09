@@ -87,6 +87,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model', 'modules/gma
     };
 
     // Favoritos mockeados
+    localStorage.clear();
     localStorage.setItem('starredCount', catalog_config._starredCount_dev);
 
     return function(callback) {
@@ -120,6 +121,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model', 'modules/gma
         Db.initDb(window.sqlitePlugin.openDatabase({name: res.dbName}));
 
         // Favoritos mockeados
+        localStorage.clear();
         localStorage.setItem('starredCount', appConfig._starredCount_dev);
 
         // Obtener la plataforma y el locale
