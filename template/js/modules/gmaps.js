@@ -23,7 +23,7 @@ define(['globals'], function() {
 
     /*
       Carga el API de Google maps.
-      Los métodos del API se añaden a este módulo, para facilitar el testeo.
+      Los métodos del API se copian a este módulo, para facilitar el testeo.
 
       @cb es un callback que se llama si hay un error de timeout (pasando un err.code == GMaps.TIMEOUT_ERROR)
       o con null si todo ha ido bien.
@@ -32,15 +32,22 @@ define(['globals'], function() {
       de bajar otros y llamar a un callback al final del proceso.
 
       AVISO: solo puede llamarse cuando la configuración del app window.res está presente.
+
+      AVISO: define un global 'google'.
     */
     load: function(cb) {
       // TO-DO: checkear si hay conexión
-      var userIsWaiting = true;
+      var userIsWaiting = true
+      , self = this
+      ;
 
       window.tmp_loadGoogleMaps = function() {
         delete window.tmp_loadGoogleMaps;
-        this.maps = google.maps;
-        delete google.maps;
+        // Copia el API en este modulo.
+        // No se puede borrar el window.google: parece que el script de Google sigue haciendo cosas
+        // incluso despues de llamar a este callback. Mientras solo se use google.maps, esta copia
+        // se mantendrá actualizada.
+        self.maps = google.maps;
 
         if (userIsWaiting) {
           cb(null);
