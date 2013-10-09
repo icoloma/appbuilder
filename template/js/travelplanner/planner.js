@@ -1,4 +1,4 @@
-define(['modules/gmaps', 'db/db', 'modules/geo', 'modules/time'], function(GMaps, Db, Geo, Time) {
+define(['modules/gmaps', 'db/db', 'modules/geo'], function(GMaps, Db, Geo) {
 
   // Devuelve la key para almacenar la distancia entre un par de POIs.
   // Es *única* para cada par de POIs
@@ -142,15 +142,15 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'modules/time'], function(GMaps
       // Dia 1
       [
         {
-          startTime: 8:00,
-          endTime: 8:30,
+          start: 2013-10-22T08:00,
+          end: 2013-10-22T08:30,
           poi: "546da",
           name: "museo plim"
         },
         // Este corresponde a un trayecto
         {
-          startTime: 8:30,
-          endTime: 9:30,
+          start: 2013-10-22T08:30,
+          end: 2013-10-22T09:30,
           poi: null,
           approx: true (sólo si es una aproximación)
         },
@@ -163,7 +163,11 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'modules/time'], function(GMaps
   makeTravelPlan = function(pois, distances, options) {
     var plan = []
     , day = []
-    , currentTime = options.startTime
+    , format = 'YYYY-MM-DDTHH:mm'
+    // Se usa el tiempo UTC
+    , currentDay = options.startDay
+    , currentTime = moment.utc(options.startDay + 'T' + options.startTime)
+    , todaysEndTime = moment.utc(options.startDay + 'T' + options.endTime)
     , poiDuration
     ;
 
@@ -172,35 +176,35 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'modules/time'], function(GMaps
       // anterior POI
       if (day.length !== 0) {
         day.push({
-          startTime: currentTime,
-          endTime: Time.add(currentTime, distances[i-1].duration),
+          startTime: currentTime.format(format),
+          endTime: currentTime.add('s', distances[i-1].duration).format(format),
           poi: null,
           approx: distances[i-1].approx
         });
-        currentTime = Time.add(currentTime, distances[i-1].duration);
       }
 
       poiDuration = getPoiDuration(pois[i]);
 
       day.push({
-        startTime: currentTime,
-        endTime: Time.add(currentTime, poiDuration),
+        startTime: currentTime.format(format),
+        endTime: currentTime.add('s', poiDuration).format(format),
         poi: pois[i].id,
         name: pois[i].name
       });
-
-      currentTime = Time.add(currentTime, poiDuration);
 
       // Si este no es el último POI y la siguiente visita "no cabe" en el día actual,
       // empieza un nuevo día
       if (i < pois.length - 1) {
         poiDuration = getPoiDuration(pois[i+1]);
-        var nextStopEnd = Time.add(currentTime, distances[i].duration, poiDuration);
+        var nextStopEnd = currentTime.clone()
+                            .add('s', poiDuration).add('s', distances[i].duration);
 
-        if (Time.compare(nextStopEnd, options.endTime) > 0) {
+        if (nextStopEnd > todaysEndTime) {
           plan.push(day);
           day = [];
-          currentTime = options.startTime;
+          currentDay = moment.utc(currentDay).add('d', 1).format('YYYY-MM-DD');
+          currentTime = moment.utc(currentDay + 'T' + options.startTime);
+          todaysEndTime.add('d', 1);
         }
       } else {
         plan.push(day);

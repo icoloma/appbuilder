@@ -17,6 +17,8 @@
   </div>
   <div class="app-container time-limits">
     <div class="time-limits-container">
+      <label>{{window.res.i18n.StartDay}}</label>
+      <input type="date" name="start-day" value="{{tpl.startDay}}">
       <label>{{window.res.i18n.StartTime}}</label>
       <input type="time" name="start-time" value="{{tpl.startTime}}">
       <label>{{window.res.i18n.EndTime}}</label>

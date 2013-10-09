@@ -1,6 +1,13 @@
+/*
+  Librerías y configuración.
+
+  Exporta los siguientes globales:
+
+    $  jQuery  _  B  Backbone moment async Hammer sqlitePlugin Swiper
+*/
 define(
   [ 
-    'jquery', 'underscore', 'backbone',
+    'jquery', 'underscore', 'backbone', 'moment',
     'ui/touch', 'hammer', 'SQLitePlugin', 'async', 'swipe',
     'bootstrap/transition', 'bootstrap/button', 'bootstrap/collapse'
   ],

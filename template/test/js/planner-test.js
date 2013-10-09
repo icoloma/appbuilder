@@ -1,5 +1,5 @@
-define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modules/time'],
-  function(Planner, GMaps, MockSql, Db, Time) {
+define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db'],
+  function(Planner, GMaps, MockSql, Db) {
 
   var dbMock
   , HOUR = 3600
@@ -142,8 +142,10 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modu
     Planner.getTravelPlan({
       startTime: '10:00',
       endTime: '19:00',
+      startDay: '2013-10-09',
       transportation: 'bicicleta'
     }, function(err, plan) {
+
       equal(plan.length, 3);
 
       ok(_.every(plan, function(planDay) {
@@ -154,7 +156,7 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modu
 
       ok(_.every(plan, function(planDay) {
         return _.every(planDay, function(step) {
-          return Time.compare(step.startTime, step.endTime) < 0;
+          return moment.utc(step.startTime) < moment.utc(step.endTime);
         });
       }), 'visita.startTime < visita.endTime.');
 
@@ -195,6 +197,7 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modu
 
     Planner.getTravelPlan({
       startTime: '10:00',
+      startDay: '2013-10-09',
       endTime: '19:00',
       transportation: 'DRIVING'
     }, function(err, plan) {
@@ -202,7 +205,9 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db', 'modu
 
       var travel = plan[2][1];
       ok(travel.approx, 'Duración marcada como approx.');
-      ok(Time.compare(Time.add(travel.startTime, 3600), travel.endTime) < 0, 'Duración del trayecto modificada');
+
+      ok(moment.utc(travel.endTime).diff(moment.utc(travel.startTime), 'h') >= 1 ,
+          'Duración del trayecto modificada');
       start();
     });
   });

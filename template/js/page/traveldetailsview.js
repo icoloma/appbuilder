@@ -1,5 +1,5 @@
-define(['ui/topbarview', 'tpl!travelplanner/traveldetails.tpl', 'modules/time'],
-function(TopbarView, TravelDetailsTpl, Time) {
+define(['ui/topbarview', 'tpl!travelplanner/traveldetails.tpl'],
+function(TopbarView, TravelDetailsTpl) {
 
   return B.View.extend({
 
@@ -7,14 +7,19 @@ function(TopbarView, TravelDetailsTpl, Time) {
       'submit .traveldetails-form': function(e) {
         e.preventDefault();
 
-        // TO-DO: testear si iOS devuelve siempre HH:MM en 24h.
+        // TO-DO: testear si iOS y el futurible plugin de Android devuelven
+        // la fecha y hora en los formatos adecuados: YYYY-MM-DD, HH:mm
         var travelConfig = {
+          startDay: this.$('[name="start-day"]').val(),
           startTime: this.$('[name="start-time"]').val(),
           endTime: this.$('[name="end-time"]').val(),
           transportation: this.$('[name="transportation-type"]:checked').val(),
         };
 
-        if (Time.compare(travelConfig.startTime, travelConfig.endTime) >= 0) {
+        if (
+          moment.utc(travelConfig.startDay + 'T' + travelConfig.startTime) >
+          moment.utc(travelConfig.startDay + 'T' + travelConfig.endTime)
+        ) {
           navigator.notification.alert(res.i18n.timeLimitsErrorDialog, null,
                                         res.i18n.TimeLimitsError);
           return;
@@ -40,6 +45,7 @@ function(TopbarView, TravelDetailsTpl, Time) {
     },
 
     defaults: {
+      startDay: moment().format('YYYY-DD-MM'),
       startTime: '09:00',
       endTime: '19:00',
       transportation: 'DRIVING'

@@ -25,6 +25,7 @@
     almond: comp + 'almond/almond',
     'bootstrap': comp + 'bootstrap/js',
     hammer: comp + 'hammerjs/dist/jquery.hammer',
+    moment: comp + 'momentjs/moment',
     tpl: 'modules/tpl'
   }
 

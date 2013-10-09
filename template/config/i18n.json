@@ -19,6 +19,7 @@
       "TravelPlanner": "Travel Planner",
       "TimeLimitsError": "Inicio/Fin incorrecto",
       "timeLimitsErrorDialog": "La hora de inicio ha de ser anterior a la hora de fin de viaje.",
+      "StartDay": "Día de inicio",
       "StartTime": "Hora de inicio",
       "EndTime": "Hora de fin",
       "PlanMyTrip": "Plan de viaje"
@@ -42,6 +43,7 @@
       "TravelPlanner": "Travel Planner",
       "TimeLimitsError": "Incorrect start/end",
       "timeLimitsErrorDialog": "Start time must be earlier than end time.",
+      "StartDay": "Start Day",
       "StartTime": "Start time",
       "EndTime": "End time",
       "PlanMyTrip": "Plan my trip"
