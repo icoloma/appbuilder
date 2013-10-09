@@ -147,7 +147,7 @@ define(['tpl!search/formview.tpl', 'ui/topbarview', 'search/search',
         if (err) {
           // TO-DO: error handling cuando no es un error de geolocalización
           self.topbarView.unblock();
-          navigator.notification.alert(res.i18n.geoError);
+          navigator.notification.alert(res.i18n.geoErrorDialog, null, res.i18n.GeoError);
           return;
         } 
         var uri = encodeURIComponent(JSON.stringify({

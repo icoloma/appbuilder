@@ -4,7 +4,8 @@
       "Starred": "Favoritos",
       "bookmarkAdded": "Añadido a favoritos.",
       "bookmarkRemoved": "Borrado de favoritos.",
-      "geoError": "La geolocalización no funcionó.",
+      "GeoError": "Error de geolocalización",
+      "geoErrorDialog": "La geolocalización no funcionó.",
       "Error": "Error",
       "Back": "Atrás",
       "kilometers": "kilómetros",
@@ -15,13 +16,19 @@
       "nearPoi": "Buscar cerca de ",
       "SearchByFlags": "Buscar por flags",
       "ClearFlags": "Limpiar",
-      "TravelPlanner": "Travel Planner"
+      "TravelPlanner": "Travel Planner",
+      "TimeLimitsError": "Inicio/Fin incorrecto",
+      "timeLimitsErrorDialog": "La hora de inicio ha de ser anterior a la hora de fin de viaje.",
+      "StartTime": "Hora de inicio",
+      "EndTime": "Hora de fin",
+      "PlanMyTrip": "Plan de viaje"
     },
     "en": {
       "Starred": "Bookmarks",
       "bookmarkAdded": "Boorkmark added.",
       "bookmarkRemoved": "Boorkmark removed.",
-      "geoError": "Geolocation didn't work.",
+      "GeoError": "Geolocation error",
+      "geoErrorDialog": "Geolocation didn't work.",
       "Error": "Error",
       "Back": "Back",
       "kilometers": "kilometers",
@@ -32,7 +39,12 @@
       "nearPoi": "Search near ",
       "SearchByFlags": "Search by flags",
       "ClearFlags": "Clear",
-      "TravelPlanner": "Travel Planner"
+      "TravelPlanner": "Travel Planner",
+      "TimeLimitsError": "Incorrect start/end",
+      "timeLimitsErrorDialog": "Start time must be earlier than end time.",
+      "StartTime": "Start time",
+      "EndTime": "End time",
+      "PlanMyTrip": "Plan my trip"
     }
   }
 }

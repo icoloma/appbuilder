@@ -1,20 +1,29 @@
-define(['ui/topbarview', 'tpl!travelplanner/traveldetails.tpl'],
-function(TopbarView, TravelDetailsTpl) {
+define(['ui/topbarview', 'tpl!travelplanner/traveldetails.tpl', 'modules/time'],
+function(TopbarView, TravelDetailsTpl, Time) {
 
   return B.View.extend({
 
     events: {
       'submit .traveldetails-form': function(e) {
         e.preventDefault();
-        var uriObj = {
+
+        // TO-DO: testear si iOS devuelve siempre HH:MM en 24h.
+        var travelConfig = {
           startTime: this.$('[name="start-time"]').val(),
           endTime: this.$('[name="end-time"]').val(),
           transportation: this.$('[name="transportation-type"]:checked').val(),
         };
-        this.trigger('updatequery', uriObj);
+
+        if (Time.compare(travelConfig.startTime, travelConfig.endTime) >= 0) {
+          navigator.notification.alert(res.i18n.timeLimitsErrorDialog, null,
+                                        res.i18n.TimeLimitsError);
+          return;
+        }
+
+        this.trigger('updatequery', travelConfig);
 
         this.trigger('navigate', '/travelplanner/travel?' +
-          encodeURIComponent(JSON.stringify(uriObj)));
+          encodeURIComponent(JSON.stringify(travelConfig)));
       }
     },
 

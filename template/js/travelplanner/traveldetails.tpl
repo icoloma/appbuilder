@@ -17,13 +17,13 @@
   </div>
   <div class="app-container time-limits">
     <div class="time-limits-container">
-      <label>Start time</label>
+      <label>{{window.res.i18n.StartTime}}</label>
       <input type="time" name="start-time" value="{{tpl.startTime}}">
-      <label>End time</label>
+      <label>{{window.res.i18n.EndTime}}</label>
       <input type="time" name="end-time" value="{{tpl.endTime}}">
     </div>
   </div>
   <div class="plan-button">
-    <input type="submit" class="btn btn-default" value="Plan my trip">
+    <input type="submit" class="btn btn-default" value="{{window.res.i18n.PlanMyTrip}}">
   </div>
 </form>
