@@ -1,5 +1,7 @@
 define(['router/baserouter'], function(BaseRouter) {
 
+  module('baserouter-test');
+
   var $el = $('<div class="baserouter-test"></div>')
   , router = new BaseRouter({
     $el: $el

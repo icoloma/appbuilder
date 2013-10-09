@@ -1,7 +1,16 @@
 define(['db/db', 'test/mocksql'], function(Db, MockSql) {
 
-  var mockDb = new MockSql.Database();
-  MockSql.mockProxy(Db, mockDb);
+  var dbMock;
+
+  module('Database', {
+    setup: function() {
+      dbMock = new MockSql.Database();
+      MockSql.mockProxy(Db, dbMock);
+    },
+    teardown: function() {
+      delete Db.transaction;
+    }
+  });
 
   asyncTest('Proxy BDD', 4, function() {
     var args = {
@@ -11,7 +20,7 @@ define(['db/db', 'test/mocksql'], function(Db, MockSql) {
       errback: function() {},
     };
 
-    mockDb.options = {
+    dbMock.options = {
       pre: function(sqlStr, params, callback, errback) {
         strictEqual(sqlStr, args.sqlStr);
         strictEqual(params, args.params);
@@ -28,7 +37,7 @@ define(['db/db', 'test/mocksql'], function(Db, MockSql) {
   });
 
   asyncTest('Db.sql', 4, function() {
-    mockDb.options = {
+    dbMock.options = {
       results: [
         { 
           name_es: 'foobar en',
@@ -48,10 +57,10 @@ define(['db/db', 'test/mocksql'], function(Db, MockSql) {
       }), 'localización OK');
     });
 
-    mockDb.options.error = new Error();
+    dbMock.options.error = new Error();
 
     Db.sql('FOO BAR', [], function(err, results) {
-      strictEqual(err, mockDb.options.error, 'Error handling OK');
+      strictEqual(err, dbMock.options.error, 'Error handling OK');
     });
     start();
   });
@@ -64,7 +73,7 @@ define(['db/db', 'test/mocksql'], function(Db, MockSql) {
       this.attributes = attrs;
     };
 
-    mockDb.options = {
+    dbMock.options = {
       results: [
         {
           name_es: 'foobar es',

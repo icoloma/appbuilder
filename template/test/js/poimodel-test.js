@@ -22,6 +22,18 @@ define(['poi/model'], function(Poi) {
 
   Poi.initSchema(schema);
 
+  module('Poi model test', {
+    setup: function() {
+      Poi.initSchema(schema);
+    },
+    teardown: function() {
+      Poi.sqlFields = [];
+      _.each(Poi.schema, function(fields, type) {
+        Poi.schema[type] = [];
+      });
+    }
+  });
+
   test('Conversión desde SQL', 2, function() {
     var poi = new Poi(poiData, {parse: true});
     

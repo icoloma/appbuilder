@@ -1,5 +1,17 @@
-define(['search/search', 'test/mocksql', 'test/mockgeo'], function(Search, MockSql, MockGeo) {
+define(['search/search', 'test/mocksql', 'test/mockgeo', 'db/db'],
+  function(Search, MockSql, MockGeo, Db) {
 
+  var dbMock;
+
+  module('Search test.', {
+    setup: function() {
+      dbMock = new MockSql.Database();
+      MockSql.mockProxy(Db, dbMock);
+    },
+    teardown: function() {
+      delete Db.transaction;
+    }
+  });
 
   asyncTest('Recortar texto', 1, function() {
     var text = ' \u000B \u000C foo \u00A0   bar  \u2028 \n baz \t \r  \u2029 ';
@@ -35,7 +47,7 @@ define(['search/search', 'test/mocksql', 'test/mockgeo'], function(Search, MockS
   });
 
   asyncTest('Cercanía a un POI', 1, function() {
-    MockSql.options = {
+    dbMock.options = {
       results: [
         {
           id: '123fooBAR',
