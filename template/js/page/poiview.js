@@ -57,7 +57,7 @@ define(
         this.model.persist(function(err) {
           // TO-DO: error handling
           if (starring) {
-            localStorage.setItem('starred', starredCount + 1);
+            localStorage.setItem('starredCount', starredCount + 1);
           }
           navigator.notification.alert(message, null, res.i18n.Starred);
 
