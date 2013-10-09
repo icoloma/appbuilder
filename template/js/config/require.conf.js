@@ -23,7 +23,7 @@
     backbone: comp + 'backbone/backbone',
     underscore: comp + 'underscore/underscore',
     almond: comp + 'almond/almond',
-    'bootstrap': comp + 'bootstrap/js/',
+    'bootstrap': comp + 'bootstrap/js',
     hammer: comp + 'hammerjs/dist/jquery.hammer',
     tpl: 'modules/tpl'
   }

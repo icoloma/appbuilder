@@ -7,6 +7,7 @@ define(['globals'], function() {
   var MAPS_API_URL =
       'https://maps.googleapis.com/maps/api/js?&sensor=false&callback=tmp_loadGoogleMaps&key='
   , TIMEOUT = 15000
+  
   ;
 
   return {
@@ -16,12 +17,14 @@ define(['globals'], function() {
     DISTANCEMATRIX_ERROR: 'GMAPS_DISTANCEMATRIX_ERROR',
 
     isLoaded: function() {
-      return window.google && google.maps && google.maps.version; 
+      return this.maps && this.maps.version; 
     },
 
 
     /*
       Carga el API de Google maps.
+      Los métodos del API se añaden a este módulo, para facilitar el testeo.
+
       @cb es un callback que se llama si hay un error de timeout (pasando un err.code == GMaps.TIMEOUT_ERROR)
       o con null si todo ha ido bien.
 
@@ -36,6 +39,9 @@ define(['globals'], function() {
 
       window.tmp_loadGoogleMaps = function() {
         delete window.tmp_loadGoogleMaps;
+        this.maps = google.maps;
+        delete google.maps;
+
         if (userIsWaiting) {
           cb(null);
         }
@@ -58,7 +64,7 @@ define(['globals'], function() {
     /*
       Usa el API de GMaps para obtener la matriz de distancias de la lista de POIs @pois.
 
-      @options.transporation es el medio de trasporte utilizado.
+      @options.transportation es el medio de trasporte utilizado.
 
       @callback se llama con (err, null) si hay un error, y con (null, distaceMatrix) en caso contrario.
       distanceMatrix es una matriz de "objetos distancia":
@@ -68,22 +74,24 @@ define(['globals'], function() {
       } 
     */
     getDistances: function(destinations, options, callback) {
-      var service = new google.maps.DistanceMatrixService()
+      var service = new this.maps.DistanceMatrixService()
       , self = this
       ;
 
       destinations = _.map(destinations, function(dest) {
-        return new google.maps.LatLng(dest.lat, dest.lon);
-      });
+        return new this.maps.LatLng(dest.lat, dest.lon);
+      }, this);
 
       service.getDistanceMatrix({
         origins: destinations,
         destinations: destinations,
-        travelMode: google.maps.TravelMode[options.transportation]
+        travelMode: self.maps.TravelMode[options.transportation]
       }, function(response, status) {
-        if (status !== 'OK') return callback(new Error({
-          code: self.DISTANCEMATRIX_ERROR
-        }), null);
+        if (status !== 'OK') {
+          var err = new Error();
+          err.code = self.DISTANCEMATRIX_ERROR;
+          return callback(err, null);
+        }
 
         var distanceMatrix = [];
 
