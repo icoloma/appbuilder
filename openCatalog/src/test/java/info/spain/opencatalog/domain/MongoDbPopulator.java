@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class MongoDbPopulator {
 
@@ -55,7 +56,12 @@ public class MongoDbPopulator {
 		// well known
 		mongoTemplate.insertAll(ImmutableList.copyOf(DummyUserFactory.WELL_KNOWN_USERS));
 		
-		User userTenerife = DummyUserFactory.newUser("userTenerife").setPassword("1234567890").setIdZones(Lists.newArrayList(zoneTenerife.getId()));
+		User userTenerife = DummyUserFactory
+				.newUser("userTenerife")
+				.setPassword("1234567890")
+				.setIdZones(Lists.newArrayList(zoneTenerife.getId()));
+		
+		
 		mongoTemplate.insert(userTenerife);
 		
 		// random

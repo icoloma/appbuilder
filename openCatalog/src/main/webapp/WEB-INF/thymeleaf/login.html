@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../resources/css/main.css"/>
+ </head>
+
+<body>
+	  <!--  Nav bar -->
+	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">OpenCatalog</a>
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="admin/index.html">Admin</a></li>
+                            <li><a href="#about">About</a></li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+        
+    <!-- container -->    
+	<div class="container">
+	    
+       <h1 th:text="#{login.header}">Login page</h1>
+       
+       <div th:if="${loginError}" class="alert alert-error">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+            <p  th:text="#{login.error}">Wrong user or password</p>
+       </div>
+       
+       <div>
+        <div class="span2">
+       		<img src="../../resources/img/login.png" th:src="@{/resources/img/login.png}" title="login" th:title="#{login}" />
+       	</div>
+       	<div class="span4">
+	        <form th:action="@{/j_spring_security_check}" method="post">
+	        
+	            <label for="j_username" th:text="#{user.email}">E-mail</label>
+	            <input type="text" id="j_username" name="j_username" class="input-xlarge" placeholder="Enter e-mail" th:placeholder="#{user.email.placeholder}" /> 
+	            <br />
+	       
+	            <label for="j_password" th:text="#{user.password}">Password</label>
+	            <input type="password" id="j_password" name="j_password" class="input-xlarge" placeholder="Enter password" th:placeholder="#{user.password.placeholder}"/> <br />
+	        	<br/>
+	        
+	        	<div>
+	                <input type='checkbox' name='_spring_security_remember_me'/>
+		         	<span th:text="#{user.rememberMe}">Remember me</span>
+	        	</div>
+                <br/>
+                    
+	            <input type="submit" value="Log in" class="btn" />
+	        </form>
+       	</div>
+
+       </div>
+	    
+	
+	</div>
+        
+   
+	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	</footer>
+
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
+		<script src="../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../resources/js/vendor/bootstrap.js"></script>
+	    <script src="../../resources/js/main.js"></script>
+	</div>
+    
+</body>
+</html>

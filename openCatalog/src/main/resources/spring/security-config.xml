@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+  
+  <global-method-security pre-post-annotations="enabled"/>	
+  
+  <http use-expressions="true">
+  	<remember-me key="${rememberMe.key}"/>
+  	<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+    <form-login login-page="/login"/>
+    <logout logout-success-url="/" logout-url="/logout"/>
+  </http>
+
+
+
+ <authentication-manager>
+    <authentication-provider user-service-ref="userDetailsService"/>
+ </authentication-manager>
+ 
+ <beans:bean id="userDetailsService" class="info.spain.opencatalog.security.RepositoryUserDetailsService"/>
+ 
+</beans:beans>

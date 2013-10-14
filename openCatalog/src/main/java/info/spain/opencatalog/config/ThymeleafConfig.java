@@ -2,6 +2,7 @@ package info.spain.opencatalog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring3.SpringTemplateEngine;
 import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -26,6 +27,7 @@ public class ThymeleafConfig   {
 	public SpringTemplateEngine templateEngine(){
 		SpringTemplateEngine result = new SpringTemplateEngine();
 		result.addDialect(new DataAttributeDialect());
+		result.addDialect(new SpringSecurityDialect());
 		result.setTemplateResolver(templateResolver());
 		return result;
 	}

@@ -3,11 +3,14 @@ package info.spain.opencatalog.web.controller;
 
 import info.spain.opencatalog.domain.ApiKeyGenerator;
 import info.spain.opencatalog.domain.User;
+import info.spain.opencatalog.domain.UserRole;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.repository.UserRepository;
 import info.spain.opencatalog.repository.ZoneRepository;
 import info.spain.opencatalog.validator.UserFormValidator;
 import info.spain.opencatalog.web.form.UserForm;
+
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.common.collect.Sets;
 
 /**
  * Handles requests for the application User page.
@@ -83,8 +88,14 @@ public class UserController extends AbstractUIController {
 	 * CREATE 
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(@Valid @ModelAttribute("user") UserForm userForm ,BindingResult errors,  Model model) {
+	public String create(@Valid @ModelAttribute("user") UserForm userForm, 
+			BindingResult errors,  
+			@RequestParam(value="roles", required=false) String[] strRoles, 
+			Model model) {
 
+		
+		userForm.setRoles(convertRoles(strRoles,errors));
+	
 		validateOnCreate(userForm, errors);
 		if (errors.hasErrors()){
 			addCommonDataToModel(userForm, model);
@@ -114,7 +125,11 @@ public class UserController extends AbstractUIController {
 	 * UPDATE
 	 */
 	@RequestMapping( value="/{id}", method=RequestMethod.PUT)
-	public String update(@Valid @ModelAttribute("user") UserForm userForm,BindingResult errors,  Model model, @PathVariable("id") String id) {
+	public String update(@Valid @ModelAttribute("user") UserForm userForm, 
+			BindingResult errors,  
+			Model model, 
+			@RequestParam(value="roles", required=false) String[] strRoles, 
+			@PathVariable("id") String id) {
 		
 		User dbUser = userRepository.findOne(id);
 
@@ -123,6 +138,10 @@ public class UserController extends AbstractUIController {
 			userForm.setPassword(dbUser.getPassword());
 			userForm.setRepassword(dbUser.getPassword());
 		}
+		
+		
+		userForm.setRoles(convertRoles(strRoles, errors));
+		
 		
 		validateOnUpdate(userForm, dbUser, errors);
 		
@@ -171,6 +190,21 @@ public class UserController extends AbstractUIController {
 		// TODO: Si el número de zonas crece mucho, habría que pedirlas mediante un Autocomplete
 		model.addAttribute("allZones", zoneRepository.findAll());
 		
+	}
+	
+	
+	private Set<UserRole> convertRoles(String[] strRoles, BindingResult errors){
+		Set<UserRole> roles = Sets.newHashSet();
+		if (strRoles != null){
+			for (String role : strRoles) {
+				try{
+					roles.add(UserRole.valueOf(role));
+				} catch(Exception e){
+					errors.reject("userRole.error.invalid", "Invalid roles values");
+				}
+			}
+		}
+		return roles;
 	}
 	
 	

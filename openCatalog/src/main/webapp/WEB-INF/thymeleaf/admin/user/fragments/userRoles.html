@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../../resources/css/jquery.tagedit.css"/>
+	<link rel="stylesheet" href="../../../../../resources/css/main.css"/>
+	<script src="../../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+<div class="container">
+  
+   <div th:fragment="rolesTag" class="tab-pane" id="roles">
+	   <!--  Roles --> 
+   	 	<div th:each="role:${T(info.spain.opencatalog.domain.UserRole).values()}">
+	 		<input type="checkbox" th:field="*{roles}" th:value="${role}"/>
+	 		<span th:text="#{'userRole.' + ${role}}">Admin</span>
+	 	</div>
+	</div>
+	
+</div>	
+</body>
+</html>
+
+
+
+

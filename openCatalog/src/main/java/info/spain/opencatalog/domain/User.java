@@ -1,6 +1,7 @@
 package info.spain.opencatalog.domain;
 
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,8 +11,12 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class User {
+	
+	
+	
 	@Id
 	private String id;
 	
@@ -21,6 +26,7 @@ public class User {
 	private String password;
 	private String apiKey;
 	private List<String> idZones;
+	private Set<UserRole> roles;
 	
 	@CreatedDate
 	private DateTime created;
@@ -43,6 +49,9 @@ public class User {
 		if (source.idZones != null) {
 			target.idZones = Lists.newArrayList(source.idZones);
 		} 
+		if (source.roles != null){
+			target.roles = Sets.newHashSet(source.roles);
+		}
 	}
 	
 	public DateTime getCreated() {
@@ -95,12 +104,22 @@ public class User {
 		return this;
 	}
 	
+	
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
+	public User setRoles(Set<UserRole> role) {
+		this.roles = role;
+		return this;
+	}
+	
 	@Override
 	public String toString(){
 		return Objects.toStringHelper(getClass())
 			.add("id", id)
 			.add("name", name)
 			.add("email", email)
+			.add("roles", roles)
 			.add("idZones", idZones)
 			.add("password,", "****")
 			.add("apiKey", "***" )
