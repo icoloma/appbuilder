@@ -137,7 +137,7 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db'],
 
   });
 
-  asyncTest('Cálculo de la ruta.', 5, function() {
+  asyncTest('Cálculo de la ruta.', 4, function() {
 
     Planner.getTravelPlan({
       startTime: '10:00',
@@ -150,21 +150,18 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db'],
 
       ok(_.every(plan, function(planDay) {
         return _.every(planDay, function(step, i) {
-          return !i || step.startTime === planDay[i-1].endTime;
+          return !i || 
+            step.startTime === moment.utc(planDay[i-1].endTime)
+                                .add('s', HOUR)
+                                .format('YYYY-MM-DDTHH:mm');
         });
-      }), 'visita[i].endTime === visita[i+1].startTime.');
+      }), 'visita[i].endTime + distancia === visita[i+1].startTime.');
 
       ok(_.every(plan, function(planDay) {
         return _.every(planDay, function(step) {
           return moment.utc(step.startTime) < moment.utc(step.endTime);
         });
       }), 'visita.startTime < visita.endTime.');
-
-      ok(_.every(plan, function(planDay) {
-        return _.every(planDay, function(step, i) {
-          return !(i%2) || step.poi === null;
-        });
-      }), 'Cada visita está separada por un trayecto.');
 
       ok((function() {
         var test = true;
@@ -203,7 +200,7 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db'],
     }, function(err, plan) {
       equal(plan.length, 4, 'Plan de viaje alargado.');
 
-      var travel = plan[2][1];
+      var travel = plan[2][0];
       ok(travel.approx, 'Duración marcada como approx.');
 
       ok(moment.utc(travel.endTime).diff(moment.utc(travel.startTime), 'h') >= 1 ,

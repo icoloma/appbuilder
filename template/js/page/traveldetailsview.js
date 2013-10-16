@@ -45,7 +45,7 @@ function(TopbarView, TravelDetailsTpl) {
     },
 
     defaults: {
-      startDay: moment().format('YYYY-DD-MM'),
+      startDay: moment().format('YYYY-MM-DD'),
       startTime: '09:00',
       endTime: '19:00',
       transportation: 'DRIVING'

@@ -106,11 +106,8 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
           , distanceObj = distancesMatrix[i][j]
           ;
 
-          if (distanceObj !== null) {
-            // Almacena la consulta
-            localStorage.setItem(key, JSON.stringify(distanceObj));
-          } else {
-            // Aproximación
+          // Aproximación cuando GMaps no devuelve ruta
+          if (distanceObj === null) {
             var estimatedDistance = 
               Math.floor(1000*1.5*
                 Geo.distance(newDestinations[id1].get('lat'),
@@ -127,6 +124,11 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
               approx: true
             };
           }
+
+          // Almacena la consulta o aproximación
+          // AVISO: almacena también las aproximaciones, descartando futuras consultas a 
+          // GMaps
+          localStorage.setItem(key, JSON.stringify(distanceObj));
 
           // Usa el placeholder para colocar el distance object
           distances[distances.indexOf(key)] = distanceObj;
@@ -148,23 +150,26 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
 
     Devuelve un plan de viaje con el formato:
     [
-      // Dia 1
+      // Día 1
       [
         {
           start: 2013-10-22T08:00,
           end: 2013-10-22T08:30,
-          poi: PoiModel,
+          poi: <POI JSON>,
         },
-        // Este corresponde a un trayecto
         {
-          start: 2013-10-22T08:30,
-          end: 2013-10-22T09:30,
-          poi: null,
-          approx: true (sólo si es una aproximación)
+          start: 2013-10-22T09:00,
+          end: 2013-10-22T010:30,
+          poi: <POI JSON>
+          approx: true (indica que el trayecto hasta el siguiente POI es aproximado)
         },
         ...
+      ]
+
+      // Día 2
+      [
+        ...
       ],
-      // Dia 2
       ...
     ]
   */
@@ -182,17 +187,6 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
 
     for (var i = 0; i < pois.length; i++) {
       var poi = pois.at(i);
-
-      // Salvo que sea la primera visita del día, añadir el tiempo de viaje desde el
-      // anterior POI
-      if (day.length !== 0) {
-        day.push({
-          startTime: currentTime.format(format),
-          endTime: currentTime.add('s', distances[i-1].duration).format(format),
-          poi: null,
-          approx: distances[i-1].approx
-        });
-      }
 
       poiDuration = getPoiDuration(pois.at(i));
 
@@ -215,6 +209,9 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
           currentDay = moment.utc(currentDay).add('d', 1).format('YYYY-MM-DD');
           currentTime = moment.utc(currentDay + 'T' + options.startTime);
           todaysEndTime.add('d', 1);
+        } else {
+          currentTime.add('s', distances[i].duration);
+          _.last(day).approx = distances[i].approx;
         }
       } else {
         plan.push(day);
