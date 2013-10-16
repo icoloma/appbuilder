@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+    
+  <div class="container">
+  
+  
+   <!-- 
+		Poi Name and Description 
+	-->
+   <div th:fragment="poiNameDescriptionTag">
+			<ul class="nav nav-pills nav-stacked" >
+				<li class="active" th:if="${poi.name.es}"><a href="#es" data-toggle="tab" th:text="#{lang.es}">Spanish</a></li>
+				<li th:if="${poi.name.en}"><a href="#en" data-toggle="tab" th:text="#{lang.en}">English</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="es" th:if="${poi.name.es}">
+					<label th:text="#{poi.name.es}">Name (ES)</label>
+			  		<span  th:text="${poi.name.es}">Puerta del Sol</span>
+			  		
+		  			<label th:text="#{poi.description.es}">Description	 (ES)</label>
+		  			<p th:text="${poi.description.es}">La Puerta del Sol es una plaza de Madrid (España).  diciembre marcan la tradicional toma de las doce uvas a la gran mayoría de los españoles. Dichas campanadas se empezaron a televisar el 31 de diciembre de 1962 en La 1 de TVE, a partir de ese año no se ha dejado de retransmitir por diversos canales de televisión de España. La Puerta del Sol es un lugar de cita, un lugar de paso entre diversas partes de Madrid. Es visita turística obligada de aquellos que se acercan a Madrid.</p>
+		  		</div>
+		  		<div class="tab-pane" id="en" th:if="${poi.name.en}">
+					<label th:text="#{poi.name.en}">Name (EN)</label>
+			  		<span  th:text="${poi.name.en}">Sun's door</span>
+		  			
+		  			<label th:text="#{poi.description.en}">Description	 (EN)</label>
+		  			<p th:text="${poi.description.en}"></p>
+		  		</div>
+		  	</div>
+	 	
+
+   </div>
+
+  </div> <!-- /container -->
+  
+  
+
+</body>
+</html>
+
+
+
+

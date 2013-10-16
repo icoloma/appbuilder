@@ -36,5 +36,8 @@ public interface PoiRepository extends MongoRepository<BasicPoi, String>, PoiRep
 	
 	@Query( value="{ '_id' : {'$in': ?0}}")
 	public List<BasicPoi> findByIds(String[] ids);
-
+	
+	
+	<S extends BasicPoi> S save(S poi);
+	
 }

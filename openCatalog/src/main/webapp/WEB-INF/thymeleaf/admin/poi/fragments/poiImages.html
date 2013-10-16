@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="../../../../../resources/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="../../../../../resources/css/bootstrap-responsive.min.css"/>
 	<link rel="stylesheet" href="../../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
-	<link rel="stylesheet" href="../../../../../resources/css/jquery.tagedit.css"/>
+	
 	<link rel="stylesheet" href="../../../../../resources/css/main.css"/>
 	<script src="../../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
 	<script src="../../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
@@ -41,8 +41,8 @@
 					</td>
 					<td>
 						<div class ="item rounded dark poiImage">
-							<a href="../../../../../../resources/img/no_image.png" th:href="@{'/admin/poi/' +${poi.id} + '/image/' + ${image}}" >
-								<img class="poiImageSmall" src="../../../../../../resources/img/no_image.png" th:src="@{'/admin/poi/' +${poi.id} + '/image/' + ${image}}" title="Poi image" th:title="#{poi.image}"/>
+							<a href="../../../../../resources/img/no_image.png" th:href="@{'/poi/' +${poi.id} + '/image/' + ${image}}" >
+								<img class="poiImageSmall" src="../../../../../resources/img/no_image.png" th:src="@{'/poi/' +${poi.id} + '/image/' + ${image}}" title="Poi image" th:title="#{poi.image}"/>
 							</a>
 						</div>
 					</td>

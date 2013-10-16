@@ -5,7 +5,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -25,6 +27,10 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<default-servlet-handler />	
 	
+	<interceptors>
+		<beans:bean class="info.spain.opencatalog.web.interceptor.CurrentUserHandlerInterceptor"></beans:bean>
+	</interceptors>
+	
 	
 	<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<beans:property name="exceptionMappings">
@@ -41,7 +47,8 @@
 		Controllers
 	 -->
 	<context:component-scan base-package="info.spain.opencatalog.web" />
+	
 	<view-controller path="/api" view-name="api"/>
-	<view-controller path="/login" view-name="login"/>
 
+	
 </beans:beans>

@@ -45,16 +45,24 @@
 	<div class="container">
 	    <div class="hero-unit">
 	       <h1 th:text="#{home.header}" >OpenCantalog</h1>
+	       <br/>
 	       <p th:utext="#{home.text}">Acceda al API REST del catálogo</p> 
 	       
-	       <ul>
-	       	<li><a href="admin/index.html" th:href="@{/admin/}" th:text="#{home.link.admin.text}">Admin page</a></li>
+	       <ul class="unstyled">
+			<li><a href="poi/poiList.html" th:text="#{poi.pois}" th:href="@{/poi/}">Point of interest</a></li>
+			<li><a href="zone/zoneList.html" th:text="#{zone.zones}" th:href="@{/zone/}">Zones</a></li>
 			<li><a href="api/" th:text="#{home.link.api.text}">API REST</a></li>
 	       </ul>
 	       
 	    </div>
+	    <div sec:authorize="hasRole('ROLE_ADMIN')" >
+	    	<a href="admin/index.html" th:href="@{/admin/}" class="btn btn-primary">
+	    		<i class="icon-wrench icon-white"></i>
+	    		<span th:text="#{home.link.admin.text}">Admin page</span>
+	    	</a>
+	    </div>
 	</div>
-        
+       
    
    	<!-- footer -->
 	<footer th:substituteby="fragments/template :: footerTag">

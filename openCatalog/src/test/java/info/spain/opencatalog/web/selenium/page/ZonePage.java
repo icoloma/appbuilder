@@ -8,11 +8,11 @@ import org.openqa.selenium.interactions.Actions;
 
 public class ZonePage extends AbstractPage {
 	
-	private static final String HEADER = "Zona";
+	private static final String HEADER = "Zona (Admin)";
 	
 	
 	public ZonePage(WebDriver driver){
-		super(driver,HEADER); 
+		super(driver, HEADER); 
 	}
 	
 	// Page input fields

@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
 	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
-	<link rel="stylesheet" href="../../../../resources/css/jquery.tagedit.css"/>
+	
 	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
 </head>
 
@@ -83,7 +83,7 @@
 				 
 				 <!--  Images -->
 				 <div class="tab-pane" id="images" th:if="${poi.id}">
-					<div th:substituteby="admin/poi/fragments/poiImages :: poiImagesTag" >
+					<div th:substituteby="poi/fragments/poiImages :: poiImagesTag" >
 						<table class="table table-striped">
 							<tr>
 								<td>Some dummy images</td>

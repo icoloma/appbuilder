@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Zone</title>
+    <link rel="stylesheet" href="../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../resources/css/main.css"/>
+</head>
+
+<body>
+
+	<!--  Nav bar -->
+	<div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">OpenCatalog</a>
+			</div>
+		</div>
+	</div>
+    
+    <!-- container -->    
+	<div class="container">
+	
+		<h1 th:text="#{zone.header}" >Zone</h1>
+     	
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#" th:text="#{zone.data}">Data</a></li>
+			<li th:if="${zone.id}"><a href="zonePoi.html" th:href="@{'/zone/' + ${zone.id} + '/poi'}"  th:text="#{zone.pois}">POIs</a></li>
+		</ul>
+	
+				
+		<div class="row">
+			<div class="span3">
+				<label th:text="#{zone.name}">Name</label>
+		  		<span  th:text="${zone.name}">Zona centro</span>
+			</div>
+			<div class="span3">
+				<label th:text="#{zone.description}">Description	 (ES)</label>
+			  	<p th:text="${zone.description}">Zona centro de la península ibérica</p>
+			</div>
+			
+		</div>
+		
+			
+		<fieldset>
+			<legend th:text="#{zone.address}">Address</legend>
+			<div class="row">
+			 	<div class="span3">
+				 	<label th:text="#{zone.address.adminArea2}">Admin Area 2</label>
+				 	<span th:text="${zone.address.adminArea2}">Madrid</span>
+				</div>
+			 	<div class="span3">
+				 	<label th:text="#{zone.address.adminArea1}">Admin Area 1</label>
+				 	<span th:text="${zone.address.adminArea1}">Comunidad de Madrid"</span>
+				</div>
+			</div>
+		</fieldset>
+		
+		<hr/>
+		<div class="well"  sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" >
+		    <a class="btn btn-primary" href="../admin/zone.html" th:href="@{'/admin/zone/' + ${zone.id}}" th:text="#{button.edit}">Edit</a>
+		</div>
+  		 
+		
+	</div>
+        
+	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	</footer>
+	
+
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
+		<script src="../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../resources/js/vendor/bootstrap.js"></script>
+	    <script src="../../../resources/js/main.js"></script>
+	</div>
+	
+	<div>
+		<div th:remove="all"><!-- PAGE SCRIPTS --></div>
+		<script src="../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" 	th:src="@{/resources/js/vendor/jquery-ui-1.9.2.custom.js}"></script>
+	</div>
+	
+	
+</body>
+</html>

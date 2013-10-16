@@ -1,13 +1,32 @@
 package info.spain.opencatalog.web.selenium;
 
 import static org.junit.Assert.assertEquals;
+import info.spain.opencatalog.domain.DummyUserFactory;
+import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.web.selenium.page.ZoneListPage;
 import info.spain.opencatalog.web.selenium.page.ZonePage;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 public class ZoneIntegrationTest extends AbstractIntegrationTest {
+	
+	@Before
+	@Override
+	public void init(){
+		super.init();
+		User root = DummyUserFactory.ROOT;
+		loginAs(root);
+	}
+	
+	@After
+	@Override
+	public void tearDown(){
+		logout();
+		super.tearDown();
+	}
 	
 	@Test
 	public void CRUDZone(){

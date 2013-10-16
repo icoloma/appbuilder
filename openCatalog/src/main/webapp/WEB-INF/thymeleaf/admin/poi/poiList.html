@@ -26,7 +26,7 @@
 		<div th:substituteby="fragments/template :: alert" />
 		
 	
-		<h1 th:text="#{poi.pois}" >Points of Interest</h1>
+		<h1 th:text="#{poi.pois.admin}" >Points of Interest (Admin)</h1>
 		
 		<div class="navbar">
 			<div class="navbar-inner">
@@ -56,7 +56,7 @@
 			      <td th:text="#{ 'poiType.' + ${poi.type}}">Espacio natural</td>
 			      <td th:text="${poi.description}? ${#strings.abbreviate(poi.description.es,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
 			      <td th:text="${poi.address}? ${poi.address.adminArea1}">Canarias</td>
-			      <td><img class="poiImageSmall rounded dark item" src="../../../../../resources/img/no_image.png" th:src="@{'/admin/poi/' +${poi.id} + '/image/default' }" title="Poi image" th:title="#{poi.image}"/></td>
+			      <td><img class="poiImageSmall rounded dark item" src="../../../../../resources/img/no_image.png" th:src="@{'/poi/' +${poi.id} + '/image/default' }" title="Poi image" th:title="#{poi.image}"/></td>
 			      
 			    </tr>
 			    <tr th:remove="all"  data-id="2"  data-link="poi.html" class="dataLink" >

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head th:substituteby="fragments/template :: headTag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Zones</title>
+    <link rel="stylesheet" href="../../../resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/main.css"/>
+    
+</head>
+
+<body>
+
+      <!--  Nav bar -->
+	  <div th:substituteby="fragments/template :: navTag" class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">OpenCatalog</a>
+                </div>
+            </div>
+        </div>
+        
+    <!-- container -->    
+	<div class="container">
+	
+		<div th:substituteby="fragments/template :: alert" />
+		
+	
+		<h1 th:text="#{zone.zones}" >Zones</h1>
+		
+		<div class="navbar">
+			<div class="navbar-inner">
+				<form class="form-search  pull-right" action="#" th:action="@{'/admin/zone'}" method="GET" >
+					<div class="input-append">
+						<input type="text" name="q" class="span3 search-query" th:value="${q}"/>
+						<button type="submit" class="btn" th:text="#{button.search}">Search</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	   
+	   <div id="table">
+	    	<table class="table table-striped table-hover table-bordered">
+			  <thead>
+			    <tr>
+			      <th th:text="#{zone.rows.head.name}">Name</th>
+			      <th th:text="#{zone.rows.head.description}">Description</th>
+			      <th th:text="#{zone.rows.head.adminArea1}">Admin Area 1</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="zone : ${page.content}" data:link="@{'/zone/' + ${zone.id}}" data-id="1" class="dataLink" data-link="zone.html">
+			      <td th:text="${zone.name}">Tenerife Sur</td>
+			      <td th:text="${#strings.abbreviate(zone.description,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td th:text="${zone.address.adminArea1}">Canarias</td>
+			    </tr>
+			    <tr th:remove="all"  data-id="2" data-link="zone.html" class="dataLink" >
+			      <td>Pico del Teide</td>
+			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>Canarias</td>
+			    </tr>
+			    <tr th:remove="all" data-id="3" data-link="zone.html" class="dataLink" >
+			      <td>Pico del Teide</td>
+			      <td>Situado en la isla de Tenerife, cuenta con una altitud ...</td>
+			      <td>Canarias</td>
+			    </tr>
+			  </tbody>
+			</table>
+			<ul class="pager" data-page="0" data-pages="5" data:page="${page.number}" data:pages="${page.totalPages}">
+			  <li class="previous"><a  href="#" th:href="@{/zone/(page.page=${page.number},q=${q})}" th:text="#{pager.prev}">Previous</a></li>
+			  <li th:text="#{pager.detail(${page.number+1}, ${page.totalPages}, ${page.totalElements})}">Page 0 of 5</li>
+			  <li class="next" ><a href="#" th:href="@{/zone/(page.page=${page.number+2},q=${q})}" th:text="#{pager.next}">Next</a></li>
+			</ul>
+			
+	    </div>
+	    
+	</div>
+        
+	    
+	    
+   	<!-- footer -->
+	<footer th:substituteby="fragments/template :: footerTag">
+	    <hr/>
+		<p>&copy; Spain.info</p>
+	</footer>
+	
+	<div th:substituteby="fragments/template :: scripts" >
+	    <!-- COMMON SCRIPTS -->
+		<script src="../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	    <script src="../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	    <script src="../../../resources/js/vendor/bootstrap.js"></script>
+	    <script src="../../../resources/js/main.js"></script>
+	</div>
+	
+    
+</body>
+</html>

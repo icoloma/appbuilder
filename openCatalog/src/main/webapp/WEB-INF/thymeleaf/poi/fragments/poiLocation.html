@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+	
+	<script src="../../../../resources/js/vendor/jquery-ui-1.9.2.custom.js" ></script>
+	<script src="../../../../resources/js/vendor/jquery.ui.map.js" ></script>
+	<script src="../../../../resources/js/vendor/jquery.ui.map.services.js" ></script>
+	<script src="../../../../resources/js/vendor/jquery.ui.map.extensions.js"></script>
+	
+	
+</head>
+
+<body>
+
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+	<!-- 
+		Poi Location
+	 -->      
+	<div th:fragment="poiLocationTag"> 
+	
+		<div class="item rounded dark">
+			<div id="map_canvas" class="map rounded" data-coord=" 40.416957,-3.703794" data:coord="${poi.location.lat + ',' + poi.location.lng}"></div>
+		</div>
+
+
+		<fieldset>
+			<legend th:text="#{poi.coord}">Coordinates</legend>
+			<div class="row">
+				<div class="span3">
+					<label th:text="#{poi.coord.lat}">Latitude</label>
+				 	<span th:text="${poi.location.lat}">40.402</span>
+				</div>
+				<div class="span3">
+				 	<label th:text="#{poi.coord.lng}">Longitude</label>
+				 	<span th:text="${poi.location.lng}">-3.23</span>
+				</div>						 	
+			</div>
+		</fieldset>
+			
+		<fieldset>
+			<legend th:text="#{poi.address}">Address</legend>
+			<div class="row">
+				<div class="span3">
+					<label th:text="#{poi.address.route}">Route</label>
+					<span th:text="${poi.address.route}">Plaza Puerta del Sol</span>
+				</div>
+			 	<div class="span3">
+				 	<label th:text="#{poi.address.adminArea2}">Admin Area 2</label>
+				 	<span th:text="${poi.address.adminArea2}">Madrid</span>
+				</div>
+			 	<div class="span3">
+				 	<label th:text="#{poi.address.adminArea1}">Admin Area 1</label>
+				 	<span th:text="${poi.address.adminArea1}">Comunidad de Madrid</span>
+				</div>
+				<div class="span3">
+				 	<label th:text="#{poi.address.zipCode}">ZipCode</label>
+				 	<span th:text="${poi.address.zipCode}">28013</span>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+</div>  
+	
+	
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+	<script src="../../../../resources/js/main.js"></script>
+	<script src="../../../../resources/js/poi/poi-map.js"></script>
+	<script>
+	$(function(){
+		showMap();
+	});
+	</script>
+
+
+</body>
+</html>
+
+
+
+

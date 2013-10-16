@@ -132,6 +132,7 @@ public class BasicPoi {
         this.defaultImageFilename=source.defaultImageFilename;
         this.data= deleteEmptyEntries(source.data);
         this.syncInfo = source.getSyncInfo();
+        this.score = source.score;
         return this;
     }	
 	

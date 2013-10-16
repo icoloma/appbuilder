@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+  
+	<!-- 
+		Poi DATA
+	 -->      
+      <div th:fragment="poiDataTag">
+         <legend th:if="${poi.poiType.allowedDataValidators}" th:text="#{poi.data.other}">Other Data</legend>
+        
+        <div id="poiData">
+			<div class="group-base"></div>
+			<div class="group-sub"></div>
+		</div>
+		
+     	 <div th:each="data: ${poi.poiType.allowedDataValidators}"
+     	 	  class="poiData" 
+     	 	  
+     	 	  th:with="
+     	 	    isBoolean=${data.value.type.toString() == 'BOOLEAN'},  
+     	 		isBigText=${data.value.type.toString() == 'BIGTEXT'},
+     	 		isText=${data.value.type.toString() == 'TEXT'},  
+	     	 	isKeyValue=${data.value.type.toString() == 'KEY_VALUE'},
+	     	 	isDouble=${data.value.type.toString() == 'DOUBLE'},
+	     	 	isInteger=${data.value.type.toString() == 'INTEGER'},
+     	 	    normalizedKey=${#strings.replace(data.key,':','_')}
+     	 	   "
+     	 	  data:path="${T(info.spain.opencatalog.web.controller.PoiController).getDataGroup(normalizedKey)}"
+     	 	  data:tpath="#{'poi.data.group.' + ${T(info.spain.opencatalog.web.controller.PoiController).getDataGroup(normalizedKey)}}"
+     	 	>
+	     	 	
+	     	 <div th:if="${poi.data['__${data.key}__']}">
+				<label th:text="#{'poi.data.' + ${normalizedKey} }">label</label>
+	     	 	
+	     	 	<p th:if="${isBigText || isKeyValue }" th:text="${poi.data['__${data.key}__']}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut eros in dolor pellentesque porta. Praesent vel egestas ipsum. Vestibulum quam enim, pellentesque ac tempus in, vulputate vel lectus. Donec malesuada elit orci, vel aliquam tortor tristique nec. Ut lobortis elit ut quam d</p>
+				<span th:if="${isDouble || isInteger || isText }"  th:text="${poi.data['__${data.key}__']}">Value</span>
+				<span th:if="${isBoolean}" th:text="#{'boolean.' + ${poi.data['__${data.key}__']}">Yes</span>
+	     	 </div>
+				
+		</div>
+	 </div>
+	 
+	
+</div>
+</body>
+</html>
+
+
+
+

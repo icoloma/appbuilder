@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles requests for the application poi images.
  */
 @Controller
-@RequestMapping(value = "/admin/poi/{idPoi}/image")
+@RequestMapping(value = "/poi/{idPoi}/image")
 public class PoiImageController extends AbstractUIController {
 	
 	@Autowired

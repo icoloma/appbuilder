@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.controller;
+package info.spain.opencatalog.web.controller.admin;
 
 import java.util.Locale;
 
@@ -16,7 +16,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		model.addAttribute("page_title","admin.title");
-		return "admin/index";
+		return "admin/admin";
 	}
 
 }

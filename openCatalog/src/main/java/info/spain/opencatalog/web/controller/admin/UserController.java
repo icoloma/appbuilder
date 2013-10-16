@@ -1,13 +1,13 @@
-package info.spain.opencatalog.web.controller;
+package info.spain.opencatalog.web.controller.admin;
 
 
 import info.spain.opencatalog.domain.ApiKeyGenerator;
 import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.domain.UserRole;
 import info.spain.opencatalog.exception.NotFoundException;
-import info.spain.opencatalog.repository.UserRepository;
 import info.spain.opencatalog.repository.ZoneRepository;
 import info.spain.opencatalog.validator.UserFormValidator;
+import info.spain.opencatalog.web.controller.AbstractUIController;
 import info.spain.opencatalog.web.form.UserForm;
 
 import java.util.Set;
@@ -36,9 +36,6 @@ import com.google.common.collect.Sets;
 @Controller
 @RequestMapping(value = "/admin/user")
 public class UserController extends AbstractUIController {
-	
-	@Autowired
-	private UserRepository userRepository;
 	
 	@Autowired
 	private ZoneRepository zoneRepository;

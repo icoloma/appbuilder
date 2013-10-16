@@ -189,7 +189,7 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setName(new I18nText().setEs("Apartamentos Bahía azul"))				// required
 			.setLocation(randomLocation())											// required
 			.setDescription(new I18nText().setEs("Descripción del apartamento..."))	
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setAddress(new Address().setRoute("ramdom route").setAdminArea1("ramdom area1").setAdminArea2("random area2"))
 			.setScore(Score.KEY_1)
 			.setFlags(
 				Flag.CREDIT_CARD, 
@@ -270,8 +270,8 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static BasicPoi museum() {
 		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.MUSEUM))
 			.setName(new I18nText().setEs("Museo del Prado"))					// required
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
-			.setLocation(randomLocation())					// required
+			.setLocation(GEO_MUSEO_DEL_PRADO)					// required
+			.setAddress(new Address().setRoute("Paseo del Prado, s/m").setAdminArea1("Madrid").setAdminArea2("Comunidad de Madrid"))
 			.setDescription(new I18nText().setEs("Descripción del museo"))			
 			.setContactInfo( new ContactInfo()
 				.setEmail("info@mueseodelprado.com")	
@@ -319,9 +319,9 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static BasicPoi monument() {
 		return ((BasicPoi)PoiFactory.newInstance(PoiTypeID.MONUMENT))
 			.setName(new I18nText().setEs("La Alhambra"))						// required
-			.setLocation(randomLocation())										// required
+			.setLocation(GEO_ALHAMBRA)										// required
 			.setDescription(new I18nText().setEs("Descripción del monumento"))		
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setAddress(new Address().setRoute("Calle Real de la Alhambra, 28").setAdminArea1("Granada").setAdminArea2("Andalucía"))
 			.setContactInfo(new ContactInfo()
                 .setEmail("info@lahalambra.com")
                 .setUrl("http://www.lahalambra.com")
@@ -383,7 +383,7 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static BasicPoi naturalPark(){
 		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.NATURAL_SPACE))
 			.setName(new I18nText().setEs("Parque nacional del Timanfaya")) 	// required
-			.setLocation(AbstractFactory.GEO_TEIDE)								// required
+			.setLocation(AbstractFactory.GEO_TIMANFAYA)								// required
 			.setDescription(new I18nText().setEs("Descripción del parque"))			
 			.setAddress(new Address()
 				.setRoute("Timanfaya")
@@ -410,7 +410,7 @@ public class DummyPoiFactory extends AbstractFactory {
 		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.ECO_TOURISM))
 			.setName(new I18nText().setEs("Ecoturismo")) 	// required
 			.setLocation(randomLocation())					// required
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setAddress(new Address().setRoute("ramdom route").setAdminArea1("ramdom area1").setAdminArea2("random area2"))
 			.setFlags(
 				Flag.GUIDED_TOUR,
 				Flag.EDUCATIONAL_ACTIVITIES)
@@ -428,7 +428,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setIt("Campo da golf")
 				.setFr("Cours de golf")) 	
 			.setLocation(randomLocation())					// required
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setAddress(new Address().setRoute("ramdom route").setAdminArea1("ramdom area1").setAdminArea2("random area2"))
 			.setFlags(
 				Flag.GOLF_MIXED,
 				Flag.LESSONS,
@@ -446,8 +446,7 @@ public class DummyPoiFactory extends AbstractFactory {
 		return ((BasicPoi) PoiFactory.newInstance(PoiTypeID.NAUTICAL_STATION))
 			.setName(new I18nText().setEs("Estación náutica")) 	// required
 			.setLocation(randomLocation())					// required
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
-			.setFlags(
+			.setAddress(new Address().setRoute("ramdom route").setAdminArea1("ramdom area1").setAdminArea2("random area2")).setFlags(
 					Flag.NAUTICAL_CATAMARAN,
 					Flag.NAUTICAL_DIVING,
 					Flag.NAUTICAL_WHALE_WATCHING)
@@ -461,10 +460,9 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setTimetable(
 					new TimeTableEntry("[0112-3103]=10:00-17:00")
 			 )
-			.setName(new I18nText().setEs("Estación de esquí")) 	// required
-			.setLocation(randomLocation())							// required
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
-			.setFlags(
+			.setName(new I18nText().setEs("Estación de esquí Aramón Formigal")) 	// required
+			.setLocation(GEO_SKI_FORMIGAL)							// required
+			.setAddress(new Address().setRoute("Urbanización Formigal,s/n").setAdminArea1("Huesca").setAdminArea2("Huesca")).setFlags(
 					Flag.SKI_RENTALS,
 					Flag.SOS_SERVICE)
 			.setData("total-km-esquiables", "124.2")

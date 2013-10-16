@@ -1,5 +1,7 @@
 package info.spain.opencatalog.web.controller;
 
+import info.spain.opencatalog.repository.UserRepository;
+
 import java.text.Normalizer;
 import java.util.Locale;
 
@@ -15,6 +17,10 @@ public abstract class AbstractUIController extends AbstractController {
 	
 	@Autowired
 	protected MessageSource messageSource;
+	
+	@Autowired
+	protected UserRepository userRepository;
+	
 	
 	/**
 	 * Añade el parámetro "infoMessage" si existe y hay traducción al Model

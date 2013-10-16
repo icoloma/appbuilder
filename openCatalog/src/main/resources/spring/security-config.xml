@@ -9,21 +9,51 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
   
-  <global-method-security pre-post-annotations="enabled"/>	
-  
+  <!-- 
+  		HTTP Security
+   -->
   <http use-expressions="true">
   	<remember-me key="${rememberMe.key}"/>
-  	<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-    <form-login login-page="/login"/>
+    <form-login login-page="/login" authentication-failure-url="/login-error"/>
     <logout logout-success-url="/" logout-url="/logout"/>
+  	
+  	<intercept-url pattern="/admin/user/**" access="hasRole('ROLE_ADMIN')" />
+  	<intercept-url pattern="/admin/zone/**" access="hasAnyRole('ROLE_ADMIN')" />
+  	<intercept-url pattern="/admin/poi/**" 	access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+  	<intercept-url pattern="/admin/*" 		access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+  	
   </http>
+ 
 
-
-
- <authentication-manager>
+  <!--
+  		Authentication Manager  
+   -->
+  <authentication-manager>
     <authentication-provider user-service-ref="userDetailsService"/>
- </authentication-manager>
+  </authentication-manager>
+  <beans:bean id="userDetailsService" class="info.spain.opencatalog.security.RepositoryUserDetailsService"/>
  
- <beans:bean id="userDetailsService" class="info.spain.opencatalog.security.RepositoryUserDetailsService"/>
- 
+  
+  
+  <!--
+  		Method Security 
+   -->
+  <global-method-security pre-post-annotations="enabled">
+	<expression-handler ref="expressionHandler"/>
+  </global-method-security>	
+
+  <beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+    <beans:property name="permissionEvaluator" ref="customPermissionEvaluator"/>
+  </beans:bean>
+  
+   <beans:bean id="customPermissionEvaluator" class="info.spain.opencatalog.security.CustomPermissionEvaluator" >
+	  	<beans:constructor-arg>
+	  		<beans:list>
+		  		<beans:bean class="info.spain.opencatalog.security.PoiPermissionEvaluator"/>
+	  		</beans:list>
+	  	</beans:constructor-arg>
+   </beans:bean>
+	
+
+
 </beans:beans>

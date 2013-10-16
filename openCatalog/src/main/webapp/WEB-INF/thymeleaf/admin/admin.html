@@ -26,11 +26,16 @@
         
     <!-- container -->    
 	<div class="container">
-	    <ul>
-	       <li><a href="poi/poiList.html" th:text="#{poi.pois}" th:href="@{/admin/poi/}">Points of interest</a></li>
-	       <li><a href="zone/zoneList.html" th:text="#{zone.zones}" th:href="@{/admin/zone/}">Zones</a></li>
-	       <li><a href="zone/userList.html" th:text="#{user.users}" th:href="@{/admin/user/}">Users</a></li>
-	    </ul>
+	
+	 	<div class="hero-unit">
+	       <h1 th:text="#{admin.title}" >OpenCantalog (Admin)</h1>
+	       <br/>
+	       <ul>
+		       <li><a href="poi/poiList.html" th:text="#{poi.pois}" th:href="@{/admin/poi/}">Points of interest</a></li>
+		       <li sec:authorize="hasRole('ROLE_ADMIN')" ><a href="zone/zoneList.html" th:text="#{zone.zones}" th:href="@{/admin/zone/}">Zones</a></li>
+		       <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="zone/userList.html" th:text="#{user.users}" th:href="@{/admin/user/}">Users</a></li>
+	       </ul>
+	    </div>
 	</div>
         
    

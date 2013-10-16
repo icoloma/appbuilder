@@ -58,6 +58,7 @@ public class MongoDbPopulator {
 		
 		User userTenerife = DummyUserFactory
 				.newUser("userTenerife")
+				.setEmail("userTenerife@example.com")
 				.setPassword("1234567890")
 				.setIdZones(Lists.newArrayList(zoneTenerife.getId()));
 		

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+    
+  <div class="container">
+  
+ 	<!--  Flags --> 
+	 <div th:fragment="poiFlags" 
+	 	  class="accordion" 
+	 	  id="accordionDIV">
+	    
+	    <div th:each="group: ${flags}"  class="accordion-group">
+	        <div class="accordion-heading">
+				<a  class="accordion-toggle"  
+					data-toggle="collapse" 
+					data-parent="#accordionDIV" 
+					href="#collapseOne" 
+					th:href="${'#collapse'} + ${group.key}"
+					th:text="#{'flagGroup.' + ${group.key}}"  >
+		        Collapsible Group Item #1
+			    </a>
+			</div>
+ 				
+		    <div id="collapseOne" th:id="${'collapse'} + ${group.key}" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<ul>
+					 	<div th:each="pflag:${poi.flags}" th:remove="tag">
+					 		<div th:each="gflag:${group.value}" th:remove="tag">
+					 			<li th:if="${T(info.spain.opencatalog.domain.poi.Flag).valueOf(gflag) == T(info.spain.opencatalog.domain.poi.Flag).valueOf(pflag)} ">
+						 			<span th:text="#{'flags.' + ${pflag}}"  >Aire acondicionado</span>
+	 				 			</li>
+					 		 </div>
+					 	</div>
+					 	
+					 	<li th:remove="all"><span >WIFI</span></li>
+					 	<li th:remove="all"><span >Alquiler</span></li>
+					</ul>
+				 </div>
+			 </div>
+			 
+		</div>
+	</div>	
+	 
+	
+	 
+	 
+  </div> <!-- /container -->
+  
+  	
+
+	
+</body>
+</html>
+
+
+
+

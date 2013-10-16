@@ -29,5 +29,7 @@
 	
 	<bean id="poiImageUtils" class="info.spain.opencatalog.image.PoiImageUtilsImpl" />
 	
+	<context:component-scan base-package="info.spain.opencatalog.service"/>
+	
 	
 </beans>

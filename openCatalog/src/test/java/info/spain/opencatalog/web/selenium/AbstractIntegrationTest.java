@@ -1,5 +1,7 @@
 package info.spain.opencatalog.web.selenium;
 
+import info.spain.opencatalog.domain.User;
+
 import java.util.Properties;
 
 import org.junit.After;
@@ -38,5 +40,21 @@ public abstract class AbstractIntegrationTest {
 	public void tearDown(){
 		driver.close();
 	}
+	
+	public HomePage loginAs(User user) {
+		String url = config.getProperty("baseUrl") + "/login";
+		log.trace("url:" + url);
+		driver.get(url);
+		
+		LoginPage page = new LoginPage(driver);
+		return page.login(user.getEmail(), user.getPassword(), false);
+	}
+	
+	public void logout(){
+		String url = config.getProperty("baseUrl") + "/logout";
+		log.trace("url:" + url);
+		driver.get(url);
+	}
+
 
 }

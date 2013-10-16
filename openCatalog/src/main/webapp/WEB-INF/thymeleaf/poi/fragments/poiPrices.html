@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	
+	<link rel="stylesheet" href="../../../../resources/css/main.css"/>
+	<script src="../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+  
+	<!-- 
+		Poi timeTable
+	-->      
+	<div th:fragment="poiPricesTag">
+	
+		<table class="table table-striped table-bordered prices">
+			<thead>
+				<tr>
+					<th th:text="#{poi.price.price}">Price</th>
+					<th th:text="#{poi.price.observations}">Observations</th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr th:each="entry,iter: ${poi.prices}">
+					<td>
+						<!--  price -->
+						<label th:text="#{poi.price.price}">Precio</label>
+						<span th:text="${poi.prices[__${iter.index}__].price}">100.12</span>  
+						 
+						
+						<!--  priceType -->
+						<label th:text="#{poi.price.priceType}">Tipo</label>
+						<span  th:text="${poi.prices[__${iter.index}__].priceType}">Option1</span>
+						
+						
+						<!--  Period -->
+						<label><span th:text="#{poi.timetable.period}">Period</span> <a href="#timeTableExamples" role="button" data-toggle="modal" th:title="#{button.help}"><i class="icon-question-sign"></i></a></label>
+						<span th:text="${poi.prices[__${iter.index}__].timeTable.period}">...</span>
+					</td>
+					
+					<td>
+						<ul class="nav nav-pills nav-stacked" >
+							<li class="active" th:if="${poi.prices[__${iter.index}__].observations.es}"><a href="#price-es-0" th:href="${'#price-es-' +  __${iter.index}__}" data-toggle="tab" th:text="#{lang.es}">Spanish</a></li>
+							<li th:if="${poi.prices[__${iter.index}__].observations.en}"><a href="#price-en-0" th:href="${'#price-en-' +  __${iter.index}__}" data-toggle="tab" th:text="#{lang.en}">English</a></li>
+						</ul>
+						
+						<div class="tab-content">
+							<div th:if="${poi.prices[__${iter.index}__].observations.es}" class="tab-pane active" id="price-es-0" th:id="${'price-es-' +  __${iter.index}__}" >
+								<p  th:text="${poi.prices[__${iter.index}__].observations.es}">Observaciones del precio ...</p>
+					  		</div>
+					  		<div th:if="${poi.prices[__${iter.index}__].observations.en}" class="tab-pane" id="price-en-0" th:id="${'price-en-' +  __${iter.index}__}" >
+								<p  th:text="${poi.prices[__${iter.index}__].observations.en}">Price observations</p>
+					  		</div>
+					  	</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="timeTableExamples" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Examples:</h3>
+		  </div>
+		  <div class="modal-body">
+			  <div class="example">
+				<span>regex</span>
+				<p>description</p>
+				<hr/>
+			</div>
+		   
+		  </div>
+		
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true" th:text="#{button.close}">Close</button>
+		  </div>
+		
+	</div>
+	
+	
+	<script src="../../../../resources/js/poi/poi-prices.js"></script>	
+	
+</div>
+</body>
+</html>
+
+
+
+
