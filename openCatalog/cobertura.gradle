@@ -15,7 +15,7 @@ def classesCopy="${classes}-copy"
 
 task cobertura(type: Test){
 
-  exclude 'info/spain/opencatalog/web/selenium/**'
+  exclude 'integrationTests/**'
 
   jvmArgs '-XX:-UseSplitVerifier' 
   

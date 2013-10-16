@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.selenium.page.poi;
+package integrationTests.page.poi;
 
 import org.openqa.selenium.WebDriver;
 

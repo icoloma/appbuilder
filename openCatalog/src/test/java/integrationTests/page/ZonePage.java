@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.selenium.page;
+package integrationTests.page;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.openqa.selenium.By;

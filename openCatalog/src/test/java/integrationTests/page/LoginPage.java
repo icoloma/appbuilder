@@ -1,6 +1,4 @@
-package info.spain.opencatalog.web.selenium;
-
-import info.spain.opencatalog.web.selenium.page.AbstractPage;
+package integrationTests.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

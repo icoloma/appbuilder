@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.selenium.page;
+package integrationTests.page;
 
 import java.util.List;
 
