@@ -13,7 +13,6 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="properties-config.xml"/>
 	<import resource="mongo-config.xml"/>
-	<import resource="security-config.xml" />
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">

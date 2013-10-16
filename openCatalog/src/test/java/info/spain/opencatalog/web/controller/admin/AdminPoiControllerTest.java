@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.controller;
+package info.spain.opencatalog.web.controller.admin;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -19,12 +19,12 @@ import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.image.PoiImageUtils;
 import info.spain.opencatalog.repository.PoiRepository;
+import info.spain.opencatalog.web.controller.AbstractControllerTest;
 import info.spain.opencatalog.web.form.PoiForm;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +35,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
 @ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
 @ActiveProfiles("dev")
-public class PoiControllerTest {
-	
-	@Autowired
-	private WebApplicationContext wac;
+public class AdminPoiControllerTest extends AbstractControllerTest {
 	
 	@Autowired
 	private PoiRepository repo;
@@ -56,12 +49,6 @@ public class PoiControllerTest {
 	@Autowired
 	private PoiImageUtils poiImageUtils;
 
-	private MockMvc mockMvc;
-
-	@Before
-	public void setup() {
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-	}
 	
 	@Test
 	public void testNewForm() throws Exception{
@@ -272,13 +259,13 @@ public class PoiControllerTest {
 		assertEquals(2, images.size());
 		
 		// Get the image
-		MvcResult result = this.mockMvc.perform( get("/admin/poi/{id}/image/{idImage}", saved.getId(), images.get(0)))
+		MvcResult result = this.mockMvc.perform( get("/poi/{id}/image/{idImage}", saved.getId(), images.get(0)))
 			.andExpect(status().isOk())
 			.andReturn();
 		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
 			
 		// Get the default image
-		result = this.mockMvc.perform( get("/admin/poi/{id}/image/default", saved.getId()))
+		result = this.mockMvc.perform( get("/poi/{id}/image/default", saved.getId()))
 			.andExpect(status().isOk())
 			.andReturn();
 		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
@@ -291,7 +278,7 @@ public class PoiControllerTest {
 			.andExpect(status().isMovedTemporarily());
 				
 		// Get the default image
-		result = this.mockMvc.perform( get("/admin/poi/{id}/image/default", saved.getId()))
+		result = this.mockMvc.perform( get("/poi/{id}/image/default", saved.getId()))
 			.andExpect(status().isOk())
 			.andReturn();
 		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());
@@ -307,7 +294,7 @@ public class PoiControllerTest {
 		assertEquals(1, images.size());
 		
 		// Get the default image
-		result = this.mockMvc.perform( get("/admin/poi/{id}/image/default", saved.getId()))
+		result = this.mockMvc.perform( get("/poi/{id}/image/default", saved.getId()))
 			.andExpect(status().isOk())
 			.andReturn();
 		assertEquals( MediaType.IMAGE_JPEG_VALUE, result.getResponse().getContentType());

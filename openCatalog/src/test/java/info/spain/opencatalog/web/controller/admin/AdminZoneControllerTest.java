@@ -1,4 +1,4 @@
-package info.spain.opencatalog.web.controller;
+package info.spain.opencatalog.web.controller.admin;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -34,7 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration()
 @ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
 @ActiveProfiles("dev")
-public class ZoneControllerTest {
+public class AdminZoneControllerTest {
 	
 	@Autowired
 	private WebApplicationContext wac;

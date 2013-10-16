@@ -17,8 +17,7 @@ public class ZoneIntegrationTest extends AbstractIntegrationTest {
 	@Override
 	public void init(){
 		super.init();
-		User root = DummyUserFactory.ROOT;
-		loginAs(root);
+		loginAs(DummyUserFactory.ROOT);
 	}
 	
 	@After

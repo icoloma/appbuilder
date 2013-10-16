@@ -35,7 +35,7 @@ import com.google.common.collect.Sets;
  */
 @Controller
 @RequestMapping(value = "/admin/user")
-public class UserController extends AbstractUIController {
+public class AdminUserController extends AbstractUIController {
 	
 	@Autowired
 	private ZoneRepository zoneRepository;

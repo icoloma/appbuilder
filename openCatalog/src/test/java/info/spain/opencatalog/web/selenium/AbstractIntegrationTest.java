@@ -1,5 +1,6 @@
 package info.spain.opencatalog.web.selenium;
 
+import info.spain.opencatalog.domain.MongoDbPopulator;
 import info.spain.opencatalog.domain.User;
 
 import java.util.Properties;
@@ -31,6 +32,7 @@ public abstract class AbstractIntegrationTest {
 
 	@Before
 	public void init(){
+		populateDB();
 		FirefoxProfile profile = new FirefoxProfile();  
 		profile.setPreference("intl.accept_languages","es");
 		driver = new FirefoxDriver(profile);  
@@ -54,6 +56,10 @@ public abstract class AbstractIntegrationTest {
 		String url = config.getProperty("baseUrl") + "/logout";
 		log.trace("url:" + url);
 		driver.get(url);
+	}
+	
+	public void populateDB(){
+		MongoDbPopulator.main(new String[]{});
 	}
 
 

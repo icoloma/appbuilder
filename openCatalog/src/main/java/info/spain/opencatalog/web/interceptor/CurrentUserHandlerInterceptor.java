@@ -41,11 +41,11 @@ public class CurrentUserHandlerInterceptor implements HandlerInterceptor {
 	
 	
 	private User getCurrentUser(Authentication authentication){
-		Object principal =  authentication.getPrincipal();
 		
-		if ("anonymousUser".equals(principal)){
+		if (authentication == null || "anonymousUser".equals(authentication.getPrincipal())) { 
 			return null;
 		}
+		
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
 		return userRepository.findByEmail(user.getUsername());
 	}

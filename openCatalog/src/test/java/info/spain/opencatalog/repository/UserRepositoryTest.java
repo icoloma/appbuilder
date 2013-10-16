@@ -45,9 +45,6 @@ public class UserRepositoryTest {
 	private BasicPoi teide;
 	private BasicPoi puertaDelSol;
 	
-	private User testUser;
-	
-	
 	@Before
 	public void init(){
 		mongoTemplate.dropCollection("user");
@@ -130,7 +127,8 @@ public class UserRepositoryTest {
 	}
 	
 	private void createTestUser() {
-		testUser = createUserWithZones("testUserZones", Lists.newArrayList(tenerife.getId(), madrid.getId()));
+		User testUser = createUserWithZones("testUserZones", Lists.newArrayList(tenerife.getId(), madrid.getId()));
+		assertNotNull(testUser);
 	}
 
 

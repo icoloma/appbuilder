@@ -62,7 +62,7 @@ public class CustomQueryCriteriasTest {
 		
 		Criteria criteria = poiRepositoryImpl.getCriteriaUpatedAfter(query);
 		List<BasicPoi> result = mongoTemplate.find( query(criteria), BasicPoi.class);
-		assertEquals(12, result.size());
+		assertEquals(13, result.size());
 		
 		
 		result = mongoTemplate.find(query(where("lastModified").gt(new DateTime().plusYears(1).toDate())), BasicPoi.class);

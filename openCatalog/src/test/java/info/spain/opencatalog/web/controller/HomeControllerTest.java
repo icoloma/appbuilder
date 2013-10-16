@@ -44,7 +44,7 @@ public class HomeControllerTest {
 	public void testAdminPage() throws Exception{
 		this.mockMvc.perform( get("/admin"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("admin/index"));
+			.andExpect(view().name("admin/admin"));
 	}	
 	
 

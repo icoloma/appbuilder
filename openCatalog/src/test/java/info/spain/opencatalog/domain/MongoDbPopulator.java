@@ -81,6 +81,7 @@ public class MongoDbPopulator {
 	private void populatePois()	{
 		// Basic
 		mongoTemplate.insert(DummyPoiFactory.NATURAL_PARK);
+		mongoTemplate.insert(DummyPoiFactory.POI_TEIDE);
 		mongoTemplate.insert(DummyPoiFactory.BEACH);
 
 		// Lodging

@@ -10,7 +10,7 @@
 
 	<context:property-placeholder properties-ref="configProps"/>
 	
-	<beans profile="dev">
+	<beans profile="dev,default" >
 		<util:properties id="configProps" location="classpath:config-dev.properties" />
 	</beans>
 	

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import info.spain.opencatalog.domain.DummyPoiFactory;
 import info.spain.opencatalog.domain.DummyUserFactory;
 import info.spain.opencatalog.domain.I18nText;
-import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.web.selenium.page.poi.BeachPage;
 import info.spain.opencatalog.web.selenium.page.poi.PoiListPage;
@@ -22,8 +21,7 @@ public class PoiIntegrationTest extends AbstractPoiIntegrationTest{
 	@Override
 	public void init(){
 		super.init();
-		User root = DummyUserFactory.ROOT;
-		loginAs(root);
+		loginAs(DummyUserFactory.ROOT);
 	}
 	
 	@After
