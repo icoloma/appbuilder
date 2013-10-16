@@ -65,32 +65,32 @@ define(['db/db', 'test/mocksql'], function(Db, MockSql) {
     start();
   });
 
-  asyncTest('Db.sqlAsCollection', 2, function() {
-    var Collection = function(models) {
-      this.models = models;
-    };
-    Collection.model = function(attrs) {
-      this.attributes = attrs;
-    };
+  // asyncTest('Db.sqlAsCollection', 2, function() {
+  //   var Collection = function(models) {
+  //     this.models = models;
+  //   };
+  //   Collection.model = function(attrs) {
+  //     this.attributes = attrs;
+  //   };
 
-    dbMock.options = {
-      results: [
-        {
-          name_es: 'foobar es',
-          name_en: 'foobar en',
-          lat: 45,
-          starred: 0
-        }
-      ]
-    };
+  //   dbMock.options = {
+  //     results: [
+  //       {
+  //         name_es: 'foobar es',
+  //         name_en: 'foobar en',
+  //         lat: 45,
+  //         starred: 0
+  //       }
+  //     ]
+  //   };
 
-    Db.sqlAsCollection(Collection, 'FOO BAR', [], function(err, collection) {
-      ok(collection instanceof Collection, 'Colección');
-      ok(_.every(collection.models, function(model) {
-        return model instanceof Collection.model;
-      }), 'Colección');
-    });
-    start();
+  //   Db.sqlAsCollection(Collection, 'FOO BAR', [], function(err, collection) {
+  //     ok(collection instanceof Collection, 'Colección');
+  //     ok(_.every(collection.models, function(model) {
+  //       return model instanceof Collection.model;
+  //     }), 'Colección');
+  //   });
+  //   start();
 
-  });
+  // });
 });

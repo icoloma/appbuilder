@@ -39,7 +39,7 @@ define(['modules/i18nUtils'], function(i18nUtils) {
       });
     },
 
-    // Ejecuta una transacción y devuelve el resultado como una Backbone.Collection @coll
+/*    // Ejecuta una transacción y devuelve el resultado como una Backbone.Collection @coll
     sqlAsCollection: function(coll, sqlStr, params, callback) {
       this.sql(sqlStr, params, function(err, results) {
         callback(err, new coll(_.map(results, function(item) {
@@ -47,7 +47,7 @@ define(['modules/i18nUtils'], function(i18nUtils) {
         })));
       });
     },
-
+*/
     /* 
       Inicializa la BDD, de modo que el módulo funciona como un proxy a la verdadera BDD.
       (De otro modo, este módulo se enreda en dependencias circulares con 'config/config')

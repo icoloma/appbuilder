@@ -17,6 +17,7 @@ define(
         'search?(:prevQuery)': 'renderSearch',
         'bookmarks(?:uri)': 'renderBookmarks',
         'travelplanner/details(?:uri)': 'renderTravelDetails',
+        'travelplanner/travel(?:uri)': 'renderTravelPlan'
       },
 
       initialize: function(options) {
@@ -117,6 +118,13 @@ define(
         }));
       },
 
+      renderTravelPlan: function(uri) {
+        var uriObj = uri ? JSON.parse(decodeURIComponent(uri)) : {};
+
+        this.setView(Page.TravelPlanView, _.extend(uriObj, {
+          title: res.i18n.TravelPlanner
+        }));
+      },
 
     });
   }
