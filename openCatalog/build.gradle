@@ -84,7 +84,7 @@ dependencies {
 }
 
 test {
-    exclude 'info/spain/opencatalog/web/selenium/**'
+    exclude 'integrationTests/**'
 }
 
 
@@ -102,9 +102,9 @@ task integrationTest(type: Test, dependsOn: "testClasses")  {
 	def env = project.hasProperty('springProfiles') ? project.springProfiles : 'dev'
 	systemProperties['spring.profiles.active'] = env;
 	println "spring.profile.active= " + env
- 	include '**/*IntegrationTest.*'
+ 	include 'integrationTests/**'
  	
- 	integrationTest.getReports().getJunitXml().setDestination(file("$buildDir/integration-test-results"))
+ 	integrationTest.getReports().getJunitXml().setDestination(file("$buildDir/integrationTests-test-results"))
  	
     
 }

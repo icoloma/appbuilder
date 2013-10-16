@@ -1,11 +1,11 @@
-package info.spain.opencatalog.web.selenium;
+package integrationTests;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.DataValidator;
-import info.spain.opencatalog.web.selenium.page.poi.AbstractPoiPage;
+import integrationTests.page.poi.AbstractPoiPage;
 
 import java.util.List;
 import java.util.Map;

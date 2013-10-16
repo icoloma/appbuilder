@@ -1,7 +1,7 @@
-package info.spain.opencatalog.web.selenium.page.poi;
+package integrationTests.page.poi;
 
 import info.spain.opencatalog.domain.poi.ContactInfo;
-import info.spain.opencatalog.web.selenium.page.AbstractPage;
+import integrationTests.page.AbstractPage;
 
 import java.util.List;
 

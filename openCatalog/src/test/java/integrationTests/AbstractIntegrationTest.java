@@ -1,7 +1,9 @@
-package info.spain.opencatalog.web.selenium;
+package integrationTests;
 
 import info.spain.opencatalog.domain.MongoDbPopulator;
 import info.spain.opencatalog.domain.User;
+import integrationTests.page.HomePage;
+import integrationTests.page.LoginPage;
 
 import java.util.Properties;
 

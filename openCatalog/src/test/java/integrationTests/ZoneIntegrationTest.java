@@ -1,10 +1,10 @@
-package info.spain.opencatalog.web.selenium;
+package integrationTests;
 
 import static org.junit.Assert.assertEquals;
 import info.spain.opencatalog.domain.DummyUserFactory;
 import info.spain.opencatalog.domain.User;
-import info.spain.opencatalog.web.selenium.page.ZoneListPage;
-import info.spain.opencatalog.web.selenium.page.ZonePage;
+import integrationTests.page.ZoneListPage;
+import integrationTests.page.ZonePage;
 
 import org.junit.After;
 import org.junit.Before;
