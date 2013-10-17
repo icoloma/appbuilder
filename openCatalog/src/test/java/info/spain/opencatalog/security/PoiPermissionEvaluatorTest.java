@@ -59,7 +59,7 @@ public class PoiPermissionEvaluatorTest {
 	}
 	
 	@Test
-	public void TestIsPoiInUserZonesNoZones(){
+	public void testIsPoiInUserZonesNoZones(){
 		assertFalse(evaluator.isPoiInUserZones(null,null));
 	}
 
