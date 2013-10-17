@@ -28,12 +28,9 @@ public class CustomPermissionEvaluator implements PermissionEvaluator{
 	@Override
 	public boolean hasPermission(Authentication authentication, Object target, Object permission) {
 		for (ClassTypePermissionEvaluation evaluator : evaluators){ 
-			if (evaluator.isAssignable(target)){
+			if (evaluator.isAssignableByObject(target)){
 				log.debug("evaluating " + target + " with " + evaluator);
-				Boolean result = evaluator.hasPermission(authentication, target, permission);
-				if (result != null){
-					return result;
-				}
+				return evaluator.hasPermission(authentication, target, permission);
 			} 
 		} 
 		return false;
@@ -42,12 +39,9 @@ public class CustomPermissionEvaluator implements PermissionEvaluator{
 	@Override
 	public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
 		for (ClassTypePermissionEvaluation evaluator : evaluators){ 
-			if (evaluator.isAssignable(targetType)){
+			if (evaluator.isAssignableByType(targetType)){
 				log.debug("evaluating " + targetId + ", " + targetType + " with " + evaluator);
-				Boolean result = evaluator.hasPermission(authentication, targetId, targetType, permission);
-				if (result != null){
-					return result;
-				}
+				return evaluator.hasPermission(authentication, targetId, targetType, permission);
 			}
 		}
 		return false;

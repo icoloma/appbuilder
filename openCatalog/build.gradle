@@ -79,7 +79,8 @@ dependencies {
     testCompile "junit:junit:4.7",
     			"org.springframework:spring-test:${springVersion}",
     			"org.seleniumhq.selenium:selenium-java:2.35.0",
-    			"com.jayway.jsonpath:json-path:0.8.1"
+    			"com.jayway.jsonpath:json-path:0.8.1",
+    			"org.easymock:easymock:3.0"
 
 }
 

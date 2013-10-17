@@ -29,6 +29,16 @@ public class CurrentUserHandlerInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
+	User getCurrentUser(Authentication authentication){
+		
+		if (authentication == null || "anonymousUser".equals(authentication.getPrincipal())) { 
+			return null;
+		}
+		
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+		return userRepository.findByEmail(user.getUsername());
+	}
+
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,ModelAndView modelAndView) throws Exception {
 		// Do nothing
@@ -40,14 +50,5 @@ public class CurrentUserHandlerInterceptor implements HandlerInterceptor {
 	}
 	
 	
-	private User getCurrentUser(Authentication authentication){
-		
-		if (authentication == null || "anonymousUser".equals(authentication.getPrincipal())) { 
-			return null;
-		}
-		
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-		return userRepository.findByEmail(user.getUsername());
-	}
 
 }

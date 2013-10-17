@@ -21,7 +21,7 @@ import com.google.common.collect.Sets;
 public class RepositoryUserDetailsService implements UserDetailsService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

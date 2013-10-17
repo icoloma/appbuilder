@@ -27,6 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.MapBindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
 
@@ -158,6 +160,19 @@ public class AdminZoneControllerTest {
 		
 		
     }
+	
+	
+	@Test
+	public void testErrors(){
+		AdminZoneController controller = new AdminZoneController();
+		BeanPropertyBindingResult errors = new BeanPropertyBindingResult(new Zone(), "zone");
+		errors.reject("sampleError");
+		
+		assertEquals("admin/zone/zone", controller.create(null , errors,  null));
+		assertEquals("admin/zone/zone", controller.update(null, errors, null, null));
+		
+		
+	}
 	
 	private void testEquals(Zone expected, Zone actual){
 		assertEquals(expected.getName(), actual.getName());

@@ -40,17 +40,17 @@ public class PoiPermissionEvaluator implements ClassTypePermissionEvaluation {
 	}
 
 	@Override
-	public boolean isAssignable(Object target) {
+	public boolean isAssignableByObject(Object target) {
 		return (target instanceof BasicPoi);
 	}
-
 	@Override
-	public boolean isAssignable(String targetType) {
-		return BasicPoi.class.getSimpleName().equals(targetType);
+	public boolean isAssignableByType(String type) {
+		return BasicPoi.class.getSimpleName().equals(type);
 	}
+	
 
 	// TODO: Check permission type
-	private Boolean evaluatePoiInUserZones(Authentication authentication, Object target, Object permission){
+	Boolean evaluatePoiInUserZones(Authentication authentication, Object target, Object permission){
 		User user = getCurrentUser(authentication);
 		if (user != null ) {
 			BasicPoi poi = (BasicPoi) target;
@@ -60,7 +60,7 @@ public class PoiPermissionEvaluator implements ClassTypePermissionEvaluation {
 		return false;
 	}
 	
-	private Boolean isPoiInUserZones(BasicPoi poi, List<String> idZones){
+	Boolean isPoiInUserZones(BasicPoi poi, List<String> idZones){
 		if (idZones != null) {
 			for (String idZone : idZones) {
 				Zone zone = zoneRepository.findOne(idZone);
@@ -76,7 +76,7 @@ public class PoiPermissionEvaluator implements ClassTypePermissionEvaluation {
 
 	
 	// TODO: Extraer método a clase común aparte
-	private User getCurrentUser(Authentication authentication){
+	User getCurrentUser(Authentication authentication){
 		Object principal =  authentication.getPrincipal();
 		
 		if ("anonymousUser".equals(principal)){
