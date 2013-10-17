@@ -149,7 +149,8 @@ public class DummyPoiFactory extends AbstractFactory {
                 RoomType.HAB2)
 			.setPrices(
 				new RoomPrice(RoomType.HAB1, Meal.AD, 30d).setObservations( new I18nText().setEs("Semana santa")),
-				new RoomPrice(RoomType.HAB1, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada alta"))
+				new RoomPrice(RoomType.HAB1, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada alta")),
+				new RoomPrice(RoomType.HAB2, Meal.AD, 60d).setObservations( new I18nText().setEs("Semana santa"))
 			)
 			.validate();
 	}	
@@ -157,10 +158,10 @@ public class DummyPoiFactory extends AbstractFactory {
 	// Camping
 	public static Lodging camping(){
 		return ((Lodging) PoiFactory.newInstance(PoiTypeID.CAMPING))
-			.setName(new I18nText().setEs("CAMPING Montaña Rajada"))				// required
-			.setLocation(AbstractFactory.GEO_CASA_CAMPO)								// required
-			.setDescription(new I18nText().setEs("Descripción del CAMPING..."))		
-			.setAddress(new Address().setRoute("Casa de Campo").setAdminArea1("Comunidad de Madrid").setAdminArea2("Madrid"))
+			.setName(new I18nText().setEs("Camping Portuondo"))				// required
+			.setLocation(AbstractFactory.GEO_CAMPING)								// required
+			.setDescription(new I18nText().setEs("El Camping Portuondo está situado en Mundaka, en la Reserva de la Biosfera de Urdaibai, lugar estratégico para conocer el País Vasco, con inmejorables vistas sobre la ría de Mundaka e ideal para la práctica del Surf."))		
+			.setAddress(new Address().setRoute("Barrio Portuondo, s/n").setAdminArea1("Vizcaya").setAdminArea2("Mundaka"))
 			.setScore(Score.CAT_1)
 			.setFlags(
 				Flag.BBQ,
@@ -173,9 +174,9 @@ public class DummyPoiFactory extends AbstractFactory {
                 RoomType.TENT,
                 RoomType.TENT_FAM)
 			.setPrices(
-				new RoomPrice(RoomType.TENT,  Meal.AD, 30d).setObservations( new I18nText().setEs("Temporada alta")),
-				new RoomPrice(RoomType.TENT, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada media")),
-				new RoomPrice(RoomType.TENT, Meal.AD, 20d).setObservations( new I18nText().setEs("Temporada baja"))
+				new RoomPrice(RoomType.TENT,  Meal.AL, 5d).setObservations( new I18nText().setEs("Temporada alta")),
+				new RoomPrice(RoomType.TENT_FAM, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada media")),
+				new RoomPrice(RoomType.MOTORHOME, Meal.PC, 40d).setObservations( new I18nText().setEs("Temporada baja"))
 			)
 			
 			.validate();

@@ -5,7 +5,9 @@ import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
+import info.spain.opencatalog.domain.poi.types.PoiFactory;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.web.controller.PoiController;
 import info.spain.opencatalog.web.form.PoiForm;
@@ -39,9 +41,6 @@ import com.google.common.collect.Lists;
 @RequestMapping(value = "/admin/poi")
 public class AdminPoiController extends PoiController {
 	
-		
-	
-
 	/**
 	 * SEARCH
 	 */
@@ -51,7 +50,6 @@ public class AdminPoiController extends PoiController {
 		return "admin/poi/poiList";
 	}
 
-	
 	/**
 	 * SHOW
 	 */
@@ -60,8 +58,6 @@ public class AdminPoiController extends PoiController {
 		super.show(id, model);
 		return "admin/poi/poi";
 	}
-	
-	
 
 	/**
 	 * CREATE 
@@ -77,7 +73,8 @@ public class AdminPoiController extends PoiController {
 			.setLastUpdate(null)  // Always override
 			.setImported(false)   // Always override 
 			.setOriginalId(null)  // Always override 
-			.setSync(false);  	  // Always override 
+			.setSync(false);  	  // Always override
+		poiForm.adjustPricesOnSave();
 		
 		if (errors.hasErrors()){
 			return "admin/poi/poi";
@@ -88,13 +85,17 @@ public class AdminPoiController extends PoiController {
 		if (strFlags != null){
 			poiForm.setFlags(convertFlags(strFlags, errors));
 		}
-		BasicPoi poi = poiService.save( new BasicPoi(PoiTypeID.valueOf(type)).copyData(poiForm));
+		
+		
+		BasicPoi poi = poiService.save( PoiFactory.newInstance(PoiTypeID.valueOf(type)).copyData(poiForm));
+		
+		
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
 		return "redirect:/admin/poi/" + poi.getId();
 	}
-	
 
+	
 	/**
 	 * DELETE
 	 */
@@ -118,7 +119,6 @@ public class AdminPoiController extends PoiController {
 	}
 
 	
-	
 	/**
 	 * UPDATE
 	 * Nota: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
@@ -134,13 +134,15 @@ public class AdminPoiController extends PoiController {
 		@RequestParam(value="deleteFile", required=false) String[] deleteFiles
 		
 		) throws IOException {
-
+		
+		
 		BasicPoi dbPoi = poiService.findOne(id);
 		if (dbPoi == null) {
 			throw new NotFoundException("poi", id);
 		}
 		
 		poiForm.setType(dbPoi.getType());  		       // Always override with db type
+		poiForm.adjustPricesOnSave();
 		poiForm.getSyncInfo()
 			.setLastUpdate(dbPoi.getSyncInfo().getLastUpdate())  // Always override with db value   
 			.setImported(dbPoi.getSyncInfo().isImported()) 		 // Always override with db value

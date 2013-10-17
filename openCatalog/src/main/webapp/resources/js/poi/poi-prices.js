@@ -28,19 +28,27 @@ $(function(){
 	function setPriceInputNames(){
 		$('table.prices tbody tr').each( function(it){
 			var tr = $(this);
+			// Dependiendo del tipo de Poi lo asociaremos a uno u otro campo en el PoiForm
+			var priceName = $('.roomType').length > 0? "roomPrices" : "prices";
 			
-			$('input.price',  tr).attr('name', 'prices[' + it + '].price').removeAttr('disabled');  // price 
-			$('input.period', tr).attr('name', 'prices[' + it + '].timeTable.period').removeAttr('disabled'); // period
-			$('select.priceType', tr).attr('name', 'prices[' + it + '].priceType').removeAttr('disabled'); // priceType
+			// common
+			$('input.price',  tr).attr('name', priceName +'[' + it + '].price').removeAttr('disabled');  // price 
+			$('input.period', tr).attr('name', priceName +'[' + it + '].timeTable.period').removeAttr('disabled'); // period
+			$('textarea.es', tr).attr('name', priceName +'[' + it + '].observations.es').removeAttr('disabled');
+			$('textarea.en', tr).attr('name', priceName +'[' + it + '].observations.en').removeAttr('disabled');
+			$('select.priceType', tr).attr('name', priceName +'[' + it + '].priceType').removeAttr('disabled'); // priceType
 
+			// lodging
+			$('select.roomType', tr).attr('name', 'roomPrices[' + it + '].roomType').removeAttr('disabled'); // roomType
+			$('select.meal', tr).attr('name', 'roomPrices[' + it + '].meal').removeAttr('disabled'); // meal
+			
+			
 			$($('ul.nav-pills a', tr)[0]).attr("href","#price-es-" + it);
 			$($('.tab-pane', tr)[0]).attr("id","price-es-" + it);
 			
 			$($('ul.nav-pills a', tr)[1]).attr("href","#price-en-" + it);
 			$($('.tab-pane', tr)[1]).attr("id","price-en-" + it);
 			
-			$('textarea.es', tr).attr('name', 'prices[' + it + '].observations.es').removeAttr('disabled');
-			$('textarea.en', tr).attr('name', 'prices[' + it + '].observations.en').removeAttr('disabled');
 			
 			var deleteButton = $('a.removePrice').on('click', function(e){
 				e.preventDefault();

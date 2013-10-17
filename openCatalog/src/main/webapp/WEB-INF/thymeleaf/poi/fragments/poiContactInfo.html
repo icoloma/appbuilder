@@ -22,7 +22,7 @@
 	<!-- 
 		Poi contactInfo 
 	-->      
-	<div th:fragment="poiContactInfoTag">
+	<div th:fragment="poiContactInfoTag" th:if="${poi.contactInfo}">
 		<div th:if="${poi.contactInfo.phone}">
 			<label th:text="#{poi.contactInfo.phone}">Teléfono</label>
 			<span  th:text="${poi.contactInfo.phone}">000 000 000</span>

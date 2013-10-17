@@ -13,6 +13,7 @@ public class AbstractFactory {
 	public static final GeoLocation GEO_ALASKA = new GeoLocation().setLng(-149.9).setLat(65.9);
 	public static final GeoLocation GEO_ALHAMBRA = new GeoLocation().setLat(37.17600).setLng(-3.58817);
 	public static final GeoLocation GEO_CASA_CAMPO = new GeoLocation().setLat(40.4281).setLng(-3.7585);
+	public static final GeoLocation GEO_CAMPING = new GeoLocation().setLat(43.39890).setLng(-2.69629);
 	public static final GeoLocation GEO_RETIRO = new GeoLocation().setLat(40.4170).setLng(-3.6820);
 	public static final GeoLocation GEO_SOL = new GeoLocation().setLat(40.416957).setLng(-3.703794);
 	public static final GeoLocation GEO_TEIDE = new GeoLocation().setLat(28.2735).setLng(-16.6427);

@@ -1,8 +1,14 @@
 package info.spain.opencatalog.web.form;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
+import info.spain.opencatalog.domain.poi.Price;
 import info.spain.opencatalog.domain.poi.lodging.Lodging;
+import info.spain.opencatalog.domain.poi.lodging.RoomPrice;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 /*
  * FIXME: Actualmente extendemos de Lodging para poderlo usar tanto como BasicPoi como Lodging
@@ -10,6 +16,15 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
  * 
  */
 public class PoiForm extends Lodging {
+	
+	/**
+	 * Como al hacer el POST no se puede saber a priori si se debe crear una instancia de Lista de RoomPrice o Price 
+	 * y dado que Spring siempre la crea de Price, añadimos este campo en el Form para los casos de Lodging al cual haremos 
+	 * referencia des de el formulario (HTML)
+	 * @see adjustPricesOnSave()
+	 * @see copyData()
+	 */
+	List<RoomPrice> roomPrices = Lists.newArrayList();
 	
 	/** 
 	 * Obtenemos el Poi del PoiForm y le
@@ -46,6 +61,41 @@ public class PoiForm extends Lodging {
 	public void setType(PoiTypeID type){
 		this.type = type;
 	}
+	
+	public List<RoomPrice> getRoomPrices() {
+		return roomPrices;
+	}
+	public void setRoomPrices(List<RoomPrice> roomPrices) {
+		this.roomPrices = roomPrices;
+	}
+	
+	/** 
+	 * Si nos han pasado roomPrices, entonces los guardamos como prices
+	 */
+	public PoiForm adjustPricesOnSave(){
+		if (roomPrices.size() >0){
+			prices.clear();
+			for (RoomPrice roomPrice : roomPrices) {
+				prices.add(roomPrice);
+			}
+		}
+		return this;
+	}
+	@Override
+	public BasicPoi copyData(BasicPoi source) {
 
+		super.copyData(source);
+		
+		// Ajustamos los precios si copiamos desde un Lodging
+		
+		if (source instanceof Lodging){
+			roomPrices.clear();
+			for (Price price : source.getPrices()) {
+				roomPrices.add((RoomPrice) price);
+			}
+		}
+		return this;
+	}
+	
 	
 }
