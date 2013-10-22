@@ -1,6 +1,17 @@
 .poisplanview {
 
-  .poi-details-extended {
-    .col-xs-9;
+  & > .item-row {
+    height: @poiRowHeight;
+  }
+
+  &.sorting {
+
+    .poi-details {
+      .col-xs-6;
+    }
+
+    .poi-tr-thumb {
+      display: none;
+    }
   }
 }
