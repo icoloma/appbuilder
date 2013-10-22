@@ -67,12 +67,14 @@ define(['globals', 'modules/geo', 'db/db'], function(Globals, Geo, Db) {
     /* 
       Un pequeño shim para persistir cambios en un POI 
       https://github.com/icoloma/appbuilder/issues/29
+
+      @changed es un array con los atributos a persistir, o null si se quieren persistir todos
     */
-    persist: function(callback) {
-      var changed = _.pick(this.toRow(), _.keys(this.changed))
-      , sqlStr = _.map(changed, function(value, field) {
-        return '`' + field + '`="' + value + '",';
-      }).join('').slice(0, -1)
+    persist: function(changed, callback) {
+      var row = this.toRow()
+      , sqlStr = _.map(changed !== null ? changed : this.keys(), function(field) {
+        return '`' + field + '`="' + row[field] + '",';
+      }, this).join('').slice(0, -1)
       ;
       Db.sql('UPDATE Poi SET ' + sqlStr + ' WHERE `id`="' + this.get('id') + '"', [], function(err, results) {
         callback(err);

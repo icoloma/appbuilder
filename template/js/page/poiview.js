@@ -54,7 +54,7 @@ define(
         ;
         this.model.set('starred', starring ? starredCounter + 1 : -1);
         var message = starring ? res.i18n.bookmarkAdded : res.i18n.bookmarkRemoved;
-        this.model.persist(function(err) {
+        this.model.persist(['starred'], function(err) {
           // TO-DO: error handling
           if (starring) {
             localStorage.setItem('starredCounter', starredCounter + 1);
