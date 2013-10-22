@@ -6,9 +6,8 @@ define(['db/db', 'modules/i18nUtils', 'poi/model', 'modules/gmaps'],
       - Inicia la BDD
       - Obtener detalles del dispositivo (locale, platform, etc).
       - Configura el idioma de la app.
-  */
 
-  /*
+
     window.res contiene toda la configuración de la aplicación, suma de:
       * La configuración "estática" en los config/*.json
       * La configuración del catálogo, 'catalog-dump-config.json'.
@@ -17,6 +16,12 @@ define(['db/db', 'modules/i18nUtils', 'poi/model', 'modules/gmaps'],
         - dbName: el nombre de la BDD
         - locale: el idioma de la aplicación
         - platform: la plataforma en la que corre la app
+
+
+    Se usa localStorage para guardar algunos datos persistentes:
+     * starredCounter: el campo 'starred' de un POI es un entero que permite ordenar los favoritos según la
+       preferencia a la hora de visitarlos. 'starredCounter' es un contador incremental con el valor necesario
+       para incluir un nuevo bookmark al final del plan de viaje.
   */
   window.res = {
     resources: 'resources/',
@@ -25,8 +30,8 @@ define(['db/db', 'modules/i18nUtils', 'poi/model', 'modules/gmaps'],
     platform: null
   };
 
-  if (!localStorage.getItem('starredCount')) {
-    localStorage.setItem('starredCount', 0);
+  if (!localStorage.getItem('starredCounter')) {
+    localStorage.setItem('starredCounter', 0);
   }
 
   return function(callback) {

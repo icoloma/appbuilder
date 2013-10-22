@@ -34,10 +34,10 @@ console.log('Generando ' + poiNumber + ' pois...');
 if (fs.existsSync(path.join(dumpFolder, jsonFile))) fs.unlinkSync(path.join(dumpFolder, jsonFile));
 jsonData._pois_dev = require('./catalog-json-mocker.js')(poiNumber);
 
-jsonData._starredCount_dev = 0;
+jsonData._starredCounter_dev = 0;
 _.each(jsonData._pois_dev, function(poi) {
   if (poi.starred > -1) {
-    jsonData._starredCount_dev++;
+    jsonData._starredCounter_dev++;
   }
 });
 jsonData._

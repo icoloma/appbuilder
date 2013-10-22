@@ -88,7 +88,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model', 'modules/gma
 
     // Favoritos mockeados
     localStorage.clear();
-    localStorage.setItem('starredCount', catalog_config._starredCount_dev);
+    localStorage.setItem('starredCounter', catalog_config._starredCounter_dev);
 
     return function(callback) {
       i18nUtils.config(_.extend(i18n_strings, catalog_config, flagIcons));
@@ -122,7 +122,7 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model', 'modules/gma
 
         // Favoritos mockeados
         localStorage.clear();
-        localStorage.setItem('starredCount', appConfig._starredCount_dev);
+        localStorage.setItem('starredCounter', appConfig._starredCounter_dev);
 
         // Obtener la plataforma y el locale
         window.res.platform = device.platform;
@@ -136,6 +136,8 @@ define(['db/db', 'config/loaddb', 'modules/i18nUtils', 'poi/model', 'modules/gma
 
           i18nUtils.config(appConfig);
           PoiModel.initSchema(res.schema);
+
+          GMaps.load(function() {});
 
           callback();
         }, function(err) {

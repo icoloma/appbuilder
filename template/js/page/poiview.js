@@ -49,15 +49,15 @@ define(
 
       star: function() {
         var self = this
-        , starredCount = Number(localStorage.getItem('starredCount'))
+        , starredCounter = Number(localStorage.getItem('starredCounter'))
         , starring = this.model.get('starred') < 0
         ;
-        this.model.set('starred', starring ? starredCount + 1 : -1);
+        this.model.set('starred', starring ? starredCounter + 1 : -1);
         var message = starring ? res.i18n.bookmarkAdded : res.i18n.bookmarkRemoved;
         this.model.persist(function(err) {
           // TO-DO: error handling
           if (starring) {
-            localStorage.setItem('starredCount', starredCount + 1);
+            localStorage.setItem('starredCounter', starredCounter + 1);
           }
           navigator.notification.alert(message, null, res.i18n.Starred);
 

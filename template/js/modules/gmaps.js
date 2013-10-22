@@ -61,10 +61,12 @@ define(['globals'], function() {
       document.body.appendChild(script);
 
       _.delay(function(self) {
-        userIsWaiting = false;
-        cb(new Error({
-          code: self.TIMEOUT_ERROR
-        }));
+        if (userIsWaiting) {
+          userIsWaiting = false;
+          cb(new Error({
+            code: self.TIMEOUT_ERROR
+          }));
+        }
       }, TIMEOUT, this);
     },
 
