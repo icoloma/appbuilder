@@ -23,8 +23,8 @@ function(Globals, Tmpl) {
           this.trigger('navigate', null, -1);
         } else {
           if (!this.isBlocked) {
-            this.trigger(action);
             this.block();
+            this.trigger(action);
           }
           this.toggleMenu();
         }
@@ -36,6 +36,10 @@ function(Globals, Tmpl) {
       }
     },
 
+    initialize: function() {
+      this.isBlocked = this.options.isBlocked;
+    },
+
     render: function() {
       // Si hay más de una acción, se muestran las acciones en un menú desplegable
       var wrappedMenu = this.options.actions && this.options.actions.length > 1;
@@ -44,7 +48,8 @@ function(Globals, Tmpl) {
         hideBackButton: this.options.root ? 'invisible' : '',
         hideMenuButton: wrappedMenu ? '' : 'hide',
         wrapActions: wrappedMenu ? 'wrapped-action-menu' : '',
-        actions: this.options.actions
+        actions: this.options.actions,
+        isBlocked: this.isBlocked ? 'blocked' : ''
       });
 
       this.$el.html(Tmpl(this.options));
@@ -54,15 +59,22 @@ function(Globals, Tmpl) {
     block: function() {
       this.isBlocked = true;
       this.$('.actionbar').addClass('blocked');
+      return this;
     },
 
     unblock: function() {
       this.isBlocked = false;
       this.$('.actionbar').removeClass('blocked');
+      return this;
     },
 
     toggleMenu: function() {
       this.$('.wrapped-action-menu').toggle();
+    },
+
+    updateActions: function(actions) {
+      this.options.actions = actions;
+      this.render();
     }
   });
 });
