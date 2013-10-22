@@ -225,6 +225,26 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
     /*
       Elabora un plan de viaje con los POIs marcados como favoritos.
 
+      Los parámetros son identicos a getPoisTravelPlan
+    */
+    getTravelPlan: function(options, callback) {
+      var self = this;
+
+      Db.sql('SELECT * FROM Poi WHERE starred > -1 ORDER BY starred', [], function(err, favorites) {
+        // TO-DO: error handling
+        if (err) return callback(err, null);
+        var pois = new Poi.Collection(_.map(favorites, function(fav) {
+          return new Poi.Model(fav, {parse: true});
+        }));
+        self.getPoisTravelPlan(pois, options, callback);
+      });
+    },
+
+    /*
+      Elabora un plan de viaje con los POIs suministrados.
+
+      @pois es una Poi.Collection de POIs, en el orden en el que serán visitados.
+
       @options incluye:
         - transportation: tipo de transporte según el API de GMaps
         - startTime, endTime: horas para el comienzo y el fin de la ruta cada día (en formato 24h)
@@ -232,38 +252,18 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
       @callback se llama con (err, null) en caso de error, y con (null, plan) en caso contrario,
       donde 'plan' tiene el formato especificado en makeTravelPlan
     */
-    getTravelPlan: function(options, callback) {
-      var pois;
-
+    getPoisTravelPlan: function(pois, options, callback) {
       GMaps.load(function(err) {
         if (err) return callback(err, null);
-        async.series([
-          function(cb) {
-            Db.sql('SELECT * FROM Poi WHERE starred > -1 ORDER BY starred', [], function(err, favorites) {
-              pois = new Poi.Collection(_.map(favorites, function(fav) {
-                return new Poi.Model(fav, {parse: true});
-              }));
-              cb(err, favorites);
-            });
-          },
-          function(cb) {
-            getDistances(pois, options, cb);
-          }
-        ], function(err, results) {
+
+        getDistances(pois, options, function(err, distances) {
           // TO-DO: error handling
           if (err) {
-            if (err.code === GMaps.DISTANCEMATRIX_ERROR) {
-
-            } else {
-              // SQL error
-            }
             return callback(err, null);
           }
-          callback(null, makeTravelPlan(pois, results[1], options));
+          callback(null, makeTravelPlan(pois, distances, options));
         });
       });
-
     },
-
   };
 });
