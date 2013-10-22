@@ -49,7 +49,7 @@ function(BaseListView) {
       }
       return this;
     },
-    
+
     showMore: function() {
       var currentCount = this.$('.item-row').length;
 
@@ -62,6 +62,6 @@ function(BaseListView) {
           this.$el.append(this.trView(item));
         }
       }, this);
-    }    
+    }
   });
 });

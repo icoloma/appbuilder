@@ -18,7 +18,7 @@ define(['modules/gmaps'], function(GMaps) {
           return;
         }
         return callback(this.options.results, 'OK');
-      }      
+      }
     };
 
     // @options es similar a lib/mocksql

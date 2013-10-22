@@ -6,7 +6,7 @@ define(['globals', 'modules/geo'], function(Globals, Geo) {
 
   /*
     @options: las opciones para ejecutar la geolocalización.
-      
+
       @options.results: el resultado de la geoloc., por defecto un resultado vacío.
 
       @options.success: un callback opcional para llamar tras una geoloc. exitosa.

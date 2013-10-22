@@ -26,7 +26,7 @@ define(['underscore'],
         onsuccess(this.responseText);
       };
       xhr.open('get', path, true);
-      xhr.send();      
+      xhr.send();
     } else if (typeof process !== 'undefined') {
       var fs = require.nodeRequire('fs');
       fs.readFile(path, 'utf-8', function(err, data) {

@@ -36,7 +36,7 @@ define(['poi/model'], function(Poi) {
 
   test('Conversión desde SQL', 2, function() {
     var poi = new Poi(poiData, {parse: true});
-    
+
     equal(poi.get('funny'), !!poiData.funny, 'INTEGER->BOOLEAN');
     deepEqual(poi.get('stuff'), JSON.parse(poiData.stuff), 'TEXT->JSON');
   });
