@@ -2,7 +2,7 @@
   Vista del plan de viaje
 */
 define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
-        'tpl!poi/plannertrview.tpl', 'travelplanner/travelstepmodel', 'poi/collection', 'db/db'],
+        'tpl!travelplanner/trview.tpl', 'travelplanner/travelstepmodel', 'poi/collection', 'db/db'],
   function(TopbarView, Planner, ListView, TrView, StepModel, PoiCollection, Db) {
   return B.View.extend({
 
@@ -130,6 +130,13 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
 
         if (self.updatingRoute) return;
 
+        var collection = new B.Collection(_.map(plan, function(step) {
+          return new StepModel(step);
+        }));
+
+        self.collectionView.collection = self.collection = collection;
+        self.collectionView.render();
+
       });
     },
 
@@ -142,13 +149,11 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
         if (err) console.log(err);
         self.topbarView.unblock();
 
-        // Todos los días del plan juntos
-        var planArray = Array.prototype.concat.apply(plan[0], plan.slice(1))
+
         // Hay que pasar una Collection para el ListView.render
-        , collection = new B.Collection(_.map(planArray, function(step) {
+        var collection = new B.Collection(_.map(plan, function(step) {
           return new StepModel(step);
-        }))
-        ;
+        }));
 
         self.collection = self.collectionView.collection = collection;
 
