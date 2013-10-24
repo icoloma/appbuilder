@@ -10,15 +10,15 @@ function(TopbarView, TravelDetailsTpl) {
         // TO-DO: testear si iOS y el futurible plugin de Android devuelven
         // la fecha y hora en los formatos adecuados: YYYY-MM-DD, HH:mm
         var travelConfig = {
-          startDay: this.$('[name="start-day"]').val(),
+          startDate: this.$('[name="start-date"]').val(),
           startTime: this.$('[name="start-time"]').val(),
           endTime: this.$('[name="end-time"]').val(),
           transportation: this.$('[name="transportation-type"]:checked').val(),
         };
 
         if (
-          moment.utc(travelConfig.startDay + 'T' + travelConfig.startTime) >
-          moment.utc(travelConfig.startDay + 'T' + travelConfig.endTime)
+          moment.utc(travelConfig.startDate + 'T' + travelConfig.startTime) >
+          moment.utc(travelConfig.startDate + 'T' + travelConfig.endTime)
         ) {
           navigator.notification.alert(res.i18n.timeLimitsErrorDialog, null,
                                         res.i18n.TimeLimitsError);
@@ -45,7 +45,7 @@ function(TopbarView, TravelDetailsTpl) {
     },
 
     defaults: {
-      startDay: moment().format('YYYY-MM-DD'),
+      startDate: moment().format('YYYY-MM-DD'),
       startTime: '09:00',
       endTime: '19:00',
       transportation: 'DRIVING'

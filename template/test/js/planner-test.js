@@ -137,31 +137,31 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db'],
 
   });
 
-  asyncTest('Cálculo de la ruta.', 4, function() {
+  asyncTest('Cálculo de la ruta.', 3, function() {
 
     Planner.getTravelPlan({
       startTime: '10:00',
       endTime: '19:00',
-      startDay: '2013-10-09',
+      startDate: '2013-10-09',
       transportation: 'bicicleta'
     }, function(err, plan) {
 
-      equal(plan.length, 3);
+      equal(plan.filter(function(step) {
+        return step.travel === null;
+      }).length , 3, 'Días de ruta.');
 
-      ok(_.every(plan, function(planDay) {
-        return _.every(planDay, function(step, i) {
-          return !i || 
-            step.startTime === moment.utc(planDay[i-1].endTime)
-                                .add('s', HOUR)
-                                .format('YYYY-MM-DDTHH:mm');
-        });
-      }), 'visita[i].endTime + distancia === visita[i+1].startTime.');
 
-      ok(_.every(plan, function(planDay) {
-        return _.every(planDay, function(step) {
-          return moment.utc(step.startTime) < moment.utc(step.endTime);
-        });
-      }), 'visita.startTime < visita.endTime.');
+
+      ok(_.every(plan, function(step, i) {
+        if (!i || !plan[i-1].travel) return true;
+
+        var calculated = moment.utc(plan[i-1].date + 'T' + plan[i-1].startTime);
+
+        return step.startTime === calculated
+                                    .add('s', plan[i-1].duration)
+                                    .add('s', plan[i-1].travel.duration)
+                                    .format('HH:mm');
+      }), 'visita[i].endDateTime + duración del viaje === visita[i+1].startDateTime.');
 
       ok((function() {
         var test = true;
@@ -194,16 +194,18 @@ define(['travelplanner/planner', 'modules/gmaps', 'test/mocksql', 'db/db'],
 
     Planner.getTravelPlan({
       startTime: '10:00',
-      startDay: '2013-10-09',
+      startDate: '2013-10-09',
       endTime: '19:00',
       transportation: 'DRIVING'
     }, function(err, plan) {
-      equal(plan.length, 4, 'Plan de viaje alargado.');
+      equal(plan.filter(function(step) {
+        return step.travel === null;
+      }).length, 4, 'Plan de viaje alargado.');
 
-      var travel = plan[2][0];
-      ok(travel.approx, 'Duración marcada como approx.');
+      var step = plan[4];
+      ok(step.travel.approx, 'Duración marcada como approx.');
 
-      ok(moment.utc(travel.endTime).diff(moment.utc(travel.startTime), 'h') >= 1 ,
+      ok(step.travel.duration > 3600,
           'Duración del trayecto modificada');
       start();
     });

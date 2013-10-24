@@ -150,38 +150,32 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
 
     Devuelve un plan de viaje con el formato:
     [
-      // Día 1
-      [
-        {
-          start: 2013-10-22T08:00,
-          end: 2013-10-22T08:30,
-          poi: <POI JSON>,
-        },
-        {
-          start: 2013-10-22T09:00,
-          end: 2013-10-22T010:30,
-          poi: <POI JSON>
-          approx: true (indica que el trayecto hasta el siguiente POI es aproximado)
-        },
-        ...
-      ]
+      {
+        date: <Fecha de la visita YYYY-MM-DD>,
+        startTime: <Hora de llegada HH:mm>,
+        duration: <duración de la visita, en segundos>,
+        poi: <POI JSON>,
 
-      // Día 2
-      [
-        ...
-      ],
-      ...
+        // Describe el viaje hasta el siguiente POI. Puede ser null, si es la última visita de
+        // un día
+        travel: {
+          distance: <distancia en metros>,
+          duration: <duración del viaje en segundos>,
+          approx: true (indica si el trayecto hasta el siguiente POI es aproximado)
+        }
+      }
     ]
   */
   makeTravelPlan = function(pois, distances, options) {
     var plan = []
-    , day = []
     , format = 'YYYY-MM-DDTHH:mm'
+    , dateFormat = 'YYYY-MM-DD'
+    , timeFormat = 'HH:mm'
     // Se usa el tiempo UTC
-    , currentDay = options.startDay
-    , currentTime = moment.utc(options.startDay + 'T' + options.startTime)
-    , todaysEndTime = moment.utc(options.startDay + 'T' + options.endTime)
-    , poiDuration
+    , currentDay = options.startDate
+    , currentTime = moment.utc(options.startDate + 'T' + options.startTime)
+    , todaysEndTime = moment.utc(options.startDate + 'T' + options.endTime)
+    , poiDuration, travelStep
     ;
 
 
@@ -190,11 +184,15 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
 
       poiDuration = getPoiDuration(pois.at(i));
 
-      day.push({
-        startTime: currentTime.format(format),
-        endTime: currentTime.add('s', poiDuration).format(format),
-        poi: poi
-      });
+      travelStep = {
+        date: currentTime.format(dateFormat),
+        startTime: currentTime.format(timeFormat),
+        duration: poiDuration,
+        poi: poi,
+        travel: null
+      };
+
+      currentTime.add('s', poiDuration);
 
       // Si este no es el último POI y la siguiente visita "no cabe" en el día actual,
       // empieza un nuevo día
@@ -204,18 +202,16 @@ define(['modules/gmaps', 'db/db', 'modules/geo', 'poi/poi'],
                             .add('s', poiDuration).add('s', distances[i].duration);
 
         if (nextStopEnd > todaysEndTime) {
-          plan.push(day);
-          day = [];
           currentDay = moment.utc(currentDay).add('d', 1).format('YYYY-MM-DD');
           currentTime = moment.utc(currentDay + 'T' + options.startTime);
           todaysEndTime.add('d', 1);
         } else {
+          travelStep.travel = _.clone(distances[i]);
           currentTime.add('s', distances[i].duration);
-          _.last(day).approx = distances[i].approx;
         }
-      } else {
-        plan.push(day);
       }
+
+      plan.push(travelStep);
     }
     return plan;
   }
