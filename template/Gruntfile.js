@@ -47,13 +47,11 @@ grunt.initConfig({
   less: {
     // Compilar y minificar LESS
     dev: {
-      expand: true,
-      cwd: 'less', 
-      src: 'style.less',
-      dest: 'less',
-      ext: '.css',
+      src: 'less/style.less',
+      dest: 'less/style.css',
       options: {
-        sourceMap: true
+        sourceMap: true,
+        sourceMapBasepath: 'less'
       }
     },
     prod: {
