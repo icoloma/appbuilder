@@ -5,8 +5,6 @@
   "hinting": true,
   "units_per_em": 1000,
   "ascent": 850,
-  "copyright": "undefined",
-  "fullname": "undefined",
   "glyphs": [
     {
       "uid": "9bd60140934a1eb9236fd7a8ab1ff6ba",
@@ -30,6 +28,12 @@
       "uid": "d17030afaecc1e1c22349b99f3c4992a",
       "css": "star-empty",
       "code": 59393,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "12f4ece88e46abd864e40b35e05b11cd",
+      "css": "ok",
+      "code": 59418,
       "src": "fontawesome"
     },
     {
