@@ -2,7 +2,7 @@
   "name": "app-template",
   "dependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-less": "~0.7.0",
+    "grunt-contrib-less": "~0.8.0",
     "jshint": "~2.0.1",
     "grunt-contrib-requirejs": "~0.4.0",
     "grunt-contrib-clean": "~0.4.1",
