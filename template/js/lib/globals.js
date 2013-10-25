@@ -3,12 +3,16 @@
 
   Exporta los siguientes globales:
 
-    $  jQuery  _  B  Backbone moment async Hammer sqlitePlugin Swiper
+    $  jQuery  _  B  Backbone moment async Hammer Swiper
+
+  Además, hay otros globales de los plugins de PhoneGap:
+    sqlitePlugin
+
 */
 define(
   [ 
     'jquery', 'underscore', 'backbone', 'moment',
-    'ui/touch', 'hammer', 'SQLitePlugin', 'async', 'swipe',
+    'ui/touch', 'hammer', 'async', 'swipe',
     'bootstrap/transition', 'bootstrap/button', 'bootstrap/collapse'
   ],
   function() {
