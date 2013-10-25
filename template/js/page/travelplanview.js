@@ -8,6 +8,15 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
 
     className: 'pageview',
 
+
+
+    /*
+      Flags:
+
+        - this.updatingRoute: indica si se está actualizando el orden de los POIs
+        - this.routeDetailsAvailable: indica si los datos de la ruta están disponibles para mostrar al usuario
+    */
+
     initialize: function() {
       var self = this;
 
@@ -35,7 +44,15 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
         collection: new B.Collection([])
       });
 
+      // Respuesta a un cambio en el orden de los POIs
       this.listenTo(this.collectionView, 'sorted', function() {
+
+        // Si aún se está mostrando los detalles de la ruta, se borran.
+        if (self.routeDetailsAvailable) {
+          self.clearRouteDetails();
+        }
+
+        // Encola una actualización de la BDD
         self.updatingRoute = true;
         self.updateRouteQueue.push({});
       });
@@ -45,7 +62,6 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
         Cálcula y muestra el plan de viaje inicial
       */
       this.initPlan();
-
 
       /*
         Una cola para la actualización de la ruta.
@@ -57,10 +73,7 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
       });
 
       // Cuando se vacía la cola, se recalcula el plan de viaje.
-      this.updateRouteQueue.drain = function() {
-        self.updatingRoute = false;
-        self.updatePlan();
-      };
+      this.updateRouteQueue.drain = _.bind(this.updatePlan, this);
     },
 
     render: function() {
@@ -84,6 +97,26 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
     endSorting: function() {
       this.collectionView.endSorting();
       this.topbarView.unblock().updateActions(['sort']);
+    },
+
+    clearRouteDetails: function() {
+      this.routeDetailsAvailable = false;
+
+      this.collection.forEach(function(step) {
+        step.set({
+          date: null,
+          startTime: null,
+          travel: {
+            distance: null,
+            duration: null,
+            approx: false
+          }
+        });
+      });
+
+      this.routeDetailsAvailable = false;
+
+      this.collectionView.render();
     },
 
     // Actualiza el orden de los POIs favoritos en la BDD
@@ -118,6 +151,8 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
     // Utiliza los POIs de this.collection, por lo que se le llama y se usan sus resultados
     // solo cuando el fla this.updatingRoute sea false 
     updatePlan: function() {
+      this.updatingRoute = false;
+
       var self = this 
       , pois = new PoiCollection(this.collection.map(function(step) {
         return step.get('poi');
@@ -133,6 +168,8 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
         var collection = new B.Collection(_.map(plan, function(step) {
           return new StepModel(step);
         }));
+
+        self.routeDetailsAvailable = true;
 
         self.collectionView.collection = self.collection = collection;
         self.collectionView.render();
@@ -154,6 +191,8 @@ define(['ui/topbarview', 'travelplanner/planner', 'list/sortablelistview',
         var collection = new B.Collection(_.map(plan, function(step) {
           return new StepModel(step);
         }));
+
+        self.routeDetailsAvailable = true;
 
         self.collection = self.collectionView.collection = collection;
 

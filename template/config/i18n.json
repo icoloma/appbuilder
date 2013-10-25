@@ -22,7 +22,10 @@
       "StartDay": "Día de inicio",
       "StartTime": "Hora de inicio",
       "EndTime": "Hora de fin",
-      "PlanMyTrip": "Plan de viaje"
+      "PlanMyTrip": "Plan de viaje",
+      "duration": "duración",
+      "Distance": "Distancia",
+      "Arrival": "Llegada"
     },
     "en": {
       "Starred": "Bookmarks",
@@ -46,7 +49,10 @@
       "StartDay": "Start Day",
       "StartTime": "Start time",
       "EndTime": "End time",
-      "PlanMyTrip": "Plan my trip"
+      "PlanMyTrip": "Plan my trip",
+      "duration": "duration",
+      "Distance": "Distance",
+      "Arrival": "Arrival"
     }
   }
 }
