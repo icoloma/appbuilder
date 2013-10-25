@@ -29,9 +29,7 @@ define(['underscore'],
       xhr.send();
     } else if (typeof process !== 'undefined') {
       var fs = require.nodeRequire('fs');
-      fs.readFile(path, 'utf-8', function(err, data) {
-        onsuccess(data);
-      });
+      onsuccess(fs.readFileSync(path, 'utf-8'));
     }
   }
 
