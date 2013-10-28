@@ -10,19 +10,19 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.PoiImageUtils;
+import info.spain.opencatalog.security.CustomPermissionEvaluator;
 import info.spain.opencatalog.service.PoiService;
 import info.spain.opencatalog.web.form.PoiForm;
 
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +41,8 @@ import com.google.common.collect.Maps;
 @RequestMapping(value = "/poi")
 public class PoiController extends AbstractUIController {
 	
+	@Autowired
+	protected CustomPermissionEvaluator permissionEvaluator;
 		
 	@Autowired
 	protected PoiService poiService;
@@ -48,16 +50,6 @@ public class PoiController extends AbstractUIController {
 	@Autowired
 	protected PoiImageUtils poiImageUtils;
 
-	/**
-	 * Make current user available to all requests
-	 * @param request
-	 * @return current User
-	 */
-	@ModelAttribute("currentUser")
-	public User currentUser(HttpServletRequest request){
-		return (User) request.getAttribute("currentUser");
-	}
-	
 	
 	/**
 	 * SEARCH
@@ -89,6 +81,7 @@ public class PoiController extends AbstractUIController {
 		model.addAttribute("flags", getMapFlags(poi.getType()));
 		model.addAttribute("poi", poiForm);
 		model.addAttribute("poiImages", poiImageUtils.getPoiImageFilenames(id));
+		model.addAttribute("hasEditPermission", permissionEvaluator.hasPermission(SecurityContextHolder.getContext().getAuthentication(), poi, "EDIT"));
 		
 		return "poi/poi";
 	}

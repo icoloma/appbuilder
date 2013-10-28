@@ -1,13 +1,11 @@
 package info.spain.opencatalog.web.controller.admin;
 
 
-import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
 import info.spain.opencatalog.domain.poi.types.PoiFactory;
 import info.spain.opencatalog.domain.poi.types.PoiTypeID;
-import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.web.controller.PoiController;
 import info.spain.opencatalog.web.form.PoiForm;
@@ -19,9 +17,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,21 +36,18 @@ import com.google.common.collect.Lists;
 @RequestMapping(value = "/admin/poi")
 public class AdminPoiController extends PoiController {
 	
-	/**
-	 * SEARCH
-	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public String search(Model model, @PageableDefaults(sort="lastModified", sortDir=Direction.DESC) Pageable pageable, @RequestParam(value="q",required=false) String q, @ModelAttribute("currentUser") User user) {
-		super.search(model, pageable, q, user);
-		return "admin/poi/poiList";
-	}
 
 	/**
 	 * SHOW
 	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public String show( @PathVariable("id") String id, Model model) {
-		super.show(id, model);
+	@Override
+	public String show( @PathVariable("id") String id,  Model model) {
+		super.show(id,  model);
+		Boolean hasEditPermission = (Boolean) model.asMap().get("hasEditPermission");
+		if (!hasEditPermission){
+			return "poi/poi";
+		}
 		return "admin/poi/poi";
 	}
 
@@ -104,7 +96,7 @@ public class AdminPoiController extends PoiController {
 		poiImageUtils.deletePoiImages(idPoi);
 		poiService.delete(idPoi);
 		model.addAttribute(INFO_MESSAGE, "message.item.deleted" ) ;
-		return "redirect:/admin/poi/";
+		return "redirect:/poi/";
 	}
 	
 	/**

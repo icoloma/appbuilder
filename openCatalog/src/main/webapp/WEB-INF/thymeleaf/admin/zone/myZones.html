@@ -26,19 +26,8 @@
 		<div th:substituteby="fragments/template :: alert" />
 		
 	
-		<h1 th:text="#{zone.zones.admin}" >Zones (Admin)</h1>
+		<h1 th:text="#{zone.zones.myZones}" >My Zones</h1>
 		
-		<div class="navbar">
-			<div class="navbar-inner">
-				<form class="form-search  pull-right" action="#" th:action="@{'/admin/zone'}" method="GET" >
-					<div class="input-append">
-						<input type="text" name="q" class="span3 search-query" th:value="${q}"/>
-						<button type="submit" class="btn" th:text="#{button.search}">Search</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	   
 	   <div id="table">
 	    	<table class="table table-striped table-hover table-bordered">
 			  <thead>
@@ -49,7 +38,7 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr th:each="zone : ${page.content}" data:link="@{'/admin/zone/' + ${zone.id}}" data-id="1" class="dataLink" data-link="zone.html">
+			    <tr th:each="zone : ${userZones}" data:link="@{'/zone/' + ${zone.id}}" data-id="1" class="dataLink" data-link="zone.html">
 			      <td th:text="${zone.name}">Tenerife Sur</td>
 			      <td th:text="${#strings.abbreviate(zone.description,50)}">Situado en la isla de Tenerife, cuenta con una altitud ...</td>
 			      <td th:text="${zone.address.adminArea1}">Canarias</td>
@@ -66,16 +55,6 @@
 			    </tr>
 			  </tbody>
 			</table>
-			<ul class="pager" data-page="0" data-pages="5" data:page="${page.number}" data:pages="${page.totalPages}">
-			  <li class="previous"><a  href="#" th:href="@{/admin/zone/(page.page=${page.number},q=${q})}" th:text="#{pager.prev}">Previous</a></li>
-			  <li th:text="#{pager.detail(${page.number+1}, ${page.totalPages}, ${page.totalElements})}">Page 0 of 5</li>
-			  <li class="next" ><a href="#" th:href="@{/admin/zone/(page.page=${page.number+2},q=${q})}" th:text="#{pager.next}">Next</a></li>
-			</ul>
-			
-			<div class="well">
-		    	<a class="btn btn-primary" href="#" th:href="@{/admin/zone/new}" th:text="#{button.add}">Añadir</a>
-		    </div>
-			
 	    </div>
 	    
 	</div>

@@ -1,9 +1,12 @@
 package info.spain.opencatalog.web.controller;
 
+import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.repository.UserRepository;
 
 import java.text.Normalizer;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -21,6 +24,15 @@ public abstract class AbstractUIController extends AbstractController {
 	@Autowired
 	protected UserRepository userRepository;
 	
+	/**
+	 * Make current user available to all requests
+	 * @param request
+	 * @return current User
+	 */
+	@ModelAttribute("currentUser")
+	public User currentUser(HttpServletRequest request){
+		return (User) request.getAttribute("currentUser");
+	}
 	
 	/**
 	 * Añade el parámetro "infoMessage" si existe y hay traducción al Model

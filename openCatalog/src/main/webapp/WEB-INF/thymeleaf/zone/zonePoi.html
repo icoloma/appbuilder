@@ -177,10 +177,11 @@
 		    google.maps.event.addListener(marker, 'click', function() {
 			    var contentString = ''+
 			    '<div class="infoWindow" >'+
+			      '<a href="' + marker.url + '">' + 
 			      '<h2>' + marker.title +'</h2>'+
 			      '<img src="' + marker.img + '"/>'+
-			      '<a href="' + marker.url + '" class="btn"><i class="icon-search"></i></a>' +
 			      '<p>' + marker.desc + '</p>'+
+			      '</a>' +
 			    '</div>';
 		    	
 			   

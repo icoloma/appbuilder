@@ -16,13 +16,13 @@ public class PoiServiceImpl implements PoiService {
 	PoiRepository repo;
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasPermission(#poi, 'SAVE')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasPermission(#poi, 'EDIT')")
 	public <T extends BasicPoi> T save(T poi) {
 		return repo.save(poi);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasPermission(#id, 'BasicPoi', 'DELETE')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasPermission(#id, 'BasicPoi', 'EDIT')")
 	public void delete(String id) {
 		repo.delete(id);
 	}
@@ -36,7 +36,6 @@ public class PoiServiceImpl implements PoiService {
 	public Page<BasicPoi> findByNameEsLikeIgnoreCase(String name, Pageable pageable) {
 		return repo.findByNameEsLikeIgnoreCase(name, pageable);
 	}
-
-
+	
 	
 }

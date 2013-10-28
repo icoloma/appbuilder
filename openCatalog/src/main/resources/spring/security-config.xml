@@ -17,10 +17,11 @@
     <form-login login-page="/login" authentication-failure-url="/login-error"/>
     <logout logout-success-url="/" logout-url="/logout"/>
   	
-  	<intercept-url pattern="/admin/user/**" access="hasRole('ROLE_ADMIN')" />
-  	<intercept-url pattern="/admin/zone/**" access="hasAnyRole('ROLE_ADMIN')" />
-  	<intercept-url pattern="/admin/poi/**" 	access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
-  	<intercept-url pattern="/admin/*" 		access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+  	<intercept-url pattern="/admin/zone/myZones"  access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+  	<intercept-url pattern="/admin/zone/**"       access="hasAnyRole('ROLE_ADMIN')" />
+  	<intercept-url pattern="/admin/poi/**"        access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+  	<intercept-url pattern="/admin/user/**"       access="hasRole('ROLE_ADMIN')" />
+  	<intercept-url pattern="/admin/*"             access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
   	
   </http>
  

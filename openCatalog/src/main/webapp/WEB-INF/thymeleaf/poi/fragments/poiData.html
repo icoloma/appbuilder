@@ -47,10 +47,9 @@
 	     	 	
 	     	 <div th:if="${poi.data['__${data.key}__']}">
 				<label th:text="#{'poi.data.' + ${normalizedKey} }">label</label>
-	     	 	
 	     	 	<p th:if="${isBigText || isKeyValue }" th:text="${poi.data['__${data.key}__']}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut eros in dolor pellentesque porta. Praesent vel egestas ipsum. Vestibulum quam enim, pellentesque ac tempus in, vulputate vel lectus. Donec malesuada elit orci, vel aliquam tortor tristique nec. Ut lobortis elit ut quam d</p>
 				<span th:if="${isDouble || isInteger || isText }"  th:text="${poi.data['__${data.key}__']}">Value</span>
-				<span th:if="${isBoolean}" th:text="#{'boolean.' + ${poi.data['__${data.key}__']}">Yes</span>
+				<span th:if="${isBoolean}" th:text="#{'boolean.' + ${poi.data['__${data.key}__']}}">Yes</span>
 	     	 </div>
 				
 		</div>

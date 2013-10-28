@@ -72,6 +72,10 @@
 			  <li class="next" ><a href="#" th:href="@{/zone/(page.page=${page.number+2},q=${q})}" th:text="#{pager.next}">Next</a></li>
 			</ul>
 			
+			<div class="well" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+		    	<a class="btn btn-primary" href="#" th:href="@{/admin/zone/new}" th:text="#{button.add}">Añadir</a>
+		    </div>
+			
 	    </div>
 	    
 	</div>

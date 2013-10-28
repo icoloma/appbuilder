@@ -122,7 +122,7 @@
 		
 		
 			<hr/> 
-			<div class="well"  sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" >
+			<div class="well"  sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" th:if="${hasEditPermission}" >
 			    <a class="btn btn-primary" href="../admin/poi.html" th:href="@{'/admin/poi/' + ${poi.id}}" th:text="#{button.edit}">Edit</a>
 	 		</div>
 	  		

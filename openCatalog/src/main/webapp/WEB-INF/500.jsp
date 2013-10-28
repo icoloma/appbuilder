@@ -24,11 +24,10 @@
     <!-- container -->    
 	<div class="container">
 	    
-      <h1>404 - Page Not Found</h1>
-      <img src="${pageContext.request.contextPath}/resources/img/Magnifying_Glass_Photo.jpg" alt="Not found" title="Not found" />
+      <h1>500 - Internal Server Error</h1>
+      <img src="${pageContext.request.contextPath}/resources/img/Nuclear_Explosion.svg" alt="Error" title="Error" />
       <br/>
-      http://commons.wikimedia.org/wiki/File:Magnifying_Glass_Photo.jpg
-	
+	  http://commons.wikimedia.org/wiki/File:Nuclear_Explosion.svg
 	</div>
         
    

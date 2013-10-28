@@ -79,6 +79,12 @@
 			  <li class="next" ><a href="#" th:href="@{/poi/(page.page=${page.number+2},q=${q})}" th:text="#{pager.next}">Next</a></li>
 			</ul>
 			
+			<div class="well" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+				<select id="target" >
+					<option th:each="type: ${T(info.spain.opencatalog.domain.poi.types.PoiTypeID).values()}" value="BEACH" th:value="${type.toString()}" th:text="#{ 'poiType.' + ${type.toString()}}">Playa</option>
+				</select>
+		    	<button class="btn btn-primary"  data:href="@{/admin/poi/new}" th:text="#{button.add}">Añadir</button>
+		    </div>
 		
 			
 	    </div>
