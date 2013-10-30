@@ -50,7 +50,7 @@
    <beans:bean id="customPermissionEvaluator" class="info.spain.opencatalog.security.CustomPermissionEvaluator" >
 	  	<beans:constructor-arg>
 	  		<beans:list>
-		  		<beans:bean class="info.spain.opencatalog.security.AlwaysAllowedPermissionEvaluator"/>
+		  		<beans:bean class="info.spain.opencatalog.security.PoiPermissionEvaluator"/>
 	  		</beans:list>
 	  	</beans:constructor-arg>
    </beans:bean>
