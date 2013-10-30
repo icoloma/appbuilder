@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface PoiRepository extends MongoRepository<BasicPoi, String>, PoiRepositoryCustom {
 	
-	@Query( value="{'name.es':{'$regex':?0, '$options': 'i'}}")
+	@Query( value="{'name.es':{'$regex':?0, '$options': 'i'}, 'published': true }")
 	public Page<BasicPoi> findByNameEsLikeIgnoreCase(String name, Pageable pageable);
 	
 	public Page<BasicPoi> findByNameEs(String name, Pageable pageable);
@@ -36,6 +36,8 @@ public interface PoiRepository extends MongoRepository<BasicPoi, String>, PoiRep
 	
 	@Query( value="{ '_id' : {'$in': ?0}}")
 	public List<BasicPoi> findByIds(String[] ids);
+	
+	public List<BasicPoi> findByUuid(String uuid);
 	
 	
 	<S extends BasicPoi> S save(S poi);

@@ -62,7 +62,7 @@ public class CustomQueryCriteriasTest {
 		
 		Criteria criteria = poiRepositoryImpl.getCriteriaUpatedAfter(query);
 		List<BasicPoi> result = mongoTemplate.find( query(criteria), BasicPoi.class);
-		assertEquals(13, result.size());
+		assertEquals(14, result.size());
 		
 		
 		result = mongoTemplate.find(query(where("lastModified").gt(new DateTime().plusYears(1).toDate())), BasicPoi.class);
@@ -82,14 +82,14 @@ public class CustomQueryCriteriasTest {
 		Criteria criteria = poiRepositoryImpl.getCriteriaValueInArrayCriteria("flags", sFlags);
 
 		List<BasicPoi>  result = mongoTemplate.find(query(criteria), BasicPoi.class);
-		assertEquals(1, result.size());
+		assertEquals(2, result.size());
 	}
 	
 	@Test
 	public void testFindByZone() throws Exception {
 		Criteria criteria = poiRepositoryImpl.getCriteriaByZone(tenerife);
 		List<BasicPoi>  result = mongoTemplate.find(query(criteria), BasicPoi.class);
-		assertEquals(2, result.size());  // Teide & Teresitas
+		assertEquals(3, result.size());  // Teide & Teresitas
 	}
 
 	
@@ -99,7 +99,7 @@ public class CustomQueryCriteriasTest {
 		Query q = query(where("type").in( Lists.newArrayList("BEACH", "MUSEUM")));
 		System.out.println( "\n\nQUERY: " + q);
 		List<BasicPoi>  result = mongoTemplate.find(q, BasicPoi.class);
-		assertEquals(2, result.size());
+		assertEquals(3, result.size());
 
 	}
 	

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Points of interest</title>
+	<link rel="stylesheet" href="../../../../../resources/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../../../../resources/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" href="../../../../../resources/css/ui-lightness/jquery-ui-1.9.2.custom.css"/>
+	
+	<link rel="stylesheet" href="../../../../../resources/css/main.css"/>
+	<script src="../../../../../resources/js/vendor/modernizr-2.6.2.js"></script>
+	<script src="../../../../../resources/js/vendor/jquery-1.9.1.min.js"></script>
+	<script src="../../../../../resources/js/vendor/bootstrap.js"></script>
+</head>
+
+<body>
+<!--  Nav bar -->
+<div class="navbar navbar-inverse"><div class="navbar-inner"><div class="container"><a class="brand" href="#">OpenCatalog</a></div></div></div>
+
+<div class="container">
+  
+	<!-- 
+		WorkFlow
+	-->      
+	<div th:fragment="poiVersionsTag">
+	
+		<h2 th:text="#{poi.versions}">WorkFlow</h2>  
+		<label th:text="#{poi.uuid}">UUID</label>
+		<a href="#" th:href="@{'/poi/' + ${poi.uuid}}"><span th:text="${poi.uuid}">11234</span></a>
+		<table class="table workflow table-striped table-hover table-bordered">
+			<thead>
+			    <tr>
+			      <th th:text="#{poi.rows.head.name}">Name</th>
+			      <th th:text="#{poi.rows.head.lastModified}">Last modified</th>
+			      <th th:text="#{poi.rows.head.published}">Published</th>
+			    </tr>
+			</thead>
+
+	 		<tbody>
+			    <tr th:each="p : ${versions}" data:link="@{'/admin/poi/id/' + ${p.id}}" data-id="1" class="dataLink" data-link="poi.html" th:class="'dataLink ' + ((${p.id} == ${poi.id} ? 'selected' : ''))">
+			      <td th:text="${p.name.es}">Playa de las Teresitas</td>
+			      <td th:text="${p.lastModified}">2012-01-01</td>
+			      <td th:text="#{'boolean.' + ${p.published}}">True</td>
+			    </tr>
+		  	</tbody>
+	  </table>		
+	</div>
+	
+			
+</div>
+</body>
+</html>
+
+
+
+

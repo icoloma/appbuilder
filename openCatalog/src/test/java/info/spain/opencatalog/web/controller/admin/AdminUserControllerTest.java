@@ -10,14 +10,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.domain.DummyUserFactory;
+import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.repository.UserRepository;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
+@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml", "classpath:/spring/security-config-test.xml"})
 @ActiveProfiles("dev")
 public class AdminUserControllerTest {
 	
@@ -40,7 +41,8 @@ public class AdminUserControllerTest {
 	
 	@Autowired
 	private UserRepository repo;
-
+	
+	
 	private MockMvc mockMvc;
 
 	@Before

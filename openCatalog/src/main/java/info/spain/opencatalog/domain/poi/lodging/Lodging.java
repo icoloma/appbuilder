@@ -85,7 +85,11 @@ public class Lodging extends BasicPoi {
 	public Lodging setLanguages(String... languages) {
 		return (Lodging) super.setLanguages(languages);
 	}
-
+	
+@Override
+	public Lodging setPublished(boolean published) {
+		return (Lodging) super.setPublished(published);
+	}
 	public Lodging setRoomTypes(RoomType... roomTypes) {
     	this.roomTypes = Sets.newHashSet(roomTypes);
     	return this;

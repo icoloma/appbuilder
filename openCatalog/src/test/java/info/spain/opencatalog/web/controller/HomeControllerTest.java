@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
+@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml", "classpath:/spring/security-config-test.xml"})
 @ActiveProfiles("dev")
 public class HomeControllerTest {
 	

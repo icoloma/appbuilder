@@ -19,6 +19,7 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.springframework.core.io.ClassPathResource;
@@ -34,6 +35,8 @@ public class DummyPoiFactory extends AbstractFactory {
 	public static BasicPoi newPoi(String key){
 		key = key + "-" + getRandom().nextInt();
 		return PoiFactory.newInstance(PoiTypeID.BASIC)
+			.setUuid(UUID.randomUUID().toString())
+			.setPublished(true)
 			.setName( new I18nText()
 				.setEs("es-"+key+"-name")
 				.setEn("en-"+key+"-name")
@@ -152,6 +155,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				new RoomPrice(RoomType.HAB1, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada alta")),
 				new RoomPrice(RoomType.HAB2, Meal.AD, 60d).setObservations( new I18nText().setEs("Semana santa"))
 			)
+			.setPublished(true)
 			.validate();
 	}	
 	
@@ -178,7 +182,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				new RoomPrice(RoomType.TENT_FAM, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada media")),
 				new RoomPrice(RoomType.MOTORHOME, Meal.PC, 40d).setObservations( new I18nText().setEs("Temporada baja"))
 			)
-			
+			.setPublished(true)
 			.validate();
 	}
 
@@ -208,7 +212,8 @@ public class DummyPoiFactory extends AbstractFactory {
 				new RoomPrice(RoomType.HAB1,  Meal.AD, 30d).setObservations( new I18nText().setEs("Temporada alta")),
 				new RoomPrice(RoomType.HAB1, Meal.AD, 25d).setObservations( new I18nText().setEs("Temporada media")),
 				new RoomPrice(RoomType.HAB1, Meal.AD, 20d).setObservations( new I18nText().setEs("Temporada baja"))
-			)	
+			)
+			.setPublished(true)
 			.validate();
 	}
 		
@@ -248,6 +253,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				.setOriginalId("xxxx-yyyy")
 				.setLastUpdate(new DateTime())
 				)
+			.setPublished(true)
 			.validate();
 	}
 	
@@ -262,6 +268,7 @@ public class DummyPoiFactory extends AbstractFactory {
 					Flag.BEACH_BATH_CONDITION_STRONG_WAVES,
 					Flag.BEACH_COMPOSITION_SAND,
 					Flag.BEACH_SAND_TYPE_GOLDEN)
+				.setPublished(true)
 				.validate();
 
 	}
@@ -310,6 +317,7 @@ public class DummyPoiFactory extends AbstractFactory {
 					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"))
 					.setObservations(new I18nText().setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura"))
 			)
+			.setPublished(true)
 			.validate();
 	
 	}
@@ -362,7 +370,9 @@ public class DummyPoiFactory extends AbstractFactory {
 						.setEs("Desempleados, personal de los Museos Estatales del Ministerio de Cultura")
 						.setEn("Unemployed, State museums staff"))
 					.setTimetable(new TimeTableEntry("Mon,Tue,Wed,Thu,Fri=18:00-20:00"))
-			).validate();
+			)
+			.setPublished(true)
+			.validate();
 	}
 		
 	
@@ -377,6 +387,7 @@ public class DummyPoiFactory extends AbstractFactory {
 					Flag.QUALITY_PATRIMONIO_HUMANIDAD,
 					Flag.PARKING_ACCESSIBLE,
 					Flag.CULTURE_PERIOD_MODERN)
+			.setPublished(true)
 			.validate();
 	}
 		
@@ -403,7 +414,9 @@ public class DummyPoiFactory extends AbstractFactory {
 					.setTimetable( 
 						new TimeTableEntry("Mon,Tue,Wed,Thu,Fri,Sat,Sun=09:00-20:00")
 					)
-			).validate();
+			)
+			.setPublished(true)
+			.validate();
 	}
 		
 	// Ecoturismo 
@@ -416,6 +429,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				Flag.GUIDED_TOUR,
 				Flag.EDUCATIONAL_ACTIVITIES)
 			.setLanguages( "es", "en")
+			.setPublished(true)
 			.validate();
 	}
 			
@@ -439,6 +453,7 @@ public class DummyPoiFactory extends AbstractFactory {
 				Flag.GOLF_COVERED_DRIVING_RANGE
 				)
 			.setLanguages( "es" )
+			.setPublished(true)
 			.validate();
 	}
 		
@@ -452,6 +467,7 @@ public class DummyPoiFactory extends AbstractFactory {
 					Flag.NAUTICAL_DIVING,
 					Flag.NAUTICAL_WHALE_WATCHING)
 			.setLanguages("es")
+			.setPublished(true)
 			.validate();
 	}
 	
@@ -482,6 +498,7 @@ public class DummyPoiFactory extends AbstractFactory {
 			.setData("servicios:numero-escuelas", "4")
 			.setData("servicios:numero-profesores", "14")
 			.setData("servicios:estacion", "Podrá además consultar el parte de nieve y las ultimas noticias en ... ")
+			.setPublished(true)
 			.validate();
 	}
 	

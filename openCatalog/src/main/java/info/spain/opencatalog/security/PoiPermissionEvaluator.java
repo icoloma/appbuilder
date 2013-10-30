@@ -1,6 +1,7 @@
 package info.spain.opencatalog.security;
 
 import info.spain.opencatalog.domain.User;
+import info.spain.opencatalog.domain.UserRole;
 import info.spain.opencatalog.domain.Zone;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.repository.PoiRepository;
@@ -52,12 +53,17 @@ public class PoiPermissionEvaluator implements ClassTypePermissionEvaluation {
 	// TODO: Check permission type
 	Boolean evaluatePoiInUserZones(Authentication authentication, Object target, Object permission){
 		User user = getCurrentUser(authentication);
-		if (user != null ) {
+		if (user == null ){
+			return false;
+		}
+
+		if (isAdmin(user)){
+			return true;
+		} else {
 			BasicPoi poi = (BasicPoi) target;
 			List<String> idZones = user.getIdZones();
 			return isPoiInUserZones(poi,idZones);
-		} 
-		return false;
+		}
 	}
 	
 	Boolean isPoiInUserZones(BasicPoi poi, List<String> idZones){
@@ -84,6 +90,13 @@ public class PoiPermissionEvaluator implements ClassTypePermissionEvaluation {
 		}
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
 		return userRepository.findByEmail(user.getUsername());
+	}
+	
+	private boolean isAdmin(User user){
+		if (user != null){
+			return user.getRoles().contains(UserRole.ROLE_ADMIN);
+		}
+		return false;
 	}
 
 	

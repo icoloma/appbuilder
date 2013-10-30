@@ -1,6 +1,7 @@
 package info.spain.opencatalog.domain.poi.types;
 
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
@@ -20,12 +21,14 @@ public class PoiFactory {
 	 * @param id - PoiTypeID
 	 */
 	public static BasicPoi newInstance(PoiTypeID id ) {
-		
+		BasicPoi result ;
 		if (LODGING_TYPES.contains(id)) {
-			return new Lodging(id);
+			result = new Lodging(id);
 		} else {
-			return new BasicPoi(id);
+			result = new BasicPoi(id);
 		}
+		result.setUuid(UUID.randomUUID().toString());
+		return result;
 
 	}
 	

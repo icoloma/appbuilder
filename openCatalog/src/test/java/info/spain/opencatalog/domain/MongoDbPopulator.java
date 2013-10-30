@@ -1,6 +1,9 @@
 package info.spain.opencatalog.domain;
 
 import info.spain.opencatalog.domain.poi.BasicPoi;
+import info.spain.opencatalog.domain.poi.types.PoiFactory;
+import info.spain.opencatalog.domain.poi.types.PoiTypeID;
+import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -82,7 +85,14 @@ public class MongoDbPopulator {
 		// Basic
 		mongoTemplate.insert(DummyPoiFactory.NATURAL_PARK);
 		mongoTemplate.insert(DummyPoiFactory.POI_TEIDE);
-		mongoTemplate.insert(DummyPoiFactory.BEACH);
+		BasicPoi beach1 = DummyPoiFactory.BEACH;
+		mongoTemplate.insert(beach1); 
+		// workFlow of beach
+		mongoTemplate.insert( 
+			PoiFactory.newInstance(beach1.getType())
+				.copyData(beach1)
+				.setId(null)
+				.setPublished(false));
 
 		// Lodging
 		mongoTemplate.insert(DummyPoiFactory.HOTEL);

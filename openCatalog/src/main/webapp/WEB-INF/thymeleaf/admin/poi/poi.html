@@ -27,7 +27,10 @@
   	
 	
 	<h1 th:text="#{'poiType.' + ${poi.poiType.id}}">Genérico</h1>
-	<h2 th:text="${hasPermission}">true</h2>
+	<div th:if="${poi.uuid}">
+	    <label th:text="#{poi.uuid}">UUID</label>
+	    <span th:text="${poi.uuid}">111-111--11</span>
+	</div>
 
 	<form id="poiForm" name="poiForm" action="#" th:action="@{'/admin/poi/' + ${poi.id?: 'new/' + poi.poiType.id }}" th:object="${poi}" method="POST" data:id="${poi.id?:''}" data-id="1" enctype="multipart/form-data">
 		<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
@@ -46,6 +49,7 @@
 			<li><a href="#timetable" data-toggle="tab" th:text="#{poi.timetable}">Timetable</a></li>
 			<li><a href="#prices" data-toggle="tab" th:text="#{poi.prices}">Prices</a></li>
 			<li><a href="#contactInfo" data-toggle="tab" th:text="#{poi.contactInfo}">Contact Info</a></li>
+			<li><a href="#workFlow" data-toggle="tab" th:text="#{poi.workFlow}" th:if="${history}">WorkFlow</a></li>
 			<li th:if="${poi.syncInfo.imported}" ><a href="#syncInfo" data-toggle="tab" th:text="#{poi.syncInfo}">Sync Info</a></li>
 		</ul>
 			
@@ -137,7 +141,14 @@
 			  		<div th:substituteby="admin/poi/fragments/poiSyncInfo :: poiSyncInfoTag" >
 			  		  Sync info
 			  		</div>
-			  </div>			  						 							  		  	
+			  </div>	
+			  
+			  	<!--  WorkFlow -->
+			  	<div class="tab-pane" id="workFlow" th:if="${history}">
+			  		<div th:substituteby="admin/poi/fragments/poiWorkFlow :: poiWorkFlowTag" >
+			  		  WorkFlow info
+			  		</div>
+			  	</div>		 		  						 							  		  	
 		</div>
 		
 		<div class="timeTableExamples modal hide fade" th:substituteby="admin/poi/fragments/poiTimeTable :: timeTableExamples"  tabindex="-1" >
@@ -148,7 +159,9 @@
   		<hr/>
 		<div class="well">
 		    <input type="submit" class="btn btn-primary saveButton" th:value="#{button.save}" value="Save" ></input>
-  		 	<a href="./poiList.html" th:href="@{/admin/poi/}" th:text="#{button.cancel}">Cancel</a>
+		    <input type="submit" class="btn publishButton" th:value="#{button.saveAndPublish}" value="Publish" th:unless="${poi.published}" sec:authorize="hasAnyRole('ROLE_ADMIN')"></input>
+		    <a href="./poiList.html" th:href="@{/poi/}" th:text="#{button.cancel}" th:unless="${poi.id}">Cancel</a>
+  		 	<a href="./poiList.html" th:href="@{'/poi/' + ${poi.uuid}}" th:text="#{button.cancel}" th:if="${poi.id}">Cancel</a>
   		 	<button class="btn btn-danger pull-right deleteButton"><i class="icon-remove icon-white"></i> <span th:text="#{button.delete}">Delete</span></button>
  		</div>
   		 
@@ -207,6 +220,15 @@
 			$('[required]', form).each(function(){
 				$(this).removeAttr("required");
 			});
+		}); 
+		
+		
+		// delete button
+		$("input.publishButton").click(function(){
+			var form = $($(this).closest('form'));
+			var action = form.attr("action")
+			form.attr("action", action + "/publish")
+			
 		}); 
 		 
 	 })

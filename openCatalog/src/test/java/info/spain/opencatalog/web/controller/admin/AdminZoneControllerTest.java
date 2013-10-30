@@ -34,7 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
+@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml", "classpath:/spring/security-config-test.xml"})
 @ActiveProfiles("dev")
 public class AdminZoneControllerTest {
 	
@@ -64,7 +64,7 @@ public class AdminZoneControllerTest {
 		// With query
 		this.mockMvc.perform( get("/admin/zone").param("q", "some criteria"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("admin/zone/zoneList"));
+			.andExpect(view().name("zone/zoneList"));
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class AdminZoneControllerTest {
 		// without query
 		this.mockMvc.perform( get("/admin/zone"))
 		.andExpect(status().isOk())
-		.andExpect(view().name("admin/zone/zoneList"));
+		.andExpect(view().name("zone/zoneList"));
 	}
 	
 
@@ -123,7 +123,7 @@ public class AdminZoneControllerTest {
 		// Show Pois 
 		result = this.mockMvc.perform( get("/admin/zone/{id}/poi", id))
 				.andExpect(status().isOk())
-				.andExpect(view().name("admin/zone/zonePoi"))
+				.andExpect(view().name("zone/zonePoi"))
 				.andReturn();
 		
 		// Test UPDATE 

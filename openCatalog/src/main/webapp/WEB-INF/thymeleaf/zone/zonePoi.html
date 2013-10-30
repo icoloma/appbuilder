@@ -48,6 +48,7 @@
 			      <th th:text="#{poi.rows.head.description}">Description</th>
 			      <th th:text="#{poi.rows.head.adminArea2}">Admin Area 2</th>
 			      <th th:text="#{poi.rows.head.adminArea1}">Admin Area 1</th>
+			      <th th:text="#{poi.rows.head.published}" sec:authorize="isAuthenticated()">Published</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -56,7 +57,7 @@
 			        data:lat="${poi.location.lat}" 	data-lat="40.402"
 			        data:lng="${poi.location.lng}" data-lng="-3.739"
 			        data:desc="${#strings.abbreviate(zone.description ,50)}" data-desc="bla,bla,bla"
-			    	data:link="@{'/poi/' + ${poi.id}}" data-link="../poi/poi.html"
+			    	data:link="@{'/poi/' + ${poi.uuid}}" data-link="../poi/poi.html"
 			    	data:img="@{'/poi/' + ${poi.id}} + '/image/default'" data-img="../../../../resources/img/no_image.png"    
 			    	class="dataLink"
 			      >
@@ -64,6 +65,7 @@
 			      <td th:text="${#strings.abbreviate(zone.description,50)}">bla,bla,bla ...</td>
 			      <td th:text="${poi.address.adminArea2}">Madrid</td>
 			      <td th:text="${poi.address.adminArea1}">Comunidad de Madrid</td>
+			      <td th:text="#{'boolean.' + ${poi.published}}" sec:authorize="isAuthenticated()">True</td>
 			      	
 			    </tr>
 			    <tr th:remove="all"
@@ -79,6 +81,7 @@
 			      <td>bla,bla,bla ...</td>
 			      <td>Madrid</td>
 			      <td>Comunidad de Madrid</td>
+			      <td>false</td>
 			    </tr>
 			  <tr th:remove="all"
 			    	data-name="Poi-3" 
@@ -93,6 +96,7 @@
 			      <td>bla,bla,bla ...</td>
 			      <td>Madrid</td>
 			      <td>Comunidad de Madrid</td>
+			      <td>false</td>
 			    </tr>
 			  
 			  </tbody>

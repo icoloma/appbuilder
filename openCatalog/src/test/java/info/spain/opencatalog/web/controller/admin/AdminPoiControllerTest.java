@@ -39,7 +39,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml"})
+@ContextConfiguration({ "classpath:/spring/root-context.xml", "classpath:/spring/mvc-ui-config.xml", "classpath:/spring/security-config-test.xml"})
 @ActiveProfiles("dev")
 public class AdminPoiControllerTest extends AbstractControllerTest {
 	
@@ -106,18 +106,18 @@ public class AdminPoiControllerTest extends AbstractControllerTest {
 		
 		String location = result.getResponse().getHeader("Location");
 		assertTrue( location.contains("message.item.created"));
-		String id = location.substring("/admin/poi/".length(), location.indexOf('?'));
-		
-		BasicPoi repoPoi = repo.findOne(id);
+		String uuid = location.substring("/admin/poi/".length(), location.indexOf('?'));
+		BasicPoi repoPoi = repo.findByUuid(uuid).get(0);
+		String id = repoPoi.getId();
 		testEquals(poi, repoPoi);
 		assertFalse(repoPoi.getSyncInfo().isImported());
 		assertFalse(repoPoi.getSyncInfo().isSync());
 		assertNull(repoPoi.getSyncInfo().getOriginalId());
 		
 		// Test GET
-		result = this.mockMvc.perform( get("/admin/poi/{id}", id))
+		result = this.mockMvc.perform( get("/admin/poi/{uuid}", uuid))
 			.andExpect(status().isOk())
-			.andExpect(view().name("admin/poi/poi"))
+			.andExpect(view().name("poi/poi"))
 			.andReturn();
 		
 		// Test Search all

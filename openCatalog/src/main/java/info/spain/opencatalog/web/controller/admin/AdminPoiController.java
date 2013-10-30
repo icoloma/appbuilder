@@ -1,6 +1,7 @@
 package info.spain.opencatalog.web.controller.admin;
 
 
+import info.spain.opencatalog.domain.User;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import info.spain.opencatalog.domain.poi.Flag;
 import info.spain.opencatalog.domain.poi.TimeTableEntry;
@@ -17,6 +18,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,17 +42,52 @@ import com.google.common.collect.Lists;
 @RequestMapping(value = "/admin/poi")
 public class AdminPoiController extends PoiController {
 	
-
 	/**
-	 * SHOW
+	 * SEARCH
 	 */
-	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	@Override
-	public String show( @PathVariable("id") String id,  Model model) {
-		super.show(id,  model);
-		Boolean hasEditPermission = (Boolean) model.asMap().get("hasEditPermission");
+	@RequestMapping(method = RequestMethod.GET)
+	public String search(Model model, @PageableDefaults(sort="lastModified", sortDir=Direction.DESC) Pageable pageable, @RequestParam(value="q",required=false) String q, @ModelAttribute("currentUser") User user) {
+		super.search(model, pageable, q, user);
+		return "admin/poi/poiList";
+	}
+	
+	/**
+	 * SHOW by Id
+	 * Muestra formulario si se tienen los permisos
+	 *  
+	 */
+	@RequestMapping(value="/id/{id}", method = RequestMethod.GET)
+	public String showById( @PathVariable("id") String id, Model model) {
+		BasicPoi poi  = poiService.findOne(id);
+		if (poi == null){
+			throw new NotFoundException("poi", id);
+		}
+		
+		// No permitimos modificar pois publicados
+		if (poi.isPublished()){
+			return "redirect:/poi/"+poi.getUuid();
+		}
+		
+		
+		List<BasicPoi> pois  = poiService.findByUuid(poi.getUuid());
+		if (pois == null || pois.size() == 0){
+			throw new NotFoundException("poi", poi.getUuid());
+		}
+		
+		//PoiForm poiForm = new PoiForm(poi.getType().getId());
+		PoiForm poiForm = new PoiForm(poi.getType());
+		poiForm.copyData(poi);
+			
+		boolean hasEditPermission = permissionEvaluator.hasPermission(SecurityContextHolder.getContext().getAuthentication(), poi, "EDIT");
+		model.addAttribute("flags", getMapFlags(poi.getType()));
+		model.addAttribute("poi", poiForm);
+		model.addAttribute("poiImages", poiImageUtils.getPoiImageFilenames(id));
+		model.addAttribute("hasEditPermission", hasEditPermission);
+		model.addAttribute("versions", pois);
+		
 		if (!hasEditPermission){
-			return "poi/poi";
+			return "redirect:/poi/"+poi.getUuid();
 		}
 		return "admin/poi/poi";
 	}
@@ -78,13 +119,12 @@ public class AdminPoiController extends PoiController {
 			poiForm.setFlags(convertFlags(strFlags, errors));
 		}
 		
-		
 		BasicPoi poi = poiService.save( PoiFactory.newInstance(PoiTypeID.valueOf(type)).copyData(poiForm));
 		
 		
 		model.addAttribute(INFO_MESSAGE, "message.item.created" ) ;
 		
-		return "redirect:/admin/poi/" + poi.getId();
+		return "redirect:/admin/poi/" + poi.getUuid();
 	}
 
 	
@@ -110,7 +150,6 @@ public class AdminPoiController extends PoiController {
 		return "admin/poi/poi";
 	}
 
-	
 	/**
 	 * UPDATE
 	 * Nota: Usamos POST y no PUT dado que el MultiPart da problemas con el HiddenHttpMethodFilter
@@ -134,9 +173,10 @@ public class AdminPoiController extends PoiController {
 		}
 		
 		poiForm.setType(dbPoi.getType());  		       // Always override with db type
+		poiForm.setUuid(dbPoi.getUuid());
 		poiForm.adjustPricesOnSave();
 		poiForm.getSyncInfo()
-			.setLastUpdate(dbPoi.getSyncInfo().getLastUpdate())  // Always override with db value   
+						.setLastUpdate(dbPoi.getSyncInfo().getLastUpdate())  // Always override with db value   
 			.setImported(dbPoi.getSyncInfo().isImported()) 		 // Always override with db value
 			.setOriginalId(dbPoi.getSyncInfo().getOriginalId()); // Always override with db value
 		
@@ -164,8 +204,39 @@ public class AdminPoiController extends PoiController {
 		model.addAttribute(INFO_MESSAGE,  "message.item.updated") ;
 
 		
-		return "redirect:/admin/poi/" + id;
+		return "redirect:/admin/poi/id/" + dbPoi.getId();
 	}
+	
+	
+	/**
+	 * Create revision
+	 */
+	@RequestMapping( value="/revision/{id}", method=RequestMethod.GET) 
+	public String createRevision(@PathVariable("id") String id){
+		BasicPoi poi = poiService.createRevision(id);
+		return "redirect:/admin/poi/id/" + poi.getId();
+	}
+	
+	
+	/**
+	 * Publish
+	 */
+	@RequestMapping( value="/{id}/publish", method=RequestMethod.POST) 
+	public String saveAndPublish(@ModelAttribute("poi") PoiForm poiForm, BindingResult errors,
+			Model model, 
+			@PathVariable("id") String id,  
+			@RequestParam(value="timetable", required=false) String[] timetable,
+			@RequestParam(value="flags", required=false) String[] strFlags,
+			@RequestParam(value="files", required=false) List<MultipartFile> addFiles,
+			@RequestParam(value="deleteFile", required=false) String[] deleteFiles
+			
+			) throws IOException {
+		update(poiForm, errors, model, id, timetable, strFlags, addFiles, deleteFiles);
+		poiService.publish(id);
+		return "redirect:/admin/poi/id/" + id;
+	}
+	
+	
 	
 	private void updatePoiImages(BasicPoi poi, List<MultipartFile> addFiles,  String[] deleteFiles) throws IOException {
 		

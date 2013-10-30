@@ -129,3 +129,8 @@ textarea.priceObservation {
 	min-height: 174px;
 	width: 90%;
 }
+
+table.workflow tr.selected {
+	color:#9E804D;
+	font-weight:bold;
+}

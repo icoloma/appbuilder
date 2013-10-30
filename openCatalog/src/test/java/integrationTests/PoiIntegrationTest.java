@@ -7,6 +7,7 @@ import info.spain.opencatalog.domain.DummyUserFactory;
 import info.spain.opencatalog.domain.I18nText;
 import info.spain.opencatalog.domain.poi.BasicPoi;
 import integrationTests.page.poi.BeachPage;
+import integrationTests.page.poi.BeachReadOnlyPage;
 import integrationTests.page.poi.PoiListPage;
 
 import org.junit.After;
@@ -53,7 +54,8 @@ public class PoiIntegrationTest extends AbstractPoiIntegrationTest{
 	
 	private void updateBeach(WebDriver driver){
 		log.trace("update BEACH");
-		BeachPage page = new BeachPage(driver);
+		BeachReadOnlyPage roPage = new BeachReadOnlyPage(driver);
+		BeachPage page = roPage.crearRevision();
 		BasicPoi beach = new BasicPoi();
 		beach.setName(new I18nText());
 		beach.setDescription(new I18nText());

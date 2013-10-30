@@ -101,58 +101,6 @@ public abstract class AbstractPage {
 		driver.findElements(selector).get(0).click();
 	}
 	
-	
-	/**
-	 * Select poi flag
-	 * @param flag
-	 */
-	public void selectFlag(String flag){
-		List<WebElement> groups = driver.findElements(By.cssSelector("a.accordion-toggle"));
-		for (WebElement group : groups) {
-			group.click();
-			WebElement accordionBody = driver.findElement(By.cssSelector(".accordion-body.in.collapse"));
-			wait.until(ExpectedConditions.visibilityOf(accordionBody));
-			List<WebElement> inputs = accordionBody.findElements(By.name("flags"));
-			for (WebElement input : inputs) {
-				if (input.getAttribute("value").equals(flag)){
-					input.click();
-				}
-			}
-			group.click();
-			
-		}
-	}
-	
-	/**
-	 * Add a POI timetable entry
-	 * @param period
-	 */
-	public void addTimeTableEntry(String period){
-		driver.findElement(By.className("addTimeTableEntry")).click();
-		List<WebElement> entries = driver.findElements(By.cssSelector("table.timetable tbody tr td input"));
-		WebElement lastInput = entries.get(entries.size() - 1);
-		lastInput.sendKeys(period);
-	}
-	
-	/**
-	 * Add a POI price
-	 * @param price
-	 * @param priceType
-	 * @param period
-	 * @param observations
-	 */
-	public void addPrice( String price, String priceType, String period, String observations){
-		driver.findElement(By.className("addPrice")).click();
-		List<WebElement> rows = driver.findElements(By.cssSelector("table.prices tbody tr"));
-		WebElement lastRow = rows.get(rows.size() - 1);
-		lastRow.findElement(By.className("price")).sendKeys(price);
-		selectOption(lastRow.findElement(By.className("priceType")), priceType);
-		lastRow.findElement(By.className("period")).sendKeys(period);
-		lastRow.findElement(By.cssSelector(".priceObservation.es")).sendKeys(observations);
-	
-		
-	}
-	
-	
+
 
 }

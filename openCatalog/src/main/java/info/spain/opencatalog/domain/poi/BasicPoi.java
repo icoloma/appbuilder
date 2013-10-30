@@ -40,7 +40,15 @@ public class BasicPoi {
 	
 	@Id
 	protected String id;
-
+	
+	
+	/** Identifica el conjunto de POis en el workflow de aprobación de contenidos*/
+	@Indexed
+	protected String uuid;
+	
+	/** El poi ha sido aprobado para su publicación */
+	protected boolean published;
+	
 	/** 
 	 * Tipo de POI específico: Hotel, Monumento, Playa, ... 
 	 * Usado para mapear en MongoDB el tipo a un String en lugar de a un objeto 
@@ -133,6 +141,8 @@ public class BasicPoi {
         this.data= deleteEmptyEntries(source.data);
         this.syncInfo = source.getSyncInfo();
         this.score = source.score;
+        this.uuid = source.uuid;
+        this.published = source.published;
         return this;
     }	
 	
@@ -311,6 +321,20 @@ public class BasicPoi {
 		return this;
 	}
 	
+	public boolean isPublished() {
+		return published;
+	}
+	public BasicPoi setPublished(boolean published) {
+		this.published = published;
+		return this;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public BasicPoi setUuid(String uuid) {
+		this.uuid = uuid;
+		return this;
+	}
 	@Override
 	public String toString() {
 		return toStringHelper().toString();
@@ -319,6 +343,7 @@ public class BasicPoi {
 	protected com.google.common.base.Objects.ToStringHelper toStringHelper(){
 		return Objects.toStringHelper(getClass())
 				.add("id", id)
+				.add("uuid", uuid)
 				.add("type", type)
 				.add("name", name)
 				.add("description", description)
@@ -334,6 +359,7 @@ public class BasicPoi {
 				.add("created", created)
 				.add("lastModified", lastModified)
 				.add("syncInfo", syncInfo)
+				.add("published", published)
 				;
 	}
     

@@ -10,7 +10,6 @@ import info.spain.opencatalog.domain.poi.types.PoiTypeID;
 import info.spain.opencatalog.domain.poi.types.PoiTypeRepository;
 import info.spain.opencatalog.exception.NotFoundException;
 import info.spain.opencatalog.image.PoiImageUtils;
-import info.spain.opencatalog.security.CustomPermissionEvaluator;
 import info.spain.opencatalog.service.PoiService;
 import info.spain.opencatalog.web.form.PoiForm;
 
@@ -22,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefaults;
+import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +42,7 @@ import com.google.common.collect.Maps;
 public class PoiController extends AbstractUIController {
 	
 	@Autowired
-	protected CustomPermissionEvaluator permissionEvaluator;
+	protected PermissionEvaluator permissionEvaluator;
 		
 	@Autowired
 	protected PoiService poiService;
@@ -63,16 +63,19 @@ public class PoiController extends AbstractUIController {
 		return "poi/poiList";
 	}
 
-	
 	/**
-	 * SHOW
+	 * SHOW by UUID
+	 * No muestra formulario
 	 */
-	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public String show( @PathVariable("id") String id, Model model) {
-		BasicPoi poi  = poiService.findOne(id);
-		if (poi == null){
-			throw new NotFoundException("poi", id);
+	@RequestMapping(value="/{uuid}", method = RequestMethod.GET)
+	public String showByUUID( @PathVariable("uuid") String uuid, Model model) {
+		
+		List<BasicPoi> pois  = poiService.findByUuid(uuid);
+		if (pois == null || pois.size() == 0){
+			throw new NotFoundException("poi", uuid);
 		}
+		
+		BasicPoi poi = pois.get(0);
 		//PoiForm poiForm = new PoiForm(poi.getType().getId());
 		PoiForm poiForm = new PoiForm(poi.getType());
 		poiForm.copyData(poi);
@@ -80,11 +83,13 @@ public class PoiController extends AbstractUIController {
 		//poiForm.setHasImage(poiImageUtils.hasImage(id));
 		model.addAttribute("flags", getMapFlags(poi.getType()));
 		model.addAttribute("poi", poiForm);
-		model.addAttribute("poiImages", poiImageUtils.getPoiImageFilenames(id));
+		model.addAttribute("poiImages", poiImageUtils.getPoiImageFilenames(poi.getId()));
 		model.addAttribute("hasEditPermission", permissionEvaluator.hasPermission(SecurityContextHolder.getContext().getAuthentication(), poi, "EDIT"));
-		
+		model.addAttribute("versions", pois);
 		return "poi/poi";
 	}
+	
+	
 	
 	/**
 	 * Flags permitidos para un tipo determinado organizado por grupos
